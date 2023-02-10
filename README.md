@@ -49,3 +49,6 @@ Web app for the best fast food franchaise Gustosa, made for Web Applications Dev
 ### Complementary technology
 - Email system for handling bookings and registration
 - E-commerce integration for handling coupons and payments
+
+## Advanced Algorithm
+- There will be an IA algorithm graph based for recommendations
