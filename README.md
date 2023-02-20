@@ -61,9 +61,9 @@ Web app for the best fast food franchaise Gustosa, made for Web Applications Dev
 - E-commerce integration for handling coupons and payments
 - Google log-in
 
-## 📖 Advanced Algorithm
+### 📖 Advanced Algorithm
 - There will be an IA algorithm graph based for recommendations
 
-## 📜 Page map
+### 📜 Page map
 
 <img src=documents/wireframes/export.png width="1024"/>
