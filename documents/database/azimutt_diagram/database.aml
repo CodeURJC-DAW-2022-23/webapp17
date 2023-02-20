@@ -1,0 +1,41 @@
+  password_hash varchar
+  password_salt varchar
+  user_id uuid fk users.id
+
+comments
+  id uuid pk
+  user_id uuid fk users.id
+  product_id uuid fk products.id
+  rating int index | between 1 and 5
+  comment text
+  created_at timestamp
+
+bookings
+  id uuid pk
+  user_id uuid fk users.id
+  when timestamp
+  confirmation timestamp nullable
+
+
+products
+  id uuid pk
+  title varchar
+  picture varchar
+  summary text
+  description text
+  price number | in Euro
+  tags varchar[]
+
+carts
+  id uuid pk
+  status cart_status(active, ordered, abandonned)
+  created_at timestamp=now
+  created_by uuid fk users.id
+  updated_at timestamp
+
+cart_items
+  cart_id uuid pk fk carts.id
+  product_id uuid pk fk products.id
+  price number
+  quantity int check="quantity > 0" | should be > 0
+  created_at timestamp

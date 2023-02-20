@@ -1,0 +1,1089 @@
+{
+  "id": "fc38acf5-bfaf-44df-a849-f50c5ce3b291",
+  "name": "Database",
+  "sources": [
+    {
+      "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+      "name": "default",
+      "kind": {
+        "kind": "AmlEditor"
+      },
+      "content": [
+        "users",
+        "  id uuid pk",
+        "  role user_role(customer, admin)",
+        "  name varchar",
+        "  bio text nullable",
+        "  email varchar unique",
+        "  email_validated timestamp nullable",
+        "  phone varchar unique",
+        "",
+        "credentials",
+        "  provider_id provider(google, email) pk",
+        "  provider_key varchar pk | user id in provider system",
+        "  hasher hash_method(md5, sha1, sha256)",
+        "  password_hash varchar",
+        "  password_salt varchar",
+        "  user_id uuid fk users.id",
+        "",
+        "comments",
+        "  id uuid pk",
+        "  user_id uuid fk users.id",
+        "  product_id uuid fk products.id",
+        "  rating int index | between 1 and 5",
+        "  comment text",
+        "  created_at timestamp",
+        "",
+        "bookings",
+        "  id uuid pk",
+        "  user_id uuid fk users.id",
+        "  when timestamp",
+        "  confirmation timestamp nullable",
+        "",
+        "",
+        "products",
+        "  id uuid pk",
+        "  title varchar",
+        "  picture varchar",
+        "  summary text",
+        "  description text",
+        "  price number | in Euro",
+        "  tags varchar[]",
+        "",
+        "carts",
+        "  id uuid pk",
+        "  status cart_status(active, ordered, abandonned)",
+        "  created_at timestamp=now",
+        "  created_by uuid fk users.id",
+        "  updated_at timestamp",
+        "",
+        "cart_items",
+        "  cart_id uuid pk fk carts.id",
+        "  product_id uuid pk fk products.id",
+        "  price number",
+        "  quantity int check=\"quantity > 0\" | should be > 0",
+        "  created_at timestamp",
+        ""
+      ],
+      "tables": [
+        {
+          "schema": "",
+          "table": "bookings",
+          "columns": [
+            {
+              "name": "id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "user_id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "when",
+              "type": "timestamp",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "confirmation",
+              "type": "timestamp",
+              "nullable": true,
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "primaryKey": {
+            "columns": [
+              "id"
+            ],
+            "origins": [
+              {
+                "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                "lines": []
+              }
+            ]
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "schema": "",
+          "table": "cart_items",
+          "columns": [
+            {
+              "name": "cart_id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "product_id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "price",
+              "type": "number",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "quantity",
+              "type": "int",
+              "comment": {
+                "text": "should be > 0",
+                "origins": [
+                  {
+                    "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                    "lines": []
+                  }
+                ]
+              },
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "created_at",
+              "type": "timestamp",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "primaryKey": {
+            "columns": [
+              "cart_id",
+              "product_id"
+            ],
+            "origins": [
+              {
+                "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                "lines": []
+              }
+            ]
+          },
+          "checks": [
+            {
+              "name": "quantity > 0",
+              "columns": [
+                "quantity"
+              ],
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "schema": "",
+          "table": "carts",
+          "columns": [
+            {
+              "name": "id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "status",
+              "type": "cart_status",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "created_at",
+              "type": "timestamp",
+              "default": "now",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "created_by",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "updated_at",
+              "type": "timestamp",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "primaryKey": {
+            "columns": [
+              "id"
+            ],
+            "origins": [
+              {
+                "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                "lines": []
+              }
+            ]
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "schema": "",
+          "table": "comments",
+          "columns": [
+            {
+              "name": "id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "user_id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "product_id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "rating",
+              "type": "int",
+              "comment": {
+                "text": "between 1 and 5",
+                "origins": [
+                  {
+                    "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                    "lines": []
+                  }
+                ]
+              },
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "comment",
+              "type": "text",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "created_at",
+              "type": "timestamp",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "primaryKey": {
+            "columns": [
+              "id"
+            ],
+            "origins": [
+              {
+                "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                "lines": []
+              }
+            ]
+          },
+          "indexes": [
+            {
+              "name": "comments_rating_index_az",
+              "columns": [
+                "rating"
+              ],
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "schema": "",
+          "table": "credentials",
+          "columns": [
+            {
+              "name": "provider_id",
+              "type": "provider",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "provider_key",
+              "type": "varchar",
+              "comment": {
+                "text": "user id in provider system",
+                "origins": [
+                  {
+                    "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                    "lines": []
+                  }
+                ]
+              },
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "hasher",
+              "type": "hash_method",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "password_hash",
+              "type": "varchar",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "password_salt",
+              "type": "varchar",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "user_id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "primaryKey": {
+            "columns": [
+              "provider_id",
+              "provider_key"
+            ],
+            "origins": [
+              {
+                "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                "lines": []
+              }
+            ]
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "schema": "",
+          "table": "products",
+          "columns": [
+            {
+              "name": "id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "title",
+              "type": "varchar",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "picture",
+              "type": "varchar",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "summary",
+              "type": "text",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "description",
+              "type": "text",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "price",
+              "type": "number",
+              "comment": {
+                "text": "in Euro",
+                "origins": [
+                  {
+                    "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                    "lines": []
+                  }
+                ]
+              },
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "tags",
+              "type": "varchar[]",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "primaryKey": {
+            "columns": [
+              "id"
+            ],
+            "origins": [
+              {
+                "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                "lines": []
+              }
+            ]
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "schema": "",
+          "table": "users",
+          "columns": [
+            {
+              "name": "id",
+              "type": "uuid",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "role",
+              "type": "user_role",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "name",
+              "type": "varchar",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "bio",
+              "type": "text",
+              "nullable": true,
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "email",
+              "type": "varchar",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "email_validated",
+              "type": "timestamp",
+              "nullable": true,
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "phone",
+              "type": "varchar",
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "primaryKey": {
+            "columns": [
+              "id"
+            ],
+            "origins": [
+              {
+                "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                "lines": []
+              }
+            ]
+          },
+          "uniques": [
+            {
+              "name": "users_email_unique_az",
+              "columns": [
+                "email"
+              ],
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            },
+            {
+              "name": "users_phone_unique_az",
+              "columns": [
+                "phone"
+              ],
+              "origins": [
+                {
+                  "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+                  "lines": []
+                }
+              ]
+            }
+          ],
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "credentials_user_id_fk_az",
+          "src": {
+            "table": ".credentials",
+            "column": "user_id"
+          },
+          "ref": {
+            "table": ".users",
+            "column": "id"
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "name": "comments_product_id_fk_az",
+          "src": {
+            "table": ".comments",
+            "column": "product_id"
+          },
+          "ref": {
+            "table": ".products",
+            "column": "id"
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "name": "comments_user_id_fk_az",
+          "src": {
+            "table": ".comments",
+            "column": "user_id"
+          },
+          "ref": {
+            "table": ".users",
+            "column": "id"
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "name": "bookings_user_id_fk_az",
+          "src": {
+            "table": ".bookings",
+            "column": "user_id"
+          },
+          "ref": {
+            "table": ".users",
+            "column": "id"
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "name": "carts_created_by_fk_az",
+          "src": {
+            "table": ".carts",
+            "column": "created_by"
+          },
+          "ref": {
+            "table": ".users",
+            "column": "id"
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "name": "cart_items_product_id_fk_az",
+          "src": {
+            "table": ".cart_items",
+            "column": "product_id"
+          },
+          "ref": {
+            "table": ".products",
+            "column": "id"
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "name": "cart_items_cart_id_fk_az",
+          "src": {
+            "table": ".cart_items",
+            "column": "cart_id"
+          },
+          "ref": {
+            "table": ".carts",
+            "column": "id"
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        }
+      ],
+      "types": [
+        {
+          "schema": "",
+          "name": "cart_status",
+          "value": {
+            "enum": [
+              "active",
+              "ordered",
+              "abandonned"
+            ]
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "schema": "",
+          "name": "hash_method",
+          "value": {
+            "enum": [
+              "md5",
+              "sha1",
+              "sha256"
+            ]
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "schema": "",
+          "name": "provider",
+          "value": {
+            "enum": [
+              "google",
+              "email"
+            ]
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        },
+        {
+          "schema": "",
+          "name": "user_role",
+          "value": {
+            "enum": [
+              "customer",
+              "admin"
+            ]
+          },
+          "origins": [
+            {
+              "id": "d765cc5d-17ce-4edf-92f4-9f4b99e14377",
+              "lines": []
+            }
+          ]
+        }
+      ],
+      "createdAt": 1676882923478,
+      "updatedAt": 1676884465454
+    }
+  ],
+  "usedLayout": "main",
+  "layouts": {
+    "initial layout": {
+      "canvas": {
+        "position": {
+          "left": 0,
+          "top": 0
+        },
+        "zoom": 1
+      },
+      "tables": [],
+      "createdAt": 1676882923478,
+      "updatedAt": 1676882923478
+    },
+    "main": {
+      "canvas": {
+        "position": {
+          "left": 0,
+          "top": -408
+        },
+        "zoom": 1
+      },
+      "tables": [
+        {
+          "id": ".comments",
+          "position": {
+            "left": 410,
+            "top": 420
+          },
+          "size": {
+            "width": 168.10000610351562,
+            "height": 189
+          },
+          "color": "rose",
+          "columns": [
+            "id",
+            "user_id",
+            "product_id",
+            "rating",
+            "comment",
+            "created_at"
+          ]
+        },
+        {
+          "id": ".bookings",
+          "position": {
+            "left": 410,
+            "top": 890
+          },
+          "size": {
+            "width": 185.18333435058594,
+            "height": 141
+          },
+          "color": "indigo",
+          "columns": [
+            "id",
+            "user_id",
+            "when",
+            "confirmation"
+          ]
+        },
+        {
+          "id": ".credentials",
+          "position": {
+            "left": 400,
+            "top": 180
+          },
+          "size": {
+            "width": 191.86666870117188,
+            "height": 189
+          },
+          "color": "amber",
+          "columns": [
+            "provider_id",
+            "provider_key",
+            "user_id",
+            "hasher",
+            "password_hash",
+            "password_salt"
+          ]
+        },
+        {
+          "id": ".carts",
+          "position": {
+            "left": 410,
+            "top": 670
+          },
+          "size": {
+            "width": 174.64999389648438,
+            "height": 165
+          },
+          "color": "rose",
+          "columns": [
+            "id",
+            "created_by",
+            "status",
+            "created_at",
+            "updated_at"
+          ]
+        },
+        {
+          "id": ".cart_items",
+          "position": {
+            "left": 680,
+            "top": 580
+          },
+          "size": {
+            "width": 168.10000610351562,
+            "height": 165
+          },
+          "color": "emerald",
+          "columns": [
+            "cart_id",
+            "product_id",
+            "price",
+            "quantity",
+            "created_at"
+          ]
+        },
+        {
+          "id": ".products",
+          "position": {
+            "left": 940,
+            "top": 410
+          },
+          "size": {
+            "width": 153.64999389648438,
+            "height": 213
+          },
+          "color": "red",
+          "columns": [
+            "id",
+            "title",
+            "picture",
+            "summary",
+            "description",
+            "price",
+            "tags"
+          ]
+        },
+        {
+          "id": ".users",
+          "position": {
+            "left": 70,
+            "top": 410
+          },
+          "size": {
+            "width": 204.26666259765625,
+            "height": 213
+          },
+          "color": "violet",
+          "columns": [
+            "id",
+            "role",
+            "name",
+            "bio",
+            "email",
+            "email_validated",
+            "phone"
+          ]
+        }
+      ],
+      "createdAt": 1676882943507,
+      "updatedAt": 1676884605536
+    }
+  },
+  "createdAt": 1676883394484,
+  "updatedAt": 1676884606539,
+  "version": 2
+}
