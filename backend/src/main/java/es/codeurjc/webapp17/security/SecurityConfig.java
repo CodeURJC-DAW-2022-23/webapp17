@@ -21,6 +21,13 @@ public class SecurityConfig{
             .requestMatchers("/**")
             .permitAll();
 
+        // Login form
+        http.formLogin().loginPage("/login");
+        http.formLogin().usernameParameter("username");
+        http.formLogin().passwordParameter("password_hash");
+        http.formLogin().defaultSuccessUrl("/");
+        http.formLogin().failureUrl("/register");
+
         return http.build();
     }
 
