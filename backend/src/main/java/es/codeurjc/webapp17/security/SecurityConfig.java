@@ -7,7 +7,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import es.codeurjc.webapp17.tools.NeedsSecurity;
-import es.codeurjc.webapp17.tools.Tools;
 import es.codeurjc.webapp17.tools.Tools.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,7 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
+        // Handle NeedsSecurity annotation
         handler_mapping.getHandlerMethods().forEach((k, v)->{
             if(v.getMethod().isAnnotationPresent(NeedsSecurity.class)){
                 NeedsSecurity sec = v.getMethod().getAnnotation(NeedsSecurity.class);
@@ -44,7 +44,8 @@ public class SecurityConfig{
             }
         });
 
-        http.authorizeHttpRequests().anyRequest().hasRole(Tools.Role.ADMIN.getCode());
+        // Permit every other request
+        http.authorizeHttpRequests().anyRequest().permitAll();
 
         // Login form
         http.formLogin().loginPage("/login");
