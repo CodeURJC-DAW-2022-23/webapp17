@@ -1,8 +1,8 @@
 package es.codeurjc.webapp17.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import es.codeurjc.webapp17.tools.Tools.HashMethod;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +15,6 @@ public class Credential {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long provider_id;
     
-    @Nonnull
     @ManyToOne
     @JsonIgnore
     private UserProfile user_profile;
@@ -24,6 +23,4 @@ public class Credential {
 
     private String password_hash;
     private String password_salt;
-
-    //Getters, Constructors...
 }
