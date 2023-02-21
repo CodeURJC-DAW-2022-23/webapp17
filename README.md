@@ -14,6 +14,12 @@ Web app for the best fast food franchaise Gustosa, made for Web Applications Dev
 | Jesús Gonzalez Gironda  | j.gonzalezg.2019@alumnos.urjc.es |
 | Jorge Vega Arias        | j.vega.2019@alumnos.urjc.es      |
 
+## Build instructions
+
+### Requirements
+· Java api 18+
+
+
 ## #️⃣ Planned Features
 
 ### Entities
@@ -24,7 +30,7 @@ Web app for the best fast food franchaise Gustosa, made for Web Applications Dev
 - Shopping Cart
 - Comment
 
-<img src=documents/database/azimutt_diagram/database_relations.png width="720"/>
+<img src=documents/database/azimutt_diagram/database_relations.png width="1024"/>
 
 ### 👩‍👦‍👦 User types
 
