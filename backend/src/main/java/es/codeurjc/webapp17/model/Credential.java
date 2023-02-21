@@ -2,7 +2,7 @@ package es.codeurjc.webapp17.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import es.codeurjc.webapp17.tools.SecurityTools.HashMethod;
+import es.codeurjc.webapp17.tools.Tools.HashMethod;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
