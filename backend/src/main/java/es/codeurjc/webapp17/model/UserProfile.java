@@ -1,7 +1,6 @@
 package es.codeurjc.webapp17.model;
 
 import java.util.List;
-
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,6 +16,8 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    //TODO role
+    
     @Nonnull
     private String name;
     
@@ -26,8 +27,24 @@ public class UserProfile {
     @Column(unique=true)
     private String email;
 
+    @Nonnull
+    private Boolean email_validated;
+
+    private String phone;
+
     @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Credential> credentials;
+
+    @OneToMany(mappedBy="created_by", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<Cart> carts;
+
+    @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<Booking> bookings;
+
+    //Getters, Constructors...
 
     public UserProfile(){}
 
