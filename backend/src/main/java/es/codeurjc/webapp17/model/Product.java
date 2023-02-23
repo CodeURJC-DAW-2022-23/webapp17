@@ -36,6 +36,38 @@ public class Product {
     private List<CartItem> cartItems;
 
     //Getters, Constructors...
+    public Product(long id, String title, String picture, String summary, String description, float price) {
+        this.id = id;
+        this.title = title;
+        this.picture = picture;
+        this.summary = summary;
+        this.description = description;
+        this.price = price;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
 
     public Product(){}
 

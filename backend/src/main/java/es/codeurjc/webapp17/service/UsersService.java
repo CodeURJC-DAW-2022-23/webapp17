@@ -8,7 +8,7 @@ import es.codeurjc.webapp17.repository.UsersRepo;
 import jakarta.annotation.PostConstruct;
 
 @Service
-public class UsersServive {
+public class UsersService {
     
     @Autowired
     private UsersRepo users;

@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import es.codeurjc.webapp17.service.UsersServive;
+import es.codeurjc.webapp17.model.Product;
+import es.codeurjc.webapp17.service.ProductsService;
+import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
 
@@ -13,7 +15,8 @@ import es.codeurjc.webapp17.tools.Tools;
 public class HelloController {
 
     @Autowired
-    UsersServive users_service;
+    UsersService users_service;
+    ProductsService products_service;
 
     @GetMapping("/")
     @NeedsSecurity(role=Tools.Role.NONE)
@@ -60,7 +63,7 @@ public class HelloController {
     @GetMapping("/order")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String order(Model model) {
-        //model.addAttribute("message", users_service.getUsers().findByEmail("helloworld@email.com").get(0).getName());
+        //model.addAttribute("product", products_service.getProducts().findByTitle("Paella").get(0).getId());
         return "dishes/order";
     }
 
