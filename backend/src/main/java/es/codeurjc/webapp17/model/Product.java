@@ -79,6 +79,6 @@ public class Product {
         this.price = price;
         this.tags = tags;
     }
-
     
+
 }
