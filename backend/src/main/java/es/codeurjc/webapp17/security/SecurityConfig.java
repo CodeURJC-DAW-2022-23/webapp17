@@ -42,8 +42,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
         http.csrf().disable().oauth2Client().and()
+        .headers().frameOptions().sameOrigin().and()
         .oauth2Login().loginPage("/login")
         .defaultSuccessUrl("/loginSuccess");
+
         // Handle NeedsSecurity annotation
         handler_mapping.getHandlerMethods().forEach((k, v)->{
             if(v.getMethod().isAnnotationPresent(NeedsSecurity.class)){
@@ -59,6 +61,7 @@ public class SecurityConfig {
                             case AUTH:
                                 http.csrf().ignoringRequestMatchers(path_value).and()
                                 .authorizeHttpRequests().requestMatchers(path_value).authenticated();
+                                break;
                             default:
                                 http.authorizeHttpRequests().requestMatchers(path_value).hasRole(sec.role().getCode());
                                 break;
@@ -71,8 +74,11 @@ public class SecurityConfig {
             }
         });
 
+        http.csrf().disable();
         // Permit every other request
         http.authorizeHttpRequests().anyRequest().permitAll();
+
+
 
         // Login form
         http.formLogin().loginPage("/login");
@@ -88,6 +94,6 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web
                 .ignoring()
-                .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
+                .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico", "/h2-console/**");
     }
 }

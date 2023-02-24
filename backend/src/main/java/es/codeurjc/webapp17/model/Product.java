@@ -70,6 +70,8 @@ public class Product {
         this.price = price;
         this.tags = tags;
     }
+    
+
 
     public Product(long id, String title, String picture, String description, float price, String[] tags, List<Comment> comments) {
         this.id = id;
