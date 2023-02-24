@@ -1,6 +1,8 @@
 package es.codeurjc.webapp17.model;
 
+import java.sql.Blob;
 import java.util.List;
+
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -14,11 +16,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
+
     @Nonnull
     private String title;
-    
-    private String picture;
 
     private String summary;
     
@@ -29,13 +29,26 @@ public class Product {
 
     private String[] tags;
 
+    private Boolean image;
+
     @OneToMany(mappedBy="product", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Comment> comments;
 
     @OneToMany(mappedBy="product", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<CartItem> cartItems;
 
+    @OneToMany(mappedBy="product", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<Image> images;
+
     //Getters, Constructors...
+
+    public Product(String title, String description, float price, String[] tags) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.tags = tags;
+    }
+
     public long getId() {
         return id;
     }
@@ -44,9 +57,6 @@ public class Product {
         return title;
     }
 
-    public String getPicture() {
-        return picture;
-    }
 
     public String getSummary() {
         return summary;
@@ -60,27 +70,21 @@ public class Product {
         return price;
     }
 
-    public Product(){}
-
-    public Product(long id, String title, String picture, String description, float price, String[] tags) {
-        this.id = id;
-        this.title = title;
-        this.picture = picture;
-        this.description = description;
-        this.price = price;
-        this.tags = tags;
+    public void setImageFile(List<Image> images) {
+        this.images = images;
     }
-    
 
-
-    public Product(long id, String title, String picture, String description, float price, String[] tags, List<Comment> comments) {
-        this.id = id;
-        this.title = title;
-        this.picture = picture;
-        this.description = description;
-        this.price = price;
-        this.tags = tags;
-        this.comments = comments;
+    public Blob getImageFile() {
+        return this.images.get(0).getImageFile();
     }
+
+    public void setImage(Boolean image) {
+        this.image = image;
+    }
+
+    public Boolean getImage() {
+        return this.image;
+    }
+
     
 }

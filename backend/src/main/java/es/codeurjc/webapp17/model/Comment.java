@@ -36,8 +36,7 @@ public class Comment {
     
     public Comment(){}
 
-    public Comment(long id, UserProfile user_profile, Product product, int rating, String description, Timestamp created_at) {
-        this.id = id;
+    public Comment(UserProfile user_profile, Product product, int rating, String description, Timestamp created_at) {
         this.user_profile = user_profile;
         this.product = product;
         this.rating = rating;
