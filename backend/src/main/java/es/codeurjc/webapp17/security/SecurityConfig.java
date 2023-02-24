@@ -3,6 +3,12 @@ package es.codeurjc.webapp17.security;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -15,14 +21,29 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
+public class SecurityConfig {
 
     @Autowired
     private RequestMappingHandlerMapping handler_mapping;
 
     @Bean
+    public UserDetailsService users() {
+        // Add test user
+        UserBuilder users = User.withDefaultPasswordEncoder();
+        UserDetails user = users
+            .username("test-user")
+            .password("test-user")
+            .roles("USER")
+            .build();
+        return new InMemoryUserDetailsManager(user);
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
+        http.csrf().disable().oauth2Client().and()
+        .oauth2Login().loginPage("/login")
+        .defaultSuccessUrl("/loginSuccess");
         // Handle NeedsSecurity annotation
         handler_mapping.getHandlerMethods().forEach((k, v)->{
             if(v.getMethod().isAnnotationPresent(NeedsSecurity.class)){
@@ -30,11 +51,17 @@ public class SecurityConfig{
                 for(String path_value : k.getPatternValues()){
                     path_value = path_value.replaceAll("\\{}.*\\}", "**");
                     try {
-                        if(sec.role() == Role.NONE){
-                            http.csrf().ignoringRequestMatchers(path_value).and()
-                            .authorizeHttpRequests().requestMatchers(path_value).permitAll();
-                        }else{
-                            http.authorizeHttpRequests().requestMatchers(path_value).hasRole(sec.role().getCode());
+                        switch(sec.role()){
+                            case NONE:
+                                http.csrf().ignoringRequestMatchers(path_value).and()
+                                .authorizeHttpRequests().requestMatchers(path_value).permitAll();
+                                break;
+                            case AUTH:
+                                http.csrf().ignoringRequestMatchers(path_value).and()
+                                .authorizeHttpRequests().requestMatchers(path_value).authenticated();
+                            default:
+                                http.authorizeHttpRequests().requestMatchers(path_value).hasRole(sec.role().getCode());
+                                break;
                         }
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
@@ -63,5 +90,4 @@ public class SecurityConfig{
                 .ignoring()
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
     }
-
 }

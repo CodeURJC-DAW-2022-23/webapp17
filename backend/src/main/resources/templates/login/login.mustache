@@ -40,12 +40,14 @@
                         <div class="text-center">
                           <p>Not a member? <a href="/register">Register</a></p>
                           <p>or sign up with:</p>
-                          <button type="button" class="btn btn-link btn-floating mx-1">
+                          <a type="button" class="btn btn-link btn-floating mx-1" href="/oauth2/authorization/google">
                             <i class="bi bi-google"></i>
-                          </button>
-                      
-                          <button type="button" class="btn btn-link btn-floating mx-1">
-                            <i class="bi bi-twitter"></i>
+                          </a>
+                          <div>
+                            With Google: <a href="/oauth2/authorization/google">{{user-info}}</a>
+                          </div>
+                          <button type="button" class="btn btn-link btn-floating mx-1" href="/">
+                            <i class="bi bi-github"></i>
                           </button>
                         </div>
                     </form>

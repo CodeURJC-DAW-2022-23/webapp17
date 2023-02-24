@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 
 @Controller
-public class ExceptionHandler implements ErrorController {
+public class ExceptionController implements ErrorController {
 
     @GetMapping("/error")
     public String errorHandler(HttpServletRequest request, Model model) {
