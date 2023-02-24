@@ -6,4 +6,5 @@ import es.codeurjc.webapp17.model.Product;
 
 public interface ProductsRepo extends JpaRepository<Product, Long>{
     List<Product> findByTitle(String title);
+    List<Product> findById(long id);
 }

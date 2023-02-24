@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import es.codeurjc.webapp17.service.ProductsService;
 import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
@@ -15,7 +14,6 @@ public class HelloController {
 
     @Autowired
     UsersService users_service;
-    ProductsService products_service;
 
     @GetMapping("/")
     @NeedsSecurity(role=Tools.Role.NONE)
@@ -34,6 +32,12 @@ public class HelloController {
     @NeedsSecurity(role=Tools.Role.NONE)
     public String menu(Model model) {
         return "menu/menu";
+    }
+
+    @GetMapping("/cart")
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public String cartMenu(Model model) {
+        return "menu/cart";
     }
 
 }

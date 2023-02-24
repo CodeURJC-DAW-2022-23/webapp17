@@ -14,7 +14,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
+    
     @Nonnull
     private String title;
     
@@ -36,15 +36,6 @@ public class Product {
     private List<CartItem> cartItems;
 
     //Getters, Constructors...
-    public Product(long id, String title, String picture, String summary, String description, float price) {
-        this.id = id;
-        this.title = title;
-        this.picture = picture;
-        this.summary = summary;
-        this.description = description;
-        this.price = price;
-    }
-
     public long getId() {
         return id;
     }
@@ -71,14 +62,23 @@ public class Product {
 
     public Product(){}
 
-    public Product(String title, String picture, String summary, String description, Float price, String[] tags) {
+    public Product(long id, String title, String picture, String description, float price, String[] tags) {
+        this.id = id;
         this.title = title;
         this.picture = picture;
-        this.summary = summary;
         this.description = description;
         this.price = price;
         this.tags = tags;
     }
 
+    public Product(long id, String title, String picture, String description, float price, String[] tags, List<Comment> comments) {
+        this.id = id;
+        this.title = title;
+        this.picture = picture;
+        this.description = description;
+        this.price = price;
+        this.tags = tags;
+        this.comments = comments;
+    }
     
 }
