@@ -20,7 +20,7 @@ public class HelloController {
     @GetMapping("/")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String index(Model model) {
-        model.addAttribute("message", users_service.getUsers().findByEmail("helloworld@email.com").get(0).getName());
+        model.addAttribute("message", users_service.getUsers().findByEmail("test@example.com"));
         return "index";
     }
 

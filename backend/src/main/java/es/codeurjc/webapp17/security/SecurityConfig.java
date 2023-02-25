@@ -3,17 +3,15 @@ package es.codeurjc.webapp17.security;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.User.UserBuilder;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import es.codeurjc.webapp17.tools.NeedsSecurity;
-import es.codeurjc.webapp17.tools.Tools.Role;
+
+import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,17 +25,15 @@ public class SecurityConfig {
     private RequestMappingHandlerMapping handler_mapping;
 
     @Bean
-    public UserDetailsService users() {
-        // Add test user
-        UserBuilder users = User.withDefaultPasswordEncoder();
-        UserDetails user = users
-            .username("test-user")
-            .password("test-user")
-            .roles("USER")
-            .build();
-        return new InMemoryUserDetailsManager(user);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10, new SecureRandom());
     }
 
+    @Bean
+    public UserDetailsService users() {
+        return new UsersManagerService();
+    }
+    
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
