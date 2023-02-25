@@ -5,8 +5,8 @@
     <div class="col-md-5 p-lg-5 mx-auto my-5">
         <h1 class="display-4 fw-normal mb-5">{{title}}</h1>
         <p class="lead fw-normal">{{description}}</p>
-        <div style="text-align:center;">
-            <img style="justify-content: center; align-items: center;" src="{{picture}}" alt="..." width="300" height="200" />
+        <div style="text-align:center;" class="carousel-item h-100 active">
+            <img style="justify-content: center; align-items: center;" src="/products/{{id}}/image" alt="..." width="300" height="200" />
         </div>
         <br>
         <h4>
@@ -16,10 +16,7 @@
         <a class="btn btn-outline-dark mt-auto" href="/cart">Add to cart</a>
         <br><br><br><br>
         <a class="btn btn-outline-dark mt-auto" href="/products">Back</a>
-
     </div>
-    
-    
 {{/product}}
 </div>
 

@@ -41,12 +41,15 @@ public class Product {
     private List<Image> images;
 
     //Getters, Constructors...
-
+    
     public Product(String title, String description, float price, String[] tags) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.tags = tags;
+    }
+
+    public Product() {
     }
 
     public long getId() {

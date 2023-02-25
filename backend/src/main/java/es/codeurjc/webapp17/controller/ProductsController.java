@@ -1,6 +1,7 @@
 package es.codeurjc.webapp17.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,12 @@ public class ProductsController {
 
     @GetMapping("/products/{id}/image")
     public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
-	Optional<Product> product = products_service.getProductsRepo().findById(id);
-	if (product.isPresent() && product.get().getImageFile() != null) {
-		Resource file = new InputStreamResource(product.get().getImageFile().getBinaryStream());
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").contentLength(product.get().getImageFile().length()).body(file);
+	List<Product> product = products_service.getProductsRepo().findById(id);
+    //Fallo porque images es un PersistentBag (está en la bbdd) y no se puede
+    //usar el getter getImageFile.
+	if (!product.isEmpty() && product.get(0).getImageFile() != null) {
+		Resource file = new InputStreamResource(product.get(0).getImageFile().getBinaryStream());
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").contentLength(product.get(0).getImageFile().length()).body(file);
 	} else {
 	    return ResponseEntity.notFound().build();
 	    }	
