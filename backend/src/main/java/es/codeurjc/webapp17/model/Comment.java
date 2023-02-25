@@ -33,4 +33,41 @@ public class Comment {
     private Timestamp created_at;
 
     //Getters, Constructors...
+    
+    public Comment(){}
+
+    public Comment(UserProfile user_profile, Product product, int rating, String description, Timestamp created_at) {
+        this.user_profile = user_profile;
+        this.product = product;
+        this.rating = rating;
+        this.description = description;
+        this.created_at = created_at;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public UserProfile getUser_profile() {
+        return user_profile;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    
+    
 }
