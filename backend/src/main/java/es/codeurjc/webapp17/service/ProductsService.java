@@ -61,6 +61,7 @@ public class ProductsService {
         
         Product product1 = new Product("Feijoada","La feijoada o frijolada es el plato nacional de Brasil, se trata de un guiso de alubias negras o frijoles y verduras, acompañados de carne de cerdo y embutidos.", Float.parseFloat("17"), tags1);
         setProductImage(product1, "/static/images/Feijoada.jpg");
+        setProductImage(product1, "/static/images/Feijoada2.jpg");
         
         Product product2 = new Product("Picanha", "La carne de picaña procede de los cuartos traseros, la zona posterior de la cadera, una zona donde a las terneras y las vacas se las golpea con una caña para dirigir su paso y marcar su velocidad.", Float.parseFloat("24"),tags2);
         setProductImage(product2, "/static/images/Picana.jpg");
@@ -121,12 +122,11 @@ public class ProductsService {
         products.save(product8);
     }
 
-    //TODO Añadir más imagenes a un producto
     public void setProductImage(Product product, String classpathResource) throws IOException { 
 		product.setNumberOfImages(product.getNumberOfImages()+1);
 		Resource image = new ClassPathResource(classpathResource);
         Image img = new Image(BlobProxy.generateProxy(image.getInputStream(), image.contentLength()));
-        List<Image> images = new ArrayList<>();
+        List <Image> images = product.getImages();
         images.add(img);
 		product.setImages(images);
         product.getImages().get(product.getNumberOfImages()-1).setProduct(product);

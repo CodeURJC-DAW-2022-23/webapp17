@@ -1,7 +1,7 @@
 package es.codeurjc.webapp17.model;
 
-import java.sql.Blob;
 import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
@@ -10,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Product {
@@ -48,6 +47,7 @@ public class Product {
         this.description = description;
         this.price = price;
         this.tags = tags;
+        this. images = new ArrayList<Image>();
     }
 
     public Product() {
