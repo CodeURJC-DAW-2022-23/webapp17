@@ -91,5 +91,12 @@ public class Product {
         return this.numberOfImages;
     }
 
+    public List<Comment> getComments() {
+        return this.comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
     
 }

@@ -36,9 +36,7 @@ public class Comment {
     
     public Comment(){}
 
-    public Comment(UserProfile user_profile, Product product, int rating, String description, Timestamp created_at) {
-        this.user_profile = user_profile;
-        this.product = product;
+    public Comment(int rating, String description, Timestamp created_at) {
         this.rating = rating;
         this.description = description;
         this.created_at = created_at;
@@ -68,6 +66,12 @@ public class Comment {
         return created_at;
     }
 
+    public void setProduct(Product product) {
+        this.product = product;
+    }
     
+    public void setUser(UserProfile user) {
+        this.user_profile = user;
+    }
     
 }
