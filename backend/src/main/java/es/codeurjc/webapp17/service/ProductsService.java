@@ -54,12 +54,13 @@ public class ProductsService {
 
     //TODO Añadir más imagenes a un producto
     public void setProductImage(Product product, String classpathResource) throws IOException { 
-		product.setImage(true);
+		product.setNumberOfImages(product.getNumberOfImages()+1);
 		Resource image = new ClassPathResource(classpathResource);
         Image img = new Image(BlobProxy.generateProxy(image.getInputStream(), image.contentLength()));
         List<Image> images = new ArrayList<>();
         images.add(img);
-		product.setImageFile(images);
+		product.setImages(images);
+        product.getImages().get(product.getNumberOfImages()-1).setProduct(product);
 	}
 
     public ProductsRepo getProductsRepo(){

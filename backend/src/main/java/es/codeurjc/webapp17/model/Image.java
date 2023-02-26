@@ -24,6 +24,11 @@ public class Image {
     private Blob imageFile;
 
     //Getters, Constructors...
+
+    public Image(){
+
+    }
+
     public Blob getImageFile() {
         return imageFile;
     }
@@ -34,5 +39,9 @@ public class Image {
 
     public Image(Blob imageFile) {
         this.imageFile = imageFile;
-    }  
+    }
+    
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

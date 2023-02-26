@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Product {
@@ -29,7 +30,7 @@ public class Product {
 
     private String[] tags;
 
-    private Boolean image;
+    private int numberOfImages; //If 0 == false
 
     @OneToMany(mappedBy="product", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Comment> comments;
@@ -73,20 +74,21 @@ public class Product {
         return price;
     }
 
-    public void setImageFile(List<Image> images) {
+
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
-    public Blob getImageFile() {
-        return this.images.get(0).getImageFile();
+    public List<Image> getImages() {
+        return this.images;
     }
 
-    public void setImage(Boolean image) {
-        this.image = image;
+    public void setNumberOfImages(int image) {
+        this.numberOfImages = image;
     }
 
-    public Boolean getImage() {
-        return this.image;
+    public int getNumberOfImages() {
+        return this.numberOfImages;
     }
 
     

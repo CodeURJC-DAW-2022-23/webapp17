@@ -33,14 +33,13 @@ public class ProductsController {
         return "dishes/order";
     }
 
+    //TODO Descargar varias imagenes de un objeto
     @GetMapping("/products/{id}/image")
     public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
 	List<Product> product = products_service.getProductsRepo().findById(id);
-    //Fallo porque images es un PersistentBag (está en la bbdd) y no se puede
-    //usar el getter getImageFile.
-	if (!product.isEmpty() && product.get(0).getImageFile() != null) {
-		Resource file = new InputStreamResource(product.get(0).getImageFile().getBinaryStream());
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").contentLength(product.get(0).getImageFile().length()).body(file);
+	if (!product.isEmpty() && product.get(0).getImages().get(0).getImageFile() != null) {
+		Resource file = new InputStreamResource(product.get(0).getImages().get(0).getImageFile().getBinaryStream());
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").contentLength(product.get(0).getImages().get(0).getImageFile().length()).body(file);
 	} else {
 	    return ResponseEntity.notFound().build();
 	    }	
