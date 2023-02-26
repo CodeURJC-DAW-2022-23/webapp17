@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long idImage;
 
     @ManyToOne
     @JsonIgnore
