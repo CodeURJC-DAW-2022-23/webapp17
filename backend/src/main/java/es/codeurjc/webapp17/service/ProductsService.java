@@ -127,6 +127,12 @@ public class ProductsService {
 		Resource image = new ClassPathResource(classpathResource);
         Image img = new Image(BlobProxy.generateProxy(image.getInputStream(), image.contentLength()));
         List <Image> images = product.getImages();
+        img.setPositionInProduct(images.size());
+        if (img.getPositionInProduct()==0) {
+            img.setFirstOne(true);
+        } else {
+            img.setFirstOne(false);
+        }
         images.add(img);
 		product.setImages(images);
         product.getImages().get(product.getNumberOfImages()-1).setProduct(product);

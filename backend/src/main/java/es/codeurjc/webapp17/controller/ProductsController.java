@@ -38,48 +38,15 @@ public class ProductsController {
     }
 
     @GetMapping("/products/{id}/image/{idImage}")
-    public ResponseEntity<Object> downloadImage(@PathVariable long id,@PathVariable long idImage) throws SQLException {
+    public ResponseEntity<Object> downloadImage(@PathVariable long id,@PathVariable int idImage) throws SQLException {
 	List<Product> product = products_service.getProductsRepo().findById(id);
-    int intId = Long.valueOf(idImage).intValue();
-
-	if (!product.isEmpty() && product.get(0).getImages().get(intId-1).getImageFile() != null) {
-		Resource file = new InputStreamResource(product.get(0).getImages().get(intId-1).getImageFile().getBinaryStream());
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg").contentLength(product.get(0).getImages().get(intId-1).getImageFile().length()).body(file);
+	if (!product.isEmpty() && product.get(0).getImages().get(idImage).getImageFile() != null) {
+		Resource file = new InputStreamResource(product.get(0).getImages().get(idImage).getImageFile().getBinaryStream());
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg").contentLength(product.get(0).getImages().get(idImage).getImageFile().length()).body(file);
     } else {
 	    return ResponseEntity.notFound().build();
 	    }	
     }
-
-    /*@GetMapping("/products/{id}/images")
-    public ResponseEntity<Object> downloadImages(@PathVariable long id) throws SQLException, IOException {
-    List<Product> products = products_service.getProductsRepo().findById(id);
-    if (!products.isEmpty()) {
-        List<Image> images = products.get(0).getImages();
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        for (Image image : images) {
-            Resource file = new InputStreamResource(image.getImageFile().getBinaryStream());
-            InputStream inputStream = file.getInputStream();
-
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
-            inputStream.close();
-        }
-
-        byte[] bytes = outputStream.toByteArray();
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, "image/jpg")
-                .contentLength(bytes.length)
-                .body(bytes);
-    } else {
-        return ResponseEntity.notFound().build();
-    }
-}*/
 
     @GetMapping("/description")
     @NeedsSecurity(role=Tools.Role.NONE)

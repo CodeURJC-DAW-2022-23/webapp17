@@ -15,6 +15,10 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long idImage;
 
+    private boolean firstOne;
+
+    private int positionInProduct;
+
     @ManyToOne
     @JsonIgnore
     private Product product;
@@ -29,8 +33,24 @@ public class Image {
 
     }
 
+    public int getPositionInProduct() {
+        return positionInProduct;
+    }
+
+    public void setPositionInProduct(int positionInProduct) {
+        this.positionInProduct = positionInProduct;
+    }
+
     public Blob getImageFile() {
         return imageFile;
+    }
+
+    public boolean isFirstOne() {
+        return firstOne;
+    }
+
+    public void setFirstOne(boolean firstOne) {
+        this.firstOne = firstOne;
     }
 
     public void setImageFile(Blob imageFile) {
