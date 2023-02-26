@@ -5,8 +5,8 @@
     <div class="col-md-5 p-lg-5 mx-auto my-5">
         <h1 class="display-4 fw-normal mb-5">{{title}}</h1>
         <p class="lead fw-normal">{{description}}</p>
-        <div style="text-align:center;" class="">
 
+        <div style="text-align:center;" class="">
             <div id="ofertas" class="carousel products slide" style="justify-content: center; align-items: center;" data-bs-ride="carousel">
                 <div class="carousel-inner carousel-ofertas">
                     {{#images}}
@@ -24,15 +24,32 @@
                     <span class="carousel-control-next-icon"></span>
                 </button>
             </div>
-
         </div>
+
+        
+
+        
         <br>
         <h4>
             Price: {{price}} $
         </h4>
         <br>
         <a class="btn btn-outline-dark mt-auto" href="/cart">Add to cart</a>
-        <br><br><br><br>
+        <br><br><br>
+        <div class="reviews">
+            {{#comments}}
+            <ul>
+                <li>
+                    <div class="user">{{user_profile.name}}</div>
+                    <div class="rating">{{rating}}/10 <span class="star">&#9733;</span></div>
+                    <div class="time">{{created_at}}</div>
+                    <div class="description">{{description}}</div>
+                </li>
+            </ul>
+            <br>
+            {{/comments}}
+        </div>
+        <br>
         <a class="btn btn-outline-dark mt-auto" href="/products">Back</a>
     </div>
 {{/product}}

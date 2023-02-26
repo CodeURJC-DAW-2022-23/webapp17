@@ -275,7 +275,38 @@ pre code {
   color: inherit;
   word-break: normal;
 }
+.reviews ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
+.reviews li {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.reviews .user {
+  font-weight: bold;
+}
+
+.reviews .rating {
+  color: gold;
+  font-size: 1.2em;
+  margin-top: 0.2em;
+  margin-bottom: 0.5em;
+}
+
+.reviews .time {
+  font-size: 0.8em;
+  color: gray;
+  margin-bottom: 0.5em;
+}
+
+.reviews .description {
+  font-size: 1em;
+  line-height: 1.2;
+}
 code {
   font-size: 0.875em;
   color: #d63384;
