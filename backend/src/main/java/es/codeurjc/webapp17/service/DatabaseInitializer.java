@@ -87,7 +87,7 @@ public class DatabaseInitializer {
         setProductImage(calabresa, "/static/images/Calabresa.jpg");
 
         Product pao = new Product("Pão de queijo de minas", 
-         "(panecillos de yuca/ unidad)", 
+         "Panecillos de yuca. Se vende por unidad", 
          Float.parseFloat("4"), tags3);
         setProductImage(pao, "/static/images/PanDeQueijo.jpg");
 
@@ -136,6 +136,22 @@ public class DatabaseInitializer {
          Float.parseFloat("5"), tags5);
         setProductImage(brigadeiro, "/static/images/Brigadeiro.jpg");
 
+        products.save(coxinha);
+        products.save(feijoada);
+        products.save(picanha);
+        products.save(calabresa);
+        products.save(pato);
+        products.save(vatapa);
+        products.save(acaraje);
+        products.save(yuca);
+        products.save(pao);
+        products.save(agua);
+        products.save(cocacola);
+        products.save(nestea);
+        products.save(brigadeiro);
+        products.save(tarta);
+        products.save(pastel);
+
         //EJEMPLOS DE USUARIOS
 
         UserProfile jorge = new UserProfile("jorgevegarias1@gmail.com", 
@@ -147,9 +163,14 @@ public class DatabaseInitializer {
         UserProfile jesus = new UserProfile("jesus@gmail.com", "Jesus",
          passwordEncoder.encode("1234"));
 
+        users.save(jorge);
+        users.save(alejandro);
+        users.save(guillermo);
+        users.save(jesus);
+
         //EJEMPLOS DE COMENTARIOS
 
-        /*Comment commentFeij1 = new Comment(9,"Está buenísimo. Repetiría con mucho gusto.",
+        Comment commentFeij1 = new Comment(9,"Está buenísimo. Repetiría con mucho gusto.",
          new Timestamp(System.currentTimeMillis()));
         setComment(commentFeij1,feijoada,guillermo);
         
@@ -199,33 +220,9 @@ public class DatabaseInitializer {
 
         Comment commentYuca1 = new Comment(6,"La cantidad es pequeña",
         new Timestamp(System.currentTimeMillis()));
-        setComment(commentYuca1,yuca,jorge);*/
+        setComment(commentYuca1,yuca,jorge);
 
-        //GUARDADO DE DATOS EN BBDD
-
-         //Platos
-         products.save(coxinha);
-         products.save(feijoada);
-         products.save(picanha);
-         products.save(calabresa);
-         products.save(pato);
-         products.save(vatapa);
-         products.save(acaraje);
-         products.save(yuca);
-         products.save(pao);
-         products.save(agua);
-         products.save(cocacola);
-         products.save(nestea);
-         products.save(brigadeiro);
-         products.save(tarta);
-         products.save(pastel);
-         //Usuarios
-         users.save(jorge);
-         users.save(alejandro);
-         users.save(guillermo);
-         users.save(jesus);
-         //Comentarios
-         /*comments.save(commentFeij1);
+         comments.save(commentFeij1);
          comments.save(commentFeij2);
          comments.save(commentPican1);
          comments.save(commentTarta1);
@@ -237,7 +234,7 @@ public class DatabaseInitializer {
          comments.save(commentCox5);
          comments.save(commentCox6);
          comments.save(commentPao1);
-         comments.save(commentYuca1);*/
+         comments.save(commentYuca1);
         
     }
 
@@ -245,24 +242,24 @@ public class DatabaseInitializer {
 		product.setNumberOfImages(product.getNumberOfImages()+1);
 		Resource image = new ClassPathResource(classpathResource);
         Image img = new Image(BlobProxy.generateProxy(image.getInputStream(), image.contentLength()));
-        List <Image> images = product.getImages();
-        img.setPositionInProduct(images.size());
+        List <Image> imagesList = product.getImages();
+        img.setPositionInProduct(imagesList.size());
         if (img.getPositionInProduct()==0) {
             img.setFirstOne(true);
         } else {
             img.setFirstOne(false);
         }
-        images.add(img);
-		product.setImages(images);
-        product.getImages().get(product.getNumberOfImages()-1).setProduct(product);
+        imagesList.add(img);
+		product.setImages(imagesList);
+        product.getImages().get(imagesList.size()-1).setProduct(product);
 	}
 
     private void setComment(Comment comment, Product product, UserProfile user){
         List <Comment> commentsList = product.getComments();
         commentsList.add(comment);
         product.setComments(commentsList);
-        product.getComments().get(commentsList.size()-2).setProduct(product);
-        product.getComments().get(commentsList.size()-2).setUser(user);
+        product.getComments().get(commentsList.size()-1).setProduct(product);
+        product.getComments().get(commentsList.size()-1).setUser(user);
     }
 
 }

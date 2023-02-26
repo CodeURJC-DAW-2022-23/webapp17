@@ -47,7 +47,8 @@ public class Product {
         this.description = description;
         this.price = price;
         this.tags = tags;
-        this. images = new ArrayList<Image>();
+        this.images = new ArrayList<Image>();
+        this.comments = new ArrayList<Comment>();
     }
 
     public Product() {
