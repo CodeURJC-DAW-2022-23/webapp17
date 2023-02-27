@@ -1,7 +1,7 @@
 package es.codeurjc.webapp17.model;
 
-import java.sql.Blob;
 import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
@@ -10,9 +10,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,6 +49,8 @@ public class Product {
         this.description = description;
         this.price = price;
         this.tags = tags;
+        this.images = new ArrayList<Image>();
+        this.comments = new ArrayList<Comment>();
     }
 
     public Product() {
@@ -91,5 +94,12 @@ public class Product {
         return this.numberOfImages;
     }
 
+    public List<Comment> getComments() {
+        return this.comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
     
 }

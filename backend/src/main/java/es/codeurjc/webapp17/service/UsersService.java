@@ -19,6 +19,9 @@ import org.springframework.stereotype.Service;
 import ch.qos.logback.core.joran.conditional.ElseAction;
 import es.codeurjc.webapp17.model.Credential;
 import es.codeurjc.webapp17.model.UserProfile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import es.codeurjc.webapp17.repository.UsersRepo;
 import jakarta.annotation.PostConstruct;
 

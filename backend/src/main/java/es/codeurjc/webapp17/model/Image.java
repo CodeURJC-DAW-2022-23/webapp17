@@ -8,12 +8,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Image")
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long idImage;
+
+    private boolean firstOne;
+
+    private int positionInProduct;
 
     @ManyToOne
     @JsonIgnore
@@ -29,8 +35,24 @@ public class Image {
 
     }
 
+    public int getPositionInProduct() {
+        return positionInProduct;
+    }
+
+    public void setPositionInProduct(int positionInProduct) {
+        this.positionInProduct = positionInProduct;
+    }
+
     public Blob getImageFile() {
         return imageFile;
+    }
+
+    public boolean isFirstOne() {
+        return firstOne;
+    }
+
+    public void setFirstOne(boolean firstOne) {
+        this.firstOne = firstOne;
     }
 
     public void setImageFile(Blob imageFile) {

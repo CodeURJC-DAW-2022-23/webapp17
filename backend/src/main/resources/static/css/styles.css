@@ -275,7 +275,38 @@ pre code {
   color: inherit;
   word-break: normal;
 }
+.reviews ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
+.reviews li {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.reviews .user {
+  font-weight: bold;
+}
+
+.reviews .rating {
+  color: gold;
+  font-size: 1.2em;
+  margin-top: 0.2em;
+  margin-bottom: 0.5em;
+}
+
+.reviews .time {
+  font-size: 0.8em;
+  color: gray;
+  margin-bottom: 0.5em;
+}
+
+.reviews .description {
+  font-size: 1em;
+  line-height: 1.2;
+}
 code {
   font-size: 0.875em;
   color: #d63384;
@@ -6000,6 +6031,12 @@ textarea.form-control-lg {
   position: relative;
 }
 
+.products {
+  width: 300px;
+  height: 200px;
+  margin: 0 auto;
+}
+
 .carousel.pointer-event {
   touch-action: pan-y;
 }
@@ -6009,6 +6046,13 @@ textarea.form-control-lg {
   width: 100%;
   overflow: hidden;
 }
+
+.carouselProducts-inner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
 .carousel-inner::after {
   display: block;
   clear: both;
@@ -6025,6 +6069,18 @@ textarea.form-control-lg {
           backface-visibility: hidden;
   transition: transform 0.6s ease-in-out;
 }
+
+.carousel-item {
+  position: relative;
+  display: none;
+  float: left;
+  width: 100%;
+  margin-right: -100%;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  transition: transform 0.6s ease-in-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .carousel-item {
     transition: none;
@@ -6091,6 +6147,26 @@ textarea.form-control-lg {
   opacity: 0.5;
   transition: opacity 0.15s ease;
 }
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+  background: none;
+  border: 0;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .carousel-control-prev,
 .carousel-control-next {
