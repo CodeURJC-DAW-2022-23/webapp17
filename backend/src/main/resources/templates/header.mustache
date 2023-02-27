@@ -18,6 +18,28 @@
         <link href="css/styles.css" rel="stylesheet" />
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+
+         <script>
+        $(document).ready(
+            function(){
+                var user = "";
+                $.ajax({ 
+                    url:"/getUserInfo",    
+                    type:"GET", 
+                    contentType: "application/json; charset=utf-8",
+                    success: function(responseData){
+                        console.log(responseData);
+                        user = responseData["name"];
+                        if(user){
+                            $("#user_button").html("\<i class=\"bi-person-circle me-1\"><\/i\>"+user);
+                            $("#user_button").attr("href","/profile");
+                            $("#user_button").parent().append("<a class=\"btn\" href=\"\/logout\">\r\n<i class=\"bi bi-box-arrow-in-right\"><\/i>\r\n<\/a>");
+                        }
+                    }
+                });
+            }
+        );
+        </script> 
     </head>
     <body>
         <!-- Navigation-->
@@ -41,9 +63,8 @@
                         </li>
                     </ul>
                     <div class="d-flex pe-3">
-                        <a class="btn" type="submit" href="/login">
-                            <i class="bi-person-circle me-1"></i>
-                            User
+                        <a class="btn" id="user_button" href="/login">
+                            Login
                         </a>
                     </div>
                     <div class="d-flex">

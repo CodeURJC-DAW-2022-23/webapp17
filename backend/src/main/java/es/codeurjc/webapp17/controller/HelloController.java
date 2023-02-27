@@ -19,6 +19,7 @@ public class HelloController {
     @NeedsSecurity(role=Tools.Role.NONE)
     public String index(Model model) {
         model.addAttribute("message", users_service.getUsers().findByEmail("test@example.com"));
+        model.addAttribute("user_name", "Pedro");
         return "index";
     }
 

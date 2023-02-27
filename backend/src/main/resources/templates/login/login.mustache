@@ -1,56 +1,63 @@
 {{> header}}
 <!-- Section-->
+        <script>
+        function changePassword(){
+          $.ajax({ 
+                    url:"/forgotPassword?email="+$("#email-input").val(),    
+                    type:"POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(responseData){
+                        console.log(responseData);
+                        if(("error" in responseData)){
+                          $("#changePasswordLayout").append("Error, maybe email introduced is not registered?");
+                        }else{
+                          $("#changePasswordLayout").append("Sent email to user.");
+                        }
+                    
+                    },error: function (xhr, ajaxOptions, thrownError){
+                      $("#changePasswordLayout").append("Error, maybe email introduced is not registered?");
+                    }
+                });
+        }
+        </script> 
+
+
         <section class="container mt-4 mb-4 p-3 d-flex justify-content-center">
             <div class="card p-4">
                 <div class="row p-2 display-5"><div class="col-auto">Login</div></div>
                 <div class="row">
-                    <form>
-                        <!-- Email input -->
-                        <div class="form-outline mb-4">
-                          <input type="email" id="form2Example1" class="form-control" />
-                          <label class="form-label" for="form2Example1">Email address</label>
+                  <form name="f" action="login" method="POST">
+                      <!-- Email input -->
+                      <div class="form-outline mb-4">
+                        <input type="email" id="email-input" name="username" class="form-control" />
+                        <label class="form-label" for="email-input">Email address</label>
+                      </div>
+                    
+                      <!-- Password input -->
+                      <div class="form-outline mb-4">
+                        <input type="password" id="password-input" name="password" class="form-control" />
+                        <label class="form-label" for="password-input">Password</label>
+                      </div>
+                    
+                      <!-- 2 column grid layout for inline styling -->
+                      <div class="row mb-4">
+                        <div class="col" id="changePasswordLayout">
+                          <!-- Simple link -->
+                          <a id="forgot-password" href="javascript:changePassword()">Forgot password?</a>
                         </div>
-                      
-                        <!-- Password input -->
-                        <div class="form-outline mb-4">
-                          <input type="password" id="form2Example2" class="form-control" />
-                          <label class="form-label" for="form2Example2">Password</label>
-                        </div>
-                      
-                        <!-- 2 column grid layout for inline styling -->
-                        <div class="row mb-4">
-                          <div class="col d-flex justify-content-center">
-                            <!-- Checkbox -->
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                              <label class="form-check-label" for="form2Example31"> Remember me </label>
-                            </div>
-                          </div>
-                      
-                          <div class="col">
-                            <!-- Simple link -->
-                            <a href="#!">Forgot password?</a>
-                          </div>
-                        </div>
-                      
-                        <!-- Submit button -->
-                        <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
-                      
-                        <!-- Register buttons -->
-                        <div class="text-center">
-                          <p>Not a member? <a href="/register">Register</a></p>
-                          <p>or sign up with:</p>
-                          <a type="button" class="btn btn-link btn-floating mx-1" href="/oauth2/authorization/google">
-                            <i class="bi bi-google"></i>
-                          </a>
-                          <div>
-                            With Google: <a href="/oauth2/authorization/google">{{user-info}}</a>
-                          </div>
-                          <button type="button" class="btn btn-link btn-floating mx-1" href="/">
-                            <i class="bi bi-github"></i>
-                          </button>
-                        </div>
-                    </form>
+                      </div>
+                    
+                      <!-- Submit button -->
+                      <input name="submit" type="submit" value="submit" class="btn btn-primary" />                   
+                  </form>
+                  <!-- Register buttons -->
+                  <div class="text-center">
+                    <p>Not a member? <a href="/register">Register</a></p>
+                    <p>or sign up with:</p>
+                    <a type="button" class="btn btn-link btn-floating mx-1" href="{{google-login}}">
+                      <i class="bi bi-google"></i>
+                    </a>
+                  </div>
                 </div>
             </div>
         </section>

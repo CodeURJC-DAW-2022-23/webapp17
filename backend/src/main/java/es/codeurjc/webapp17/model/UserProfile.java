@@ -10,12 +10,15 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
+
 import es.codeurjc.webapp17.tools.Tools;
 import es.codeurjc.webapp17.tools.Tools.Role;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,15 +42,17 @@ public class UserProfile {
     private String email;
 
     @Nonnull
-    private Boolean email_validated;
+    private String email_validated = "";
+
+    private String forgot_password = "";
 
     @Nonnull
-    private Tools.Role role;
+    private Tools.Role role = Role.USER;
 
     private String phone;
 
-    @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<Credential> credentials;
+    @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    private List<Credential> credentials = new ArrayList<Credential>();
 
     @OneToMany(mappedBy="created_by", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Cart> carts;
@@ -64,15 +69,17 @@ public class UserProfile {
     public UserProfile(String email, String name, String password){
         super();
         this.email = email;
-        this.name = name;
-        Credential credential = new Credential(Credential.INTERNAL_STRING, password, this);        
-        this.credentials = new ArrayList<Credential>();
-        this.credentials.add(credential);
+        this.name = name;   
+        createCredential(Credential.INTERNAL_STRING, password);
         this.role = Role.USER;
     }
 
     public User toUser(){
-        User user = new User(email, getInternalCredential().getPasswordHash(), AuthorityUtils.createAuthorityList(role.getCode()));
+        User user;
+        if(getInternalCredential() != null)
+            user = new User(email, getInternalCredential().getPasswordHash(), AuthorityUtils.createAuthorityList(role.getCode()));
+        else
+            user = new User(email, credentials.get(0).getPasswordHash(), AuthorityUtils.createAuthorityList(role.getCode()));
         return user;
     }
 
@@ -80,8 +87,35 @@ public class UserProfile {
         return name;
     }
     
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Tools.Role getRole() {
         return role;
+    }
+
+    public String getEmailValidated() {
+        return email_validated;
+    }
+    public void setEmailValidated(String email_validated) {
+        this.email_validated = email_validated;
+    }
+
+    public String getForgotPassword() {
+        return forgot_password;
+    }
+
+    public void setForgotPassword(String forgot_password) {
+        this.forgot_password = forgot_password;
     }
 
     public void setRole(Tools.Role role) {
@@ -94,7 +128,6 @@ public class UserProfile {
                 return cred;
             }
         }
-        assert true : "Internal provider does not exist on user.";
         return null;
     }
 
@@ -105,6 +138,11 @@ public class UserProfile {
             }
         }
         return null;
+    }
+
+    public void createCredential(String provider, String password_hash){
+        Credential credential = new Credential(provider, password_hash, this);        
+        this.credentials.add(credential);
     }
 
     public void updateCredential(String provider, String password_hash){
@@ -119,7 +157,7 @@ public class UserProfile {
                 return;
             }
         }
-        assert cred != null : "Given provider does not exist";
+        createCredential(provider, password_hash);
     }
 }
 
