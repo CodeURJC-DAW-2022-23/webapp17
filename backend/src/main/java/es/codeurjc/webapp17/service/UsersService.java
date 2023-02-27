@@ -41,7 +41,7 @@ public class UsersService{
 
     @PostConstruct
     public void init(){
-        users.save(new UserProfile("auto-user", "Auto", "23334e79-c3e0-4dd7-942a-0b2567e09d9c"));
+        users.save(new UserProfile("auto-user", "Auto", passwordEncoder.encode(AUTO_PASSWORD)));
     }
 
     public UsersRepo getUsers() {

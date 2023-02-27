@@ -154,7 +154,7 @@ public class DatabaseInitializer {
 
         //EJEMPLOS DE USUARIOS
 
-        UserProfile jorge = new UserProfile("jorgevegarias1@gmail.com", 
+        UserProfile jorge = new UserProfile("test@test.com", 
          "test", passwordEncoder.encode("test"));
         UserProfile alejandro = new UserProfile("alejandro@gmail.com", "Alejandro",
          passwordEncoder.encode("contr"));
