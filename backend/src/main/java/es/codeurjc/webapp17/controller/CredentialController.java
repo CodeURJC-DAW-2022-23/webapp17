@@ -83,61 +83,8 @@ public class CredentialController {
     @NeedsSecurity(role=Tools.Role.NONE)
     public String login(Model model, HttpServletRequest request, HttpServletResponse response, @RequestParam(name="error", required = false)String error) {
         ClientRegistration google_reg = getRegistration("google");
-        Cookie cookie = new Cookie("sign-target", "login");
-        response.addCookie(cookie);
         model.addAttribute("google-login", authorizationRequestBaseUri+google_reg.getRegistrationId());
         return "login/login";
-    }
-
-    private Object loginFromOAuth2(RedirectAttributes attributes, OAuth2AuthenticationToken authentication, HttpServletRequest request, HttpServletResponse response){
-        OAuth2User user = authentication.getPrincipal();
-        String email = user.getAttribute("email");
-        List<UserProfile> euser = users.getUsers().findByEmail(email);
-        if(euser.isEmpty()){
-            String username = user.getAttribute("name").toString().isBlank() ? 
-                UUID.randomUUID().toString().replace("_", "") : user.getAttribute("name");
-            try {
-                users.registerUserWithProvider(email, username, user.getName(), authentication.getAuthorizedClientRegistrationId());
-                euser = users.getUsers().findByEmail(email);
-                users.sendRegistrationEmail(email);
-            } catch (Exception e) {
-                throw e;
-            }
-        }
-        
-        Credential cred = euser.get(0).getCredential(authentication.getAuthorizedClientRegistrationId());
-        
-        if(cred == null)
-            throw new ProviderNotFoundException("User not register with provider.");
-        
-        Authentication auth = new UsernamePasswordAuthenticationToken(email, null, euser.get(0).toUser().getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
-        attributes.addFlashAttribute("flashAttribute", "redirectWithRedirectView");
-        attributes.addAttribute("attribute", "redirectWithRedirectView");
-        return new RedirectView("/profile");
-    }
-
-    @NeedsSecurity(role=Tools.Role.NONE)
-    @GetMapping("/loginSuccess")
-    public Object getLoginInfo(RedirectAttributes attributes, OAuth2AuthenticationToken authentication, HttpServletRequest request, HttpServletResponse response) {
-        
-        if(!Arrays.stream(request.getCookies()).anyMatch(x -> x.getName().equals("sign-target")))
-            throw new ProviderNotFoundException("Can't access login");
-        
-        // Remove cookie
-        Cookie cookie = new Cookie("sign-target", "none");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-
-        Optional<Cookie> p = Arrays.stream(request.getCookies()).filter(x -> x.getName().equals("sign-target")).findFirst();
-        
-        switch(p.get().getValue()){
-            case "login":
-                return loginFromOAuth2(attributes, authentication, request, response);
-            default:
-                throw new ProviderNotFoundException("Something went wrong.");
-        }
     }
 
     @GetMapping("/register")

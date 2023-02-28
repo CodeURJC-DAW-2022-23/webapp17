@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+
 import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.repository.ProductsRepo;
 import es.codeurjc.webapp17.repository.UsersRepo;
@@ -64,6 +65,7 @@ public class DatabaseInitializer {
          "La feijoada o frijolada es el plato nacional de Brasil, se trata de un guiso de alubias negras o frijoles y verduras, acompañados de carne de cerdo y embutidos.", 
          Float.parseFloat("17"), tags1);
         setProductImage(feijoada, "/static/images/Feijoada.jpg");
+        
         setProductImage(feijoada, "/static/images/Feijoada2.jpg");
         
         Product picanha = new Product("Picanha", 
@@ -153,7 +155,6 @@ public class DatabaseInitializer {
         products.save(pastel);
 
         //EJEMPLOS DE USUARIOS
-
         UserProfile jorge = new UserProfile("test@test.com", 
          "test", passwordEncoder.encode("test"));
         UserProfile alejandro = new UserProfile("alejandro@gmail.com", "Alejandro",
@@ -166,7 +167,7 @@ public class DatabaseInitializer {
         users.save(jorge);
         users.save(alejandro);
         users.save(guillermo);
-        users.save(jesus);
+        users.saveAndFlush(jesus);
 
         //EJEMPLOS DE COMENTARIOS
 
