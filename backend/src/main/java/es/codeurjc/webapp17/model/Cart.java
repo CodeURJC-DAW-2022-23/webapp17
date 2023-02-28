@@ -49,16 +49,35 @@ public class Cart {
     public Cart(){
     }
 
-    public void addCartItem(CartItem item){
+    public int positionOfCartItem(CartItem item){
         List<CartItem> items = getCartItems();
         int n = 0;
         try{
             while (!items.get(n).getProduct().equals(item.getProduct())){
                 n++;
             }
-            items.get(n).increaseQuantity();
-        } catch(IndexOutOfBoundsException e){
+            return n;
+        }catch(IndexOutOfBoundsException e){
+            return -1; //Cart item is not in this cart
+        }
+
+    }
+
+    public void addCartItem(CartItem item){
+        List<CartItem> items = getCartItems();
+        int n = positionOfCartItem(item);
+        if (n == -1){
             items.add(item);
+        }else{
+            items.get(n).setQuantity(items.get(n).getQuantity()+1);
+        }
+    }
+
+    public void deleteCartItem(CartItem item){
+        List<CartItem> items = getCartItems();
+        int n = positionOfCartItem(item);
+        if(n>-1){
+            items.remove(n);
         }
     }
 

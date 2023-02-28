@@ -53,11 +53,16 @@ public class CartItem {
     public Product getProduct(){
         return product;
     }
+    
     public void increaseQuantity(){
         this.quantity ++;
     }
 
     public int getQuantity(){
         return quantity;
+    }
+
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
     }
 }
