@@ -1,6 +1,7 @@
 package es.codeurjc.webapp17.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
@@ -9,8 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,7 +22,7 @@ public class Cart {
     private long id;
     
     @Nonnull
-    @ManyToOne
+    @OneToOne
     @JsonIgnore
     private UserProfile created_by;
 
@@ -38,4 +39,38 @@ public class Cart {
     private List<CartItem> cartItems;
 
     //Getters, Constructors...
+
+    public Cart(UserProfile user){
+        this.created_by = user;
+        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.cartItems = new ArrayList<CartItem>();
+    }
+
+    public Cart(){
+    }
+
+    public void addCartItem(CartItem item){
+        List<CartItem> items = getCartItems();
+        int n = 0;
+        try{
+            while (!items.get(n).getProduct().equals(item.getProduct())){
+                n++;
+            }
+            items.get(n).increaseQuantity();
+        } catch(IndexOutOfBoundsException e){
+            items.add(item);
+        }
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public List<CartItem> getCartItems(){
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
 }

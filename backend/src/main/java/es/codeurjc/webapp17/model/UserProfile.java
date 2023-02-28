@@ -1,19 +1,14 @@
 package es.codeurjc.webapp17.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 
 import es.codeurjc.webapp17.tools.Tools;
 import es.codeurjc.webapp17.tools.Tools.Role;
+
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,6 +18,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,8 +27,6 @@ public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    //TODO role
     
     @Nonnull
     private String name;
@@ -56,8 +50,8 @@ public class UserProfile {
     @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private List<Credential> credentials = new ArrayList<Credential>();
 
-    @OneToMany(mappedBy="created_by", cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<Cart> carts;
+    @OneToOne(mappedBy="created_by", cascade=CascadeType.ALL, orphanRemoval=true)
+    private Cart cart;
 
     @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Comment> comments;
@@ -83,6 +77,10 @@ public class UserProfile {
         else
             user = new User(email, credentials.get(0).getPasswordHash(), AuthorityUtils.createAuthorityList(role.getCode()));
         return user;
+    }
+
+    public Long getID(){
+        return id;
     }
 
     public String getName() {
@@ -160,6 +158,14 @@ public class UserProfile {
             }
         }
         createCredential(provider, password_hash);
+    }
+
+    public void setCart(Cart cart){
+        this.cart = cart;
+    }
+
+    public Cart getCart(){
+        return cart;
     }
 }
 

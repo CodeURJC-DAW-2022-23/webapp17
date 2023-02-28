@@ -8,11 +8,34 @@
                 </div>
             </div>
         </header>
-        <!-- Section-->
+<!-- Scripts-->
+        <script>
+            function addToCart(id){
+                $.ajax({ 
+                    url:"/addToCart/"+id,    
+                    type:"GET",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(responseData){
+                        console.log(responseData);
+                        if(("Login" in responseData)){
+                            alert("Por favor inicie sesión antes");
+                        }else if ("ok" in responseData){
+                            alert("Artículo añadido al carrito")
+                        }else{
+                            alert("No se ha podido añadir el producto")
+                        }
+                                
+                    },error: function (xhr, ajaxOptions, thrownError){
+                        alert("No se ha podido añadir el producto");
+                    }
+                });
+            }
+        </script> 
+<!-- Section-->
         <section class="py-5">
             <div id="listProducts" class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-
+                    
                     {{#product}}
                     <div class="col mb-5">
                         <div class="card h-100">
@@ -40,7 +63,7 @@
                                     <a class="btn btn-outline-dark btn-smaller mt-auto" href="/description?id={{id}}">View options</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="/cart">Add to cart</a>
+                                    <a class="btn btn-outline-dark mt-auto" onClick= "javascript:addToCart({{id}})">Add to cart</a>
                                 </div>
                             </div>
                         </div>

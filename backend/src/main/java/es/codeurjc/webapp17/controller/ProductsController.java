@@ -1,16 +1,13 @@
 package es.codeurjc.webapp17.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,18 +15,26 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.codeurjc.webapp17.service.ProductsService;
+import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
-import es.codeurjc.webapp17.model.Image;
 import es.codeurjc.webapp17.model.Product;
+import es.codeurjc.webapp17.model.UserProfile;
+import es.codeurjc.webapp17.model.CartItem;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProductsController {
 
     @Autowired
     ProductsService products_service;
+
+    @Autowired
+    UsersService users_service;
 
     @GetMapping("/products")
     @NeedsSecurity(role=Tools.Role.NONE)
@@ -70,5 +75,21 @@ public class ProductsController {
     public String description(@RequestParam(name="id") long id, Model model) {
         model.addAttribute("product", products_service.getProductsRepo().findById(id));
         return "dishes/description";
+    }
+
+    @GetMapping("/addToCart/{id}")
+    @NeedsSecurity(role=Tools.Role.USER)
+    public @ResponseBody Map<String,Object> addToCart(@PathVariable long id, HttpServletRequest request) {
+        HashMap<String, Object> map = new HashMap<>();
+        Product product = products_service.getProductsRepo().findById(id).get(0);
+        try{
+            UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+            user.getCart().addCartItem(new CartItem(product,user.getCart()));
+            users_service.getUsers().saveAndFlush(user);
+            map.put("ok","true");
+        }catch(NullPointerException ex){
+            map.put("Login", "true");
+        }
+        return map;
     }
 }

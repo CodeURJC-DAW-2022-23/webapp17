@@ -6,6 +6,8 @@ import java.util.List;
 
 import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.UserProfile;
+import es.codeurjc.webapp17.model.Cart;
+import es.codeurjc.webapp17.model.Image;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,6 @@ import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.repository.ProductsRepo;
 import es.codeurjc.webapp17.repository.UsersRepo;
 import es.codeurjc.webapp17.repository.CommentsRepo;
-import es.codeurjc.webapp17.model.Image;
 import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -164,6 +165,11 @@ public class DatabaseInitializer {
         UserProfile jesus = new UserProfile("jesus@gmail.com", "Jesus",
          passwordEncoder.encode("1234"));
 
+        initializeCart(jesus);
+        initializeCart(alejandro);
+        initializeCart(guillermo);
+        initializeCart(jorge);
+
         users.save(jorge);
         users.save(alejandro);
         users.save(guillermo);
@@ -261,6 +267,11 @@ public class DatabaseInitializer {
         product.setComments(commentsList);
         product.getComments().get(commentsList.size()-1).setProduct(product);
         product.getComments().get(commentsList.size()-1).setUser(user);
+    }
+
+    private void initializeCart(UserProfile user){
+        Cart cart = new Cart(user);
+        user.setCart(cart);
     }
 
 }

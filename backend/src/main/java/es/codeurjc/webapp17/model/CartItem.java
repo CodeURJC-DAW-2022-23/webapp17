@@ -37,4 +37,27 @@ public class CartItem {
     private Timestamp created_at;
 
     //Getters, Constructors...
+
+    public CartItem(){
+        
+    }
+
+    public CartItem(Product product,Cart cart){
+        this. product = product;
+        this.price = product.getPrice();
+        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.quantity = 1;
+        this.cart = cart;
+    }
+
+    public Product getProduct(){
+        return product;
+    }
+    public void increaseQuantity(){
+        this.quantity ++;
+    }
+
+    public int getQuantity(){
+        return quantity;
+    }
 }
