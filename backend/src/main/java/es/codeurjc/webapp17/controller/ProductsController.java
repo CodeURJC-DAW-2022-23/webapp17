@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,9 +33,25 @@ public class ProductsController {
 
     @GetMapping("/products")
     @NeedsSecurity(role=Tools.Role.NONE)
-    public String products(Model model) {
-        model.addAttribute("product", products_service.getProducts());
-        return "dishes/order";
+    public String products(Model model, @RequestParam(defaultValue = "0") int page) {
+        int page_size = 8;
+        List<Product> list_products = products_service.getProducts();
+        int total_pages = products_service.getTotalPages(list_products);
+        boolean moreProducts = true;
+        //Page<Product> test = products_service.getProducts(page, page_size);
+        model.addAttribute("totalPages", total_pages);
+        model.addAttribute("currentPage", page);
+        if (page<=total_pages-1){
+            model.addAttribute("product", products_service.getProducts(page, page_size));
+            model.addAttribute("moreProducts", moreProducts);
+            return "dishes/order";
+        } else {
+            moreProducts=false;
+            model.addAttribute("product", null);
+            model.addAttribute("moreProducts", moreProducts);
+            return "dishes/order";
+        }
+        
     }
 
     @GetMapping("/products/{id}/image/{idImage}")

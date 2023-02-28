@@ -31,6 +31,12 @@
   box-shadow: 3px 3px 10px #000;
 }
 
+.containerMoreResults {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .divreserva h2{
   font-family: 'Liberation Sans', cursive;
