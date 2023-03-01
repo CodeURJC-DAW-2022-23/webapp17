@@ -63,14 +63,14 @@ public class DatabaseInitializer {
         String[] tagsVendido = {vendido};
         
         Product feijoada = new Product("Feijoada", 
-         "La feijoada o frijolada es el plato nacional de Brasil, se trata de un guiso de alubias negras o frijoles y verduras, acompañados de carne de cerdo y embutidos.", 
+         "Plato nacional de Brasil, un guiso de alubias negras o frijoles y verduras, acompañados de carne de cerdo y embutidos.", 
          Float.parseFloat("17"), tags1);
         setProductImage(feijoada, "/static/images/Feijoada.jpg");
         
         setProductImage(feijoada, "/static/images/Feijoada2.jpg");
         
         Product picanha = new Product("Picanha", 
-         "La carne de picaña procede de los cuartos traseros, la zona posterior de la cadera, una zona donde a las terneras y las vacas se las golpea con una caña para dirigir su paso y marcar su velocidad.", 
+         "La carne de picaña es la zona posterior de la cadera de la vaca", 
          Float.parseFloat("24"),tags2);
         setProductImage(picanha, "/static/images/Picana.jpg");
 

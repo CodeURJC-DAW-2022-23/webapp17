@@ -75,7 +75,7 @@ public class ProductsController {
         return "dishes/description";
     }
 
-    @PostMapping("/addToCart")
+    @GetMapping("/addToCart")
     @NeedsSecurity(role=Tools.Role.USER)
     public @ResponseBody Map<String,Object> addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>();
