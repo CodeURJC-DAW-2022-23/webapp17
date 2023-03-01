@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,15 +49,12 @@ public class ProductsController {
         model.addAttribute("currentPage", page);
         if (page<=total_pages-1){
             model.addAttribute("product", products_service.getProducts(page, page_size));
-            model.addAttribute("moreProducts", moreProducts);
-            return "dishes/order";
         } else {
             moreProducts=false;
             model.addAttribute("product", null);
-            model.addAttribute("moreProducts", moreProducts);
-            return "dishes/order";
         }
-        
+        model.addAttribute("moreProducts", moreProducts);
+        return "dishes/order";
     }
 
     @GetMapping("/products/{id}/image/{idImage}")
@@ -77,9 +75,9 @@ public class ProductsController {
         return "dishes/description";
     }
 
-    @GetMapping("/addToCart/{id}")
+    @PostMapping("/addToCart")
     @NeedsSecurity(role=Tools.Role.USER)
-    public @ResponseBody Map<String,Object> addToCart(@PathVariable long id, HttpServletRequest request) {
+    public @ResponseBody Map<String,Object> addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>();
         Product product = products_service.getProductsRepo().findById(id).get(0);
         try{

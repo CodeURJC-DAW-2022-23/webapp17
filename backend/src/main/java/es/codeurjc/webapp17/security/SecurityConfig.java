@@ -63,7 +63,7 @@ public class SecurityConfig {
         http.csrf().disable().oauth2Client().and()
         .headers().frameOptions().sameOrigin();
         http.oauth2Login().loginPage("/login")
-        .successHandler(customSuccessHandler()).defaultSuccessUrl("/profile");
+        .successHandler(customSuccessHandler());
 
         http.csrf().disable();
 

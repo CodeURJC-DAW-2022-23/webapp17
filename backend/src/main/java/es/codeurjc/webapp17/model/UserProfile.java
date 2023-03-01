@@ -67,6 +67,7 @@ public class UserProfile {
         this.email = email;
         this.name = name;   
         createCredential(Credential.INTERNAL_STRING, password);
+        this.cart = new Cart(this);
         this.role = Role.USER;
     }
 

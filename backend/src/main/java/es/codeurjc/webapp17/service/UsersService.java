@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 
 import ch.qos.logback.core.joran.conditional.ElseAction;
+import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.Credential;
 import es.codeurjc.webapp17.model.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ public class UsersService{
         UserProfile user = new UserProfile();
         user.setName(name);
         user.setEmail(email);
+        user.setCart(new Cart(user));
         user.updateCredential(provider, hash);
         user.setEmailValidated(UUID.randomUUID().toString().replace("_", "-"));
         users.saveAndFlush(user);

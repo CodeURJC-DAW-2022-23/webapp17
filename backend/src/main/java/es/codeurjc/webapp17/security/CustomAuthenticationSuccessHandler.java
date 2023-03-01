@@ -27,6 +27,11 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     @Autowired
     private UsersService users;
 
+
+    public CustomAuthenticationSuccessHandler(){
+        setDefaultTargetUrl("/profile");
+    }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication_normal) throws ServletException, IOException {

@@ -8,15 +8,14 @@
 
 function moreResults(page, totalPages) {
     $('#spinner').show();
-    $('#buttonMoreResults').text('').prop('disabled', true);
+    $('#buttonMoreResults').hide();
     $.ajax({
         type: 'GET',
         url: '/products?page=' + page,
         success: function(data) {
-            const container = document.querySelector('.containerMoreResults');
-            var newContainer = $(data).find('.containerMoreResults').html();
+            
             var listProducts = $(data).find('.container').eq(2).html();
-            $('#containerMoreResults').replaceWith('<div id="containerMoreResults" class="containerMoreResults">'+newContainer+'</div>');
+            $('#containerMoreResults').replaceWith($(data).find("#containerMoreResults"));
             $('#listProducts').append(listProducts);
             console.log(data);
             console.log(listProducts);
