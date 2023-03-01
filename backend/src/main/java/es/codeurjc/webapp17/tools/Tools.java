@@ -1,12 +1,18 @@
 package es.codeurjc.webapp17.tools;
 
 
+import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 
 import ch.qos.logback.core.boolex.Matcher;
+import es.codeurjc.webapp17.model.Image;
 
 public class Tools {
     public static enum HashMethod{
@@ -32,8 +38,8 @@ public class Tools {
         
     }
 
-    public static Logger getLogger(Class base_class){
-        return LoggerFactory.getLogger(base_class);
+    public static Logger getLogger(Class baseClass){
+        return LoggerFactory.getLogger(baseClass);
     }
 
 }

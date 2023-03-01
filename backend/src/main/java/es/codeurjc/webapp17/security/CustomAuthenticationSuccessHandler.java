@@ -34,9 +34,9 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication_normal) throws ServletException, IOException {
-        if(authentication_normal instanceof OAuth2AuthenticationToken){
-            OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken)authentication_normal;
+            Authentication authenticationNormal) throws ServletException, IOException {
+        if(authenticationNormal instanceof OAuth2AuthenticationToken){
+            OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken)authenticationNormal;
             OAuth2User user = (OAuth2User) authentication.getPrincipal();
             String email = user.getAttribute("email");
             List<UserProfile> euser = users.getUsers().findByEmail(email);
@@ -57,12 +57,12 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             if(cred == null)
                 throw new ProviderNotFoundException("User not register with provider.");
             
-            authentication_normal = new UsernamePasswordAuthenticationToken(email, null, euser.get(0).toUser().getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication_normal);
+            authenticationNormal = new UsernamePasswordAuthenticationToken(email, null, euser.get(0).toUser().getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authenticationNormal);
         }
         
         
 
-        super.onAuthenticationSuccess(request, response, authentication_normal);
+        super.onAuthenticationSuccess(request, response, authenticationNormal);
     }
 }

@@ -21,8 +21,8 @@ public class UsersManagerService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (users.findByEmail(username).isEmpty()) 
             throw new UsernameNotFoundException("Given user does not exist");
-        UserProfile user_profile = users.findByEmail(username).get(0);
-        return user_profile.toUser();
+        UserProfile userProfile = users.findByEmail(username).get(0);
+        return userProfile.toUser();
     }
 
 }

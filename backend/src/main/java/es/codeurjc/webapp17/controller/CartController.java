@@ -108,11 +108,11 @@ public class CartController {
     public String checkout(Model model, HttpServletRequest request) {
         try {
             UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
-            boolean existing_cart = false;
+            boolean existingCart = false;
             if (user.getCart() != null){
-                existing_cart = true;
+                existingCart = true;
                 model.addAttribute("cartItems", user.getCart().getCartItems());
-                model.addAttribute("existingCart", existing_cart);
+                model.addAttribute("existingCart", existingCart);
             } else {}
             return "menu/checkout";
         }catch(NullPointerException ex){

@@ -34,7 +34,7 @@ public class CartItem {
     private int quantity;
 
     @Nonnull
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     //Getters, Constructors...
 
@@ -45,7 +45,7 @@ public class CartItem {
     public CartItem(Product product,Cart cart){
         this. product = product;
         this.price = product.getPrice();
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
         this.quantity = 1;
         this.cart = cart;
     }

@@ -13,7 +13,7 @@
             function addToCart(id){
                 $.ajax({ 
                     url:"/addToCart?id="+id,    
-                    type:"GET",
+                    type:"POST",
                     contentType: "application/json; charset=utf-8",
                     success: function(responseData){
                         console.log(responseData);

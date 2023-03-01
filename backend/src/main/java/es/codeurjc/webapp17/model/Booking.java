@@ -21,7 +21,7 @@ public class Booking {
     @Nonnull
     @ManyToOne
     @JsonIgnore
-    private UserProfile user_profile;
+    private UserProfile userProfile;
 
     @Nonnull
     private Timestamp when;

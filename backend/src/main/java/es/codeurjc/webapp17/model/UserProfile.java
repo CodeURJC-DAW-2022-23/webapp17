@@ -38,25 +38,25 @@ public class UserProfile {
     private String email;
 
     @Nonnull
-    private String email_validated = "";
+    private String emailValidated = "";
 
-    private String forgot_password = "";
+    private String forgotPassword = "";
 
     @Nonnull
     private Tools.Role role = Role.USER;
 
     private String phone;
 
-    @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private List<Credential> credentials = new ArrayList<Credential>();
 
-    @OneToOne(mappedBy="created_by", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToOne(mappedBy="createdBy", cascade=CascadeType.ALL, orphanRemoval=true)
     private Cart cart;
 
-    @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy="user_profile", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Booking> bookings;
 
     public UserProfile(){}
@@ -66,7 +66,7 @@ public class UserProfile {
         super();
         this.email = email;
         this.name = name;   
-        createCredential(Credential.INTERNAL_STRING, password);
+        createCredential(Credential.INTERNALSTRING, password);
         this.cart = new Cart(this);
         this.role = Role.USER;
     }
@@ -105,18 +105,18 @@ public class UserProfile {
     }
 
     public String getEmailValidated() {
-        return email_validated;
+        return emailValidated;
     }
-    public void setEmailValidated(String email_validated) {
-        this.email_validated = email_validated;
+    public void setEmailValidated(String emailValidated) {
+        this.emailValidated = emailValidated;
     }
 
     public String getForgotPassword() {
-        return forgot_password;
+        return forgotPassword;
     }
 
-    public void setForgotPassword(String forgot_password) {
-        this.forgot_password = forgot_password;
+    public void setForgotPassword(String forgotPassword) {
+        this.forgotPassword = forgotPassword;
     }
 
     public void setRole(Tools.Role role) {
@@ -125,7 +125,7 @@ public class UserProfile {
 
     public Credential getInternalCredential(){
         for(Credential cred : this.credentials){
-            if(cred.getProviderId().equals(Credential.INTERNAL_STRING)){
+            if(cred.getProviderId().equals(Credential.INTERNALSTRING)){
                 return cred;
             }
         }
@@ -141,24 +141,24 @@ public class UserProfile {
         return null;
     }
 
-    public void createCredential(String provider, String password_hash){
-        Credential credential = new Credential(provider, password_hash, this);        
+    public void createCredential(String provider, String passwordHash){
+        Credential credential = new Credential(provider, passwordHash, this);        
         this.credentials.add(credential);
     }
 
-    public void updateCredential(String provider, String password_hash){
+    public void updateCredential(String provider, String passwordHash){
         Credential cred = null;
         // This should be fine as credentials should have less than 3 elements.
         // TODO If credentials becomes bigger implement a query.
         for(int i = 0; i < credentials.size(); i++){
             if(credentials.get(i).getProviderId().equals(provider)){
                 cred = credentials.get(i);
-                cred.setPasswordHash(password_hash);
+                cred.setPasswordHash(passwordHash);
                 credentials.set(i, cred);
                 return;
             }
         }
-        createCredential(provider, password_hash);
+        createCredential(provider, passwordHash);
     }
 
     public void setCart(Cart cart){

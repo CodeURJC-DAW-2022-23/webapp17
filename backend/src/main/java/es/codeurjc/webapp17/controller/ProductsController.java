@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 
 import es.codeurjc.webapp17.service.ProductsService;
 import es.codeurjc.webapp17.service.UsersService;
@@ -32,23 +35,23 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ProductsController {
 
     @Autowired
-    ProductsService products_service;
+    ProductsService productsService;
 
     @Autowired
-    UsersService users_service;
+    UsersService usersService;
 
     @GetMapping("/products")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String products(Model model, @RequestParam(defaultValue = "0") int page) {
-        int page_size = 8;
-        List<Product> list_products = products_service.getProducts();
-        int total_pages = products_service.getTotalPages(list_products);
+        int pageSize = 8;
+        List<Product> listProducts = productsService.getProducts();
+        int totalPages = productsService.getTotalPages(listProducts);
         boolean moreProducts = true;
-        //Page<Product> test = products_service.getProducts(page, page_size);
-        model.addAttribute("totalPages", total_pages);
+        //Page<Product> test = productsService.getProducts(page, pageSize);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
-        if (page<=total_pages-1){
-            model.addAttribute("product", products_service.getProducts(page, page_size));
+        if (page<=totalPages-1){
+            model.addAttribute("product", productsService.getProducts(page, pageSize));
         } else {
             moreProducts=false;
             model.addAttribute("product", null);
@@ -59,19 +62,18 @@ public class ProductsController {
 
     @GetMapping("/products/{id}/image/{idImage}")
     public ResponseEntity<Object> downloadImage(@PathVariable long id,@PathVariable int idImage) throws SQLException {
-	List<Product> product = products_service.getProductsRepo().findById(id);
-	if (!product.isEmpty() && product.get(0).getImages().get(idImage).getImageFile() != null) {
-		Resource file = new InputStreamResource(product.get(0).getImages().get(idImage).getImageFile().getBinaryStream());
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg").contentLength(product.get(0).getImages().get(idImage).getImageFile().length()).body(file);
-    } else {
-	    return ResponseEntity.notFound().build();
-	    }	
+        List<Product> product = productsService.getProductsRepo().findById(id);
+        if (!product.isEmpty() && product.get(0).getImages().get(idImage).getImageFile() != null) {
+            return product.get(0).getImages().get(idImage).toHtmEntity();
+        } else {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        }	
     }
 
     @GetMapping("/description")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String description(@RequestParam(name="id") long id, Model model) {
-        model.addAttribute("product", products_service.getProductsRepo().findById(id));
+        model.addAttribute("product", productsService.getProductsRepo().findById(id));
         return "dishes/description";
     }
 
@@ -79,11 +81,11 @@ public class ProductsController {
     @NeedsSecurity(role=Tools.Role.USER)
     public @ResponseBody Map<String,Object> addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>();
-        Product product = products_service.getProductsRepo().findById(id).get(0);
+        Product product = productsService.getProductsRepo().findById(id).get(0);
         try{
-            UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+            UserProfile user = usersService.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
             user.getCart().addCartItem(new CartItem(product,user.getCart()));
-            users_service.getUsers().saveAndFlush(user);
+            usersService.getUsers().saveAndFlush(user);
             map.put("ok","true");
         }catch(NullPointerException ex){
             map.put("Login", "true");

@@ -7,7 +7,7 @@ import java.util.List;
 import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.Cart;
-import es.codeurjc.webapp17.model.Image;
+import es.codeurjc.webapp17.model.ProductImage;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -248,8 +248,8 @@ public class DatabaseInitializer {
     private void setProductImage(Product product, String classpathResource) throws IOException { 
 		product.setNumberOfImages(product.getNumberOfImages()+1);
 		Resource image = new ClassPathResource(classpathResource);
-        Image img = new Image(BlobProxy.generateProxy(image.getInputStream(), image.contentLength()));
-        List <Image> imagesList = product.getImages();
+        ProductImage img = new ProductImage(BlobProxy.generateProxy(image.getInputStream(), image.contentLength()));
+        List <ProductImage> imagesList = product.getImages();
         img.setPositionInProduct(imagesList.size());
         if (img.getPositionInProduct()==0) {
             img.setFirstOne(true);
