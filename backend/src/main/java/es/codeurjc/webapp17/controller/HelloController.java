@@ -35,11 +35,5 @@ public class HelloController {
         return "menu/menu";
     }
 
-    @GetMapping("/cart")
-    @NeedsSecurity(role=Tools.Role.NONE)
-    public String cartMenu(Model model) {
-        return "menu/cart";
-    }
-
 }
 

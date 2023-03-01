@@ -58,6 +58,10 @@ public class CartItem {
         this.quantity ++;
     }
 
+    public void decreaseQuantity(){
+        this.quantity --;
+    }
+
     public int getQuantity(){
         return quantity;
     }
