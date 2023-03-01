@@ -40,7 +40,7 @@ public class Product {
     private List<CartItem> cartItems;
 
     @OneToMany(mappedBy="product", cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<Image> images;
+    private List<ProductImage> images;
 
     //Getters, Constructors...
     
@@ -49,7 +49,7 @@ public class Product {
         this.description = description;
         this.price = price;
         this.tags = tags;
-        this.images = new ArrayList<Image>();
+        this.images = new ArrayList<ProductImage>();
         this.comments = new ArrayList<Comment>();
     }
 
@@ -78,11 +78,11 @@ public class Product {
     }
 
 
-    public void setImages(List<Image> images) {
+    public void setImages(List<ProductImage> images) {
         this.images = images;
     }
 
-    public List<Image> getImages() {
+    public List<ProductImage> getImages() {
         return this.images;
     }
 

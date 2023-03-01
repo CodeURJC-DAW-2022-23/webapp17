@@ -13,13 +13,13 @@ import es.codeurjc.webapp17.tools.Tools;
 public class HelloController {
 
     @Autowired
-    UsersService users_service;
+    UsersService usersService;
 
     @GetMapping("/")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String index(Model model) {
-        model.addAttribute("message", users_service.getUsers().findByEmail("test@example.com"));
-        model.addAttribute("user_name", "Pedro");
+        model.addAttribute("message", usersService.getUsers().findByEmail("test@example.com"));
+        model.addAttribute("userName", "Pedro");
         return "index";
     }
 

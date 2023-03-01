@@ -26,24 +26,24 @@ import jakarta.servlet.http.HttpServletRequest;
 public class CartController {
     
     @Autowired
-    private UsersService users_service;
+    private UsersService usersService;
 
     @Autowired
-    ProductsService products_service;
+    ProductsService productsService;
 
     @Autowired
-    private CartItemsService items_service;
+    private CartItemsService itemsService;
     
     @GetMapping("/cart")
     @NeedsSecurity(role=Tools.Role.USER)
     public String cart(Model model, HttpServletRequest request) {
         try {
-            UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
-            boolean existing_cart = false;
+            UserProfile user = usersService.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+            boolean existingCart = false;
             if (user.getCart() != null){
-                existing_cart = true;
+                existingCart = true;
                 model.addAttribute("cartItems", user.getCart().getCartItems());
-                model.addAttribute("existingCart", existing_cart);
+                model.addAttribute("existingCart", existingCart);
             } else {}
             return "menu/cart";
         }catch(NullPointerException ex){
@@ -55,32 +55,32 @@ public class CartController {
     @GetMapping("/deleteItem/{id}")
     @NeedsSecurity(role=Tools.Role.USER)
     public void deleteItem(@PathVariable long id, HttpServletRequest request){
-        CartItem item = items_service.getCartItemsRepo().findById(id).get(0);
-        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        CartItem item = itemsService.getCartItemsRepo().findById(id).get(0);
+        UserProfile user = usersService.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
         user.getCart().deleteCartItem(item);
-        users_service.getUsers().saveAndFlush(user);
+        usersService.getUsers().saveAndFlush(user);
     }
 
     @GetMapping("/setQuantity/{id}")
     @NeedsSecurity(role=Tools.Role.USER)
     public void setQuantity(@PathVariable long id, HttpServletRequest request, int quantity){
-        CartItem item = items_service.getCartItemsRepo().findById(id).get(0);
-        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        CartItem item = itemsService.getCartItemsRepo().findById(id).get(0);
+        UserProfile user = usersService.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
         int n = user.getCart().positionOfCartItem(item);
         user.getCart().getCartItems().get(n).setQuantity(quantity);
-        users_service.getUsers().saveAndFlush(user);
+        usersService.getUsers().saveAndFlush(user);
     }
 
     @GetMapping("/checkout")
     @NeedsSecurity(role=Tools.Role.USER)
     public String checkout(Model model, HttpServletRequest request) {
         try {
-            UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
-            boolean existing_cart = false;
+            UserProfile user = usersService.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+            boolean existingCart = false;
             if (user.getCart() != null){
-                existing_cart = true;
+                existingCart = true;
                 model.addAttribute("cartItems", user.getCart().getCartItems());
-                model.addAttribute("existingCart", existing_cart);
+                model.addAttribute("existingCart", existingCart);
             } else {}
             return "menu/checkout";
         }catch(NullPointerException ex){

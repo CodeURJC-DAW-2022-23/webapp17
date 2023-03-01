@@ -29,7 +29,7 @@ import jakarta.annotation.PostConstruct;
 @Service
 public class UsersService{
     
-    public static final String AUTO_PASSWORD = "23334e79-c3e0-4dd7-942a-0b2567e09d9c";
+    public static final String AUTOPASSWORD = "23334e79-c3e0-4dd7-942a-0b2567e09d9c";
 
     @Autowired
     private UsersRepo users;
@@ -42,7 +42,7 @@ public class UsersService{
 
     @PostConstruct
     public void init(){
-        users.save(new UserProfile("auto-user", "Auto", passwordEncoder.encode(AUTO_PASSWORD)));
+        users.save(new UserProfile("auto-user", "Auto", passwordEncoder.encode(AUTOPASSWORD)));
     }
 
     public UsersRepo getUsers() {
@@ -50,7 +50,7 @@ public class UsersService{
     }
 
     public void registerUser(String email, String password, String name){
-        registerUserWithProvider(email, name, passwordEncoder.encode(password), Credential.INTERNAL_STRING);
+        registerUserWithProvider(email, name, passwordEncoder.encode(password), Credential.INTERNALSTRING);
     }
     
     public void registerUserWithProvider(String email, String name, String hash, String provider){
@@ -71,10 +71,10 @@ public class UsersService{
         return map;
     }
     
-    public Object changePassword(String email, String new_password){
+    public Object changePassword(String email, String newPassword){
         List<UserProfile> profile = getUsers().findByEmail(email);
         if(profile.isEmpty()) return null;
-        profile.get(0).updateCredential(Credential.INTERNAL_STRING, passwordEncoder.encode(new_password));
+        profile.get(0).updateCredential(Credential.INTERNALSTRING, passwordEncoder.encode(newPassword));
         users.saveAndFlush(profile.get(0));
         return true;
     }

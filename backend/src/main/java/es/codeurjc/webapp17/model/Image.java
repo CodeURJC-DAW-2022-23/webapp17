@@ -1,69 +1,41 @@
 package es.codeurjc.webapp17.model;
 
-import java.sql.Blob;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.sql.Blob;
+import java.sql.SQLException;
+
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Image")
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long idImage;
 
-    private boolean firstOne;
-
-    private int positionInProduct;
-
-    @ManyToOne
-    @JsonIgnore
-    private Product product;
-
     @Lob
     @JsonIgnore
     private Blob imageFile;
 
-    //Getters, Constructors...
-
-    public Image(){
-
-    }
-
-    public int getPositionInProduct() {
-        return positionInProduct;
-    }
-
-    public void setPositionInProduct(int positionInProduct) {
-        this.positionInProduct = positionInProduct;
-    }
 
     public Blob getImageFile() {
         return imageFile;
-    }
-
-    public boolean isFirstOne() {
-        return firstOne;
-    }
-
-    public void setFirstOne(boolean firstOne) {
-        this.firstOne = firstOne;
     }
 
     public void setImageFile(Blob imageFile) {
         this.imageFile = imageFile;
     }
 
-    public Image(Blob imageFile) {
-        this.imageFile = imageFile;
-    }
-    
-    public void setProduct(Product product) {
-        this.product = product;
+    public ResponseEntity<Object> toHtmEntity() throws SQLException{
+        Resource file = new InputStreamResource(getImageFile().getBinaryStream());
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg").contentLength(getImageFile().length()).body(file);
     }
 }

@@ -24,16 +24,16 @@ public class Cart {
     @Nonnull
     @OneToOne
     @JsonIgnore
-    private UserProfile created_by;
+    private UserProfile createdBy;
 
     @Nonnull
     private int status;
 
     @Nonnull
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     @Nonnull
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
 
     @OneToMany(mappedBy="cart", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<CartItem> cartItems;
@@ -41,8 +41,8 @@ public class Cart {
     //Getters, Constructors...
 
     public Cart(UserProfile user){
-        this.created_by = user;
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdBy = user;
+        this.createdAt = new Timestamp(System.currentTimeMillis());
         this.cartItems = new ArrayList<CartItem>();
     }
 
@@ -81,8 +81,8 @@ public class Cart {
         }
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public List<CartItem> getCartItems(){

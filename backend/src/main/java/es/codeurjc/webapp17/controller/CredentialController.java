@@ -46,7 +46,7 @@ public class CredentialController {
     private static String authorizationRequestBaseUri
       = "/oauth2/authorization/";
 
-    private static String CLIENT_PROPERTY_KEY 
+    private static String CLIENTPROPERTYKEY 
     = "spring.security.oauth2.client.registration.";
 
     @Autowired
@@ -58,14 +58,14 @@ public class CredentialController {
 
     private ClientRegistration getRegistration(String client) {
         String clientId = env.getProperty(
-        CLIENT_PROPERTY_KEY + client + ".client-id");
+        CLIENTPROPERTYKEY + client + ".client-id");
 
         if (clientId == null) {
             return null;
         }
 
         String clientSecret = env.getProperty(
-        CLIENT_PROPERTY_KEY + client + ".client-secret");
+        CLIENTPROPERTYKEY + client + ".client-secret");
     
         if (client.equals("google")) {
             return CommonOAuth2Provider.GOOGLE.getBuilder(client)
@@ -82,8 +82,8 @@ public class CredentialController {
     @GetMapping("/login")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String login(Model model, HttpServletRequest request, HttpServletResponse response, @RequestParam(name="error", required = false)String error) {
-        ClientRegistration google_reg = getRegistration("google");
-        model.addAttribute("google-login", authorizationRequestBaseUri+google_reg.getRegistrationId());
+        ClientRegistration googleReg = getRegistration("google");
+        model.addAttribute("google-login", authorizationRequestBaseUri+googleReg.getRegistrationId());
         return "login/login";
     }
 
@@ -140,12 +140,12 @@ public class CredentialController {
         if(users.verifyForgotPassword(user, code) == null)
             throw new RuntimeException("Failed to verify account");
         try {
-            request.login("auto-user", users.AUTO_PASSWORD);
+            request.login("auto-user", users.AUTOPASSWORD);
         } catch (ServletException e) {
             e.printStackTrace();
         }
-        UserProfile user_profile = users.getUsers().findByEmail(user).get(0);
-        Authentication auth = new UsernamePasswordAuthenticationToken(user_profile.getEmail(), null, user_profile.toUser().getAuthorities());
+        UserProfile userProfile = users.getUsers().findByEmail(user).get(0);
+        Authentication auth = new UsernamePasswordAuthenticationToken(userProfile.getEmail(), null, userProfile.toUser().getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
         return "login/changepassword";
     }
@@ -159,7 +159,7 @@ public class CredentialController {
     @PostMapping("/changePassword")
     @NeedsSecurity(role = Tools.Role.USER)
     public @ResponseBody Map<String,Object> changePasswordPost(HttpServletRequest request, 
-    @RequestParam(name="new_password", required = true) String password){
+    @RequestParam(name="newPassword", required = true) String password){
         HashMap<String, Object> map = new HashMap<>();
         if(request.getUserPrincipal() != null){
             if(!users.getUserInfo(request.getUserPrincipal().getName()).containsKey("error")){

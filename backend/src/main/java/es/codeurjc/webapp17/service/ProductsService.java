@@ -28,19 +28,19 @@ public class ProductsService {
         return products.findAll();
     }*/
 
-    public Page<Product> getProducts(int num_page, int page_size) {
-        Pageable pageable = PageRequest.of(num_page, page_size);
+    public Page<Product> getProducts(int numPage, int pageSize) {
+        Pageable pageable = PageRequest.of(numPage, pageSize);
         return products.findAll(pageable);
     }
 
     public int getTotalPages(List<Product> products) {
-        int page_size = 8;
-        int total_products = products.size();
-        int total_pages = total_products / page_size;
-        if (total_products % page_size != 0) {
-            total_pages++;
+        int pageSize = 8;
+        int totalProducts = products.size();
+        int totalPages = totalProducts / pageSize;
+        if (totalProducts % pageSize != 0) {
+            totalPages++;
         }
-        return total_pages;
+        return totalPages;
     }
 
 }

@@ -40,7 +40,7 @@ import org.springframework.context.annotation.Configuration;
 public class SecurityConfig {
 
     @Autowired
-    private RequestMappingHandlerMapping handler_mapping;
+    private RequestMappingHandlerMapping handlerMapping;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

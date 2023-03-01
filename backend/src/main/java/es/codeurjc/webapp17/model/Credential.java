@@ -13,39 +13,39 @@ import jakarta.persistence.Table;
 @Table(name = "Credential")
 public class Credential {
 
-    public static final String INTERNAL_STRING = "internal";
-    public static final String GOOGLE_STRING = "google";
+    public static final String INTERNALSTRING = "internal";
+    public static final String GOOGLESTRING = "google";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long credential_id;
+    private long credentialId;
     
     @Nonnull
     @ManyToOne
     @JsonIgnore
-    private UserProfile user_profile;
+    private UserProfile userProfile;
 
-    private String provider_id;
+    private String providerId;
 
-    private String password_hash;
+    private String passwordHash;
 
     public Credential(){}
 
-    public Credential(String provider_id, String password_hash, UserProfile profile){
-        this.provider_id = provider_id;
-        this.password_hash = password_hash;
-        this.user_profile = profile;
+    public Credential(String providerId, String passwordHash, UserProfile profile){
+        this.providerId = providerId;
+        this.passwordHash = passwordHash;
+        this.userProfile = profile;
     }
 
     public String getPasswordHash() {
-        return password_hash;
+        return passwordHash;
     }
 
-    public void setPasswordHash(String password_hash) {
-        this.password_hash = password_hash;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getProviderId() {
-        return provider_id;
+        return providerId;
     }
 }

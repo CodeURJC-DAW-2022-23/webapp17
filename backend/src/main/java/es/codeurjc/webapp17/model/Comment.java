@@ -19,7 +19,7 @@ public class Comment {
     
     @ManyToOne
     @JsonIgnore
-    private UserProfile user_profile;
+    private UserProfile userProfile;
 
     @ManyToOne
     @JsonIgnore
@@ -32,24 +32,24 @@ public class Comment {
     private String description;
 
     @Nonnull
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     //Getters, Constructors...
     
     public Comment(){}
 
-    public Comment(int rating, String description, Timestamp created_at) {
+    public Comment(int rating, String description, Timestamp createdAt) {
         this.rating = rating;
         this.description = description;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 
     public long getId() {
         return id;
     }
 
-    public UserProfile getUser_profile() {
-        return user_profile;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
     public Product getProduct() {
@@ -64,8 +64,8 @@ public class Comment {
         return description;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
     public void setProduct(Product product) {
@@ -73,7 +73,7 @@ public class Comment {
     }
     
     public void setUser(UserProfile user) {
-        this.user_profile = user;
+        this.userProfile = user;
     }
     
 }
