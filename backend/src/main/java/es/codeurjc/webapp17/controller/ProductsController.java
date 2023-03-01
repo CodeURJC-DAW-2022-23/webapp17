@@ -6,11 +6,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,7 +73,7 @@ public class ProductsController {
         return "dishes/description";
     }
 
-    @GetMapping("/addToCart")
+    @PostMapping("/addToCart")
     @NeedsSecurity(role=Tools.Role.USER)
     public @ResponseBody Map<String,Object> addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>();
