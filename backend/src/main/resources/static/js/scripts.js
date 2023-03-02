@@ -6,7 +6,7 @@
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
 
-function moreResults(page, totalPages) {
+function moreResults(page) {
     $('#spinner').show();
     $('#buttonMoreResults').hide();
     $.ajax({
@@ -17,8 +17,28 @@ function moreResults(page, totalPages) {
             var listProducts = $(data).find('.container').eq(2).html();
             $('#containerMoreResults').replaceWith($(data).find("#containerMoreResults"));
             $('#listProducts').append(listProducts);
+            //console.log(data);
+            //console.log(listProducts);
+            sleep(3000);
+            $('#spinner').hide();
+            
+        }
+    });
+}
+
+function moreComments(page,id) {
+    $('#spinner').show();
+    $('#buttonMoreResults').hide();
+    $.ajax({
+        type: 'GET',
+        url: '/description?page=' + page + '&id=' + id,
+        success: function(data) {
+            
+            var listComments = $(data).find('.container').eq(1).html();
+            $('#containerMoreResults').replaceWith($(data).find("#containerMoreResults"));
+            $('#listComments').append(listComments);
             console.log(data);
-            console.log(listProducts);
+            console.log(listComments);
             sleep(3000);
             $('#spinner').hide();
             

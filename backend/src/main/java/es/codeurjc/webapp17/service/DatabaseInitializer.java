@@ -213,6 +213,18 @@ public class DatabaseInitializer {
         new Timestamp(System.currentTimeMillis()));
         setComment(commentCox6,coxinha,alejandro);
 
+        Comment commentCox7 = new Comment(7,"Está bueno",
+        new Timestamp(System.currentTimeMillis()));
+        setComment(commentCox7,coxinha,alejandro);
+
+        Comment commentCox8 = new Comment(5,"Bastante malo",
+        new Timestamp(System.currentTimeMillis()));
+        setComment(commentCox8,coxinha,guillermo);
+
+        Comment commentCox9 = new Comment(8,"Repetiría",
+        new Timestamp(System.currentTimeMillis()));
+        setComment(commentCox9,coxinha,jesus);
+
         Comment commentTarta1 = new Comment(8,"El mejor postre sin duda",
         new Timestamp(System.currentTimeMillis()));
         setComment(commentTarta1,tarta,alejandro);
@@ -244,6 +256,9 @@ public class DatabaseInitializer {
          comments.save(commentCox4);
          comments.save(commentCox5);
          comments.save(commentCox6);
+         comments.save(commentCox7);
+         comments.save(commentCox8);
+         comments.save(commentCox9);
          comments.save(commentPao1);
          comments.save(commentYuca1);
         

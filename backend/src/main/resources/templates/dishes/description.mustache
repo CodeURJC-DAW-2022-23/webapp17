@@ -2,17 +2,17 @@
 
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
 {{#product}}
-    <div class="col-md-5 p-lg-5 mx-auto my-5">
+    <div class="col-md-5 p-lg-5 mx-auto">
         <h1 class="display-4 fw-normal mb-5">{{title}}</h1>
         <p class="lead fw-normal">{{description}}</p>
 
-        <div style="text-align:center;" class="">
+        <div style="text-align:center;">
             <div id="ofertas" class="carousel products slide" style="justify-content: center; align-items: center;" data-bs-ride="carousel">
                 <div class="carousel-inner carousel-ofertas">
                     {{#images}}
                     <div class="carousel-item {{#firstOne}}active{{/firstOne}} {{^firstOne}}{{/firstOne}}" id="oferta{{positionInProduct}}">
                         <div class="row mx-auto">
-                            <img style="justify-content: center; align-items: center;" src="/products/{{id}}/image/{{positionInProduct}}" alt="..." width="300" height="200"/>
+                            <img style="justify-content: center; align-items: center;" src="/products/{{id}}/image/{{positionInProduct}}" alt="..." width="800" height="200"/>
                         </div>
                     </div>
                     {{/images}}
@@ -25,33 +25,52 @@
                 </button>
             </div>
         </div>
-
-        
-
-        
-        <br>
-        <h4>
-            Price: {{price}} $
-        </h4>
-        <br>
-        <a class="btn btn-outline-dark mt-auto" href="/cart">Add to cart</a>
-        <br><br><br>
-        <div class="reviews">
-            {{#comments}}
-            <ul>
-                <li>
-                    <div class="user">{{userProfile.name}}</div>
-                    <div class="rating">{{rating}}/10 <span class="star">&#9733;</span></div>
-                    <div class="time">{{createdAt}}</div>
-                    <div class="description">{{description}}</div>
-                </li>
-            </ul>
-            <br>
-            {{/comments}}
-        </div>
-        <br>
-        <a class="btn btn-outline-dark mt-auto" href="/products">Back</a>
     </div>
+        
+    <h4>
+        Price: {{price}} $
+    </h4>
+    <br>
+    <a class="btn btn-outline-dark mt-auto" href="/cart">Add to cart</a>
+    <br><br>
+    <section class="py-5">
+
+        <div id="listComments" class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                {{#productComments}}
+                <div class="col mb-5">
+                    <div class="card reviews h-100 w-200">
+                        <div class="user">{{userProfile.name}}</div>
+                        <div class="rating">{{rating}}/10 <span class="star">&#9733;</span></div>
+                        <div class="time">{{createdAt}}</div>
+                        <div class="description">{{description}}</div>
+                </div>
+                </div>
+                {{/productComments}}
+            </div>
+        </div>
+
+        <div id="containerMoreResults" class="containerMoreResults">
+                {{#moreComments}}
+                <button id="buttonMoreResults" onClick="moreComments({{currentPage}} + 1,{{id}})" class="btn btn-secondary">
+                    Más resultados
+                </button>
+                <div id="spinner" class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                {{/moreComments}}
+                {{^moreComments}}
+                <div>
+                    <a>No hay más resultados</a>
+                </div>
+                {{/moreComments}}
+                
+            </div>
+            
+    </section>
+        
+    <br>
+    <a class="btn btn-outline-dark mt-auto" href="/products">Back</a>
 {{/product}}
 </div>
 

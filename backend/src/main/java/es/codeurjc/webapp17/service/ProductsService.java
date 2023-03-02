@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.repository.ProductsRepo;
 
@@ -33,9 +35,9 @@ public class ProductsService {
         return products.findAll(pageable);
     }
 
-    public int getTotalPages(List<Product> products) {
+    public int getTotalPages(List<Product> listProducts) {
         int pageSize = 8;
-        int totalProducts = products.size();
+        int totalProducts = listProducts.size();
         int totalPages = totalProducts / pageSize;
         if (totalProducts % pageSize != 0) {
             totalPages++;

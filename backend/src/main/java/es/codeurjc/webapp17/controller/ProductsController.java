@@ -66,13 +66,6 @@ public class ProductsController {
         }	
     }
 
-    @GetMapping("/description")
-    @NeedsSecurity(role=Tools.Role.NONE)
-    public String description(@RequestParam(name="id") long id, Model model) {
-        model.addAttribute("product", productsService.getProductsRepo().findById(id));
-        return "dishes/description";
-    }
-
     @PostMapping("/addToCart")
     @NeedsSecurity(role=Tools.Role.USER)
     public @ResponseBody Map<String,Object> addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {

@@ -108,15 +108,24 @@ public class CartController {
     public String checkout(Model model, HttpServletRequest request) {
         try {
             UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
-            boolean existingCart = false;
-            if (user.getCart() != null){
-                existingCart = true;
-                model.addAttribute("cartItems", user.getCart().getCartItems());
-                model.addAttribute("existingCart", existingCart);
+            if ((user.getCart() != null)){
+                if (user.getCart().getCartItems().size()!=0){
+                    List<CartItem> total_cart = user.getCart().getCartItems();
+                    float total_price = 0;
+                    int total_size=0;
+                    for (CartItem cart_item : total_cart) {
+                        for (int i = 0; i < cart_item.getQuantity(); i++) {
+                            total_price = total_price + cart_item.getProduct().getPrice();
+                            total_size++;
+                        }
+                    }
+                    model.addAttribute("totalPrice", total_price);
+                    model.addAttribute("cartItems", total_cart);
+                    model.addAttribute("cartSize", total_size);
+                }
             } else {}
             return "menu/checkout";
         }catch(NullPointerException ex){
-            
             return "";
         }
     }
