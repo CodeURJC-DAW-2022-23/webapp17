@@ -67,7 +67,7 @@ public class ProductsController {
     }
 
     @PostMapping("/addToCart")
-    @NeedsSecurity(role=Tools.Role.USER)
+    @NeedsSecurity(role=Tools.Role.NONE)
     public @ResponseBody Map<String,Object> addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>();
         Product product = productsService.getProductsRepo().findById(id).get(0);

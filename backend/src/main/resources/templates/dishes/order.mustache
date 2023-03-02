@@ -20,9 +20,9 @@
                         console.log(responseData);
                         var popovercontent = "No se ha podido añadir el producto";
                         if(("Login" in responseData)){
-                            //$("#add_but"+id).popover({content: "Por favor"})
-                            //alert("Por favor inicie sesión antes");
                             popovercontent = "Por favor inicie sesión antes";
+                            window.location.replace("/login")
+                            return;
                         }else if ("ok" in responseData){
                             popovercontent = "Producto añadido";
                             javascript:updateHeader();
@@ -35,7 +35,7 @@
                         });
                                 
                     },error: function (xhr, ajaxOptions, thrownError){
-                        var popover = new bootstrap.Popover($("#add_but"+id), {content:"No se ha podido añadir el producto", trigger: "focus"})
+                        var popover = new bootstrap.Popover($("#add_but"+id), {content:"No se ha podido añadir el producto"})
                         popover.show();
                         $('body').click(function(){
                             popover.dispose();

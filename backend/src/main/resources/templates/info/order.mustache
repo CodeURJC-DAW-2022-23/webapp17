@@ -1,0 +1,32 @@
+{{> header}}
+    {{#order}}
+    <div class="d-flex justify-content-center align-items-center" style="margin-top: 50px; margin-bottom: 50px;">
+        <div class="col-md-5 col-lg-4 order-md-last">
+
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Tu Pedido Nº{{id}} realizado el {{createdAt}}</span>
+            </h4>
+            
+            <ul class="list-group mb-3">
+            {{#cartItems}}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">{{product.title}}</h6>
+                        <small class="text-muted">{{product.description}}</small>
+                    </div>
+                    <div class="" style="height:30px; width:150px; margin-right:10px;">
+                        <div type="text" class="text-center" style="height:30px;">{{quantity}}</div>
+                    </div>
+                    <span class="text-muted">${{product.price}}</span>
+                </li>
+            {{/cartItems}}
+            </ul>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Total (USD)</span>
+                <strong>$ {{totalPrice}}</strong>
+            </li>
+
+        </div>
+    </div>
+    {{/order}}
+{{> footer}}
