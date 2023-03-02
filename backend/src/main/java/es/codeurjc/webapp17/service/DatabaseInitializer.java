@@ -178,7 +178,7 @@ public class DatabaseInitializer {
         test.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/Nestea.jpg"), test));
 
         Coupon coup1 = new Coupon(20,"CUPON",5);
-        Coupon coup2 = new Coupon(5, "ESPECIAL", 1);
+        Coupon coup2 = new Coupon(5, "ESPECIAL", 2);
         Coupon coup3 = new Coupon(5, "ESPECIAL", 1);
 
         initializeCart(jesus);
@@ -189,6 +189,7 @@ public class DatabaseInitializer {
         setCoupons(alejandro, coup1);
         setCoupons(alejandro, coup2);
         setCoupons(jesus, coup3);
+        //setCoupons(guillermo,coup1);
         Cart orderCart = new Cart(test);
         orderCart.addCartItem(new CartItem(feijoada, orderCart));
         orderCart.addCartItem(new CartItem(nestea, orderCart));

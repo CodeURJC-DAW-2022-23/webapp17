@@ -116,3 +116,27 @@ onload=function()
     setInterval(rotarImagenes,4000);
     
 };
+
+function redeemCode(that,cartOrCheckout){
+    $.ajax({ 
+        url:"/redeem?code="+that.code.value + '&cartOrCheckout=' + cartOrCheckout,    
+        type:"POST",
+        contentType: "application/json; charset=utf-8",
+        success: function(responseData){
+            console.log(responseData);
+            //var popovercontent = "No se ha podido añadir el producto";
+            if(("0" in responseData)){
+                alert("Este código no existe")
+                //popovercontent = "Por favor inicie sesión antes";
+            }else if ("-1" in responseData){
+                alert("Código ya canjeado")
+                //popovercontent = "Producto añadido";
+            }else{
+                alert(repsonseData)
+            }
+            location.href="/menu/cart"    
+        },error: function (xhr, ajaxOptions, thrownError){
+            alert("Error al canjear código")
+            }
+            });
+        }

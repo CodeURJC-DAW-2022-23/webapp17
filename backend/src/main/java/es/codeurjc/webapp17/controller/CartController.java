@@ -36,6 +36,11 @@ public class CartController {
     @Autowired
     private CartsService items_service;
     
+    boolean couponApplied = false;
+    String couponName;
+    float discount = 0;
+
+
     @GetMapping("/cart")
     @NeedsSecurity(role=Tools.Role.USER)
     public String cart(Model model, HttpServletRequest request) {
@@ -45,14 +50,25 @@ public class CartController {
             if ((user.getCart() != null)){
                 if (user.getCart().getCartItems().size()!=0){
                     existing_cart = true;
-                    List<CartItem> total_cart = user.getCart().getCartItems();
-                    float total_price = user.getCart().totalPrice();
-                    int total_size=user.getCart().totalSize();
-
-                    model.addAttribute("totalPrice", total_price);
-                    model.addAttribute("cartItems", total_cart);
-                    model.addAttribute("cartSize", total_size);
+                    List<CartItem> totalCart = user.getCart().getCartItems();
+                    float totalPrice = user.getCart().totalPrice();
+                    int totalSize=user.getCart().totalSize();
+                    if (couponApplied){
+                        model.addAttribute("couponName", couponName);
+                        if (discount!=-1){
+                            totalPrice = totalPrice - totalPrice*(discount/100);
+                            model.addAttribute("discount", discount);
+                        } else {
+                            couponApplied = false;
+                        }
+                    } else {
+                        model.addAttribute("couponName", "No se ha aplicado ningún cupón");
+                    }
+                    model.addAttribute("totalPrice", totalPrice);
+                    model.addAttribute("cartItems", totalCart);
+                    model.addAttribute("cartSize", totalSize);
                     model.addAttribute("existingCart", existing_cart);
+                    model.addAttribute("couponApplied", couponApplied);
                 }
             } else {}
             return "menu/cart";
@@ -103,18 +119,31 @@ public class CartController {
             UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
             if ((user.getCart() != null)){
                 if (user.getCart().getCartItems().size()!=0){
-                    List<CartItem> total_cart = user.getCart().getCartItems();
-                    float total_price = 0;
-                    int total_size=0;
-                    for (CartItem cart_item : total_cart) {
+                    List<CartItem> totalCart = user.getCart().getCartItems();
+                    float totalPrice = 0;
+                    int totalSize=0;
+                    for (CartItem cart_item : totalCart) {
                         for (int i = 0; i < cart_item.getQuantity(); i++) {
-                            total_price = total_price + cart_item.getProduct().getPrice();
-                            total_size++;
+                            totalPrice = totalPrice + cart_item.getProduct().getPrice();
+                            totalSize++;
                         }
                     }
-                    model.addAttribute("totalPrice", total_price);
-                    model.addAttribute("cartItems", total_cart);
-                    model.addAttribute("cartSize", total_size);
+                    if (couponApplied){
+                        model.addAttribute("couponName", couponName);
+                        if (discount!=-1){
+                            model.addAttribute("discount", discount);
+                            totalPrice = totalPrice - totalPrice*(discount/100);
+                        } else {
+                            couponApplied = false;
+                        }
+                    } else {
+                        model.addAttribute("couponName", "No se ha aplicado ningún cupón");
+                    }
+                    model.addAttribute("totalPrice", totalPrice);
+                    model.addAttribute("cartItems", totalCart);
+                    model.addAttribute("cartSize", totalSize);
+                    model.addAttribute("couponApplied", couponApplied);
+                    model.addAttribute("user", user);
                 }
             } else {}
             return "menu/checkout";
@@ -125,20 +154,21 @@ public class CartController {
 
     @PostMapping("/redeem")
     @NeedsSecurity(role=Tools.Role.USER)
-    public HashMap<String,Object> redeem(@RequestParam(name="code") String code, HttpServletRequest request) {
+    public ModelAndView redeem(@RequestParam(name="code") String code, HttpServletRequest request, int cartOrCheckout) {
         HashMap<String,Object> map = new HashMap<>();
         UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
         List<Coupon> userCoupons = user.getCoupons();
-        int discount = 0;
         int n = 0;
         try{
             while(!userCoupons.get(n).getCode().equals(code)){
                 n++;
             }
             Coupon selectedCoupon = userCoupons.get(n);
+            couponApplied = true;
             if(selectedCoupon.getUsesRemaining()>0){
                 selectedCoupon.decreaseUse();
                 users_service.getUsers().saveAndFlush(user);
+                couponName = selectedCoupon.getCode();
                 discount = selectedCoupon.getDiscount();  //Percentage of the discount
             }else{
                 discount = -1; //No uses reamining
@@ -146,8 +176,13 @@ public class CartController {
         }catch (Exception e){
             //Discount does not exist
         }
-        map.put(Integer.toString(discount),"true");
-        return map;
+        map.put(Float.toString(discount),"true");
+        if (cartOrCheckout==1){
+            return new ModelAndView("redirect:/checkout");
+        } else {
+            return new ModelAndView("redirect:/cart");
+        }
+        //return map;
     }
 
 }

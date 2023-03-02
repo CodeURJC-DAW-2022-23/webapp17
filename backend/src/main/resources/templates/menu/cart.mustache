@@ -1,30 +1,4 @@
 {{> header}}
-<!-- Scripts-->
-        <script>
-            function redeemCode(that){
-                $.ajax({ 
-                    url:"/redeem?code="+that.code.value,    
-                    type:"POST",
-                    contentType: "application/json; charset=utf-8",
-                    success: function(responseData){
-                        console.log(responseData);
-                        //var popovercontent = "No se ha podido añadir el producto";
-                        if(("0" in responseData)){
-                            alert("Este código no existe")
-                            //popovercontent = "Por favor inicie sesión antes";
-                        }else if ("-1" in responseData){
-                            alert("Código ya canjeado")
-                            //popovercontent = "Producto añadido";
-                        }else{
-                            alert(repsonseData)
-                        }
-                        location.href="/menu/cart"    
-                    },error: function (xhr, ajaxOptions, thrownError){
-                        alert("Error al canjear código")
-                        }
-                        });
-                    }
-        </script> 
 <div class="d-flex justify-content-center align-items-center" style="margin-top: 50px; margin-bottom: 50px;">
     {{#existingCart}}
     <div class="col-md-5 col-lg-4 order-md-last">
@@ -46,24 +20,27 @@
                     <input type="text" class="form-control text-center quantity-input" style="height:30px;" value="{{quantity}}">
                     <a class="btn btn-outline-secondary btn-plus btn-sm" type="button" href="/increaseQuantity/{{id}}">+</a>
                 </div>
-                <span class="text-muted">${{product.price}}</span>
+                <span class="text-muted">{{product.price}}&euro;</span>
             </li>
         {{/cartItems}}
-
+            {{#couponApplied}}
             <li class="list-group-item d-flex justify-content-between bg-light">
                 <div class="text-success">
-                    <h6 class="my-0">"CUPÓN CAJEADO"</h6>
-                    <small>hhhhhhh</small>
+                    <h6 class="my-0">"CUPÓN CANJEADO"</h6>
+                    <small>Code - {{couponName}}</small>
                 </div>
-                <span class="text-success">-$5</span>
+                <span class="text-success">-{{discount}}%</span>
             </li>
-
+            {{/couponApplied}}
+            {{^couponApplied}}
+            {{/couponApplied}}
             <li class="list-group-item d-flex justify-content-between">
-                <span>Total (USD)</span>
-                <strong>$ {{totalPrice}}</strong>
+                <span>Total (EUR)</span>
+                <strong> {{totalPrice}}&euro;</strong>
             </li>
         </ul>
-        <form class="card p-2" onSubmit="redeemCode(this)">
+
+        <form class="card p-2" onSubmit="redeemCode(this,0)">
             <div class="input-group">
                 <input type="text" class="form-control" name="code" placeholder="Introduzca su cupón">
                 <button type="submit" class="btn btn-secondary">Canjear</button>

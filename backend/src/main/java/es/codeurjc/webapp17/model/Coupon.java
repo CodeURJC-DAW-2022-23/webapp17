@@ -20,7 +20,7 @@ public class Coupon {
     private UserProfile userProfile;
 
     @Nonnull
-    private int discount; //It will be a percentage
+    private float discount; //It will be a percentage
 
     @Nonnull
     private String code;
@@ -38,7 +38,7 @@ public class Coupon {
         this.usesRemaining = usesRemaining;
     }
 
-    public int getDiscount() {
+    public float getDiscount() {
         return discount;
     }
 

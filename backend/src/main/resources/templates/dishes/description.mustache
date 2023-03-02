@@ -1,5 +1,42 @@
 {{> header}}
+<!-- Scripts-->
+        <script>
 
+            function addToCart(id){
+                $.ajax({ 
+                    url:"/addToCart?id="+id,    
+                    type:"POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(responseData){
+                        console.log(responseData);
+                        var popovercontent = "No se ha podido añadir el producto";
+                        if(("Login" in responseData)){
+                            popovercontent = "Por favor inicie sesión antes";
+                            window.location.replace("/login")
+                            return;
+                        }else if ("ok" in responseData){
+                            popovercontent = "Producto añadido";
+                            javascript:updateHeader();
+                        }
+                        var popover = new bootstrap.Popover($("#add_but"+id), {content:popovercontent, trigger: "focus"})
+                        popover.show();
+                        $('body').click(function(){
+                            popover.dispose();
+                            $('body').off('click');
+                        });
+                                
+                    },error: function (xhr, ajaxOptions, thrownError){
+                        var popover = new bootstrap.Popover($("#add_but"+id), {content:"No se ha podido añadir el producto"})
+                        popover.show();
+                        $('body').click(function(){
+                            popover.dispose();
+                            $('body').off('click');
+                        });
+                    }
+                });
+            }
+        </script>
+        
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
 {{#product}}
     <div class="col-md-5 p-lg-5 mx-auto">
@@ -31,7 +68,7 @@
         Price: {{price}} $
     </h4>
     <br>
-    <a class="btn btn-outline-dark mt-auto" href="/cart">Add to cart</a>
+        <a class="btn btn-outline-dark mt-auto" id="add_but{{id}}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="wdwd" onClick="javascript:addToCart({{id}})">Add to cart</a>
     <br><br>
     <section class="py-5">
 
