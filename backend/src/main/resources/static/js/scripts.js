@@ -46,6 +46,25 @@ function moreComments(page,id) {
     });
 }
 
+function pagMoreResults(pages, name, urlto){
+    $('#spinner'+name).show();
+    $('#buttonMoreResults'+name).hide();
+    $.ajax({
+        type: 'GET',
+        url: urlto + pages,
+        success: function(data) {
+            var listProducts = $(data).find("#listProducts"+name).html();
+            $('#containerMoreResults'+name).replaceWith($(data).find("#containerMoreResults"+name));
+            $('#listProducts'+name).append(listProducts);
+            console.log(data);
+            console.log(listProducts);
+            sleep(3000);
+            $('#spinner'+name).hide();
+            
+        }
+    });
+}
+
 function sleep(milliseconds) {
     var start = new Date().getTime();
     for (var i = 0; i < 1e7; i++) {
@@ -58,7 +77,7 @@ function sleep(milliseconds) {
 $(document).ready(function() {
     // Ocultar el spinner después de que se cargue el documento
     $('#spinner').hide();
-  });
+});
 
   /** 
    * Variables index

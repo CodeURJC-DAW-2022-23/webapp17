@@ -57,7 +57,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             if(cred == null)
                 throw new ProviderNotFoundException("User not register with provider.");
             
-            authenticationNormal = new UsernamePasswordAuthenticationToken(email, null, euser.get(0).toUser().getAuthorities());
+            authenticationNormal = new UsernamePasswordAuthenticationToken(email, "null", euser.get(0).toUser().getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationNormal);
         }
         

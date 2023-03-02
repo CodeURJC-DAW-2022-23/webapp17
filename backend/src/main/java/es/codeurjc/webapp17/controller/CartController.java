@@ -19,7 +19,7 @@ import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.CartItem;
 import es.codeurjc.webapp17.model.Coupon;
 import es.codeurjc.webapp17.service.UsersService;
-import es.codeurjc.webapp17.service.CartItemsService;
+import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.service.ProductsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +34,7 @@ public class CartController {
     ProductsService products_service;
 
     @Autowired
-    private CartItemsService items_service;
+    private CartsService items_service;
     
     @GetMapping("/cart")
     @NeedsSecurity(role=Tools.Role.USER)
@@ -46,14 +46,9 @@ public class CartController {
                 if (user.getCart().getCartItems().size()!=0){
                     existing_cart = true;
                     List<CartItem> total_cart = user.getCart().getCartItems();
-                    float total_price = 0;
-                    int total_size=0;
-                    for (CartItem cart_item : total_cart) {
-                        for (int i = 0; i < cart_item.getQuantity(); i++) {
-                            total_price = total_price + cart_item.getProduct().getPrice();
-                            total_size++;
-                        }
-                    }
+                    float total_price = user.getCart().totalPrice();
+                    int total_size=user.getCart().totalSize();
+
                     model.addAttribute("totalPrice", total_price);
                     model.addAttribute("cartItems", total_cart);
                     model.addAttribute("cartSize", total_size);

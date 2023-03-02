@@ -7,21 +7,21 @@
         <meta name="author" content="" />
         <title>Gustosa</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}{{/base_domain}}assets/favicon.ico" />
         <!-- JQUERY -->
-        <script src="/webjars/jquery/jquery.min.js"></script>
+        <script src="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}/{{/base_domain}}webjars/jquery/jquery.min.js"></script>
         <!-- Bootstrap icons-->
-        <link href="/webjars/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+        <link href="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}/{{/base_domain}}webjars/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Bootstrap core JS-->
-        <script src="/webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}/{{/base_domain}}webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/styles2.css" rel="stylesheet" />
+        <link href="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}{{/base_domain}}css/styles.css" rel="stylesheet" />
+        <link href="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}{{/base_domain}}css/styles2.css" rel="stylesheet" />
         <!-- Core theme JS-->
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-        <script src="js/scripts.js"></script>
-
-         <script>
+        
+        <script src="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}{{/base_domain}}js/scripts.js"></script>
+        <script>
             function updateHeader(){
                     var user = "";
                     $.ajax({ 
@@ -58,7 +58,7 @@
                         <li class="nav-item"><a class="nav-link" href="/info">Information</a></li>
                         
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Food</a>
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">Food</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/menu">Menu</a></li>
                                 <li><hr class="dropdown-divider" /></li>

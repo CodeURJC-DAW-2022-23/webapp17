@@ -26,10 +26,6 @@ public class ProductsService {
         return products.findAll();
     }
 
-    /*public List<Product> getProducts(int page, Pageable page) {
-        return products.findAll();
-    }*/
-
     public Page<Product> getProducts(int numPage, int pageSize) {
         Pageable pageable = PageRequest.of(numPage, pageSize);
         return products.findAll(pageable);

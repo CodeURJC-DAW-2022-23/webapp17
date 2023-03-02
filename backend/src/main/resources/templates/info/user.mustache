@@ -1,7 +1,18 @@
 {{> header}}
 
         <script>
-
+            function shortenLi(){
+                var items = $(".orderList").each(
+                    function(){
+                        if($(this).children().length > 4)
+                            $(this).children().slice(4, $(this).children().length).hide();
+                        $($(this).children().get(3)).html("\<i class=\"bi bi-three-dots\"\>\</i\>");
+                    });         
+            }
+            $(document).ready(function(){
+                shortenLi();
+                $('#spinnerOrders').hide();
+            });
             function changeName(){
                 var newName = $("#nameInput").val();
                 $.ajax({ 
@@ -91,7 +102,7 @@
                         <div class=" image d-flex flex-column justify-content-center align-items-center"> 
                             <button class="btn"> 
                                 {{#has_image}}
-                                    <img src="{{user_profile_image}}" height="100" width="100" />
+                                    <img src="/user/{{user_id}}/image" height="100" width="100" />
                                 {{/has_image}}
                                 {{^has_image}}
                                     <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" />
@@ -194,42 +205,49 @@
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
-                <h1 class="display-4">Previous orders</h1>
+                <h1 class="display-4">Pedidos anteriores</h1>
             </div>
             
             <div class="container px-4 mt-5">
-                <div class="row mt-5 g-3">
-                    <div class="card" style="width: 18rem;" class="col-md-4">
-                        <div class="card-body">
-                        <h5 class="card-title">Old Order</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                        </ul>
-                        <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                        </div>
+                {{#pag_order}}
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 ms-1" id="listProductsOrders">
+                        {{#elements}}
+                            <div class="card ms-2 me-2">
+                                <div class="card-body">
+                                    <h5 class="card-title">Pedido nº{{id}}</h5>
+                                    <p class="card-text">Pedido efectuado el {{createdAt}}</p>
+                                    </div>
+                                    <ul class="list-group list-group-flush orderList">
+                                        {{#cartItems}}
+                                            <li class="list-group-item">{{#product}}{{title}}{{/product}}</li>
+                                        {{/cartItems}}
+                                    </ul>
+                                    <div class="card-body">
+                                    <a href="/user/{{user_id}}/order?orderId={{id}}" class="card-link">Mostrar detalles</a>
+                                </div>
+                            </div>
+                        {{/elements}}
                     </div>
-                    <div class="card" style="width: 18rem;" class="col-md-4 m-5">
-                        <div class="card-body">
-                        <h5 class="card-title">Old Order</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div id="containerMoreResultsOrders" class="row mt-3 row-cols-4 row-cols-md-6 row-cols-xl-6 justify-content-center">
+                        {{#hasMore}}
+                        <button id="buttonMoreResultsOrders" onClick="pagMoreResults({{page}} + 1, &quot;Orders&quot;, &quot;/profile?orderPage=&quot;)" 
+                        class="btn btn-secondary">
+                            Más resultados
+                        </button>
+                        
+                        <div id="spinnerOrders" class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
-                        <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                        </ul>
-                        <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
+                        {{/hasMore}}
+                        {{^hasMore}}
+                        <div>
                         </div>
+                        {{/hasMore}}
                     </div>
-                </div>
+                {{/pag_order}}
+                {{^pag_order}}
+                    No hay pedidos
+                {{/pag_order}}
             </div>
         </section>
 {{> footer}}

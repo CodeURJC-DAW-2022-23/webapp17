@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 
@@ -19,6 +20,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -54,9 +56,13 @@ public class UserProfile {
 
     @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private List<Credential> credentials = new ArrayList<Credential>();
+    
+    @OneToMany(mappedBy="createdBy", cascade=CascadeType.ALL, orphanRemoval=true)
+    @Where(clause = "status=0")
+    private List<Cart> cart;
 
-    @OneToOne(mappedBy="createdBy", cascade=CascadeType.ALL, orphanRemoval=true)
-    private Cart cart;
+    @OneToMany(mappedBy="createdBy", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<Cart> orders;
 
     @OneToOne(mappedBy="imageOwner", cascade=CascadeType.ALL, orphanRemoval=true)
     private ProfileImage image;
@@ -78,7 +84,8 @@ public class UserProfile {
         this.email = email;
         this.name = name;   
         createCredential(Credential.INTERNALSTRING, password);
-        this.cart = new Cart(this);
+        this.cart = new ArrayList<Cart>();
+        this.cart.add(new Cart());
         this.role = Role.USER;
         this.coupons = new ArrayList<Coupon>();
     }
@@ -184,11 +191,16 @@ public class UserProfile {
     }
 
     public void setCart(Cart cart){
-        this.cart = cart;
+        if(this.cart != null){
+            this.cart.set(0, cart);
+            return;
+        }
+        this.cart = new ArrayList<Cart>();
+        this.cart.add(cart);
     }
 
     public Cart getCart(){
-        return cart;
+        return cart.get(0);
     }
 
     public void setBio(String bio) {
@@ -210,6 +222,12 @@ public class UserProfile {
     public void setCoupons(List<Coupon> coupons){
         this.coupons = coupons;
     }
+    public List<Cart> getOrders() {
+        return orders;
+    }
 
+    public void setOrders(List<Cart> orders) {
+        this.orders = orders;
+    }
 }
 

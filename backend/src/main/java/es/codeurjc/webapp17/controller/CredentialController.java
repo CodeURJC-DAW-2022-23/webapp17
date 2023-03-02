@@ -128,7 +128,7 @@ public class CredentialController {
     @RequestParam(name="email", required = true) String email){
         HashMap<String, Object> map = new HashMap<>();
         if(users.getUserInfo(email).containsKey("error")){
-            UserProfile user = users.getUsers().findByEmail(email).get(0);
+            UserProfile user = users.getUser(email);
             if(!user.getForgotPassword().equals("") 
             && user.getLastModified().before(Timestamp.from(Instant.now().minusSeconds(SECONDS_COOLDOWN)))){
                 map.put("already", "true");

@@ -6,28 +6,37 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Cart")
 public class Cart {
+
+    public static final int STATUS_ORDERED = 1;
+    public static final int STATUS_NEW = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     
     @Nonnull
-    @OneToOne
+    @ManyToOne
     @JsonIgnore
     private UserProfile createdBy;
 
     @Nonnull
-    private int status;
+    @Column(name="status")
+    private int status = STATUS_NEW;
 
     @Nonnull
     private Timestamp createdAt;
@@ -44,6 +53,7 @@ public class Cart {
         this.createdBy = user;
         this.createdAt = new Timestamp(System.currentTimeMillis());
         this.cartItems = new ArrayList<CartItem>();
+        this.status = STATUS_NEW;
     }
 
     public Cart(){
@@ -91,5 +101,31 @@ public class Cart {
 
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int totalSize(){
+        List<CartItem> total_cart = getCartItems();
+        int total_size = 0;
+        for (CartItem cart_item : total_cart) {
+            total_size += cart_item.getQuantity();
+        }
+        return total_size;
+    }
+
+    public float totalPrice(){
+        List<CartItem> total_cart = getCartItems();
+        float total_price = 0;
+        for (CartItem cart_item : total_cart) {
+            total_price += cart_item.getProduct().getPrice()*cart_item.getQuantity();
+        }
+        return total_price;
     }
 }

@@ -2,12 +2,15 @@ package es.codeurjc.webapp17.service;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.Coupon;
+
+import es.codeurjc.webapp17.model.CartItem;
 import es.codeurjc.webapp17.model.ProductImage;
 import es.codeurjc.webapp17.model.ProfileImage;
 
@@ -21,6 +24,7 @@ import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.repository.ProductsRepo;
 import es.codeurjc.webapp17.repository.UsersRepo;
 import es.codeurjc.webapp17.tools.Tools;
+import es.codeurjc.webapp17.repository.CartsRepo;
 import es.codeurjc.webapp17.repository.CommentsRepo;
 import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +40,9 @@ public class DatabaseInitializer {
 
     @Autowired
     private UsersRepo users;
+
+    @Autowired
+    private CartsRepo carts;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -182,11 +189,32 @@ public class DatabaseInitializer {
         setCoupons(alejandro, coup1);
         setCoupons(alejandro, coup2);
         setCoupons(jesus, coup3);
+        Cart orderCart = new Cart(test);
+        orderCart.addCartItem(new CartItem(feijoada, orderCart));
+        orderCart.addCartItem(new CartItem(nestea, orderCart));
+        orderCart.addCartItem(new CartItem(agua, orderCart));
+        orderCart.addCartItem(new CartItem(acaraje, orderCart));
+        orderCart.setStatus(Cart.STATUS_ORDERED);
+        Cart orderCart2 = new Cart(test);
+        orderCart2.addCartItem(new CartItem(yuca, orderCart2));
+        orderCart2.addCartItem(new CartItem(nestea, orderCart2));
+        orderCart2.addCartItem(new CartItem(agua, orderCart2));
+        orderCart2.setStatus(Cart.STATUS_ORDERED);
+
+        Cart orderCart3 = new Cart(test);
+        orderCart3.addCartItem(new CartItem(feijoada, orderCart3));
+        orderCart3.addCartItem(new CartItem(nestea, orderCart3));
+        orderCart3.addCartItem(new CartItem(agua, orderCart3));
+        orderCart3.addCartItem(new CartItem(acaraje, orderCart3));
+        orderCart3.setStatus(Cart.STATUS_ORDERED);
 
         users.save(test);
         users.save(alejandro);
         users.save(guillermo);
         users.saveAndFlush(jesus);
+        carts.saveAndFlush(orderCart);
+        carts.saveAndFlush(orderCart2);
+        carts.saveAndFlush(orderCart3);
 
         //EJEMPLOS DE COMENTARIOS
 

@@ -57,4 +57,20 @@ public class Tools {
                 .getString(code);
     }
 
+    public static class PaginationMustache{
+
+        private boolean hasMore;
+
+        private Object elements;
+
+        private int page;
+
+        public PaginationMustache(boolean hasMore, Object elements, int page){
+            this.hasMore = hasMore;
+            this.elements = elements;
+            this.page = page;
+        }
+
+    }
+
 }

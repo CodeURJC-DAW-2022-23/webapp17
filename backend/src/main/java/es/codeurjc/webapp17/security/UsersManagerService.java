@@ -19,10 +19,15 @@ public class UsersManagerService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (users.findByEmail(username).isEmpty()) 
+        UserProfile userProfile = null;
+        try {
+            if (users.findByEmail(username).isEmpty()) 
             throw new UsernameNotFoundException("Given user does not exist");
         
-        UserProfile userProfile = users.findByEmail(username).get(0);
+        userProfile = users.findByEmail(username).get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return userProfile.toUser();
     }
 

@@ -42,11 +42,17 @@ public class UsersService{
 
     @PostConstruct
     public void init(){
-        users.save(new UserProfile("auto-user", "Auto", passwordEncoder.encode(AUTOPASSWORD)));
+        users.saveAndFlush(new UserProfile("auto-user", "Auto", passwordEncoder.encode(AUTOPASSWORD)));
     }
 
     public UsersRepo getUsers() {
         return users;
+    }
+
+    public UserProfile getUser(String email){
+        List<UserProfile> profile = getUsers().findByEmail(email);
+        if(profile.isEmpty()) return null;
+        return profile.get(0);
     }
 
     public void registerUser(String email, String password, String name){
@@ -69,71 +75,71 @@ public class UsersService{
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", profile.get(0).getName());
         if(profile.get(0).getCart() != null)
-            map.put("cart_length", profile.get(0).getCart().getCartItems().size());
+            map.put("cart_length", profile.get(0).getCart().totalSize());
         return map;
     }
 
     public Object changeName(String email, String newName){
-        List<UserProfile> profile = getUsers().findByEmail(email);
-        if(profile.isEmpty()) return null;
-        profile.get(0).setName(newName);
-        users.saveAndFlush(profile.get(0));
+        UserProfile profile = getUser(email);
+        if(profile == null) return null;
+        profile.setName(newName);
+        users.saveAndFlush(profile);
         return true;
     }
 
     public Object changeDescription(String email, String newDescription){
-        List<UserProfile> profile = getUsers().findByEmail(email);
-        if(profile.isEmpty()) return null;
-        profile.get(0).setBio(newDescription);
-        users.saveAndFlush(profile.get(0));
+        UserProfile profile = getUser(email);
+        if(profile == null) return null;
+        profile.setBio(newDescription);
+        users.saveAndFlush(profile);
         return true;
     }
     
     public Object changePassword(String email, String newPassword){
-        List<UserProfile> profile = getUsers().findByEmail(email);
-        if(profile.isEmpty()) return null;
-        profile.get(0).updateCredential(Credential.INTERNALSTRING, passwordEncoder.encode(newPassword));
-        users.saveAndFlush(profile.get(0));
+        UserProfile profile = getUser(email);
+        if(profile == null) return null;
+        profile.updateCredential(Credential.INTERNALSTRING, passwordEncoder.encode(newPassword));
+        users.saveAndFlush(profile);
         return true;
     }
 
     public Object verifyUserEmail(String email, String code){
-        List<UserProfile> profile = getUsers().findByEmail(email);
-        if(profile.isEmpty() || !profile.get(0).getEmailValidated().equals(code) || code == "") return null;
-        profile.get(0).setEmailValidated("true");
-        users.saveAndFlush(profile.get(0));
+        UserProfile profile = getUser(email);
+        if(profile == null || !profile.getEmailValidated().equals(code) || code == "") return null;
+        profile.setEmailValidated("true");
+        users.saveAndFlush(profile);
         return true;
     }
 
     public void sendRegistrationEmail(String dest){
-        List<UserProfile> profile = getUsers().findByEmail(dest);
-        if(profile.isEmpty() || 
-        profile.get(0).getEmailValidated().isBlank()|| 
-        profile.get(0).getEmailValidated().equals("true"))
+        UserProfile profile = getUser(dest);
+        if(profile == null || 
+        profile.getEmailValidated().isBlank()|| 
+        profile.getEmailValidated().equals("true"))
             return;
         sendEmail(dest, "You created a Gustosa account", 
         "Thanks for enjoying Caipirinha as much as we do and creating and account with us your email verification code is "+
-        "https://gustosa/verify?code="+profile.get(0).getEmailValidated()+"&"+"user="+profile.get(0).getEmail());
+        "https://gustosa/verify?code="+profile.getEmailValidated()+"&"+"user="+profile.getEmail());
     }
 
     public boolean sendForgotPassword(String dest){
-        List<UserProfile> profile = getUsers().findByEmail(dest);
-        if(profile.isEmpty() || 
-        !profile.get(0).getEmailValidated().equals("true"))
+        UserProfile profile = getUser(dest);
+        if(profile == null || 
+        !profile.getEmailValidated().equals("true"))
             return false;
-        profile.get(0).setForgotPassword(UUID.randomUUID().toString().replace("_", "-"));
-        users.saveAndFlush(profile.get(0));
+        profile.setForgotPassword(UUID.randomUUID().toString().replace("_", "-"));
+        users.saveAndFlush(profile);
         sendEmail(dest, "Gustosa password change", 
         "To change your password access the following link: "+
-        "https://gustosa/forgotPassword?code="+profile.get(0).getForgotPassword()+"&"+"user="+profile.get(0).getEmail());
+        "https://gustosa/forgotPassword?code="+profile.getForgotPassword()+"&"+"user="+profile.getEmail());
         return true;
     }
 
     public Object verifyForgotPassword(String email, String code){
-        List<UserProfile> profile = getUsers().findByEmail(email);
-        if(profile.isEmpty() || !profile.get(0).getForgotPassword().equals(code) || code == "") return null;
-        profile.get(0).setForgotPassword("");
-        users.saveAndFlush(profile.get(0));
+        UserProfile profile = getUser(email);
+        if(profile == null || !profile.getForgotPassword().equals(code) || code == "") return null;
+        profile.setForgotPassword("");
+        users.saveAndFlush(profile);
         return true;
     }
 

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.view.RedirectView;
 
+import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.UserProfile;
+import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
@@ -33,15 +36,25 @@ public class UsersController {
     @Autowired
     private UsersService users;
 
+    @Autowired
+    private CartsService carts;
+
     @GetMapping("/profile")
     @NeedsSecurity(role=Tools.Role.USER)
-    public String user(Model model, HttpServletRequest request) {
-        UserProfile user = users.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+    public String user(Model model, HttpServletRequest request,  @RequestParam(defaultValue = "0", name="orderPage") int page) {
+        UserProfile user = users.getUser(request.getUserPrincipal().getName());
         model.addAttribute("has_image", user.getImage() != null);
-        model.addAttribute("user_profile_image", "/user/"+user.getID()+"/image");
+        model.addAttribute("user_id", user.getID());
         model.addAttribute("user_name", user.getName() != null ? user.getName() : user.getEmail().split("@")[0]);
         model.addAttribute("user_email", user.getEmail());
         model.addAttribute("user_bio", user.getBio() != null ? user.getBio() : Tools.tr("BIO_NOT_FOUND", "ES"));
+        Page<Cart> p = carts.getUserOrders(user, page, 8);
+        if(p.getNumberOfElements() != 0){
+            Tools.PaginationMustache pag = new Tools.PaginationMustache(p.hasNext(),
+            p, page);
+            model.addAttribute("pag_order", pag);
+        }
+        
         return "info/user";
     }
 
@@ -103,6 +116,25 @@ public class UsersController {
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }	
+    }
+
+    @GetMapping("/user/{id}/order")
+    @NeedsSecurity(role=Tools.Role.USER)
+    public String getOrder(@PathVariable long id, Model model, 
+    HttpServletRequest request, @RequestParam(name="orderId", required = true) long orderId) throws SQLException {
+        Optional<UserProfile> user = users.getUsers().findById(id);
+        if(request.getUserPrincipal() != null){
+            if (user.isPresent() && request.getUserPrincipal().getName().equals(user.get().getEmail())) {
+                List<Cart> orderList = carts.getCarts().findById(orderId);
+                if(!orderList.isEmpty() && orderList.get(0).getStatus() == Cart.STATUS_ORDERED){
+                    model.addAttribute("base_domain", "../../");
+                    model.addAttribute("totalPrice", orderList.get(0).totalPrice());
+                    model.addAttribute("order", orderList.get(0));
+                    return "info/order";
+                }
+            }
+        }
+        throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/user/delete")
