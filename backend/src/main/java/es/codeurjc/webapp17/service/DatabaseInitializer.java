@@ -7,6 +7,7 @@ import java.util.List;
 import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.Cart;
+import es.codeurjc.webapp17.model.Coupon;
 import es.codeurjc.webapp17.model.ProductImage;
 import es.codeurjc.webapp17.model.ProfileImage;
 
@@ -169,10 +170,18 @@ public class DatabaseInitializer {
 
         test.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/Nestea.jpg"), test));
 
+        Coupon coup1 = new Coupon(20,"CUPON",5);
+        Coupon coup2 = new Coupon(5, "ESPECIAL", 1);
+        Coupon coup3 = new Coupon(5, "ESPECIAL", 1);
+
         initializeCart(jesus);
         initializeCart(alejandro);
         initializeCart(guillermo);
         initializeCart(test);
+
+        setCoupons(alejandro, coup1);
+        setCoupons(alejandro, coup2);
+        setCoupons(jesus, coup3);
 
         users.save(test);
         users.save(alejandro);
@@ -290,6 +299,12 @@ public class DatabaseInitializer {
     private void initializeCart(UserProfile user){
         Cart cart = new Cart(user);
         user.setCart(cart);
+    }
+
+    private void setCoupons(UserProfile user, Coupon coupon){
+        List<Coupon> coupons = user.getCoupons();
+        coupons.add(coupon);
+        user.getCoupons().get(coupons.size()-1).setUser(user);
     }
 
 }

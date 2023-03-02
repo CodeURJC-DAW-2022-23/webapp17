@@ -2,24 +2,22 @@ package es.codeurjc.webapp17.controller;
 import es.codeurjc.webapp17.tools.Tools;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.CartItem;
-import es.codeurjc.webapp17.model.Product;
+import es.codeurjc.webapp17.model.Coupon;
 import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.service.CartItemsService;
 import es.codeurjc.webapp17.service.ProductsService;
@@ -128,6 +126,33 @@ public class CartController {
         }catch(NullPointerException ex){
             return "";
         }
+    }
+
+    @PostMapping("/redeem")
+    @NeedsSecurity(role=Tools.Role.USER)
+    public HashMap<String,Object> redeem(@RequestParam(name="code") String code, HttpServletRequest request) {
+        HashMap<String,Object> map = new HashMap<>();
+        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        List<Coupon> userCoupons = user.getCoupons();
+        int discount = 0;
+        int n = 0;
+        try{
+            while(!userCoupons.get(n).getCode().equals(code)){
+                n++;
+            }
+            Coupon selectedCoupon = userCoupons.get(n);
+            if(selectedCoupon.getUsesRemaining()>0){
+                selectedCoupon.decreaseUse();
+                users_service.getUsers().saveAndFlush(user);
+                discount = selectedCoupon.getDiscount();  //Percentage of the discount
+            }else{
+                discount = -1; //No uses reamining
+            }
+        }catch (Exception e){
+            //Discount does not exist
+        }
+        map.put(Integer.toString(discount),"true");
+        return map;
     }
 
 }

@@ -1,6 +1,5 @@
 package es.codeurjc.webapp17.model;
 
-import java.sql.Time;
 import java.time.Instant;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -68,6 +67,9 @@ public class UserProfile {
     @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Booking> bookings;
 
+    @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<Coupon> coupons;
+
     public UserProfile(){}
     
     //Getters, Constructors...
@@ -78,6 +80,7 @@ public class UserProfile {
         createCredential(Credential.INTERNALSTRING, password);
         this.cart = new Cart(this);
         this.role = Role.USER;
+        this.coupons = new ArrayList<Coupon>();
     }
 
     public User toUser(){
@@ -198,6 +201,14 @@ public class UserProfile {
 
     public Timestamp getLastModified() {
         return lastModified;
+    }
+
+    public List<Coupon> getCoupons(){
+        return coupons;
+    }
+
+    public void setCoupons(List<Coupon> coupons){
+        this.coupons = coupons;
     }
 
 }
