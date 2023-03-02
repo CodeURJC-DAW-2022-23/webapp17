@@ -65,10 +65,15 @@ function rotarImagenes(){
   
 }
 
+    /*wow init*/
+    new WOW().init();
+    
 onload=function()
 {
+
     // Cargamos una imagen aleatoria
     rotarImagenes();
     //tiempo en milisegundos
     setInterval(rotarImagenes,4000);
+    
 };
