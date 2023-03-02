@@ -1,6 +1,9 @@
 package es.codeurjc.webapp17.controller;
 
 import java.nio.file.ProviderNotFoundException;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.TemporalAmount;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +45,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class CredentialController {
+
+    private static long SECONDS_COOLDOWN = 60*60;
 
     private static String authorizationRequestBaseUri
       = "/oauth2/authorization/";
@@ -122,9 +127,13 @@ public class CredentialController {
     public @ResponseBody Map<String,Object> forgotPasswordPost(HttpServletRequest request, 
     @RequestParam(name="email", required = true) String email){
         HashMap<String, Object> map = new HashMap<>();
-        if(!users.getUserInfo(email).containsKey("error")){
-            users.sendForgotPassword(email);
-            map.put("sended", "true");
+        if(users.getUserInfo(email).containsKey("error")){
+            UserProfile user = users.getUsers().findByEmail(email).get(0);
+            if(!user.getForgotPassword().equals("") 
+            && user.getLastModified().before(Timestamp.from(Instant.now().minusSeconds(SECONDS_COOLDOWN)))){
+                map.put("already", "true");
+            }else if(users.sendForgotPassword(email))
+                map.put("sended", "true");
             return map;
         }
         map.clear();
@@ -156,14 +165,13 @@ public class CredentialController {
         return "login/changepassword";
     }
 
-    @PostMapping("/changePassword")
+    @PostMapping("/user/changePassword")
     @NeedsSecurity(role = Tools.Role.USER)
     public @ResponseBody Map<String,Object> changePasswordPost(HttpServletRequest request, 
     @RequestParam(name="newPassword", required = true) String password){
         HashMap<String, Object> map = new HashMap<>();
         if(request.getUserPrincipal() != null){
-            if(!users.getUserInfo(request.getUserPrincipal().getName()).containsKey("error")){
-                users.changePassword(request.getUserPrincipal().getName(), password);
+            if(users.changePassword(request.getUserPrincipal().getName(), password) != null){
                 map.put("changed", "true");
                 return map;
             }

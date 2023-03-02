@@ -15,6 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import es.codeurjc.webapp17.model.Credential;
@@ -29,6 +31,7 @@ import java.io.IOException;
 import java.nio.file.ProviderNotFoundException;
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,11 +68,38 @@ public class SecurityConfig {
         http.oauth2Login().loginPage("/login")
         .successHandler(customSuccessHandler());
 
+        // Handle NeedsSecurity annotation
+        handlerMapping.getHandlerMethods().forEach((k, v)->{
+            if(v.getMethod().isAnnotationPresent(NeedsSecurity.class)){
+                NeedsSecurity sec = v.getMethod().getAnnotation(NeedsSecurity.class);
+                for(String path_value : k.getPatternValues()){
+                    path_value = path_value.replaceAll("\\{}.*\\}", "**");
+                    try {
+                        switch(sec.role()){
+                            case NONE:
+                                http.csrf().ignoringRequestMatchers(path_value).and()
+                                .authorizeHttpRequests().requestMatchers(path_value).permitAll();
+                                break;
+                            case AUTH:
+                                http.csrf().ignoringRequestMatchers(path_value).and()
+                                .authorizeHttpRequests().requestMatchers(path_value).authenticated();
+                                break;
+                            default:
+                                http.authorizeHttpRequests().requestMatchers(path_value).hasAuthority(sec.role().getCode());
+                                break;
+                        }
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
         http.csrf().disable();
 
         // Permit every other request
         http.authorizeHttpRequests().anyRequest().permitAll();
-
 
 
         // Login form

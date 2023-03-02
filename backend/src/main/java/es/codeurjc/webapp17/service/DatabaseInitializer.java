@@ -8,6 +8,7 @@ import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.ProductImage;
+import es.codeurjc.webapp17.model.ProfileImage;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,14 @@ import org.springframework.stereotype.Service;
 import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.repository.ProductsRepo;
 import es.codeurjc.webapp17.repository.UsersRepo;
+import es.codeurjc.webapp17.tools.Tools;
 import es.codeurjc.webapp17.repository.CommentsRepo;
 import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class DatabaseInitializer {
-    
+  
     @Autowired
     private ProductsRepo products;
 
@@ -156,7 +158,7 @@ public class DatabaseInitializer {
         products.save(pastel);
 
         //EJEMPLOS DE USUARIOS
-        UserProfile jorge = new UserProfile("test@test.com", 
+        UserProfile test = new UserProfile("test@test.com", 
          "test", passwordEncoder.encode("test"));
         UserProfile alejandro = new UserProfile("alejandro@gmail.com", "Alejandro",
          passwordEncoder.encode("contr"));
@@ -165,12 +167,14 @@ public class DatabaseInitializer {
         UserProfile jesus = new UserProfile("jesus@gmail.com", "Jesus",
          passwordEncoder.encode("1234"));
 
+        test.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/Nestea.jpg"), test));
+
         initializeCart(jesus);
         initializeCart(alejandro);
         initializeCart(guillermo);
-        initializeCart(jorge);
+        initializeCart(test);
 
-        users.save(jorge);
+        users.save(test);
         users.save(alejandro);
         users.save(guillermo);
         users.saveAndFlush(jesus);
@@ -195,11 +199,11 @@ public class DatabaseInitializer {
 
         Comment commentCox3 = new Comment(6,"Bastante sobrevalorado. Correcto",
         new Timestamp(System.currentTimeMillis()));
-        setComment(commentCox3,coxinha,jorge);
+        setComment(commentCox3,coxinha,test);
 
         Comment commentCox4 = new Comment(10,"El sabor es espectacular",
         new Timestamp(System.currentTimeMillis()));
-        setComment(commentCox4,coxinha,jorge);
+        setComment(commentCox4,coxinha,test);
 
         Comment commentCox5 = new Comment(7,"Un poco caro",
         new Timestamp(System.currentTimeMillis()));
@@ -215,7 +219,7 @@ public class DatabaseInitializer {
 
         Comment commentTarta2 = new Comment(8,"Increíble fusión de sabores",
         new Timestamp(System.currentTimeMillis()));
-        setComment(commentTarta2,tarta,jorge);
+        setComment(commentTarta2,tarta,test);
 
         Comment commentFeij2 = new Comment(6,"Plato correcto pero caro",
         new Timestamp(System.currentTimeMillis()));
@@ -227,7 +231,7 @@ public class DatabaseInitializer {
 
         Comment commentYuca1 = new Comment(6,"La cantidad es pequeña",
         new Timestamp(System.currentTimeMillis()));
-        setComment(commentYuca1,yuca,jorge);
+        setComment(commentYuca1,yuca,test);
 
          comments.save(commentFeij1);
          comments.save(commentFeij2);
@@ -247,8 +251,7 @@ public class DatabaseInitializer {
 
     private void setProductImage(Product product, String classpathResource) throws IOException { 
 		product.setNumberOfImages(product.getNumberOfImages()+1);
-		Resource image = new ClassPathResource(classpathResource);
-        ProductImage img = new ProductImage(BlobProxy.generateProxy(image.getInputStream(), image.contentLength()));
+        ProductImage img = new ProductImage(Tools.resourceToBlob(classpathResource));
         List <ProductImage> imagesList = product.getImages();
         img.setPositionInProduct(imagesList.size());
         if (img.getPositionInProduct()==0) {

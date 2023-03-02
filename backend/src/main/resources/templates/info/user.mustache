@@ -1,37 +1,196 @@
 {{> header}}
+
+        <script>
+
+            function changeName(){
+                var newName = $("#nameInput").val();
+                $.ajax({ 
+                    url:"/user/changeName?newName="+newName,    
+                    type:"POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(responseData){
+                        console.log(responseData);
+                        if(("error" in responseData)){
+                          $("#errorName").text("El nombre no pudo ser cambiado");
+                        }else{
+                          location.reload();
+                        }
+                    
+                    },error: function (xhr, ajaxOptions, thrownError){
+                      $("#errorName").text("El nombre no pudo ser cambiado");
+                    }
+                });
+            }
+            function changeDescription(){
+                var newDescription = $("#descriptionInput").val();
+                $.ajax({ 
+                    url:"/user/changeDescription?newDescription="+newDescription,    
+                    type:"POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(responseData){
+                        console.log(responseData);
+                        if(("error" in responseData)){
+                          $("#errorDescription").text("Descripcion no pudo ser cambiada");
+                        }else{
+                          location.reload();
+                        }
+                    
+                    },error: function (xhr, ajaxOptions, thrownError){
+                      $("#errorDescription").text("Descripcion no pudo ser cambiada");
+                    }
+                });
+            }
+
+            function changePassword(){
+                var newPassword = $("#passwordInput").val();
+                var newPassword2 = $("#passwordInput2").val();
+                if(newPassword == newPassword2){
+                    $.ajax({ 
+                        url:"/user/changePassword?newPassword="+newPassword,    
+                        type:"POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function(responseData){
+                            console.log(responseData);
+                            if(("error" in responseData)){
+                                $("#errorPassword").text("La contraseña no pudo ser cambiada");
+                            }else{
+                                location.reload();
+                            }
+                        
+                        },error: function (xhr, ajaxOptions, thrownError){
+                        $("#errorPassword").text("La contraseña no pudo ser cambiada");
+                        }
+                    });
+                }else{
+                    $("#errorPassword").text("Las contraseñas no coinciden");
+                }
+            }
+            function deleteUser(){
+                $.ajax({ 
+                    url:"/user/delete",    
+                    type:"POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(responseData){
+                        sleep(1000);
+                        location.reload();
+                    },error: function (xhr, ajaxOptions, thrownError){
+                        sleep(1000);
+                        location.reload();
+                    }
+                });
+            }
+
+        </script>
+
         <!-- Header-->
         <header class="bg-dark py-5">
-            <div id="ofertas" class="carousel slide" data-bs-ride="carousel">
+            <div id="user" class="carousel slide" data-bs-ride="carousel">
 
                 <div class="container mt-4 mb-4 p-3 d-flex justify-content-center"> 
-                    <div class="card p-4"> 
+                    <div class="card p-5"> 
                         <div class=" image d-flex flex-column justify-content-center align-items-center"> 
-                            <button class="btn btn-secondary"> 
-                                <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" />
-                            </button> 
-                            <span class="name mt-3">Jose Carlos Pedrales</span> 
-                            <span class="idd">@joselin7</span> 
+                            <button class="btn"> 
+                                {{#has_image}}
+                                    <img src="{{user_profile_image}}" height="100" width="100" />
+                                {{/has_image}}
+                                {{^has_image}}
+                                    <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" />
+                                {{/has_image}}
+                            </button>
                             <div class="d-flex flex-row justify-content-center align-items-center gap-2"> 
-                                <span class="idd1">josecaped@ralys.com</span> 
-                                <span><i class="fa fa-copy"></i></span> 
+                                <span class="idd1"><i class="bi bi-envelope"></i>   {{user_email}}</span> 
                             </div> 
-                            <div class=" d-flex mt-2"> 
-                                <button class="btn1 btn-dark">Edit Profile</button> 
+                            <div class="d-flex flex-row justify-content-center align-items-center gap-2"> 
+                                <span><i class="bi bi-person"></i>   {{user_name}}</span>
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="#changeName"><i class="bi bi-pencil"></i></button> 
                             </div>
-                            <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center"> 
-                                <span><i class="fa fa-twitter"></i></span> 
-                                <span><i class="fa fa-facebook-f"></i></span> 
-                                <span><i class="fa fa-instagram"></i></span> 
-                                <span><i class="fa fa-linkedin"></i></span> 
+                            <div class="d-flex flex-row justify-content-center align-items-center gap-2"> 
+                                <span><i class="bi bi-info-circle"></i>  {{user_bio}}</span> 
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="#changeDescription"><i class="bi bi-pencil"></i></button> 
                             </div> 
-                            <div class=" px-2 rounded mt-4 date "> 
-                                <span class="join">Joined May,2021</span> 
-                            </div> 
+                            <div class="d-flex flex-row justify-content-center align-items-center gap-2"> 
+                                <span>Contraseña:   ·······</span>
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="#changePassword"><i class="bi bi-pencil"></i></button> 
+                            </div>
+                            <div class=" d-flex mt-5"> 
+                                <button class="btn btn-danger" onClick="javascript:deleteUser()">Borrar perfil</button> 
+                            </div>
                         </div> 
                     </div>
                 </div>
             </div>
         </header>
+
+        <div class="modal fade" tabindex="-1" id="changeName">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cambiar nombre</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="nameInput">Introduce el nuevo nombre</label>
+                        <input type="text" id="nameInput" name="newName" class="form-control" />
+                        <div id="errorName"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onClick="javascript:changeName()">Guardar cambios</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" id="changeDescription">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cambiar descripción de usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="descriptionInput">Introduce la nueva Bio</label>
+                        <input type="text" id="descriptionInput" name="newDescription" class="form-control" />
+                        <div id="errorDescription"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onClick="javascript:changeDescription()">Guardar cambios</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" id="changePassword">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cambiar la contraseña</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="passwordInput">Introduce la nueva contraseña</label>
+                        <input type="text" id="passwordInput" name="newPassword" class="form-control" />
+                        <label class="form-label" for="passwordInput2">Repite la misma contraseña otra vez</label>
+                        <input type="text" id="passwordInput2" name="newPassword" class="form-control" />
+                        <div id="errorPassword"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onClick="javascript:changePassword()">Guardar cambios</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">

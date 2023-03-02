@@ -22,25 +22,28 @@
         <script src="js/scripts.js"></script>
 
          <script>
-        $(document).ready(
-            function(){
-                var user = "";
-                $.ajax({ 
-                    url:"/getUserInfo",    
-                    type:"GET", 
-                    contentType: "application/json; charset=utf-8",
-                    success: function(responseData){
-                        console.log(responseData);
-                        user = responseData["name"];
-                        if(user){
-                            $("#user_button").html("\<i class=\"bi-person-circle me-1\"><\/i\>"+user);
-                            $("#user_button").attr("href","/profile");
-                            $("#user_button").parent().append("<a class=\"btn\" href=\"\/logout\">\r\n<i class=\"bi bi-box-arrow-in-right\"><\/i>\r\n<\/a>");
+            function updateHeader(){
+                    var user = "";
+                    $.ajax({ 
+                        url:"/user/getUserInfo",    
+                        type:"GET", 
+                        contentType: "application/json; charset=utf-8",
+                        success: function(responseData){
+                            console.log(responseData);
+                            if("name" in responseData){
+                                $("#user_button").html("\<i class=\"bi-person-circle me-1\"><\/i\>"+responseData["name"]);
+                                $("#user_button").attr("href","/profile");
+                                $("#logout_but").show();
+                            }
+                            if("cart_length" in responseData){
+                                $("#cart_length").html(responseData["cart_length"]);
+                            }
                         }
-                    }
-                });
+                    });
             }
-        );
+            $(document).ready(
+                updateHeader()
+            );
         </script> 
     </head>
     <body>
@@ -68,12 +71,15 @@
                         <a class="btn" id="user_button" href="/login">
                             Login
                         </a>
+                        <a class="btn" href="\logout" id="logout_but" style="display:none">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                        </a>
                     </div>
                     <div class="d-flex">
                         <a class="btn btn-outline-dark" type="submit" href="/cart">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_length">0</span>
                         </a>
                     </div>
                 </div>

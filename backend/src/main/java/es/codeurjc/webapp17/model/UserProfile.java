@@ -1,5 +1,8 @@
 package es.codeurjc.webapp17.model;
 
+import java.sql.Time;
+import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +40,6 @@ public class UserProfile {
     @Column(unique=true)
     private String email;
 
-    @Nonnull
     private String emailValidated = "";
 
     private String forgotPassword = "";
@@ -47,11 +49,18 @@ public class UserProfile {
 
     private String phone;
 
+    private String userBio;
+
+    private Timestamp lastModified;
+
     @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private List<Credential> credentials = new ArrayList<Credential>();
 
     @OneToOne(mappedBy="createdBy", cascade=CascadeType.ALL, orphanRemoval=true)
     private Cart cart;
+
+    @OneToOne(mappedBy="imageOwner", cascade=CascadeType.ALL, orphanRemoval=true)
+    private ProfileImage image;
 
     @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Comment> comments;
@@ -108,6 +117,7 @@ public class UserProfile {
         return emailValidated;
     }
     public void setEmailValidated(String emailValidated) {
+        this.lastModified = Timestamp.from(Instant.now());
         this.emailValidated = emailValidated;
     }
 
@@ -116,6 +126,7 @@ public class UserProfile {
     }
 
     public void setForgotPassword(String forgotPassword) {
+        this.lastModified = Timestamp.from(Instant.now());
         this.forgotPassword = forgotPassword;
     }
 
@@ -161,6 +172,14 @@ public class UserProfile {
         createCredential(provider, passwordHash);
     }
 
+    public ProfileImage getImage() {
+        return image;
+    }
+
+    public void setImage(ProfileImage image) {
+        this.image = image;
+    }
+
     public void setCart(Cart cart){
         this.cart = cart;
     }
@@ -168,5 +187,18 @@ public class UserProfile {
     public Cart getCart(){
         return cart;
     }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public Timestamp getLastModified() {
+        return lastModified;
+    }
+
 }
 

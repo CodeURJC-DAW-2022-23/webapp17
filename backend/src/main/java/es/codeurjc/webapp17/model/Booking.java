@@ -24,10 +24,12 @@ public class Booking {
     private UserProfile userProfile;
 
     @Nonnull
-    private Timestamp when;
+    private Timestamp bookTime;
 
     @Nonnull
     private Boolean confirmation;
 
     //Getters, Constructors...
+    public Booking(){}
+
 }

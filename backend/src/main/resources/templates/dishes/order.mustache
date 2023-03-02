@@ -10,6 +10,7 @@
         </header>
 <!-- Scripts-->
         <script>
+
             function addToCart(id){
                 $.ajax({ 
                     url:"/addToCart?id="+id,    
@@ -17,16 +18,29 @@
                     contentType: "application/json; charset=utf-8",
                     success: function(responseData){
                         console.log(responseData);
+                        var popovercontent = "No se ha podido añadir el producto";
                         if(("Login" in responseData)){
-                            alert("Por favor inicie sesión antes");
+                            //$("#add_but"+id).popover({content: "Por favor"})
+                            //alert("Por favor inicie sesión antes");
+                            popovercontent = "Por favor inicie sesión antes";
                         }else if ("ok" in responseData){
-                            alert("Artículo añadido al carrito")
-                        }else{
-                            alert("No se ha podido añadir el producto")
+                            popovercontent = "Producto añadido";
+                            javascript:updateHeader();
                         }
+                        var popover = new bootstrap.Popover($("#add_but"+id), {content:popovercontent, trigger: "focus"})
+                        popover.show();
+                        $('body').click(function(){
+                            popover.dispose();
+                            $('body').off('click');
+                        });
                                 
                     },error: function (xhr, ajaxOptions, thrownError){
-                        alert("No se ha podido añadir el producto");
+                        var popover = new bootstrap.Popover($("#add_but"+id), {content:"No se ha podido añadir el producto", trigger: "focus"})
+                        popover.show();
+                        $('body').click(function(){
+                            popover.dispose();
+                            $('body').off('click');
+                        });
                     }
                 });
             }
@@ -63,30 +77,12 @@
                                     <a class="btn btn-outline-dark btn-smaller mt-auto" href="/description?id={{id}}">View options</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" onClick= "javascript:addToCart({{id}})">Add to cart</a>
+                                    <a class="btn btn-outline-dark mt-auto" id="add_but{{id}}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="wdwd" onClick="javascript:addToCart({{id}})">Add to cart</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {{/product}}
-                </div>
-            </div>
-            <div class="modal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Hecho!</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Producto añadido correctamente</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                    </div>
                 </div>
             </div>
             <div id="containerMoreResults" class="containerMoreResults">

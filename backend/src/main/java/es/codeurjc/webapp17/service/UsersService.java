@@ -68,7 +68,25 @@ public class UsersService{
         if(profile.isEmpty()) return null;
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", profile.get(0).getName());
+        if(profile.get(0).getCart() != null)
+            map.put("cart_length", profile.get(0).getCart().getCartItems().size());
         return map;
+    }
+
+    public Object changeName(String email, String newName){
+        List<UserProfile> profile = getUsers().findByEmail(email);
+        if(profile.isEmpty()) return null;
+        profile.get(0).setName(newName);
+        users.saveAndFlush(profile.get(0));
+        return true;
+    }
+
+    public Object changeDescription(String email, String newDescription){
+        List<UserProfile> profile = getUsers().findByEmail(email);
+        if(profile.isEmpty()) return null;
+        profile.get(0).setBio(newDescription);
+        users.saveAndFlush(profile.get(0));
+        return true;
     }
     
     public Object changePassword(String email, String newPassword){
@@ -129,5 +147,16 @@ public class UsersService{
         }catch(MailAuthenticationException ex){
 
         }
+    }
+
+    public boolean removeUser(String email){
+        List<UserProfile> profile = getUsers().findByEmail(email);
+        if(profile.isEmpty()) return false;
+        try{
+            users.delete(profile.get(0));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return true;
     }
 }
