@@ -94,10 +94,10 @@ public class CartController {
         int n = user.getCart().positionOfCartItem(item);
         if (user.getCart().getCartItems().get(n).getQuantity()>1) {
             user.getCart().getCartItems().get(n).decreaseQuantity();
+            users_service.getUsers().saveAndFlush(user);
         } else {
             deleteItem(id, request);
         }
-        users_service.getUsers().saveAndFlush(user);
         return new ModelAndView("redirect:/cart");
     }
 

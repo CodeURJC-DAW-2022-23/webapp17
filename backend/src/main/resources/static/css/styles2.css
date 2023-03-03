@@ -31,3 +31,24 @@
 .service-item:hover * {
     color: var(--light) !important;
 }
+
+@keyframes fadeInBig {
+    0% { opacity: 0; font-size: 40px; }
+    100% { opacity: 1; font-size: 60px; }
+}
+@keyframes fadeInSmall {
+    0% { opacity: 0; font-size: 15px; }
+    100% { opacity: 1; font-size: 20px; }
+}
+
+.fade-in-big { 
+    animation: fadeInBig 2s; 
+    font-size: 60px;
+    text-shadow: 2px 2px #000000, 5px 2px #505050;
+}
+
+.fade-in-small { 
+    animation: fadeInSmall 2s; 
+    font-size: 20px;
+    text-shadow: 3px 3px #000000, 2px 2px #000000;
+}

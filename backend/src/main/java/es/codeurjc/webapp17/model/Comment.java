@@ -44,6 +44,14 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
+    public Comment(int rating, String description, Timestamp createdAt, UserProfile user, Product product) {
+        this.rating = rating;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.userProfile = user;
+        this.product = product;
+    }
+
     public long getId() {
         return id;
     }

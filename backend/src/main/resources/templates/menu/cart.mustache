@@ -10,17 +10,17 @@
         
         <ul class="list-group mb-3">
         {{#cartItems}}
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-                <div>
+            <li class="row list-group-item d-flex justify-content-between lh-sm">
+                <div class="col-6">
                     <h6 class="my-0">{{product.title}}</h6>
                     <small class="text-muted">{{product.description}}</small>
                 </div>
-                <div class="input-group" style="height:30px; width:150px; margin-right:10px;">
+                <div class="input-group col" style="height:30px;">
                     <a class="btn btn-outline-secondary btn-minus btn-sm" type="button" href="/decreaseQuantity/{{id}}">-</a>
-                    <input type="text" class="form-control text-center quantity-input" style="height:30px;" value="{{quantity}}">
+                    <input type="text" class="form-control text-center quantity-input" value="{{quantity}}">
                     <a class="btn btn-outline-secondary btn-plus btn-sm" type="button" href="/increaseQuantity/{{id}}">+</a>
                 </div>
-                <span class="text-muted">{{product.price}}&euro;</span>
+                <span class="text-muted col">${{product.price}}&euro;</span>
             </li>
         {{/cartItems}}
             {{#couponApplied}}

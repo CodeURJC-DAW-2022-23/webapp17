@@ -9,15 +9,15 @@
             
             <ul class="list-group mb-3">
             {{#cartItems}}
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
+                <li class="row list-group-item d-flex justify-content-between lh-sm">
+                    <div class="col-6">
                         <h6 class="my-0">{{product.title}}</h6>
                         <small class="text-muted">{{product.description}}</small>
                     </div>
-                    <div class="" style="height:30px; width:150px; margin-right:10px;">
+                    <div class="col" style="height:30px; width:150px; margin-right:10px;">
                         <div type="text" class="text-center" style="height:30px;">{{quantity}}</div>
                     </div>
-                    <span class="text-muted">${{product.price}}</span>
+                    <span class="text-muted col">${{product.price}}</span>
                 </li>
             {{/cartItems}}
             </ul>

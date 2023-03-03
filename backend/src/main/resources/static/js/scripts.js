@@ -34,7 +34,7 @@ function moreComments(page,id) {
         url: '/description?page=' + page + '&id=' + id,
         success: function(data) {
             
-            var listComments = $(data).find('.container').eq(1).html();
+            var listComments = $(data).find("#listComments").html();
             $('#containerMoreResults').replaceWith($(data).find("#containerMoreResults"));
             $('#listComments').append(listComments);
             console.log(data);

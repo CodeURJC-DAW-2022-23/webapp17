@@ -1,8 +1,10 @@
 package es.codeurjc.webapp17.controller;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ import es.codeurjc.webapp17.tools.Tools;
 import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.CartItem;
-
+import es.codeurjc.webapp17.model.Comment;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -38,7 +40,7 @@ public class ProductsController {
 
     @GetMapping("/products")
     @NeedsSecurity(role=Tools.Role.NONE)
-    public String products(Model model, @RequestParam(defaultValue = "0") int page) {
+    public String products(Model model, @RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
         int pageSize = 8;
         List<Product> listProducts = productsService.getProducts();
         int totalPages = productsService.getTotalPages(listProducts);
@@ -61,6 +63,27 @@ public class ProductsController {
         List<Product> product = productsService.getProductsRepo().findById(id);
         if (!product.isEmpty() && product.get(0).getImages().get(idImage).getImageFile() != null) {
             return product.get(0).getImages().get(idImage).toHtmEntity();
+        } else {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        }	
+    }
+
+    @PostMapping("/products/{id}/addComment")
+    @NeedsSecurity(role=Tools.Role.USER)
+    public ResponseEntity<Object> addComment(HttpServletRequest request, @PathVariable long id,@RequestParam(name = "content") String content, 
+    @RequestParam(name = "stars") int stars) throws SQLException {
+        List<Product> product = productsService.getProductsRepo().findById(id);
+        if (!product.isEmpty() && request.getUserPrincipal() != null) {
+            UserProfile user = usersService.getUser(request.getUserPrincipal().getName());
+            if (user != null) {
+                Comment comment = new Comment(stars,content,
+                    new Timestamp(System.currentTimeMillis()), user, product.get(0));
+                product.get(0).getComments().add(comment);
+                productsService.getProductsRepo().saveAndFlush(product.get(0));
+                return ResponseEntity.ok().build();
+            } else {
+                throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+            }
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }	

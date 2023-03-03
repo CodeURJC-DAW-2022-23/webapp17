@@ -39,6 +39,28 @@
         
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
 {{#product}}
+<script>
+    function addComment(){
+        var selStars = $("#selStars").val();
+        var contentText = $("#contentTextArea").val();
+        $.ajax({ 
+            url:"/products/{{id}}/addComment?content="+contentText+"&stars="+selStars,    
+            type:"POST",
+            contentType: "application/json; charset=utf-8",
+            success: function(responseData){
+                console.log(responseData);
+                if(("error" in responseData)){
+                    $("#errorName").text("No se pudo publicar");
+                }else{
+                    location.reload();
+                }
+            
+            },error: function (xhr, ajaxOptions, thrownError){
+                $("#errorName").text("No se pudo publicar");
+            }
+        });
+    }
+</script>
     <div class="col-md-5 p-lg-5 mx-auto">
         <h1 class="display-4 fw-normal mb-5">{{title}}</h1>
         <p class="lead fw-normal">{{description}}</p>
@@ -72,24 +94,32 @@
     <br><br>
     <section class="py-5">
 
-        <div id="listComments" class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        <div class="card container mt-5 col-md-8 col-lg-10 border">
+            <div id="listComments" class="row m-2 gx-4 gx-lg-5 row-cols-1 row-cols-md-1 row-cols-xl-1 justify-content-center mt-5">
                 {{#productComments}}
                 <div class="col mb-5">
-                    <div class="card reviews h-100 w-200">
-                        <div class="user">{{userProfile.name}}</div>
-                        <div class="rating">{{rating}}/10 <span class="star">&#9733;</span></div>
-                        <div class="time">{{createdAt}}</div>
-                        <div class="description">{{description}}</div>
-                </div>
+                    <div class="card reviews h-100 shadow rounded-pill">
+                        <div class="row">
+                            <div class="col row border-end">
+                                <div class="col user mt-2">
+                                    <img class="rounded-circle shadow me-3" src="/user/{{userProfile.id}}/image" alt="avatar" width="25"
+                                    height="25"/>
+                                    {{userProfile.name}}
+                                </div>
+                                <div class="time">{{createdAt}}</div>
+                            </div>
+                            <div class="col col-8 p-3">
+                                <div class="description">{{description}}</div>
+                                <div class="rating">{{rating}}/10 <span class="star">&#9733;</span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {{/productComments}}
             </div>
-        </div>
-
-        <div id="containerMoreResults" class="containerMoreResults">
+            <div id="containerMoreResults" class="containerMoreResults mb-5">
                 {{#moreComments}}
-                <button id="buttonMoreResults" onClick="moreComments({{currentPage}} + 1,{{id}})" class="btn btn-secondary">
+                <button id="buttonMoreResults" onClick="moreComments({{currentPage}} + 1,{{id}})" class="btn btn-light rounded-pill border-dark">
                     Más resultados
                 </button>
                 <div id="spinner" class="spinner-border text-primary" role="status">
@@ -101,12 +131,44 @@
                     <a>No hay más resultados</a>
                 </div>
                 {{/moreComments}}
-                
             </div>
+            {{#userProfile_id}}
+            <div class="row border rounded-0" style="background-color: #f0f2f5;">
+                <div class="col-1 m-3">
+                    <img class="rounded-circle shadow" src="/user/{{userProfile_id}}/image" alt="avatar" width="50px"
+                    height="50px"/>
+                </div>
+                <div class="col-10 m-3">
+                    <textarea class="form-control" id="contentTextArea" rows="3"></textarea>
+                    <div class="row justify-content-end">
+                        <div class="col-4 mt-3 ml-5 row me-5 rounded-pill border">
+                            <div class="col">Estrellas</div>
+                            <select id="selStars" class="col form-select form-select-sm rounded-pill me-1">
+                                <option selected value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <button type="button" class="col-2 btn btn-primary btn-sm mt-3" onClick="javascript:addComment()">Comentar</button>
+                    </div>
+                </div>
+            </div>
+            {{/userProfile_id}}
+        </div>
+
+        
             
     </section>
         
     <br>
+
     <a class="btn btn-outline-dark mt-auto" href="/products">Back</a>
 {{/product}}
 </div>

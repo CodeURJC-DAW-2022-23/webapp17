@@ -1,5 +1,8 @@
 package es.codeurjc.webapp17.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -7,8 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,9 +26,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import es.codeurjc.webapp17.model.Cart;
+import es.codeurjc.webapp17.model.Image;
+import es.codeurjc.webapp17.model.ProfileImage;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.service.UsersService;
@@ -109,13 +119,30 @@ public class UsersController {
 
     @GetMapping("/user/{id}/image")
     @NeedsSecurity(role=Tools.Role.NONE)
-    public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException, IOException {
         Optional<UserProfile> user = users.getUsers().findById(id);
-        if (user.isPresent() && user.get().getImage() != null) {
-            return user.get().getImage().toHtmEntity();
+        if (user.isPresent()) {
+            if(user.get().getImage() != null)
+                return user.get().getImage().toHtmEntity();
+                
+                InputStream in = (new ClassPathResource("static/images/Nestea.jpg")).getInputStream();
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg").body(new InputStreamResource(in));
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }	
+    }
+
+    @PostMapping("/user/{id}/image")
+    @NeedsSecurity(role=Tools.Role.USER)
+    public ResponseEntity<Object> uploadImage(@PathVariable long id, @RequestParam MultipartFile imageFile, HttpServletRequest request) throws SQLException, IOException {
+        Optional<UserProfile> user = users.getUsers().findById(id);
+        if (user.isPresent()) {
+            users.changeImage(user.get().getEmail(), BlobProxy.generateProxy(
+            imageFile.getInputStream(), imageFile.getSize()));
+        } else {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/user/{id}/order")

@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.webapp17.service.CommentsService;
 import es.codeurjc.webapp17.service.ProductsService;
+import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
+import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.Product;
 
@@ -25,6 +27,9 @@ public class CommentsController {
     @Autowired
     CommentsService commentsService;
 
+    @Autowired
+    UsersService usersService;
+
     /*@GetMapping("/description")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String description(@RequestParam(name="id") long id, Model model) {
@@ -34,7 +39,7 @@ public class CommentsController {
 
     @GetMapping("/description")
     @NeedsSecurity(role=Tools.Role.NONE)
-    public String description(@RequestParam(name="id") long id, Model model, @RequestParam(defaultValue = "0") int page) {
+    public String description(@RequestParam(name="id") long id, Model model, @RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
         int pageSize = 8;
         Product product = productsService.getProducts().get((int) id - 1);
         List<Comment> listComments = product.getComments();
@@ -52,6 +57,8 @@ public class CommentsController {
             model.addAttribute("productComments", null);
         }
         model.addAttribute("moreComments", moreProducts);
+        if(request.getUserPrincipal() != null)
+            model.addAttribute("userProfile_id", usersService.getUser(request.getUserPrincipal().getName()).getID());
         return "dishes/description";
     }
 }

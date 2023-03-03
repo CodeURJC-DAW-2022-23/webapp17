@@ -1,37 +1,36 @@
 {{> header}}
+        <script>
+            $(document).ready(function(){
+            });
+        </script>
 
-
-        <header class="bg-dark py-5">
+        <header class="bg-dark">
             <div id="ofertas" class="carousel slide" data-bs-ride="carousel">
 
-                <!-- Indicators/dots -->
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#ofertas" data-bs-slide-to="0" class="active"></button>
-                    <button type="button" data-bs-target="#ofertas" data-bs-slide-to="1"></button>
-                </div>
     
                 <div class="carousel-inner carousel-ofertas">
     
                     <div class="carousel-item active h-100" id="oferta1">
-                        <div class="row mx-auto">
-                            <h1 class="display-4 fw-bolder text-center text-white">Gustosa</h1>
-                            <hr class="bg-white border-3 border border-white w-50 mx-auto">
-                            <h1 class="text-center text-white-50">a melhor comida do mundo por {{message}}</h1>
+                        <img src="/images/bg1.jpg" style="height: 337px; object-fit: cover;" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 class="fade-in-big">Gustosa</h5>
+                            <p class="fade-in-small">El mejor restaurante brasileño de Madrid</p>
+                            <div class="row p-4"></div>
                         </div>
-                         <div class="row p-5"></div>
                     </div>
     
                     <div class="carousel-item h-100" id="oferta2">
-                        <div class="row mx-auto">
-                            <h1 class="display-4 fw-bolder text-center text-white">Todos os dias</h1>
-                            <hr class="bg-white border-3 border border-white w-50 mx-auto">
-                            <h1 class="text-center text-white-50">a melhor comida do mundo</h1>
+                        <img src="/images/bg2.jpg" style="height: 337px; object-fit: cover;" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 class="fade-in-big">Recomendado por todos</h5>
+                            <p class="fade-in-small">Gustosa ha ganado varios premios</p>
+                            <div class="row p-4"></div>
                         </div>
-                         <div class="row p-5"></div>
+                        
                     </div>
     
                 </div>
-                
+    
                 <button class="carousel-control-prev" type="button" data-bs-target="#ofertas" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                 </button>
@@ -45,9 +44,9 @@
             <div class="container my-5 py-5">
                 <div class="row align-items-center g-5">
                     <div class="col-lg-6 text-center text-lg-start">
-                        <h1 class="display-3 text-white animated slideInLeft">Enjoy Our<br>Delicious Meal</h1>
+                        <h1 class="display-3 text-white animated slideInLeft">Disfruta de<br>Comida Deliciosa</h1>
                         <p class="text-white animated slideInLeft mb-4 pb-2">Come comida comible en nuestras mesas hechas para comer comida apta para consumo humano. Si no te gusta no te devolvemos el dinero. Brasil campion du fuchibol.</p>
-                        <a href="https://localhost:8443/book" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+                        <a href="/book" class="btn btn-light py-sm-3 px-sm-5 me-3 animated slideInLeft">Reservar una mesa</a>
                     </div>
                     <div class="col-lg-6 text-center text-lg-end overflow-hidden">
                         <img class="img-fluid" id="rotatoryimg"src="/images/hero.png" alt="">
@@ -62,7 +61,7 @@
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="service-item rounded pt-3">
                             <div class="p-4">
-                                <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
+                                <i class="fa fa-3x fa-user-tie text-secondary mb-4"></i>
                                 <h5>Master Chefs</h5>
                                 <p>Os milhores chefs do mondo.</br> Os milhores programadores do web.</p>
                             </div>
@@ -71,7 +70,7 @@
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="service-item rounded pt-3">
                             <div class="p-4">
-                                <i class="fa fa-3x fa-utensils text-primary mb-4"></i>
+                                <i class="fa fa-3x fa-utensils text-secondary mb-4"></i>
                                 <h5>Quality Food</h5>
                                 <p>Best quality food with best prices and best web page ever.</p>
                             </div>
@@ -80,7 +79,7 @@
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="service-item rounded pt-3">
                             <div class="p-4">
-                                <i class="fa fa-3x fa-cart-plus text-primary mb-4"></i>
+                                <i class="fa fa-3x fa-cart-plus text-secondary mb-4"></i>
                                 <h5>Online Order</h5>
                                 <p>Would you like to make the order online? </br> Give it a try!!!</p>
                             </div>
@@ -89,9 +88,11 @@
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
                         <div class="service-item rounded pt-3">
                             <div class="p-4">
-                                <i class="fa fa-3x fa-headset text-primary mb-4"></i>
+                                <i class="fa fa-3x fa-headset text-secondary mb-4"></i>
                                 <h5>24/7 Service</h5>
                                 <p>No one sleeps here.</p>
+                                </br>
+                                </br>
                             </div>
                         </div>
                     </div>
@@ -105,9 +106,6 @@
             <div class="container px-4 px-lg-5 mt-5">
             </div>
         </section>
-        <div>
-            <img src="..." id="imagenindex" class="img-fluid" alt="Responsive image" >
-        </div>
         <!-- JavaScript Libraries -->
 
         <script src="lib/wow/wow.min.js"></script>

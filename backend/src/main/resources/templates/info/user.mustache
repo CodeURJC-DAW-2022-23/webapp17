@@ -1,5 +1,6 @@
 {{> header}}
-
+        <link href="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}/{{/base_domain}}webjars/github-com-fengyuanchen-cropperjs/cropper.min.css" rel="stylesheet" />
+        <script src="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}/{{/base_domain}}webjars/github-com-fengyuanchen-cropperjs/cropper.min.js"></script>
         <script>
             function shortenLi(){
                 var items = $(".orderList").each(
@@ -9,10 +10,57 @@
                         $($(this).children().get(3)).html("\<i class=\"bi bi-three-dots\"\>\</i\>");
                     });         
             }
+            var cropper;
+            function openImage(file){
+                var input = file.target;
+                var reader = new FileReader();
+                reader.onload = function(){
+                    $('#changeImage').attr('src', reader.result);
+                    cropper.replace(reader.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+
+            function setCropper(){
+                const image = document.getElementById('changeImage');
+                cropper = new Cropper(image, {
+                aspectRatio: 1 / 1
+                });
+            }
+
+            function changeImage(){
+                cropper.getCroppedCanvas({
+                    width: 512,
+                    height: 512,
+                    fillColor: '#000'
+                }).toBlob((blob) => {
+                const formData = new FormData();
+
+                // Pass the image file name as the third parameter if necessary.
+                formData.append('imageFile', blob, "profile.png");
+
+                // Use `jQuery.ajax` method
+                $.ajax('/user/{{user_id}}/image', {
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success() {
+                        location.reload();
+                    },
+                    error() {
+                        console.log('Upload error');
+                    },
+                });
+                }, 'image/png');
+            }
+
             $(document).ready(function(){
                 shortenLi();
                 $('#spinnerOrders').hide();
+                setCropper();
             });
+
             function changeName(){
                 var newName = $("#nameInput").val();
                 $.ajax({ 
@@ -32,6 +80,7 @@
                     }
                 });
             }
+
             function changeDescription(){
                 var newDescription = $("#descriptionInput").val();
                 $.ajax({ 
@@ -76,6 +125,7 @@
                     $("#errorPassword").text("Las contraseñas no coinciden");
                 }
             }
+
             function deleteUser(){
                 $.ajax({ 
                     url:"/user/delete",    
@@ -91,6 +141,8 @@
                 });
             }
 
+
+
         </script>
 
         <!-- Header-->
@@ -100,9 +152,9 @@
                 <div class="container mt-4 mb-4 p-3 d-flex justify-content-center"> 
                     <div class="card p-5"> 
                         <div class=" image d-flex flex-column justify-content-center align-items-center"> 
-                            <button class="btn"> 
+                            <button class="btn" data-bs-toggle="modal" data-bs-target="#changePicture"> 
                                 {{#has_image}}
-                                    <img src="/user/{{user_id}}/image" height="100" width="100" />
+                                    <img id="image" src="/user/{{user_id}}/image" height="100" width="100" />
                                 {{/has_image}}
                                 {{^has_image}}
                                     <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" />
@@ -195,6 +247,32 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-primary" onClick="javascript:changePassword()">Guardar cambios</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" id="changePicture">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cambiar la foto de perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+                        {{#has_image}}
+                            <img id="changeImage" src="/user/{{user_id}}/image" height="100" width="100" />
+                        {{/has_image}}
+                        {{^has_image}}
+                            <img id="changeImage" src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" />
+                        {{/has_image}}  
+                    </div>
+                    <input class="form-control" type="file" accept="image/*" onchange="openImage(event)" onClick="openImage(event)">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onClick="javascript:changeImage()">Guardar cambios</button>
                 </div>
                 </div>
             </div>

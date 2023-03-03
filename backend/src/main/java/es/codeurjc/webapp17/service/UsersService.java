@@ -1,6 +1,7 @@
 package es.codeurjc.webapp17.service;
 
 
+import java.sql.Blob;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +16,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 import ch.qos.logback.core.joran.conditional.ElseAction;
 import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.Credential;
+import es.codeurjc.webapp17.model.ProfileImage;
 import es.codeurjc.webapp17.model.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,6 +78,14 @@ public class UsersService{
         if(profile.get(0).getCart() != null)
             map.put("cart_length", profile.get(0).getCart().totalSize());
         return map;
+    }
+
+    public Object changeImage(String email, Blob newImage){
+        UserProfile profile = getUser(email);
+        if(profile == null) return null;
+        profile.setImage(new ProfileImage(newImage, profile));
+        users.saveAndFlush(profile);
+        return true;
     }
 
     public Object changeName(String email, String newName){
