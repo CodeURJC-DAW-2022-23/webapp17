@@ -1,7 +1,9 @@
 package es.codeurjc.webapp17.service;
 
 
+import java.io.IOException;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,9 @@ import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.Credential;
 import es.codeurjc.webapp17.model.ProfileImage;
 import es.codeurjc.webapp17.model.UserProfile;
+import es.codeurjc.webapp17.model.Coupon;
+import es.codeurjc.webapp17.model.CouponImage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,6 +73,15 @@ public class UsersService{
         user.setCart(new Cart(user));
         user.updateCredential(provider, hash);
         user.setEmailValidated(UUID.randomUUID().toString().replace("_", "-"));
+        Coupon welcomeCoupon = new Coupon(20, "GUSTOSA20", 5);
+        try {
+            welcomeCoupon.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Gustosa20.png"), welcomeCoupon));
+        } catch (IOException e) {
+        }
+        List <Coupon> couponsList= new ArrayList<>();
+        couponsList.add(welcomeCoupon);
+        user.setCoupons(couponsList);
+        user.getCoupons().get(0).setUser(user);
         users.saveAndFlush(user);
     }
 
