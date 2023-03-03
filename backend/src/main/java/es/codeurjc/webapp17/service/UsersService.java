@@ -73,9 +73,9 @@ public class UsersService{
         user.setCart(new Cart(user));
         user.updateCredential(provider, hash);
         user.setEmailValidated(UUID.randomUUID().toString().replace("_", "-"));
-        Coupon welcomeCoupon = new Coupon(20, "GUSTOSA20", 5);
+        Coupon welcomeCoupon = new Coupon(10, "WELCOME10", 1);
         try {
-            welcomeCoupon.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Gustosa20.png"), welcomeCoupon));
+            welcomeCoupon.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Welcome10.png"), welcomeCoupon));
         } catch (IOException e) {
         }
         List <Coupon> couponsList= new ArrayList<>();

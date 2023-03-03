@@ -176,7 +176,8 @@ public class DatabaseInitializer {
         UserProfile jesus = new UserProfile("jesus@gmail.com", "Jesus",
          passwordEncoder.encode("1234"));
 
-        test.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/Nestea.jpg"), test));
+        test.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/profile/Avatar1.png"), test));
+        alejandro.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/profile/Avatar2.png"), alejandro));
 
         Coupon coup1 = new Coupon(5,"ESPECIAL5",1);
         Coupon coup2 = new Coupon(20, "GUSTOSA20", 5);
