@@ -51,7 +51,7 @@ public class DatabaseInitializer {
     @PostConstruct
     public void init() throws IOException{
 
-        //EJEMPLOS DE PLATOS
+        //PRODUCTS EXAMPLE
 
         String vendido = "Más vendido";
         String cerdo = "Cerdo";
@@ -166,7 +166,7 @@ public class DatabaseInitializer {
         products.save(tarta);
         products.save(pastel);
 
-        //EJEMPLOS DE USUARIOS
+        //USER EXAMPLES
         UserProfile test = new UserProfile("test@test.com", 
          "test", passwordEncoder.encode("test"));
         UserProfile alejandro = new UserProfile("alejandro@gmail.com", "Alejandro",
@@ -175,9 +175,14 @@ public class DatabaseInitializer {
          passwordEncoder.encode("aaa"));
         UserProfile jesus = new UserProfile("jesus@gmail.com", "Jesus",
          passwordEncoder.encode("1234"));
+        //Change password
+        UserProfile admin = new UserProfile("admin@gmail.com", "Admin",
+         passwordEncoder.encode("1234"));
+         
 
         test.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/profile/Avatar1.png"), test));
         alejandro.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/profile/Avatar2.png"), alejandro));
+
 
         Coupon coup1 = new Coupon(5,"ESPECIAL5",1);
         Coupon coup2 = new Coupon(20, "GUSTOSA20", 5);
@@ -195,6 +200,7 @@ public class DatabaseInitializer {
         initializeCart(alejandro);
         initializeCart(guillermo);
         initializeCart(test);
+        initializeCart(admin);
 
         setCoupons(alejandro, coup1);
         setCoupons(alejandro, coup2);
@@ -202,7 +208,6 @@ public class DatabaseInitializer {
         setCoupons(test, coup4);
         setCoupons(guillermo, coup5);
 
-        //setCoupons(guillermo,coup1);
         Cart orderCart = new Cart(test);
         orderCart.addCartItem(new CartItem(feijoada, orderCart));
         orderCart.addCartItem(new CartItem(nestea, orderCart));
@@ -224,13 +229,14 @@ public class DatabaseInitializer {
 
         users.save(test);
         users.save(alejandro);
+        users.save(admin);
         users.save(guillermo);
         users.saveAndFlush(jesus);
         carts.saveAndFlush(orderCart);
         carts.saveAndFlush(orderCart2);
         carts.saveAndFlush(orderCart3);
 
-        //EJEMPLOS DE COMENTARIOS
+        //Comments examples
 
         Comment commentFeij1 = new Comment(9,"Está buenísimo. Repetiría con mucho gusto.",
          new Timestamp(System.currentTimeMillis()));

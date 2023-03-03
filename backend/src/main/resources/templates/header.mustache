@@ -34,6 +34,10 @@
                                 $("#user_button").html("\<i class=\"bi-person-circle me-1\"><\/i\>"+responseData["name"]);
                                 $("#user_button").attr("href","/profile");
                                 $("#logout_but").show();
+                                if ("isAdmin" in responseData && responseData["isAdmin"] === true) {
+                                    var adminMenuLink = "<a class=\"btn\" id=\"admin_button\" href=\"/adminMenu\"><i class=\"bi-gear-wide-connected me-1\"></i>Admin</a>";
+                                    $("#navbar-nav").append(adminMenuLink);
+                                }
                             }
                             if("cart_length" in responseData){
                                 $("#cart_length").html(responseData["cart_length"]);
@@ -49,11 +53,11 @@
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
+            <div id="navbar" class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="/">Gustosa</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <ul id="navbar-nav" class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="/info">Información</a></li>
                         

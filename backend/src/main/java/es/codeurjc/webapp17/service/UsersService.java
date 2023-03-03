@@ -92,6 +92,8 @@ public class UsersService{
         map.put("name", profile.get(0).getName());
         if(profile.get(0).getCart() != null)
             map.put("cart_length", profile.get(0).getCart().totalSize());
+        if(email.equals("admin@gmail.com"))
+            map.put("isAdmin",true);
         return map;
     }
 

@@ -74,8 +74,9 @@ public class UsersController {
         Principal principal = request.getUserPrincipal();
         if(principal != null){ 
             Map<String,Object> ui = users.getUserInfo(request.getUserPrincipal().getName());
-            if(ui != null)
+            if(ui != null){
                 return ui;
+            }    
         }
         HashMap<String, Object> map = new HashMap<>();
         map.put("error", "true");
