@@ -48,31 +48,29 @@
             type:"POST",
             contentType: "application/json; charset=utf-8",
             success: function(responseData){
-                console.log(responseData);
-                if(("error" in responseData)){
-                    $("#errorName").text("No se pudo publicar");
-                }else{
-                    location.reload();
-                }
-            
+                location.reload();  
             },error: function (xhr, ajaxOptions, thrownError){
                 $("#errorName").text("No se pudo publicar");
             }
         });
     }
 </script>
-    <div class="col-md-5 p-lg-5 mx-auto">
-        <h1 class="display-4 fw-normal mb-5">{{title}}</h1>
-        <p class="lead fw-normal">{{description}}</p>
-
-        <div style="text-align:center;">
-            <div id="ofertas" class="carousel products slide" style="justify-content: center; align-items: center;" data-bs-ride="carousel">
+    <div class="row m-5 border justify-content-center">
+        <div class="col-3 row row-col-1 border-end">
+            <h1 class="display-5 m-2 fw-normal">
+                {{title}}
+                <hr class="dropdown-divider"/>
+            </h1>
+            
+            <p class=" fw-normal m-2 mb-5">{{description}}</p>
+        </div>
+        <div class="col ml-2">
+            <div id="ofertas" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner carousel-ofertas">
                     {{#images}}
                     <div class="carousel-item {{#firstOne}}active{{/firstOne}} {{^firstOne}}{{/firstOne}}" id="oferta{{positionInProduct}}">
-                        <div class="row mx-auto">
-                            <img style="justify-content: center; align-items: center;" src="/products/{{id}}/image/{{positionInProduct}}" alt="..." width="800" height="200"/>
-                        </div>
+                            <img class="d-block w-100 m-2" src="/products/{{id}}/image/{{positionInProduct}}" 
+                            style="height: 400px; object-fit: cover;" alt="..."/>
                     </div>
                     {{/images}}
                 </div>

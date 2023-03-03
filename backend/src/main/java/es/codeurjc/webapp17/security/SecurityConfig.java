@@ -73,7 +73,8 @@ public class SecurityConfig {
             if(v.getMethod().isAnnotationPresent(NeedsSecurity.class)){
                 NeedsSecurity sec = v.getMethod().getAnnotation(NeedsSecurity.class);
                 for(String path_value : k.getPatternValues()){
-                    path_value = path_value.replaceAll("\\{}.*\\}", "**");
+                    path_value = path_value.replaceAll("\\{.*\\}", "\\d+");
+                    int er = 0;
                     try {
                         switch(sec.role()){
                             case NONE:

@@ -125,7 +125,7 @@ public class UsersController {
             if(user.get().getImage() != null)
                 return user.get().getImage().toHtmEntity();
                 
-                InputStream in = (new ClassPathResource("static/images/Nestea.jpg")).getInputStream();
+            InputStream in = (new ClassPathResource("static/images/Nestea.jpg")).getInputStream();
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg").body(new InputStreamResource(in));
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
