@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.webapp17.repository.UsersRepo;
+import es.codeurjc.webapp17.tools.Tools;
 import jakarta.annotation.PostConstruct;
 
 @Service
@@ -153,15 +154,7 @@ public class UsersService{
     }
 
     public void sendEmail(String dest, String subject, String content){
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(dest); 
-        message.setSubject(subject); 
-        message.setText(content);
-        try{
-            emailSender.send(message);
-        }catch(MailAuthenticationException ex){
-
-        }
+        Tools.sendEmail(dest, subject, content, emailSender);
     }
 
     public boolean removeUser(String email){

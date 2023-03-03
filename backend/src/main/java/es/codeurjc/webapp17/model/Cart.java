@@ -111,6 +111,10 @@ public class Cart {
         this.status = status;
     }
 
+    public UserProfile getCreatedBy() {
+        return createdBy;
+    }
+
     public int totalSize(){
         List<CartItem> total_cart = getCartItems();
         int total_size = 0;

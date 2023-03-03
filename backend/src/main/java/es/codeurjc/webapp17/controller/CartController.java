@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -150,6 +151,19 @@ public class CartController {
         }catch(NullPointerException ex){
             return "";
         }
+    }
+
+    @PostMapping("/checkout")
+    @NeedsSecurity(role=Tools.Role.USER)
+    public ResponseEntity<Object> doCheckout(Model model, HttpServletRequest request) {
+        try{
+            items_service.confirmOrder(users_service.getUsers()
+            .findByEmail(request.getUserPrincipal().getName()).get(0).getCart());
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/redeem")

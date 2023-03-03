@@ -57,7 +57,7 @@ public class UserProfile {
     @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private List<Credential> credentials = new ArrayList<Credential>();
     
-    @OneToMany(mappedBy="createdBy", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="createdBy", cascade=CascadeType.ALL)
     @Where(clause = "status=0")
     private List<Cart> cart;
 
@@ -85,7 +85,7 @@ public class UserProfile {
         this.name = name;   
         createCredential(Credential.INTERNALSTRING, password);
         this.cart = new ArrayList<Cart>();
-        this.cart.add(new Cart());
+        this.cart.add(new Cart(this));
         this.role = Role.USER;
         this.coupons = new ArrayList<Coupon>();
     }
@@ -201,6 +201,11 @@ public class UserProfile {
 
     public Cart getCart(){
         return cart.get(0);
+    }
+
+    public void emptyCart(){
+        cart.clear();
+        cart.add(new Cart(this));
     }
 
     public void setBio(String bio) {
