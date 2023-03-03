@@ -13,6 +13,7 @@ import es.codeurjc.webapp17.model.Coupon;
 import es.codeurjc.webapp17.model.CartItem;
 import es.codeurjc.webapp17.model.ProductImage;
 import es.codeurjc.webapp17.model.ProfileImage;
+import es.codeurjc.webapp17.model.CouponImage;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,9 +178,17 @@ public class DatabaseInitializer {
 
         test.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/Nestea.jpg"), test));
 
-        Coupon coup1 = new Coupon(20,"CUPON",5);
-        Coupon coup2 = new Coupon(5, "ESPECIAL", 2);
-        Coupon coup3 = new Coupon(5, "ESPECIAL", 1);
+        Coupon coup1 = new Coupon(5,"ESPECIAL5",1);
+        Coupon coup2 = new Coupon(20, "GUSTOSA20", 5);
+        Coupon coup3 = new Coupon(20, "GUSTOSA20", 5);
+        Coupon coup4 = new Coupon(20, "GUSTOSA20", 5);
+        Coupon coup5 = new Coupon(20, "GUSTOSA20", 5);
+
+        coup1.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Especial5.png"), coup1));
+        coup2.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Gustosa20.png"), coup2));
+        coup3.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Gustosa20.png"), coup3));
+        coup4.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Gustosa20.png"), coup4));
+        coup5.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Gustosa20.png"), coup5));
 
         initializeCart(jesus);
         initializeCart(alejandro);
@@ -189,6 +198,9 @@ public class DatabaseInitializer {
         setCoupons(alejandro, coup1);
         setCoupons(alejandro, coup2);
         setCoupons(jesus, coup3);
+        setCoupons(test, coup4);
+        setCoupons(guillermo, coup5);
+
         //setCoupons(guillermo,coup1);
         Cart orderCart = new Cart(test);
         orderCart.addCartItem(new CartItem(feijoada, orderCart));

@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -27,6 +29,9 @@ public class Coupon {
 
     @Nonnull
     private int usesRemaining;
+
+    @OneToOne(mappedBy="couponLinked", cascade=CascadeType.ALL, orphanRemoval=true)
+    private CouponImage image;
 
     //Getters, constructors...
 
@@ -56,5 +61,13 @@ public class Coupon {
 
     public void setUser(UserProfile userProfile){
         this.userProfile = userProfile;
+    }
+
+    public CouponImage getImage() {
+        return image;
+    }
+
+    public void setImage(CouponImage image) {
+        this.image = image;
     }
 }
