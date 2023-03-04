@@ -95,6 +95,10 @@ public class Cart {
         }
     }
 
+    public long getId() {
+        return id;
+    }
+
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }

@@ -26,6 +26,7 @@ import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.repository.ProductsRepo;
 import es.codeurjc.webapp17.repository.UsersRepo;
 import es.codeurjc.webapp17.tools.Tools;
+import es.codeurjc.webapp17.tools.Tools.Role;
 import es.codeurjc.webapp17.repository.CartsRepo;
 import es.codeurjc.webapp17.repository.CommentsRepo;
 import jakarta.annotation.PostConstruct;
@@ -177,9 +178,9 @@ public class DatabaseInitializer {
         UserProfile jesus = new UserProfile("jesus@gmail.com", "Jesus",
          passwordEncoder.encode("1234"));
         //Change password
-        UserProfile admin = new UserProfile("admin@gmail.com", "Admin",
+        UserProfile admin = new UserProfile("admin@admin", "Admin",
          passwordEncoder.encode("1234"));
-         
+        admin.addRole(Role.ADMIN);
 
         test.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/profile/Avatar1.png"), test));
         alejandro.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/profile/Avatar2.png"), alejandro));

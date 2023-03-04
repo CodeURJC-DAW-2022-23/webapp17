@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.nimbusds.oauth2.sdk.Role;
+
 import ch.qos.logback.core.joran.conditional.ElseAction;
 import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.Credential;
@@ -77,6 +79,7 @@ public class UsersService{
         user.setCart(new Cart(user));
         user.updateCredential(provider, hash);
         user.setEmailValidated(UUID.randomUUID().toString().replace("_", "-"));
+        user.addRole(Tools.Role.USER);
         Coupon welcomeCoupon = new Coupon(10, "WELCOME10", 1);
         try {
             welcomeCoupon.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Welcome10.png"), welcomeCoupon));

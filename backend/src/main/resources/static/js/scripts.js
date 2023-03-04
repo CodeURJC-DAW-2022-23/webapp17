@@ -14,7 +14,7 @@ function moreResults(page) {
         url: '/products?page=' + page,
         success: function(data) {
             
-            var listProducts = $(data).find('.container').eq(2).html();
+            var listProducts = $(data).find('#listProducts').html();
             $('#containerMoreResults').replaceWith($(data).find("#containerMoreResults"));
             $('#listProducts').append(listProducts);
             //console.log(data);

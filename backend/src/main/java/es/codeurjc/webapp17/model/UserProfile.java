@@ -46,7 +46,7 @@ public class UserProfile {
     private String forgotPassword = "";
 
     @Nonnull
-    private Tools.Role role = Role.USER;
+    private List<Tools.Role> role = new ArrayList<>();
 
     private String phone;
 
@@ -87,7 +87,7 @@ public class UserProfile {
         createCredential(Credential.INTERNALSTRING, password);
         this.cart = new ArrayList<Cart>();
         this.cart.add(new Cart(this));
-        this.role = Role.USER;
+        this.role.add(Role.USER);
         this.coupons = new ArrayList<Coupon>();
         this.lastModified = Timestamp.from(Instant.now());
     }
@@ -95,9 +95,9 @@ public class UserProfile {
     public User toUser(){
         User user;
         if(getInternalCredential() != null)
-            user = new User(email, getInternalCredential().getPasswordHash(), AuthorityUtils.createAuthorityList(role.getCode()));
+            user = new User(email, getInternalCredential().getPasswordHash(), AuthorityUtils.createAuthorityList(getRoleString()));
         else
-            user = new User(email, credentials.get(0).getPasswordHash(), AuthorityUtils.createAuthorityList(role.getCode()));
+            user = new User(email, credentials.get(0).getPasswordHash(), AuthorityUtils.createAuthorityList(getRoleString()));
         return user;
     }
 
@@ -121,8 +121,19 @@ public class UserProfile {
         this.email = email;
     }
 
-    public Tools.Role getRole() {
+    public List<Tools.Role> getRole() {
         return role;
+    }
+
+    public void addRole(Tools.Role role){
+        if(this.role != null) this.role.add(role); 
+    }
+    public String[] getRoleString(){
+        String r = "";
+        for(Tools.Role rol : role){
+            r+=rol.getCode()+" ";
+        }
+        return r.split(" ");
     }
 
     public String getEmailValidated() {
@@ -140,10 +151,6 @@ public class UserProfile {
     public void setForgotPassword(String forgotPassword) {
         this.lastModified = Timestamp.from(Instant.now());
         this.forgotPassword = forgotPassword;
-    }
-
-    public void setRole(Tools.Role role) {
-        this.role = role;
     }
 
     public void refreshLastModified(){

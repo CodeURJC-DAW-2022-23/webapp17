@@ -54,6 +54,18 @@ public class ProductsController {
             moreProducts=false;
             model.addAttribute("product", null);
         }
+
+        if(request.getUserPrincipal() != null){
+            UserProfile user = usersService.getUser(request.getUserPrincipal().getName());
+            if(user != null && !user.getOrders().isEmpty()){
+                List<Long> recomendedProducts = usersService.getUsersRepo()
+                    .getRecomendedByProductList(user.getOrders().get(user.getOrders().size()-1).getId());
+                List<Product> products = productsService.getProductsRepo().findAllById(recomendedProducts);
+                model.addAttribute("recomended_product", products.subList(0, Math.min(products.size()-1, 4)));
+                model.addAttribute("has_recomended", true);
+            }
+        }
+
         model.addAttribute("moreProducts", moreProducts);
         return "dishes/order";
     }

@@ -33,8 +33,8 @@
 }
 
 @keyframes fadeInBig {
-    0% { opacity: 0; font-size: 40px; }
-    100% { opacity: 1; font-size: 60px; }
+    0% { opacity: 0; font-size: 4vw; }
+    100% { opacity: 1; font-size: 6vw; }
 }
 @keyframes fadeInSmall {
     0% { opacity: 0; font-size: 15px; }
@@ -43,7 +43,7 @@
 
 .fade-in-big { 
     animation: fadeInBig 1s; 
-    font-size: 60px;
+    font-size: 6vw;
     text-shadow: 2px 2px #000000, 5px 2px #505050;
 }
 

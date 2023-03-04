@@ -12,7 +12,7 @@ import es.codeurjc.webapp17.tools.Tools;
 public class AdminController {
 
     @GetMapping("/admin")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public String adminMenu(Model model) {
         return "/admin/dashboard";
     }
