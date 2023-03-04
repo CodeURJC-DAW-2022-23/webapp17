@@ -153,7 +153,7 @@ public class CredentialController {
         } catch (ServletException e) {
             e.printStackTrace();
         }
-        UserProfile userProfile = users.getUsers().findByEmail(user).get(0);
+        UserProfile userProfile = users.getUsersRepo().findByEmail(user).get(0);
         Authentication auth = new UsernamePasswordAuthenticationToken(userProfile.getEmail(), null, userProfile.toUser().getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
         return "login/changepassword";

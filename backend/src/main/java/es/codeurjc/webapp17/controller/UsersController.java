@@ -121,7 +121,7 @@ public class UsersController {
     @GetMapping("/user/{id}/image")
     @NeedsSecurity(role=Tools.Role.NONE)
     public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException, IOException {
-        Optional<UserProfile> user = users.getUsers().findById(id);
+        Optional<UserProfile> user = users.getUsersRepo().findById(id);
         if (user.isPresent()) {
             if(user.get().getImage() != null)
                 return user.get().getImage().toHtmEntity();
@@ -136,7 +136,7 @@ public class UsersController {
     @PostMapping("/user/{id}/image")
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> uploadImage(@PathVariable long id, @RequestParam MultipartFile imageFile, HttpServletRequest request) throws SQLException, IOException {
-        Optional<UserProfile> user = users.getUsers().findById(id);
+        Optional<UserProfile> user = users.getUsersRepo().findById(id);
         if (user.isPresent()) {
             users.changeImage(user.get().getEmail(), BlobProxy.generateProxy(
             imageFile.getInputStream(), imageFile.getSize()));
@@ -150,7 +150,7 @@ public class UsersController {
     @NeedsSecurity(role=Tools.Role.USER)
     public String getOrder(@PathVariable long id, Model model, 
     HttpServletRequest request, @RequestParam(name="orderId", required = true) long orderId) throws SQLException {
-        Optional<UserProfile> user = users.getUsers().findById(id);
+        Optional<UserProfile> user = users.getUsersRepo().findById(id);
         if(request.getUserPrincipal() != null){
             if (user.isPresent() && request.getUserPrincipal().getName().equals(user.get().getEmail())) {
                 List<Cart> orderList = carts.getCarts().findById(orderId);

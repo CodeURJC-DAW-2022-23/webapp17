@@ -46,7 +46,7 @@ public class CartController {
     @NeedsSecurity(role=Tools.Role.USER)
     public String cart(Model model, HttpServletRequest request) {
         try {
-            UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+            UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
             boolean existing_cart = false;
             if ((user.getCart() != null)){
                 if (user.getCart().getCartItems().size()!=0){
@@ -82,20 +82,20 @@ public class CartController {
     @NeedsSecurity(role=Tools.Role.USER)
     public void deleteItem(@PathVariable long id, HttpServletRequest request){
         CartItem item = items_service.getCartItemsRepo().findById(id).get(0);
-        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         user.getCart().deleteCartItem(item);
-        users_service.getUsers().saveAndFlush(user);
+        users_service.getUsersRepo().saveAndFlush(user);
     }
 
     @GetMapping("/decreaseQuantity/{id}")
     @NeedsSecurity(role=Tools.Role.USER)
     public ModelAndView decreaseQuantity(@PathVariable long id, HttpServletRequest request){
         CartItem item = items_service.getCartItemsRepo().findById(id).get(0);
-        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         int n = user.getCart().positionOfCartItem(item);
         if (user.getCart().getCartItems().get(n).getQuantity()>1) {
             user.getCart().getCartItems().get(n).decreaseQuantity();
-            users_service.getUsers().saveAndFlush(user);
+            users_service.getUsersRepo().saveAndFlush(user);
         } else {
             deleteItem(id, request);
         }
@@ -106,10 +106,10 @@ public class CartController {
     @NeedsSecurity(role=Tools.Role.USER)
     public ModelAndView increaseQuantity(@PathVariable long id, HttpServletRequest request){
         CartItem item = items_service.getCartItemsRepo().findById(id).get(0);
-        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         int n = user.getCart().positionOfCartItem(item);
         user.getCart().getCartItems().get(n).increaseQuantity();
-        users_service.getUsers().saveAndFlush(user);
+        users_service.getUsersRepo().saveAndFlush(user);
         return new ModelAndView("redirect:/cart");
     }
 
@@ -117,7 +117,7 @@ public class CartController {
     @NeedsSecurity(role=Tools.Role.USER)
     public String checkout(Model model, HttpServletRequest request) {
         try {
-            UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+            UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
             if ((user.getCart() != null)){
                 if (user.getCart().getCartItems().size()!=0){
                     List<CartItem> totalCart = user.getCart().getCartItems();
@@ -157,7 +157,7 @@ public class CartController {
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> doCheckout(Model model, HttpServletRequest request) {
         try{
-            items_service.confirmOrder(users_service.getUsers()
+            items_service.confirmOrder(users_service.getUsersRepo()
             .findByEmail(request.getUserPrincipal().getName()).get(0).getCart());
         }catch(Exception ex){
             ex.printStackTrace();
@@ -170,7 +170,7 @@ public class CartController {
     @NeedsSecurity(role=Tools.Role.USER)
     public ModelAndView redeem(@RequestParam(name="code") String code, HttpServletRequest request, int cartOrCheckout) {
         HashMap<String,Object> map = new HashMap<>();
-        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         List<Coupon> userCoupons = user.getCoupons();
         int n = 0;
         try{
@@ -181,7 +181,7 @@ public class CartController {
             couponApplied = true;
             if(selectedCoupon.getUsesRemaining()>0){
                 selectedCoupon.decreaseUse();
-                users_service.getUsers().saveAndFlush(user);
+                users_service.getUsersRepo().saveAndFlush(user);
                 couponName = selectedCoupon.getCode();
                 discount = selectedCoupon.getDiscount();  //Percentage of the discount
             }else{

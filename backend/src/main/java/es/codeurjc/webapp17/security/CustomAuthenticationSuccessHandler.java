@@ -39,13 +39,13 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken)authenticationNormal;
             OAuth2User user = (OAuth2User) authentication.getPrincipal();
             String email = user.getAttribute("email");
-            List<UserProfile> euser = users.getUsers().findByEmail(email);
+            List<UserProfile> euser = users.getUsersRepo().findByEmail(email);
             if(euser.isEmpty()){
                 String username = user.getAttribute("name").toString().isBlank() ? 
                     UUID.randomUUID().toString().replace("_", "") : user.getAttribute("name");
                 try {
                     users.registerUserWithProvider(email, username, user.getName(), authentication.getAuthorizedClientRegistrationId());
-                    euser = users.getUsers().findByEmail(email);
+                    euser = users.getUsersRepo().findByEmail(email);
                     users.sendRegistrationEmail(email);
                 } catch (Exception e) {
                     throw e;

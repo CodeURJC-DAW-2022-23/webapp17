@@ -35,7 +35,7 @@
                                 $("#user_button").attr("href","/profile");
                                 $("#logout_but").show();
                                 if ("isAdmin" in responseData && responseData["isAdmin"] === true) {
-                                    var adminMenuLink = "<a class=\"btn\" id=\"admin_button\" href=\"/adminMenu\"><i class=\"bi-gear-wide-connected me-1\"></i>Admin</a>";
+                                    var adminMenuLink = "<a class=\"btn\" id=\"admin_button\" href=\"/admin\"><i class=\"bi-gear-wide-connected me-1\"></i>Admin</a>";
                                     $("#navbar-nav").append(adminMenuLink);
                                 }
                             }

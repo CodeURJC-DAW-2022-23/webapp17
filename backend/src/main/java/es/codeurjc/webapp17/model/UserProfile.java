@@ -82,12 +82,14 @@ public class UserProfile {
     public UserProfile(String email, String name, String password){
         super();
         this.email = email;
-        this.name = name;   
+        this.name = name;
+        this.bio = "";   
         createCredential(Credential.INTERNALSTRING, password);
         this.cart = new ArrayList<Cart>();
         this.cart.add(new Cart(this));
         this.role = Role.USER;
         this.coupons = new ArrayList<Coupon>();
+        this.lastModified = Timestamp.from(Instant.now());
     }
 
     public User toUser(){
@@ -142,6 +144,10 @@ public class UserProfile {
 
     public void setRole(Tools.Role role) {
         this.role = role;
+    }
+
+    public void refreshLastModified(){
+        this.lastModified = Timestamp.from(Instant.now());
     }
 
     public Credential getInternalCredential(){

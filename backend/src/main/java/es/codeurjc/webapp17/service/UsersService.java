@@ -52,12 +52,16 @@ public class UsersService{
         users.saveAndFlush(new UserProfile("auto-user", "Auto", passwordEncoder.encode(AUTOPASSWORD)));
     }
 
-    public UsersRepo getUsers() {
+    public UsersRepo getUsersRepo() {
         return users;
     }
 
+    public List<UserProfile> getUsers(){
+        return users.findAll();
+    }
+
     public UserProfile getUser(String email){
-        List<UserProfile> profile = getUsers().findByEmail(email);
+        List<UserProfile> profile = getUsersRepo().findByEmail(email);
         if(profile.isEmpty()) return null;
         return profile.get(0);
     }
@@ -86,7 +90,7 @@ public class UsersService{
     }
 
     public Map<String, Object> getUserInfo(String email){
-        List<UserProfile> profile = getUsers().findByEmail(email);
+        List<UserProfile> profile = getUsersRepo().findByEmail(email);
         if(profile.isEmpty()) return null;
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", profile.get(0).getName());
@@ -174,7 +178,7 @@ public class UsersService{
     }
 
     public boolean removeUser(String email){
-        List<UserProfile> profile = getUsers().findByEmail(email);
+        List<UserProfile> profile = getUsersRepo().findByEmail(email);
         if(profile.isEmpty()) return false;
         try{
             users.delete(profile.get(0));
@@ -182,5 +186,16 @@ public class UsersService{
             ex.printStackTrace();
         }
         return true;
+    }
+
+    public void modifyUser(long id,String name, String email, String bio, String password){
+        UserProfile user = getUsersRepo().findById(id).get();
+        user.setName(name);
+        user.setEmail(email);
+        user.setBio(bio);
+        if(password!=null){
+            user.updateCredential(Credential.INTERNALSTRING, passwordEncoder.encode(password));
+        }
+        getUsersRepo().saveAndFlush(user);
     }
 }

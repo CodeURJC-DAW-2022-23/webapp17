@@ -18,7 +18,7 @@ public class HelloController {
     @GetMapping("/")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String index(Model model) {
-        model.addAttribute("message", usersService.getUsers().findByEmail("test@example.com"));
+        model.addAttribute("message", usersService.getUsersRepo().findByEmail("test@example.com"));
         model.addAttribute("userName", "Pedro");
         return "index";
     }
