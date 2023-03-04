@@ -38,7 +38,7 @@ public class AdminController {
         boolean salesExist = false;
         model.addAttribute("topProductsName", topProductsName);
         model.addAttribute("topSales", topSales);
-        if (topProducts.size()<5){
+        if (topProducts.size()>=5){
             salesExist = true;
             model.addAttribute("salesExist", salesExist);
         } else {
