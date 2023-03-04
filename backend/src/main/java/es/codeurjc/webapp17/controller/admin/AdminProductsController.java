@@ -26,12 +26,6 @@ public class AdminProductsController {
     @Autowired
     private ProductsService productsService;
 
-    /*@GetMapping("/adminProducts")
-    @NeedsSecurity(role=Tools.Role.NONE)
-    public String adminProducts(Model model) {
-        return "/admin/products";
-    }*/
-
     @GetMapping("/adminProducts")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String products(Model model, @RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
@@ -69,5 +63,16 @@ public class AdminProductsController {
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminProducts")).build();
     }
 
-    //TODO ADD NEW PRODUCT; MODIFY IMAGES; FIT DESCRIPTION IN THE CELL; PAGINATION
+    @PostMapping("/adminProducts/addProduct")
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public ResponseEntity<Object> handleCreationFormSubmissionAdmin(@RequestParam("name") String name,
+                                       @RequestParam("price") String price,
+                                       @RequestParam(value = "description", required = false) String description){
+        
+        String[] tags = {"Nuevo"};
+        productsService.addProduct(name, Float.parseFloat(price), description, tags);
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminProducts")).build();
+    }
+
+    //TODO MANAGE TAGS; MODIFY IMAGES; FIT DESCRIPTION IN THE CELL; PAGINATION
 }

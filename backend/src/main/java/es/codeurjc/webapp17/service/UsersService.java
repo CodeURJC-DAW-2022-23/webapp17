@@ -71,8 +71,20 @@ public class UsersService{
     public void registerUser(String email, String password, String name){
         registerUserWithProvider(email, name, passwordEncoder.encode(password), Credential.INTERNALSTRING);
     }
+
+    public void registerUserFromForm (String email, String password, String name, String bio, Boolean admin) throws IOException{
+        UserProfile user = new UserProfile(name, email, passwordEncoder.encode(password));
+        user.updateCredential(Credential.INTERNALSTRING, passwordEncoder.encode(password));
+        user.setEmailValidated(UUID.randomUUID().toString().replace("_", "-"));
+        user.setImage(new ProfileImage(Tools.resourceToBlob("/static/images/profile/Avatar1.png"), user));
+        user.setBio(bio);
+        if(admin){
+            user.addRole(Tools.Role.ADMIN);
+        }
+        users.saveAndFlush(user);
+    }
     
-    public void registerUserWithProvider(String email, String name, String hash, String provider){
+    public UserProfile registerUserWithProvider(String email, String name, String hash, String provider){
         UserProfile user = new UserProfile();
         user.setName(name);
         user.setEmail(email);
@@ -90,6 +102,7 @@ public class UsersService{
         user.setCoupons(couponsList);
         user.getCoupons().get(0).setUser(user);
         users.saveAndFlush(user);
+        return(user);
     }
 
     public Map<String, Object> getUserInfo(String email){
