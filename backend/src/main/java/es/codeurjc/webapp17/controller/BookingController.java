@@ -29,23 +29,25 @@ public class BookingController {
         return "dishes/book";
     }
 
-    @GetMapping("/bible")
-    @NeedsSecurity(role=Tools.Role.NONE)
-    public String bible(Model model) {
-        return "secrets/bible";
-    }
 
     @PostMapping("/book")
-    @NeedsSecurity(role=Tools.Role.AUTH)
+    @NeedsSecurity(role=Tools.Role.USER)
     public Object addBook(Model model, HttpServletRequest request, 
     @RequestParam(name="numPeople", required = true)int num, @RequestParam(name="tlfNumber", required = true)String tlf,
     @RequestParam(name="date", required = true) String date, @RequestParam(name="hour", required = true) String hour) {
         UserProfile user = users.getUser(request.getUserPrincipal().getName());
         if(user != null && user.getBookings().size() <= 3){
             user.getBookings().add(new Booking(user, date+" "+hour, num, tlf));
-            users.getUsers().saveAndFlush(user);
+            users.getUsersRepo().saveAndFlush(user);
             return new ModelAndView("redirect:/profile");
         }
         throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/bible")
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public String bible(Model model) {
+        return "secrets/bible";
+    }
+
 }

@@ -28,6 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.net.http.HttpRequest;
 import java.nio.file.ProviderNotFoundException;
 import java.security.SecureRandom;
 import java.util.List;
@@ -37,6 +38,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -76,17 +78,18 @@ public class SecurityConfig {
                     path_value = path_value.replaceAll("\\{.*\\}", "\\d+");
                     int er = 0;
                     try {
+                        HttpMethod method = HttpMethod.valueOf(k.getMethodsCondition().getMethods().iterator().next().name());
                         switch(sec.role()){
                             case NONE:
                                 http.csrf().ignoringRequestMatchers(path_value).and()
-                                .authorizeHttpRequests().requestMatchers(path_value).permitAll();
+                                .authorizeHttpRequests().requestMatchers(method, path_value).permitAll();
                                 break;
                             case AUTH:
                                 http.csrf().ignoringRequestMatchers(path_value).and()
-                                .authorizeHttpRequests().requestMatchers(path_value).authenticated();
+                                .authorizeHttpRequests().requestMatchers(method, path_value).authenticated();
                                 break;
                             default:
-                                http.authorizeHttpRequests().requestMatchers(path_value).hasAuthority(sec.role().getCode());
+                                http.authorizeHttpRequests().requestMatchers(method, path_value).hasAuthority(sec.role().getCode());
                                 break;
                         }
                     } catch (Exception e) {

@@ -166,7 +166,7 @@ public class CartController {
     @PostMapping("/redeem")
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> redeem(@RequestParam(name="code") String code, HttpServletRequest request) {
-        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         List<Coupon> userCoupons = user.getCoupons();
         int n = 0;
         try{
@@ -177,7 +177,7 @@ public class CartController {
             if(selectedCoupon.getUsesRemaining()>0 && !user.getCart().hasDiscount()){
                 user.getCart().setCoupon(selectedCoupon);
                 selectedCoupon.decreaseUse();
-                users_service.getUsers().saveAndFlush(user);
+                users_service.getUsersRepo().saveAndFlush(user);
             }
         }catch (Exception e){
             ResponseEntity.badRequest().build();
@@ -188,7 +188,7 @@ public class CartController {
     @PostMapping("/unredeem")
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> unredeem(HttpServletRequest request) {
-        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         List<Coupon> userCoupons = user.getCoupons();
         int n = 0;
         try{
@@ -201,7 +201,7 @@ public class CartController {
 
                 user.getCart().setCoupon(null);
                 selectedCoupon.increaseUse();
-                users_service.getUsers().saveAndFlush(user);
+                users_service.getUsersRepo().saveAndFlush(user);
             }
         }catch (Exception e){
             ResponseEntity.badRequest().build();
