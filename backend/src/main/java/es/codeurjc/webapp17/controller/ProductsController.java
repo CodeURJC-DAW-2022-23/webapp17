@@ -61,8 +61,10 @@ public class ProductsController {
                 List<Long> recomendedProducts = usersService.getUsersRepo()
                     .getRecomendedByProductList(user.getOrders().get(user.getOrders().size()-1).getId());
                 List<Product> products = productsService.getProductsRepo().findAllById(recomendedProducts);
-                model.addAttribute("recomended_product", products.subList(0, Math.min(products.size()-1, 4)));
-                model.addAttribute("has_recomended", true);
+                if(products.size() > 0){
+                    model.addAttribute("recomended_product", products.subList(0, Math.min(products.size(), 4)));
+                    model.addAttribute("has_recomended", true);
+                }
             }
         }
 
