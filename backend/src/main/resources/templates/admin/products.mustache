@@ -1,0 +1,275 @@
+<div>
+{{> header}}
+{{> adminMenu}}
+    <div class="row flex-lg-nowrap">
+    <script>
+    function editProduct(button) {
+  // get the user ID from the button's data-id attribute
+  const productId = button.getAttribute("data-id");
+  const productTitle = button.getAttribute("data-title");
+  const productDescription = button.getAttribute("data-description");
+  const productPrice = button.getAttribute("data-price")
+  
+  // set the value of the modal's input field to the user ID
+  var modalInput = document.getElementById("product-name-input");
+  modalInput.value = productTitle;
+  modalInput = document.getElementById("product-price-input");
+  modalInput.value = productPrice;
+  modalInput = document.getElementById("product-description-input");
+  modalInput.value = productDescription;
+  modalInput = document.getElementById("product-id");
+  modalInput.value = productId;
+}
+</script>
+      <div class="col mb-3">
+        <div class="e-panel card">
+          <div class="card-body">
+            <div class="card-title">
+              <h6 class="mr-2"><span>Gestión de Productos</span></h6>
+            </div>
+            <div class="e-table">
+              <div class="table-responsive table-lg mt-3" id="listUsers">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="max-width">Nombre</th>
+                      <th >Descripción</th>
+                      <th class="sortable">Precio</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {{#product}}                 
+                    <tr>
+                      <td class="text-nowrap align-middle">{{title}}</td>
+<td class="text-nowrap align-middle" style="white-space:pre-wrap; word-wrap: break-word; max-width: 200px; height: auto;">
+  {{description}}
+</td>
+
+                      <td class="text-nowrap align-middle">{{price}}&euro;</td>
+                      <td class="text-center align-middle">
+                        <div class="btn-group align-top">
+                            <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal-edit" data-title ="{{title}}" data-id="{{id}}" data-description="{{description}}" data-price="{{price}}" onclick="editProduct(this)">Editar</button>
+                            <a class="btn btn-sm btn-outline-secondary badge" type="button" href="/adminProducts/removeProduct?id={{id}}"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    {{/product}}
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex justify-content-center">
+                <ul class="pagination mt-3 mb-0">
+                  <li class="disabled page-item"><a href="#" class="page-link">‹</a></li>
+                  <li class="active page-item"><a href="#" class="page-link">1</a></li>
+                  <li class="page-item"><a href="#" class="page-link">2</a></li>
+                  <li class="page-item"><a href="#" class="page-link">3</a></li>
+                  <li class="page-item"><a href="#" class="page-link">4</a></li>
+                  <li class="page-item"><a href="#" class="page-link">5</a></li>
+                  <li class="page-item"><a href="#" class="page-link">›</a></li>
+                  <li class="page-item"><a href="#" class="page-link">»</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="text-center px-xl-3">
+              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal">Nuevo producto</button>            </div>
+            <hr class="my-3">
+            <div class="e-navlist e-navlist--active-bold">
+              <ul class="nav">
+                <li class="nav-item active"><a href="" class="nav-link"><span>Todos</span>&nbsp;<small>/&nbsp;32</small></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><span>Usuario</span>&nbsp;<small>/&nbsp;16</small></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><span>Administrador</span>&nbsp;<small>/&nbsp;0</small></a></li>
+              </ul>
+            </div>
+            <hr class="my-3">
+            <div>
+              <div class="form-group">
+                <label>Date from - to:</label>
+                <div>
+                  <input id="dates-range" class="form-control flatpickr-input" placeholder="01 Dec 17 - 27 Jan 18" type="text" readonly="readonly">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Search by Name:</label>
+                <div><input class="form-control w-100" type="text" placeholder="Name" value=""></div>
+              </div>
+            </div>
+            <hr class="my-3">
+            <div class="">
+              <label>Status:</label>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" name="user-status" id="users-status-disabled">
+                  <label class="custom-control-label" for="users-status-disabled">Disabled</label>
+                </div>
+              </div>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" name="user-status" id="users-status-active">
+                  <label class="custom-control-label" for="users-status-active">Active</label>
+                </div>
+              </div>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" name="user-status" id="users-status-any" checked="">
+                  <label class="custom-control-label" for="users-status-any">Any</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Form Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="user-form-modal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Creación de usuario</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="py-1">
+              <form class="form" novalidate="">
+                <div class="row">
+                  <div class="col">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Nombre</label>
+                          <input class="form-control" placeholder="" type="text" name="name">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Correo electrónico</label>
+                          <input class="form-control" type="text" name="username" placeholder="pedro@hotmail.com">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col mb-3">
+                        <div class="form-group">
+                          <label>Descripción</label>
+                          <textarea class="form-control" rows="5"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-6 mb-3">
+                    <div class="mb-2"><b>Cambiar contraseña</b></div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Nueva contraseña</label>
+                          <input class="form-control" type="password" placeholder="·········">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Confirmar contraseña</label>
+                          <input class="form-control" type="password" placeholder="·········">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                    <div class="mb-2"><b>Imagen de perfil</b></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col d-flex justify-content-end">
+                    <button class="btn btn-primary" type="submit">Save Changes</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Edit modal form -->
+  <div class="modal fade" id="user-form-modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="py-1">
+              <form class="form" action="/adminProducts/modifyProduct" method="post">
+                <div class="row">
+                  <div class="col">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Identificador</label>
+                          <input class="form-control" id="product-id" type="text" name="id" readonly>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Precio</label>
+                          <input class="form-control" id="product-price-input"  type="text" name="price">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Nombre</label>
+                          <input class="form-control" id="product-name-input" type="text" name="name">
+                        </div>
+                      </div>
+                      </div>
+                    <div class="row">
+                      <div class="col mb-3">
+                        <div class="form-group">
+                          <label>Descripción</label>
+                          <textarea class="form-control" name="description" id="product-description-input" rows="5"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                    <div class="mb-2"><b>Imagen de perfil</b></div>
+                    <div class="mb-2"><b>MENÚ DE IMÁGENES AQUÍ</b></div>
+                  </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+              </form>
+    </div>
+  </div>
+</div>
+
+  </div>
+    
+  </div>
+</div>
+{{> footer}}
+</div>

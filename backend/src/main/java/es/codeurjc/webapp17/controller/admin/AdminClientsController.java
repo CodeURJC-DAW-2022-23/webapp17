@@ -53,5 +53,7 @@ public class AdminClientsController {
         usersService.removeUser(email);
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminUsers")).build();
     }
+
+    //TODO ADD NEW USER/ADMIN; CHECK SAME PASSWORD; MODIFY IMAGE; PAGINATION
         
 }
