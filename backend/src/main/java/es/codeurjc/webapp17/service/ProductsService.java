@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.repository.ProductsRepo;
 
@@ -24,6 +23,23 @@ public class ProductsService {
 
     public List<Product> getProducts() {
         return products.findAll();
+    }
+
+    public void modifyProduct(long id, String title, Float price, String description){
+        Product product = products.findById(id).get(0);
+        product.setTtile(title);
+        product.setPrice(price);
+        product.setDescription(description);
+        getProductsRepo().saveAndFlush(product);
+    }
+
+    public void deleteProduct(long id){
+        products.delete(products.getReferenceById(id));
+    }
+
+    public void editProductImage(long id, int index){  //TODO Menu for modifying different images of the product
+        Product product = products.findById(id).get(0);
+        product.setImages(null);
     }
 
     public Page<Product> getProducts(int numPage, int pageSize) {

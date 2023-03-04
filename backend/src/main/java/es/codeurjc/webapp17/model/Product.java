@@ -77,6 +77,18 @@ public class Product {
         return description;
     }
 
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    public void setTtile(String title){
+        this.title = title;
+    }
+
+    public void setPrice(Float price){
+        this.price = price;
+    }
+
     public Float getPrice() {
         return price;
     }
