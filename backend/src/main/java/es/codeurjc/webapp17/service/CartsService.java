@@ -23,6 +23,7 @@ import es.codeurjc.webapp17.repository.CartsRepo;
 import es.codeurjc.webapp17.repository.UsersRepo;
 import es.codeurjc.webapp17.tools.Tools;
 import jakarta.mail.MessagingException;
+import jakarta.mail.util.ByteArrayDataSource;
 
 @Service
 public class CartsService {
@@ -65,7 +66,7 @@ public class CartsService {
         profile.emptyCart();
         users.saveAndFlush(profile);
 
-        //sendOrderMail(order);
+        sendOrderMail(order);
     }
 
     public void sendOrderMail(Cart order){
@@ -75,10 +76,10 @@ public class CartsService {
             doc.save(out);
             doc.close();
             ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-            InputStreamResource source = new InputStreamResource(in);
+            ByteArrayDataSource source =  new ByteArrayDataSource(out.toByteArray(), "application/octet-stream");
             Tools.sendEmailWithAttachment(order.getCreatedBy().getEmail(), 
             "Tu pedido ha sido confirmado", 
-            "Aquí tienes el documento de confirmación: ", source, emailSender);
+            "Aquí tienes el documento de confirmación: ", "invoice.pdf", source, emailSender);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

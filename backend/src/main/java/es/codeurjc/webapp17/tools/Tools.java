@@ -30,6 +30,7 @@ import es.codeurjc.webapp17.model.CartItem;
 import es.codeurjc.webapp17.model.Image;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.util.ByteArrayDataSource;
 
 public class Tools {
     public static enum HashMethod{
@@ -75,14 +76,27 @@ public class Tools {
         PDPage page = new PDPage();
         document.addPage(page);
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
-        contentStream.setFont(PDType1Font.COURIER, 24);
+        
+        contentStream.setFont(PDType1Font.TIMES_ROMAN, 24);
         contentStream.beginText();
+        contentStream.newLineAtOffset(25, 725);
+        contentStream.setLeading(14.5f);
         contentStream.showText("Pedido confirmado!");
+        contentStream.newLine();
+        contentStream.endText();
+        contentStream.beginText();
+        contentStream.newLineAtOffset(25, 725);
+        contentStream.newLine();
         contentStream.setFont(PDType1Font.COURIER, 12);
         for(CartItem item : cart.getCartItems()){
             contentStream.showText(item.getProduct().getTitle()+" x "+item.getQuantity()+" "+item.getQuantity()*item.getProduct().getPrice());
+            contentStream.newLine();
         }
-        contentStream.showText("Total Price is "+cart.totalPrice());
+        if(cart.hasDiscount()){
+            contentStream.showText("Con descuento: "+cart.getCoupon().getCode()+" del "+cart.getCoupon().getDiscount()+"%");
+            contentStream.newLine();
+        }
+        contentStream.showText("Precio total es "+cart.totalPrice());
         contentStream.endText();
         contentStream.close();
         return document;
@@ -100,7 +114,7 @@ public class Tools {
         }
     }
 
-    public static void sendEmailWithAttachment(String dest, String subject, String content, InputStreamResource attach, JavaMailSender emailSender) throws MessagingException{
+    public static void sendEmailWithAttachment(String dest, String subject, String content, String name, ByteArrayDataSource attach, JavaMailSender emailSender) throws MessagingException{
         MimeMessage message = emailSender.createMimeMessage();
      
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -109,7 +123,7 @@ public class Tools {
         helper.setSubject(subject);
         helper.setText(content);
             
-        helper.addAttachment(content, attach);
+        helper.addAttachment(name, attach);
 
         emailSender.send(message);
     }

@@ -42,13 +42,13 @@
 }
 
 .fade-in-big { 
-    animation: fadeInBig 2s; 
+    animation: fadeInBig 1s; 
     font-size: 60px;
     text-shadow: 2px 2px #000000, 5px 2px #505050;
 }
 
 .fade-in-small { 
-    animation: fadeInSmall 2s; 
+    animation: fadeInSmall 1s; 
     font-size: 20px;
     text-shadow: 3px 3px #000000, 2px 2px #000000;
  

@@ -71,7 +71,7 @@ public class UserProfile {
     private List<Comment> comments;
 
     @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<Booking> bookings;
+    private List<Booking> bookings = new ArrayList<Booking>();
 
     @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Coupon> coupons;
@@ -239,6 +239,10 @@ public class UserProfile {
 
     public void setOrders(List<Cart> orders) {
         this.orders = orders;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
     }
 }
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.UserProfile;
+import es.codeurjc.webapp17.model.Booking;
 import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.Coupon;
 
@@ -226,6 +227,8 @@ public class DatabaseInitializer {
         orderCart3.addCartItem(new CartItem(agua, orderCart3));
         orderCart3.addCartItem(new CartItem(acaraje, orderCart3));
         orderCart3.setStatus(Cart.STATUS_ORDERED);
+
+        test.getBookings().add(new Booking(test, "Ahora mismo", 2, "66666"));
 
         users.save(test);
         users.save(alejandro);

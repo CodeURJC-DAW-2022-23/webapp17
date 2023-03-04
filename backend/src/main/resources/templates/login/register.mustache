@@ -1,10 +1,29 @@
 {{> header}}
+
+    <script>
+    function changePassword(){
+          var email = $("#form2Example1").val();
+          var pass = $("#form2Example2").val();
+          var name = $("#form2Example3").val();
+          $.ajax({ 
+                    url:"/register?email="+email+"&password="+pass+"&username="+name,    
+                    type:"POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(responseData){
+                      window.location.replace("/profile");
+                    },error: function (xhr, ajaxOptions, thrownError){
+                      alert("No se pudo crear la cuenta!");
+                    }
+                });
+    }
+    </script>
+
     <!-- Section-->
         <section class="container mt-4 mb-4 p-3 d-flex justify-content-center">
             <div class="card p-4">
                 <div class="row p-2 display-5"><div class="col-auto">Register</div></div>
                 <div class="row">
-                    <form name="f" action="register" method="POST">
+                    <div name="f" action="register" method="POST">
                         <!-- Email input -->
                         <div class="form-outline mb-4">
                           <input type="email" id="form2Example1" name="email" class="form-control" />
@@ -23,8 +42,8 @@
                         </div>
                       
                         <!-- Submit button -->
-                        <input name="submit" type="submit" value="Submit" class="btn btn-primary" />
-                    </form>
+                        <input name="submit" type="submit" value="Submit" class="btn btn-primary" onClick="javascript:changePassword()"/>
+                    </div>
                     <div class="text-center">
                       <p>Do you have an account? <a href="/login">Login</a></p>
                     </div>

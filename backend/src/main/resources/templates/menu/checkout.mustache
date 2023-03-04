@@ -50,13 +50,18 @@
                 <span class="text-muted">${{product.price}}</span>
             </li>
         {{/cartItems}}
-        {{#couponApplied}}
-            <li class="list-group-item d-flex justify-content-between bg-light">
-                <div class="text-success">
-                    <h6 class="my-0">"CUPÓN CANJEADO"</h6>
-                    <small>Code - {{couponName}}</small>
+            {{#couponApplied}}
+            <li class="list-group-item d-flex bg-light">
+                <div class="col">
+                    <div class="text-success">
+                        <h6 class="my-0">CUPÓN CANJEADO</h6>
+                        <small>Code - {{couponName}}</small>
+                    </div>
+                    <span class="text-success">-{{discount}}%</span>
                 </div>
-                <span class="text-success">-{{discount}}%</span>
+                <div class="col d-flex flex-row-reverse">
+                    <button class="btn btn-light" onClick="unredeemCode()"><i class="bi bi-x fs-3 text-success"></i></button>
+                </div>
             </li>
             {{/couponApplied}}
             {{^couponApplied}}
@@ -67,12 +72,12 @@
             </li>
         </ul>
 
-        <form class="card p-2" onSubmit="redeemCode(this,1)">
+        <div class="card p-2">
             <div class="input-group">
-                <input type="text" class="form-control" name="code" placeholder="Introduzca su cupón">
-                <button type="submit" class="btn btn-secondary">Canjear</button>
+                <input type="text" class="form-control"  id="redeemText" placeholder="Introduzca su cupón">
+                <button type="submit" class="btn btn-secondary" onClick="redeemCode()">Canjear</button>
             </div>
-        </form>
+        </div>
 
     </div>
       <div class="col-md-7 col-lg-8">

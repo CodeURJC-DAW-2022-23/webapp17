@@ -23,6 +23,7 @@ import jakarta.persistence.Table;
 public class Cart {
 
     public static final int STATUS_ORDERED = 1;
+    public static final int STATUS_DONE = 2;
     public static final int STATUS_NEW = 0;
 
     @Id
@@ -43,6 +44,9 @@ public class Cart {
 
     @Nonnull
     private Timestamp updatedAt;
+
+    @ManyToOne
+    private Coupon coupon;
 
     @OneToMany(mappedBy="cart", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<CartItem> cartItems;
@@ -124,12 +128,35 @@ public class Cart {
         return total_size;
     }
 
+    public float getDiscount() {
+        if(coupon != null)
+            return coupon.getDiscount();
+        return 0;
+    }
+
+    public void setCoupon(Coupon coupon) {
+        this.coupon = coupon;
+    }
+
+    public boolean hasDiscount(){
+        return coupon != null;
+    }
+
+    public Coupon getCoupon() {
+        return coupon;
+    }
+
     public float totalPrice(){
         List<CartItem> total_cart = getCartItems();
         float total_price = 0;
         for (CartItem cart_item : total_cart) {
             total_price += cart_item.getProduct().getPrice()*cart_item.getQuantity();
         }
+        total_price -= total_price*getDiscount()*0.01;
         return total_price;
+    }
+
+    public boolean isPreparing(){
+        return status == STATUS_ORDERED;
     }
 }

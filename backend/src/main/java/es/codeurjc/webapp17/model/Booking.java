@@ -24,12 +24,57 @@ public class Booking {
     private UserProfile userProfile;
 
     @Nonnull
-    private Timestamp bookTime;
+    private String bookTime;
 
     @Nonnull
     private Boolean confirmation;
 
+    @Nonnull
+    private int people;
+
+    private String number;
+
     //Getters, Constructors...
     public Booking(){}
+
+    public Booking(UserProfile user, String bookString, int people, String number){
+        this.userProfile = user;
+        this.bookTime = bookString;
+        this.people = people;
+        this.number = number;
+        confirmation = false;
+    }
+
+    public void setBookTime(String bookTime) {
+        this.bookTime = bookTime;
+    }
+
+    public String getBookTime() {
+        return bookTime;
+    }
+
+    public void setPeople(int people) {
+        this.people = people;
+    }
+
+    public int getPeople() {
+        return people;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public Boolean isConfirmation() {
+        return confirmation;
+    }
+
+    public void setConfirmation(Boolean confirmation) {
+        this.confirmation = confirmation;
+    }
 
 }

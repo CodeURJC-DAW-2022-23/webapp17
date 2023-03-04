@@ -33,6 +33,8 @@ public class Coupon {
     @OneToOne(mappedBy="couponLinked", cascade=CascadeType.ALL, orphanRemoval=true)
     private CouponImage image;
 
+    private boolean secret = false;
+
     //Getters, constructors...
 
     public Coupon(){}
@@ -41,6 +43,7 @@ public class Coupon {
         this.discount = discount;
         this.code = code;
         this.usesRemaining = usesRemaining;
+        this.secret = false;
     }
 
     public float getDiscount() {
@@ -59,6 +62,10 @@ public class Coupon {
         usesRemaining--;
     }
 
+    public void increaseUse(){
+        usesRemaining++;
+    }
+
     public void setUser(UserProfile userProfile){
         this.userProfile = userProfile;
     }
@@ -69,5 +76,17 @@ public class Coupon {
 
     public void setImage(CouponImage image) {
         this.image = image;
+    }
+
+    public boolean hasImage(){
+        return image != null;
+    }
+
+    public boolean isSecret() {
+        return secret;
+    }
+
+    public void setSecret(boolean secret) {
+        this.secret = secret;
     }
 }

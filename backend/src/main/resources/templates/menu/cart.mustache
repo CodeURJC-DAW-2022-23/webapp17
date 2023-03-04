@@ -1,4 +1,11 @@
 {{> header}}
+
+<script>
+function changeCoupon(code){
+    $("#redeemText").val(code);
+}
+</script>
+
 <div class="d-flex justify-content-center align-items-center" style="margin-top: 50px; margin-bottom: 50px;">
     {{#existingCart}}
     <div class="col-md-5 col-lg-4 order-md-last">
@@ -10,7 +17,7 @@
         
         <ul class="list-group mb-3">
         {{#cartItems}}
-            <li class="row list-group-item d-flex justify-content-between lh-sm">
+            <li class="row list-group-item d-flex justify-content-between">
                 <div class="col-6">
                     <h6 class="my-0">{{product.title}}</h6>
                     <small class="text-muted">{{product.description}}</small>
@@ -24,28 +31,49 @@
             </li>
         {{/cartItems}}
             {{#couponApplied}}
-            <li class="list-group-item d-flex justify-content-between bg-light">
-                <div class="text-success">
-                    <h6 class="my-0">"CUPÓN CANJEADO"</h6>
-                    <small>Code - {{couponName}}</small>
+            <li class="row list-group-item d-flex bg-light">
+                <div class="col">
+                    <div class="text-success">
+                        <h6 class="my-0">CUPÓN CANJEADO</h6>
+                        <small>Code - {{couponName}}</small>
+                    </div>
+                    <span class="text-success">-{{discount}}%</span>
                 </div>
-                <span class="text-success">-{{discount}}%</span>
+                <div class="col d-flex flex-row-reverse">
+                    <button class="btn btn-light" onClick="unredeemCode()"><i class="bi bi-x fs-3 text-success"></i></button>
+                </div>
             </li>
             {{/couponApplied}}
             {{^couponApplied}}
             {{/couponApplied}}
-            <li class="list-group-item d-flex justify-content-between">
-                <span>Total (EUR)</span>
-                <strong> {{totalPrice}}&euro;</strong>
+            <li class="row list-group-item justify-content-right">
+                <div class="col text-right">
+                    <span>Total (EUR)</span>
+                    <strong> {{totalPrice}}&euro;</strong>
+                </div>
             </li>
         </ul>
 
-        <form class="card p-2" onSubmit="redeemCode(this,0)">
+        <div class="row card p-2">
             <div class="input-group">
-                <input type="text" class="form-control" name="code" placeholder="Introduzca su cupón">
-                <button type="submit" class="btn btn-secondary">Canjear</button>
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Cupones</button>
+                <ul class="dropdown-menu">
+                    {{#couponList}}{{^isSecret}}
+                        <li><p class="dropdown-item" onClick="changeCoupon(&quot;{{code}}&quot;)">
+                            {{code}} x {{usesRemaining}}
+                            {{#hasImage}}
+                                <img class="ms-2" src="/coupon/{{id}}/image" alt="avatar" width="50px" height="40px"/>
+                            {{/hasImage}}
+                        </p></li>
+                    {{/isSecret}}{{/couponList}}
+                    {{^couponList}}
+                        <li class="m-2 ms-3"><p>No hay cupones</p></li>
+                    {{/couponList}}
+                </ul>
+                <input type="text" class="form-control"  id="redeemText" placeholder="Introduzca su cupón">
+                <button type="submit" class="btn btn-secondary" onClick="redeemCode()">Canjear</button>
             </div>
-        </form>
+        </div>
 
         <div id="containerMoreResults" class="containerMoreResults">
             <a id="buttonCheckout" href="/checkout" class="btn btn-primary" style="margin-top:50px;">

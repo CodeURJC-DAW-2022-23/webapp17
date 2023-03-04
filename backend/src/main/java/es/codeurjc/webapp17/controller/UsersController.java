@@ -58,7 +58,10 @@ public class UsersController {
         model.addAttribute("user_name", user.getName() != null ? user.getName() : user.getEmail().split("@")[0]);
         model.addAttribute("user_email", user.getEmail());
         model.addAttribute("user_bio", user.getBio() != null ? user.getBio() : Tools.tr("BIO_NOT_FOUND", "ES"));
-        Page<Cart> p = carts.getUserOrders(user, page, 8);
+        
+        model.addAttribute("user_booking", user.getBookings());
+
+        Page<Cart> p = carts.getUserOrders(user, page, 4);
         if(p.getNumberOfElements() != 0){
             Tools.PaginationMustache pag = new Tools.PaginationMustache(p.hasNext(),
             p, page);

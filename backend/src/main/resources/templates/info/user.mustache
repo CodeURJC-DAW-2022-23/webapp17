@@ -290,9 +290,11 @@
                 {{#pag_order}}
                     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 ms-1" id="listProductsOrders">
                         {{#elements}}
-                            <div class="card ms-2 me-2">
+                            <div class="card ms-2 m-2">
                                 <div class="card-body">
-                                    <h5 class="card-title">Pedido nº{{id}}</h5>
+                                    <h5 class="card-title">Pedido nº{{id}} 
+                                    {{#isPreparing}}<span class="badge bg-primary">En preparación</span>{{/isPreparing}}
+                                    </h5>
                                     <p class="card-text">Pedido efectuado el {{createdAt}}</p>
                                     </div>
                                     <ul class="list-group list-group-flush orderList">
@@ -328,4 +330,34 @@
                 {{/pag_order}}
             </div>
         </section>
+
+
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <h1 class="display-4">Reservas</h1>
+                <p>Recuerda que solo puedes hacer hasta 3 reservas</p>
+            </div>
+            <div class="container px-4 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 ms-1">
+                    {{#user_booking}}
+                        <div class="card ms-2 m-2">
+                            <div class="card-body">
+                                <h5 class="card-title">Reserva nº{{id}} 
+                                {{^isConfirmation}}<span class="badge bg-primary">Sin confirmar</span>{{/isConfirmation}}
+                                {{#isConfirmation}}<span class="badge bg-success">Confirmada</span>{{/isConfirmation}}
+                                </h5>
+                                <p class="card-text">Para el {{bookTime}}</p>
+                                <p class="card-text">De {{people}}</p>
+                            </div>
+                        </div>
+                    {{/user_booking}}
+                    {{^user_booking}}
+                        No hay reservas
+                    {{/user_booking}}
+                </div>
+            </div>
+        </section>
+
+
 {{> footer}}

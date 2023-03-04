@@ -117,26 +117,29 @@ onload=function()
     
 };
 
-function redeemCode(that,cartOrCheckout){
+function redeemCode(){
     $.ajax({ 
-        url:"/redeem?code="+that.code.value + '&cartOrCheckout=' + cartOrCheckout,    
+        url:"/redeem?code="+$("#redeemText").val(),    
         type:"POST",
         contentType: "application/json; charset=utf-8",
         success: function(responseData){
-            console.log(responseData);
-            //var popovercontent = "No se ha podido añadir el producto";
-            if(("0" in responseData)){
-                alert("Este código no existe")
-                //popovercontent = "Por favor inicie sesión antes";
-            }else if ("-1" in responseData){
-                alert("Código ya canjeado")
-                //popovercontent = "Producto añadido";
-            }else{
-                alert(repsonseData)
-            }
-            location.href="/menu/cart"    
+            console.log(responseData);        
+            location.reload();
         },error: function (xhr, ajaxOptions, thrownError){
-            alert("Error al canjear código")
-            }
-            });
+            alert("No se puede canjear ese código")
         }
+    });
+}
+function unredeemCode(){
+    $.ajax({ 
+        url:"/unredeem",
+        type:"POST",
+        contentType: "application/json; charset=utf-8",
+        success: function(responseData){
+            console.log(responseData);        
+            location.reload();
+        },error: function (xhr, ajaxOptions, thrownError){
+            alert("No fue posible devolver nada")
+        }
+    });
+}

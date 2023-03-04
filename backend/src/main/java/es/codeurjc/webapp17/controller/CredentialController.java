@@ -105,6 +105,7 @@ public class CredentialController {
     @RequestParam(name="username", required = true) String username){
         try {
             users.registerUser(email, password, username);
+            users.sendRegistrationEmail(email);
             request.login(email, password);
         } catch (ServletException e) {
             e.printStackTrace();
@@ -127,7 +128,7 @@ public class CredentialController {
     public @ResponseBody Map<String,Object> forgotPasswordPost(HttpServletRequest request, 
     @RequestParam(name="email", required = true) String email){
         HashMap<String, Object> map = new HashMap<>();
-        if(users.getUserInfo(email).containsKey("error")){
+        if(!users.getUserInfo(email).containsKey("error")){
             UserProfile user = users.getUser(email);
             if(!user.getForgotPassword().equals("") 
             && user.getLastModified().before(Timestamp.from(Instant.now().minusSeconds(SECONDS_COOLDOWN)))){
@@ -156,12 +157,6 @@ public class CredentialController {
         UserProfile userProfile = users.getUsersRepo().findByEmail(user).get(0);
         Authentication auth = new UsernamePasswordAuthenticationToken(userProfile.getEmail(), null, userProfile.toUser().getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return "login/changepassword";
-    }
-
-    @GetMapping("/changePassword")
-    @NeedsSecurity(role = Tools.Role.USER)
-    public Object changePassword(HttpServletRequest request){
         return "login/changepassword";
     }
 

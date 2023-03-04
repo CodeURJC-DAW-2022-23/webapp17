@@ -4,9 +4,10 @@ import es.codeurjc.webapp17.tools.Tools;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,10 +37,6 @@ public class CartController {
 
     @Autowired
     private CartsService items_service;
-    
-    boolean couponApplied = false;
-    String couponName;
-    float discount = 0;
 
 
     @GetMapping("/cart")
@@ -50,18 +47,21 @@ public class CartController {
             boolean existing_cart = false;
             if ((user.getCart() != null)){
                 if (user.getCart().getCartItems().size()!=0){
+                    List<Coupon> userCoupons = user.getCoupons();
+                    if(!userCoupons.isEmpty())
+                        model.addAttribute("couponList", userCoupons);
                     existing_cart = true;
                     List<CartItem> totalCart = user.getCart().getCartItems();
                     float totalPrice = user.getCart().totalPrice();
                     int totalSize=user.getCart().totalSize();
-                    if (couponApplied){
-                        model.addAttribute("couponName", couponName);
+                    // TODO: Un-spageti this
+                    if (user.getCart().hasDiscount()){
+                        float discount = user.getCart().getDiscount();
+                        model.addAttribute("couponName", user.getCart().getCoupon().getCode());
                         if (discount!=-1){
-                            totalPrice = totalPrice - totalPrice*(discount/100);
                             model.addAttribute("discount", discount);
-                        } else {
-                            couponApplied = false;
                         }
+                        model.addAttribute("couponApplied", user.getCart().hasDiscount());
                     } else {
                         model.addAttribute("couponName", "No se ha aplicado ningún cupón");
                     }
@@ -69,7 +69,6 @@ public class CartController {
                     model.addAttribute("cartItems", totalCart);
                     model.addAttribute("cartSize", totalSize);
                     model.addAttribute("existingCart", existing_cart);
-                    model.addAttribute("couponApplied", couponApplied);
                 }
             } else {}
             return "menu/cart";
@@ -129,13 +128,11 @@ public class CartController {
                             totalSize++;
                         }
                     }
-                    if (couponApplied){
-                        model.addAttribute("couponName", couponName);
+                    if (user.getCart().hasDiscount()){
+                        float discount = user.getCart().getDiscount();
+                        model.addAttribute("couponName", "couponName");
                         if (discount!=-1){
                             model.addAttribute("discount", discount);
-                            totalPrice = totalPrice - totalPrice*(discount/100);
-                        } else {
-                            couponApplied = false;
                         }
                     } else {
                         model.addAttribute("couponName", "No se ha aplicado ningún cupón");
@@ -143,7 +140,7 @@ public class CartController {
                     model.addAttribute("totalPrice", totalPrice);
                     model.addAttribute("cartItems", totalCart);
                     model.addAttribute("cartSize", totalSize);
-                    model.addAttribute("couponApplied", couponApplied);
+                    model.addAttribute("couponApplied", user.getCart().hasDiscount());
                     model.addAttribute("user", user);
                 }
             } else {}
@@ -168,9 +165,8 @@ public class CartController {
 
     @PostMapping("/redeem")
     @NeedsSecurity(role=Tools.Role.USER)
-    public ModelAndView redeem(@RequestParam(name="code") String code, HttpServletRequest request, int cartOrCheckout) {
-        HashMap<String,Object> map = new HashMap<>();
-        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+    public ResponseEntity<Object> redeem(@RequestParam(name="code") String code, HttpServletRequest request) {
+        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
         List<Coupon> userCoupons = user.getCoupons();
         int n = 0;
         try{
@@ -178,25 +174,41 @@ public class CartController {
                 n++;
             }
             Coupon selectedCoupon = userCoupons.get(n);
-            couponApplied = true;
-            if(selectedCoupon.getUsesRemaining()>0){
+            if(selectedCoupon.getUsesRemaining()>0 && !user.getCart().hasDiscount()){
+                user.getCart().setCoupon(selectedCoupon);
                 selectedCoupon.decreaseUse();
-                users_service.getUsersRepo().saveAndFlush(user);
-                couponName = selectedCoupon.getCode();
-                discount = selectedCoupon.getDiscount();  //Percentage of the discount
-            }else{
-                discount = -1; //No uses reamining
+                users_service.getUsers().saveAndFlush(user);
             }
         }catch (Exception e){
-            //Discount does not exist
+            ResponseEntity.badRequest().build();
         }
-        map.put(Float.toString(discount),"true");
-        if (cartOrCheckout==1){
-            return new ModelAndView("redirect:/checkout");
-        } else {
-            return new ModelAndView("redirect:/cart");
-        }
-        //return map;
+        return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/unredeem")
+    @NeedsSecurity(role=Tools.Role.USER)
+    public ResponseEntity<Object> unredeem(HttpServletRequest request) {
+        UserProfile user = users_service.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+        List<Coupon> userCoupons = user.getCoupons();
+        int n = 0;
+        try{
+            
+            if(user.getCart().hasDiscount()){
+                while(!userCoupons.get(n).getCode().equals(user.getCart().getCoupon().getCode())){
+                    n++;
+                }
+                Coupon selectedCoupon = userCoupons.get(n);
+
+                user.getCart().setCoupon(null);
+                selectedCoupon.increaseUse();
+                users_service.getUsers().saveAndFlush(user);
+            }
+        }catch (Exception e){
+            ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }
