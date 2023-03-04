@@ -24,7 +24,7 @@ function changeCoupon(code){
                 </div>
                 <div class="input-group col" style="height:30px;">
                     <a class="btn btn-outline-secondary btn-minus btn-sm" type="button" href="/decreaseQuantity/{{id}}">-</a>
-                    <input type="text" class="form-control text-center quantity-input" value="{{quantity}}">
+                    <input type="text" class="form-control text-center quantity-input" value="{{quantity}}" readonly>
                     <a class="btn btn-outline-secondary btn-plus btn-sm" type="button" href="/increaseQuantity/{{id}}">+</a>
                 </div>
                 <span class="text-muted col">${{product.price}}&euro;</span>

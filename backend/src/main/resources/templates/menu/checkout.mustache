@@ -6,6 +6,18 @@
 
 
 <script>
+  //To proceed, all fields must be entered.
+  function verifyFields() {
+    var requiredFields = document.querySelectorAll('[required]');
+    for (var i = 0; i < requiredFields.length; i++) {
+      if (!requiredFields[i].value) {
+        alert('Por favor, rellena todos los campos requeridos.');
+        return false;
+      }
+    }
+    confirmOrder();
+  };
+
   function confirmOrder(){
     $.ajax({ 
         url:"/checkout",    
@@ -86,7 +98,7 @@
           <div class="row g-3">
             <div class="col-sm-6">
               <label for="firstName" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Se requiere un nombre válido.
               </div>
@@ -94,7 +106,7 @@
 
             <div class="col-sm-6">
               <label for="lastName" class="form-label">Apellidos</label>
-              <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Se requiere un apellido válido.
               </div>
@@ -104,7 +116,7 @@
               <label for="username" class="form-label">Username</label>
               <div class="input-group has-validation">
                 <span class="input-group-text">@{{user.name}}</span>
-                <!--<input type="text" class="form-control" id="username" placeholder="Nombre de usuario" required="">-->
+                <!--<input type="text" class="form-control" id="username" placeholder="Nombre de usuario" required>-->
               <div class="invalid-feedback">
                   Your username is required.
                 </div>
@@ -121,7 +133,7 @@
 
             <div class="col-12">
               <label for="address" class="form-label">Dirección de envío</label>
-              <input type="text" class="form-control" id="address" placeholder="C/Salvador Dalí" required="">
+              <input type="text" class="form-control" id="address" placeholder="C/Salvador Dalí" required>
               <div class="invalid-feedback">
                 Por favor introduzca su dirección de envío.
               </div>
@@ -134,7 +146,7 @@
 
             <div class="col-md-5">
               <label for="country" class="form-label">País</label>
-              <select class="form-select" id="country" required="">
+              <select class="form-select" id="country" required>
                 <option value="">Elige...</option>
                 <option>United States</option>
                 <option>España</option>
@@ -148,7 +160,7 @@
 
             <div class="col-md-4">
                 <label for="state" class="form-label">Ciudad</label>
-                <input type="text" class="form-control" id="state" placeholder="Madrid" required="">
+                <input type="text" class="form-control" id="state" placeholder="Madrid" required>
                 <div class="invalid-feedback">
                     Por favor introduzca una ciudad válida.
                 </div>
@@ -156,7 +168,7 @@
 
             <div class="col-md-3">
               <label for="zip" class="form-label">Código Postal</label>
-              <input type="text" class="form-control" id="zip" placeholder="" required="">
+              <input type="text" class="form-control" id="zip" placeholder="" required>
               <div class="invalid-feedback">
                 Código postal requerido.
               </div>
@@ -181,7 +193,7 @@
 
           <div class="my-3">
             <div class="form-check">
-              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required>
               <label class="form-check-label" for="credit">Tarjeta de crédito</label>
             </div>
           </div>
@@ -189,7 +201,7 @@
           <div class="row gy-3">
             <div class="col-md-6">
               <label for="cc-name" class="form-label">Nombre en la tarjeta</label>
-              <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+              <input type="text" class="form-control" id="cc-name" placeholder="" required>
               <small class="text-muted">Nombre como se muestra en la tarjeta</small>
               <div class="invalid-feedback">
                 Se requiere el nombre en la tarjeta.
@@ -198,7 +210,7 @@
 
             <div class="col-md-6">
               <label for="cc-number" class="form-label">Número de la tarjeta</label>
-              <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+              <input type="text" class="form-control" id="cc-number" placeholder="" required>
               <div class="invalid-feedback">
                 Se requiere el número de la tarjeta.
               </div>
@@ -206,7 +218,7 @@
 
             <div class="col-md-3">
               <label for="cc-expiration" class="form-label">Fecha de expiración</label>
-              <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+              <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
               <div class="invalid-feedback">
                 Se requiere la fecha de expiración.
               </div>
@@ -214,7 +226,7 @@
 
             <div class="col-md-3">
               <label for="cc-cvv" class="form-label">CVV</label>
-              <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+              <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
               <div class="invalid-feedback">
                 Se requiere el código de seguridad.
               </div>
@@ -223,7 +235,7 @@
 
           <hr class="my-4">
 
-          <button class="w-100 btn btn-primary btn-lg" onClick="javascript:confirmOrder()">Proceder al pago</button>
+          <button id="btn-proceed" class="w-100 btn btn-primary btn-lg" onClick="javascript:verifyFields()">Proceder al pago</button>
         </div>
       </div>
     </div>
