@@ -57,4 +57,9 @@ public class ProductsService {
         return totalPages;
     }
 
+    public void addProduct(String name, Float price, String description, String[] tags){
+        Product product = new Product(name, description, price, tags);
+        getProductsRepo().saveAndFlush(product);
+    }
+
 }

@@ -9,6 +9,7 @@ import es.codeurjc.webapp17.service.UsersService;
 
 import java.net.URI;
 import java.util.List;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class AdminClientsController {
 
     @PostMapping("/adminUsers/modifyUser")
     @NeedsSecurity(role=Tools.Role.NONE)
-    public ResponseEntity<Object> handleFormSubmission(@RequestParam("id") String id,
+    public ResponseEntity<Object> handleEditFormSubmission(@RequestParam("id") String id,
                                        @RequestParam("name") String name,
                                        @RequestParam("email") String email,
                                        @RequestParam(value = "bio", required = false) String bio,
@@ -54,6 +55,17 @@ public class AdminClientsController {
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminUsers")).build();
     }
 
-    //TODO ADD NEW USER/ADMIN; CHECK SAME PASSWORD; MODIFY IMAGE; PAGINATION
+    @PostMapping("/adminUsers/createUser")
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public ResponseEntity<Object> handleCreationFormSubmissionAdmin(@RequestParam("role") String role,
+                                       @RequestParam("name") String name,
+                                       @RequestParam("email") String email,
+                                       @RequestParam(value = "bio", required = false) String bio,
+                                       @RequestParam("password") String password) throws IOException{
+        Boolean admin = role.equals("Administrador");
+        usersService.registerUserFromForm(name, password, email, bio, admin);
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminUsers")).build();
+    }
+    //MODIFY IMAGE; PAGINATION
         
 }

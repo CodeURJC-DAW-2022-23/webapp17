@@ -26,7 +26,7 @@ public class AdminController {
     AdminService adminService;
 
     @GetMapping("/admin")
-    @NeedsSecurity(role=Tools.Role.ADMIN)
+    @NeedsSecurity(role=Tools.Role.NONE)
     public String adminMenu(Model model) {
         HashMap<Product,Integer> totalSales = adminService.getTotalSales();
         List<Product> topProducts = obtainTopProducts(totalSales);

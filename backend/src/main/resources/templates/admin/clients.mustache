@@ -3,23 +3,72 @@
 {{> adminMenu}}
     <div class="row flex-lg-nowrap">
     <script>
+
+    window.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById(id="editForm");
+        const password1 = document.getElementById('user-password1-input');
+        const password2 = document.getElementById('user-password2-input');
+
+        form.addEventListener('submit', function(event) {
+          if (password1.value !== password2.value) {
+            alert('Las contraseñas no coinciden.');
+            event.preventDefault();
+          }
+        });
+      });
+
+      window.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById(id="creationForm");
+        const password1 = document.getElementById('user-password1-input-creation');
+        const password2 = document.getElementById('user-password2-input-creation');
+
+        form.addEventListener('submit', function(event) {
+          if (password1.value !== password2.value) {
+            alert('Las contraseñas no coinciden.');
+            event.preventDefault();
+          }
+        });
+      });
+
     function editUser(button) {
-  // get the user ID from the button's data-id attribute
-  const userId = button.getAttribute("data-id");
-  const userName = button.getAttribute("data-name");
-  const userEmail = button.getAttribute("data-email");
-  const userBio = button.getAttribute("data-bio")
-  
-  // set the value of the modal's input field to the user ID
-  var modalInput = document.getElementById("user-name-input");
-  modalInput.value = userName;
-  modalInput = document.getElementById("user-email-input");
-  modalInput.value = userEmail;
-  modalInput = document.getElementById("user-bio-input");
-  modalInput.value = userBio;
-  modalInput = document.getElementById("user-id");
-  modalInput.value = userId;
-}
+    // get the user ID from the button's data-id attribute
+      const userId = button.getAttribute("data-id");
+      const userName = button.getAttribute("data-name");
+      const userEmail = button.getAttribute("data-email");
+      const userBio = button.getAttribute("data-bio")
+      
+      // set the value of the modal's input field to the user ID
+      var modalInput = document.getElementById("user-name-input");
+      modalInput.value = userName;
+      modalInput = document.getElementById("user-email-input");
+      modalInput.value = userEmail;
+      modalInput = document.getElementById("user-bio-input");
+      modalInput.value = userBio;
+      modalInput = document.getElementById("user-id");
+      modalInput.value = userId;
+      modalInput = document.getElementById("user-password1-input");
+      modalInput.value = "";
+      modalInput = document.getElementById("user-password2-input");
+      modalInput.value = "";
+    }
+
+    function addUser(button) {
+      // get the user ID from the button's data-id attribute
+      const role = button.getAttribute("data-id");
+      // set the value of the modal's input field to the user ID
+      var modalInput = document.getElementById("role");
+      modalInput.value = role;
+      modalInput = document.getElementById("user-name-input-creation")
+      modalInput.value = "";
+      modalInput = document.getElementById("user-email-input-creation");
+      modalInput.value = "";
+      modalInput = document.getElementById("user-bio-input-creation");
+      modalInput.value = "";
+      modalInput = document.getElementById("user-password1-input-creation");
+      modalInput.value = "";
+      modalInput = document.getElementById("user-password2-input-creation");
+      modalInput.value = "";
+    }
 </script>
       <div class="col mb-3">
         <div class="e-panel card">
@@ -46,10 +95,10 @@
                       <td class="text-nowrap align-middle">{{name}}</td>
                       <td class="text-nowrap align-middle">{{email}}</td>
                       <td class="text-nowrap align-middle"><span>{{lastModified}}</span></td>
-                      <td class="text-nowrap align-middle">Usuario</td>
+                      <td class="text-nowrap align-middle">{{role}}</td>
                       <td class="text-center align-middle">
                         <div class="btn-group align-top">
-                            <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal-edit" data-name ="{{name}}" data-id="{{id}}" data-email="{{email}}" data-bio="{{bio}}" onclick="editUser(this)">Editar</button>
+                            <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal-edit" data-name="{{name}}" data-id="{{id}}" data-email="{{email}}" data-bio="{{bio}}" onclick="editUser(this)">Editar</button>
                             <a class="btn btn-sm btn-outline-secondary badge" type="button" href="/adminUsers/removeUser?email={{email}}"><i class="fa fa-trash"></i></a>
                         </div>
                       </td>
@@ -78,8 +127,8 @@
         <div class="card">
           <div class="card-body">
             <div class="text-center px-xl-3">
-              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal">Nuevo usuario</button>
-              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal">Nuevo administrador</button>
+              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal" data-id="Usuario" onclick="addUser(this)">Nuevo usuario</button>
+              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal" data-id="Administrador" onclick="addUser(this)">Nuevo administrador</button>
             </div>
             <hr class="my-3">
             <div class="e-navlist e-navlist--active-bold">
@@ -141,28 +190,36 @@
           </div>
           <div class="modal-body">
             <div class="py-1">
-              <form class="form" novalidate="">
+              <form class="form" action="/adminUsers/createUser" id="creationForm" method="POST">
                 <div class="row">
                   <div class="col">
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label>Nombre</label>
-                          <input class="form-control" placeholder="" type="text" name="name">
+                          <label>Permisos</label>
+                          <input class="form-control" id="role" type="text" name="role" readonly>
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label>Correo electrónico</label>
-                          <input class="form-control" type="text" name="username" placeholder="pedro@hotmail.com">
+                          <label>Nombre</label>
+                          <input class="form-control" id="user-name-input-creation" placeholder="Pedro"  type="text" name="name">
                         </div>
                       </div>
                     </div>
                     <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Correo electrónico</label>
+                          <input class="form-control" id="user-email-input-creation" placeholder="pedro@hotmail.com" type="text" value="" name="email">
+                        </div>
+                      </div>
+                      </div>
+                    <div class="row">
                       <div class="col mb-3">
                         <div class="form-group">
                           <label>Descripción</label>
-                          <textarea class="form-control" rows="5"></textarea>
+                          <textarea class="form-control" id="user-bio-input-creation" name="bio" placeholder="Mis aficiones son..." rows="5"></textarea>
                         </div>
                       </div>
                     </div>
@@ -175,7 +232,7 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Nueva contraseña</label>
-                          <input class="form-control" type="password" placeholder="·········">
+                          <input class="form-control" id="user-password1-input-creation" type="password" name="password" placeholder="·········">
                         </div>
                       </div>
                     </div>
@@ -183,7 +240,7 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Confirmar contraseña</label>
-                          <input class="form-control" type="password" placeholder="·········">
+                          <input class="form-control" id="user-password2-input-creation" type="password" placeholder="·········">
                         </div>
                       </div>
                     </div>
@@ -192,13 +249,12 @@
                     <div class="mb-2"><b>Imagen de perfil</b></div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col d-flex justify-content-end">
-                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
                 </div>
               </form>
-
             </div>
           </div>
         </div>
@@ -217,7 +273,7 @@
       </div>
       <div class="modal-body">
             <div class="py-1">
-              <form class="form" action="/adminUsers/modifyUser" method="POST">
+              <form class="form" action="/adminUsers/modifyUser" id="editForm" method="POST">
                 <div class="row">
                   <div class="col">
                     <div class="row">
@@ -259,7 +315,7 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Nueva contraseña</label>
-                          <input class="form-control" type="password" placeholder="·········">
+                          <input class="form-control" id="user-password1-input" type="password" placeholder="·········">
                         </div>
                       </div>
                     </div>
@@ -267,7 +323,7 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Confirmar contraseña</label>
-                          <input class="form-control" type="password" placeholder="·········">
+                          <input class="form-control" id="user-password2-input" type="password" placeholder="·········">
                         </div>
                       </div>
                     </div>

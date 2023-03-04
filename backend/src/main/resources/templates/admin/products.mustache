@@ -4,22 +4,31 @@
     <div class="row flex-lg-nowrap">
     <script>
     function editProduct(button) {
-  // get the user ID from the button's data-id attribute
-  const productId = button.getAttribute("data-id");
-  const productTitle = button.getAttribute("data-title");
-  const productDescription = button.getAttribute("data-description");
-  const productPrice = button.getAttribute("data-price")
-  
-  // set the value of the modal's input field to the user ID
-  var modalInput = document.getElementById("product-name-input");
-  modalInput.value = productTitle;
-  modalInput = document.getElementById("product-price-input");
-  modalInput.value = productPrice;
-  modalInput = document.getElementById("product-description-input");
-  modalInput.value = productDescription;
-  modalInput = document.getElementById("product-id");
-  modalInput.value = productId;
-}
+      // get the user ID from the button's data-id attribute
+      const productId = button.getAttribute("data-id");
+      const productTitle = button.getAttribute("data-title");
+      const productDescription = button.getAttribute("data-description");
+      const productPrice = button.getAttribute("data-price")
+      
+      // set the value of the modal's input field to the user ID
+      var modalInput = document.getElementById("product-name-input");
+      modalInput.value = productTitle;
+      modalInput = document.getElementById("product-price-input");
+      modalInput.value = productPrice;
+      modalInput = document.getElementById("product-description-input");
+      modalInput.value = productDescription;
+      modalInput = document.getElementById("product-id");
+      modalInput.value = productId;
+    }
+    function addProduct(button) {      
+      // set the value of the modal's input field to the user ID
+      var modalInput = document.getElementById("product-name-input-creation");
+      modalInput.value = "";
+      modalInput = document.getElementById("product-price-input-creation");
+      modalInput.value = "";
+      modalInput = document.getElementById("product-description-input-creation");
+      modalInput.value = "";
+    }
 </script>
       <div class="col mb-3">
         <div class="e-panel card">
@@ -79,7 +88,7 @@
         <div class="card">
           <div class="card-body">
             <div class="text-center px-xl-3">
-              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal">Nuevo producto</button>            </div>
+              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal" onclick="javascript:addProduct(this)">Nuevo producto</button>            </div>
             <hr class="my-3">
             <div class="e-navlist e-navlist--active-bold">
               <ul class="nav">
@@ -140,64 +149,52 @@
           </div>
           <div class="modal-body">
             <div class="py-1">
-              <form class="form" novalidate="">
+              <form class="form" action="/adminProducts/addProduct" method="post">
                 <div class="row">
                   <div class="col">
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
                           <label>Nombre</label>
-                          <input class="form-control" placeholder="" type="text" name="name">
+                          <input class="form-control" id="product-name-input-creation" type="text" placeholder="Calabresa" name="name">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label>Correo electrónico</label>
-                          <input class="form-control" type="text" name="username" placeholder="pedro@hotmail.com">
+                          <label>Precio</label>
+                          <input class="form-control" id="product-price-input-creation" placeholder="13" type="text" name="price">
                         </div>
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Tags</label>
+                        </div>
+                      </div>
+                      </div>
                     <div class="row">
                       <div class="col mb-3">
                         <div class="form-group">
                           <label>Descripción</label>
-                          <textarea class="form-control" rows="5"></textarea>
+                          <textarea class="form-control" name="description" placeholder="Salchicha ahumada acompañado con patatas fritas"id="product-description-input-creation" rows="5"></textarea>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-12 col-sm-6 mb-3">
-                    <div class="mb-2"><b>Cambiar contraseña</b></div>
-                    <div class="row">
-                      <div class="col">
-                        <div class="form-group">
-                          <label>Nueva contraseña</label>
-                          <input class="form-control" type="password" placeholder="·········">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <div class="form-group">
-                          <label>Confirmar contraseña</label>
-                          <input class="form-control" type="password" placeholder="·········">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   <div class="col-12 col-sm-5 offset-sm-1 mb-3">
                     <div class="mb-2"><b>Imagen de perfil</b></div>
+                    <div class="mb-2"><b>MENÚ DE IMÁGENES AQUÍ</b></div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col d-flex justify-content-end">
-                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
                 </div>
               </form>
-
             </div>
           </div>
         </div>
