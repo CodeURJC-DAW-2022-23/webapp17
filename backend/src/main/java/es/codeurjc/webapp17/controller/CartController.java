@@ -21,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.CartItem;
 import es.codeurjc.webapp17.model.Coupon;
+import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.service.UsersService;
+import es.codeurjc.webapp17.service.AdminService;
 import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.service.ProductsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
@@ -34,11 +36,13 @@ public class CartController {
     private UsersService users_service;
 
     @Autowired
+    private AdminService admin_service;
+
+    @Autowired
     ProductsService products_service;
 
     @Autowired
     private CartsService items_service;
-
 
     @GetMapping("/cart")
     @NeedsSecurity(role=Tools.Role.USER)
@@ -155,6 +159,9 @@ public class CartController {
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> doCheckout(Model model, HttpServletRequest request) {
         try{
+            UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+            List<CartItem> listProductsSold = user.getCart().getCartItems();
+            admin_service.updateTotalSales(listProductsSold);
             items_service.confirmOrder(users_service.getUsersRepo()
             .findByEmail(request.getUserPrincipal().getName()).get(0).getCart());
         }catch(Exception ex){
@@ -208,6 +215,30 @@ public class CartController {
             ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
+    }
+
+    public UsersService getUsers_service() {
+        return users_service;
+    }
+
+    public void setUsers_service(UsersService users_service) {
+        this.users_service = users_service;
+    }
+
+    public ProductsService getProducts_service() {
+        return products_service;
+    }
+
+    public void setProducts_service(ProductsService products_service) {
+        this.products_service = products_service;
+    }
+
+    public CartsService getItems_service() {
+        return items_service;
+    }
+
+    public void setItems_service(CartsService items_service) {
+        this.items_service = items_service;
     }
 
 

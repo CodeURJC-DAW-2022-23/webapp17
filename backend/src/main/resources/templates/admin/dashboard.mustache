@@ -1,5 +1,77 @@
-<div>
+
 {{> header}}
 {{> adminMenu}}
-{{> footer}}
+<!--Script-->
+
+
+<!--HTML-->
+<div class="col-md-9 col-lg-10">
+    <div class="container-fluid">      
+        <h1 class="mt-4">Dashboard</h1>
+        {{#salesExist}}
+            <!-- Chart -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area me-1"></i>
+                    Sales Chart
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart"></canvas>
+<!--Script-->
+<script>
+	// Define data
+	var data = {
+	    labels: ['{{topProductsName.0}}', '{{topProductsName.1}}', '{{topProductsName.2}}', '{{topProductsName.3}}', '{{topProductsName.4}}'],
+	    datasets: [{
+	    label: 'Ventas',
+	    data: [{{topSales.0}}, {{topSales.1}}, {{topSales.2}}, {{topSales.3}}, {{topSales.4}}],
+	    backgroundColor: [
+		    'rgba(255, 99, 132, 0.2)',
+		    'rgba(54, 162, 235, 0.2)',
+		    'rgba(255, 206, 86, 0.2)',
+		    'rgba(75, 192, 192, 0.2)',
+		    'rgba(153, 102, 255, 0.2)'
+	    ],
+	    borderColor: [
+		    'rgba(255, 99, 132, 1)',
+		    'rgba(54, 162, 235, 1)',
+		    'rgba(255, 206, 86, 1)',
+		    'rgba(75, 192, 192, 1)',
+		    'rgba(153, 102, 255, 1)'
+	    ],
+		    borderWidth: 1
+	    }]
+    };
+
+	// Definimos las opciones de la gráfica
+	var options = {
+		scales: {
+			yAxes: [{
+				ticks: {
+					beginAtZero: true
+				}
+			}]
+		}
+	};
+
+	// Creamos el gráfico
+	var ctx = document.getElementById('myChart').getContext('2d');
+	var myChart = new Chart(ctx, {
+		type: 'bar',
+		data: data,
+		options: options
+	});
+</script>
+
+                    </div>
+                </div>
+            </div>
+            {{/salesExist}}
+            {{^salesExist}}
+            <div> No hay ventas </div>
+            {{/salesExist}}
+        </div>
+    </div>
 </div>
+
+{{> footer}}
