@@ -95,9 +95,9 @@ public class ProductsController {
         HashMap<String, Object> map = new HashMap<>();
         Product product = productsService.getProductsRepo().findById(id).get(0);
         try{
-            UserProfile user = usersService.getUsers().findByEmail(request.getUserPrincipal().getName()).get(0);
+            UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
             user.getCart().addCartItem(new CartItem(product,user.getCart()));
-            usersService.getUsers().saveAndFlush(user);
+            usersService.getUsersRepo().saveAndFlush(user);
             map.put("ok","true");
         }catch(NullPointerException ex){
             map.put("Login", "true");
