@@ -1,7 +1,6 @@
 package es.codeurjc.webapp17.controller.admin;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpStatus;
@@ -11,6 +10,7 @@ import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.service.ProductsService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.net.URI;
 
@@ -28,21 +28,21 @@ public class AdminProductsController {
 
     @GetMapping("/adminProducts")
     @NeedsSecurity(role=Tools.Role.NONE)
-    public String products(Model model, @RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
-        int pageSize = 8;
+    public String products(Model model, @RequestParam(name="page", defaultValue = "0") int page, HttpServletRequest request) {
         List<Product> listProducts = productsService.getProducts();
-        int totalPages = productsService.getTotalPages(listProducts);
-        boolean moreProducts = true;
-        //Page<Product> test = productsService.getProducts(page, pageSize);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", page);
-        if (page<=totalPages-1){
-            model.addAttribute("product", productsService.getProducts(page, pageSize));
-        } else {
-            moreProducts=false;
-            model.addAttribute("product", null);
+        List<Product> shownProducts = new ArrayList<Product>();
+        int pageSize = 8;
+        model.addAttribute("prevPag", (int)Math.max(0, page-1));
+        int num = (int)Math.ceil((float)listProducts.size() / (float)pageSize);
+        model.addAttribute("nextPag", (int)Math.min(page+1, num-1));
+        Product product;
+        for(int i=0; i<pageSize; i++){ 
+            if(((page) * pageSize)+i<listProducts.size()-1){
+                product = listProducts.get(((page) * pageSize)+i);
+                shownProducts.add(product);
+            }
         }
-        model.addAttribute("moreProducts", moreProducts);
+        model.addAttribute("product", shownProducts);
         return "admin/products";
     }
     
@@ -74,5 +74,5 @@ public class AdminProductsController {
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminProducts")).build();
     }
 
-    //TODO MANAGE TAGS; MODIFY IMAGES; FIT DESCRIPTION IN THE CELL; PAGINATION
+    //TODO MANAGE TAGS; MODIFY IMAGES
 }

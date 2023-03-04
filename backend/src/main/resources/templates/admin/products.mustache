@@ -1,6 +1,7 @@
 <div>
 {{> header}}
 {{> adminMenu}}
+<div class="col">
     <div class="row flex-lg-nowrap">
     <script>
     function editProduct(button) {
@@ -48,16 +49,12 @@
                     </tr>
                   </thead>
                   <tbody>
-
                     {{#product}}                 
                     <tr>
                       <td class="text-nowrap align-middle">{{title}}</td>
-<td class="text-nowrap align-middle" style="white-space:pre-wrap; word-wrap: break-word; max-width: 200px; height: auto;">
-  {{description}}
-</td>
-
-                      <td class="text-nowrap align-middle">{{price}}&euro;</td>
-                      <td class="text-center align-middle">
+                      <td style="min-width: 75px; height: auto;">{{description}}</td>
+                      <td style="max-width: 15px; height: auto;">{{price}}&euro;</td>
+                      <td class="text-center align-middle" style="max-width: 5 px">
                         <div class="btn-group align-top">
                             <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal-edit" data-title ="{{title}}" data-id="{{id}}" data-description="{{description}}" data-price="{{price}}" onclick="editProduct(this)">Editar</button>
                             <a class="btn btn-sm btn-outline-secondary badge" type="button" href="/adminProducts/removeProduct?id={{id}}"><i class="fa fa-trash"></i></a>
@@ -70,14 +67,8 @@
               </div>
               <div class="d-flex justify-content-center">
                 <ul class="pagination mt-3 mb-0">
-                  <li class="disabled page-item"><a href="#" class="page-link">‹</a></li>
-                  <li class="active page-item"><a href="#" class="page-link">1</a></li>
-                  <li class="page-item"><a href="#" class="page-link">2</a></li>
-                  <li class="page-item"><a href="#" class="page-link">3</a></li>
-                  <li class="page-item"><a href="#" class="page-link">4</a></li>
-                  <li class="page-item"><a href="#" class="page-link">5</a></li>
-                  <li class="page-item"><a href="#" class="page-link">›</a></li>
-                  <li class="page-item"><a href="#" class="page-link">»</a></li>
+                  <li class="page-item"><a href="?page={{prevPag}}" class="page-link"><<</a></li>
+                  <li class="page-item"><a href="?page={{nextPag}}" class="page-link">>></a></li>
                 </ul>
               </div>
             </div>

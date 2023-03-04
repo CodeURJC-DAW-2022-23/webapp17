@@ -1,6 +1,7 @@
 <div>
 {{> header}}
 {{> adminMenu}}
+<div class="col">
     <div class="row flex-lg-nowrap">
     <script>
 
@@ -109,14 +110,8 @@
               </div>
               <div class="d-flex justify-content-center">
                 <ul class="pagination mt-3 mb-0">
-                  <li class="disabled page-item"><a href="#" class="page-link">‹</a></li>
-                  <li class="active page-item"><a href="#" class="page-link">1</a></li>
-                  <li class="page-item"><a href="#" class="page-link">2</a></li>
-                  <li class="page-item"><a href="#" class="page-link">3</a></li>
-                  <li class="page-item"><a href="#" class="page-link">4</a></li>
-                  <li class="page-item"><a href="#" class="page-link">5</a></li>
-                  <li class="page-item"><a href="#" class="page-link">›</a></li>
-                  <li class="page-item"><a href="#" class="page-link">»</a></li>
+                  <li class="page-item"><a href="?page={{prevPag}}" class="page-link"><<</a></li>
+                  <li class="page-item"><a href="?page={{nextPag}}" class="page-link">>></a></li>
                 </ul>
               </div>
             </div>

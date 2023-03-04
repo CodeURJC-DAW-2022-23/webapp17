@@ -8,6 +8,7 @@ import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.service.UsersService;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 
@@ -32,8 +33,19 @@ public class AdminClientsController {
     @NeedsSecurity(role=Tools.Role.NONE)
     public String clients(Model model, @RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
         List<UserProfile> listUsers = usersService.getUsers();
-        model.addAttribute("user", listUsers);
-        model.addAttribute("hola", listUsers.get(0));
+        List<UserProfile> shownUsers = new ArrayList<UserProfile>();
+        int pageSize = 8;
+        model.addAttribute("prevPag", (int)Math.max(0, page-1));
+        int num = (int)Math.ceil((float)listUsers.size() / (float)pageSize);
+        model.addAttribute("nextPag", (int)Math.min(page+1, num-1));
+        UserProfile user;
+        for(int i=0; i<pageSize; i++){ 
+            if(((page) * pageSize)+i<listUsers.size()){
+                user = listUsers.get(((page) * pageSize)+i);
+                shownUsers.add(user);
+            }
+        }
+        model.addAttribute("user", shownUsers);
         return "admin/clients";
     }
 
