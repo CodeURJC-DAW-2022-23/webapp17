@@ -104,8 +104,6 @@ function rotarImagenes(){
   
 }
 
-    /*wow init*/
-    new WOW().init();
     
 onload=function()
 {

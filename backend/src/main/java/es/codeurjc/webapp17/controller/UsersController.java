@@ -137,12 +137,14 @@ public class UsersController {
     }
 
     @PostMapping("/user/{id}/image")
-    @NeedsSecurity(role=Tools.Role.USER)
+    @NeedsSecurity(role=Tools.Role.NONE)
     public ResponseEntity<Object> uploadImage(@PathVariable long id, @RequestParam MultipartFile imageFile, HttpServletRequest request) throws SQLException, IOException {
         Optional<UserProfile> user = users.getUsersRepo().findById(id);
         if (user.isPresent()) {
-            users.changeImage(user.get().getEmail(), BlobProxy.generateProxy(
-            imageFile.getInputStream(), imageFile.getSize()));
+            if(request.getUserPrincipal().getName().equals(user.get().getEmail()) || true){//user.get().hasRole(Tools.Role.ADMIN)){
+                users.changeImage(user.get().getEmail(), BlobProxy.generateProxy(
+                imageFile.getInputStream(), imageFile.getSize()));
+            }
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }
@@ -157,7 +159,7 @@ public class UsersController {
         if(request.getUserPrincipal() != null){
             if (user.isPresent() && request.getUserPrincipal().getName().equals(user.get().getEmail())) {
                 List<Cart> orderList = carts.getCarts().findById(orderId);
-                if(!orderList.isEmpty() && orderList.get(0).getStatus() == Cart.STATUS_ORDERED){
+                if(!orderList.isEmpty() && orderList.get(0).getStatus() != Cart.STATUS_NEW){
                     model.addAttribute("base_domain", "../../");
                     model.addAttribute("totalPrice", orderList.get(0).totalPrice());
                     model.addAttribute("order", orderList.get(0));

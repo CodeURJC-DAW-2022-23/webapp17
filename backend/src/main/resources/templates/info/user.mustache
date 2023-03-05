@@ -294,6 +294,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Pedido nº{{id}} 
                                     {{#isPreparing}}<span class="badge bg-primary">En preparación</span>{{/isPreparing}}
+                                    {{^isPreparing}}<span class="badge bg-success">Pedido cerrado</span>{{/isPreparing}}
                                     </h5>
                                     <p class="card-text">Pedido efectuado el {{createdAt}}</p>
                                     </div>

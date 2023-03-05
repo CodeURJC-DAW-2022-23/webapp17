@@ -1,43 +1,20 @@
 {{> header}}
 <!-- Header-->
+<script>
+  $( document ).ready(function() {
+    $("#showText").html($("#showText").attr("data"));
+  });
+</script>
         <header class="bg-dark py-5">
-            Info
+          <div class="text-center text-white">
+              <h1 class="display-4 fw-bolder fade-in-big">Menu</h1>
+          </div>
         </header>
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Day</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Second</th>
-                    <th scope="col">Dessert</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Monday</th>
-                    <td>Food</td>
-                    <td>Food</td>
-                    <td>More Food</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Tuesday</th>
-                    <td>Food</td>
-                    <td>Food</td>
-                    <td>More Food</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Wednesday</th>
-                    <td>Food</td>
-                    <td>Food</td>
-                    <td>More Food</td>
-                  </tr>
-                </tbody>
-              </table>
-              <button type="button" class="btn btn-primary">Order</button>
+              <div id="showText" data="{{#hasMenu}}{{#menu}}{{menu.content}}{{/menu}}{{/hasMenu}}"></div>
+              <a type="button" class="btn btn-primary" href="/products">Order</a>
             </div>
-            
         </section>
  {{> footer}}       

@@ -50,7 +50,7 @@ public class CartsService {
 
     public Page<Cart> getUserOrders(UserProfile user, int numPage, int pageSize){
         Pageable pageable = PageRequest.of(numPage, pageSize);
-        return getCarts().findByCreatedByAndStatus(user, Cart.STATUS_ORDERED, pageable);
+        return getCarts().findByCreatedByAndStatusNot(user, Cart.STATUS_NEW, pageable);
     }
 
     public Page<Cart> getUserOrders(UserProfile user){

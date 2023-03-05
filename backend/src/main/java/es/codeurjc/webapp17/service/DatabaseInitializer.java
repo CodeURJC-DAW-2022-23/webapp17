@@ -15,9 +15,11 @@ import es.codeurjc.webapp17.model.CartItem;
 import es.codeurjc.webapp17.model.ProductImage;
 import es.codeurjc.webapp17.model.ProfileImage;
 import es.codeurjc.webapp17.model.CouponImage;
+import es.codeurjc.webapp17.model.Post;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ import es.codeurjc.webapp17.tools.Tools;
 import es.codeurjc.webapp17.tools.Tools.Role;
 import es.codeurjc.webapp17.repository.CartsRepo;
 import es.codeurjc.webapp17.repository.CommentsRepo;
+import es.codeurjc.webapp17.repository.PostRepo;
 import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -48,10 +51,18 @@ public class DatabaseInitializer {
     private CartsRepo carts;
 
     @Autowired
+    private PostRepo postRepo;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("classpath:posts/menu.html")
+    private Resource menu;
 
     @PostConstruct
     public void init() throws IOException{
+
+        postRepo.saveAndFlush(new Post("menu", Tools.asString(menu)));
 
         //PRODUCTS EXAMPLE
 
@@ -227,7 +238,7 @@ public class DatabaseInitializer {
         orderCart3.addCartItem(new CartItem(nestea, orderCart3));
         orderCart3.addCartItem(new CartItem(agua, orderCart3));
         orderCart3.addCartItem(new CartItem(acaraje, orderCart3));
-        orderCart3.setStatus(Cart.STATUS_ORDERED);
+        orderCart3.setStatus(Cart.STATUS_DONE);
 
         test.getBookings().add(new Booking(test, "Ahora mismo", 2, "66666"));
 

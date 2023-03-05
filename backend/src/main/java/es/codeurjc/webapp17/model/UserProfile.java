@@ -35,7 +35,7 @@ public class UserProfile {
     @Nonnull
     private String name;
     
-    private String bio;
+    private String bio = "";
 
     @Nonnull
     @Column(unique=true)
@@ -49,8 +49,6 @@ public class UserProfile {
     private List<Tools.Role> role = new ArrayList<>();
 
     private String phone;
-
-    private String userBio;
 
     private Timestamp lastModified;
 
@@ -128,6 +126,12 @@ public class UserProfile {
     public void addRole(Tools.Role role){
         if(this.role != null) this.role.add(role); 
     }
+
+    public boolean hasRole(Role role){
+        if(this.role != null) return this.role.contains(role);
+        return false;
+    }
+
     public String[] getRoleString(){
         String r = "";
         for(Tools.Role rol : role){

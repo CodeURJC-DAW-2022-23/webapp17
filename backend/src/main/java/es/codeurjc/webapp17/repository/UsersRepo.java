@@ -14,6 +14,7 @@ public interface UsersRepo extends JpaRepository<UserProfile, Long>{
     // This query computes the near path recomendations for products
     @Query(value="SELECT PRODUCT_ID FROM (SELECT CREATED_BY_ID, PRODUCT_ID FROM CART JOIN CART_ITEM ON CART_ITEM.CART_ID=CART.ID) "+
     "JOIN (SELECT CREATED_BY_ID AS C, PRODUCT_ID AS P FROM CART JOIN CART_ITEM ON CART_ITEM.CART_ID=CART.ID) WHERE "+
-    "(P IN (SELECT PRODUCT_ID FROM CART JOIN CART_ITEM ON CART_ITEM.CART_ID=CART.ID WHERE CART_ID=:order) AND C=CREATED_BY_ID) GROUP BY PRODUCT_ID ORDER BY COUNT(PRODUCT_ID) DESC", nativeQuery = true)
+    "(P IN (SELECT PRODUCT_ID FROM CART JOIN CART_ITEM ON CART_ITEM.CART_ID=CART.ID WHERE CART_ID=:order) AND C=CREATED_BY_ID) GROUP"+
+    " BY PRODUCT_ID ORDER BY COUNT(PRODUCT_ID) DESC", nativeQuery = true)
     List<Long> getRecomendedByProductList(@Param("order") Long order);
 }

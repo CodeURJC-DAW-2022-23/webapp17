@@ -3,6 +3,10 @@ package es.codeurjc.webapp17.tools;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UncheckedIOException;
+import java.nio.charset.CharsetDecoder;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
@@ -23,6 +27,7 @@ import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.util.FileCopyUtils;
 
 import ch.qos.logback.core.boolex.Matcher;
 import es.codeurjc.webapp17.model.Cart;
@@ -143,6 +148,14 @@ public class Tools {
             this.page = page;
         }
 
+    }
+
+    public static String asString(Resource resource) {
+        try (Reader reader = new InputStreamReader(resource.getInputStream())) {
+            return FileCopyUtils.copyToString(reader);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
 }

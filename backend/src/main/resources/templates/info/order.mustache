@@ -5,6 +5,8 @@
 
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-primary">Tu Pedido Nº{{id}} realizado el {{createdAt}}</span>
+                {{#isPreparing}}<span class="badge bg-primary">En preparación</span>{{/isPreparing}}
+                {{^isPreparing}}<span class="badge bg-success">Pedido cerrado</span>{{/isPreparing}}
             </h4>
             
             <ul class="list-group mb-3">

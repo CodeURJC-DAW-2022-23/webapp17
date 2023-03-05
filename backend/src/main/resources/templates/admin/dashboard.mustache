@@ -1,77 +1,108 @@
 
-{{> header}}
 {{> adminMenu}}
 <!--Script-->
-
-
-<!--HTML-->
-<div class="col-md-9 col-lg-10">
-    <div class="container-fluid">      
-        <h1 class="mt-4">Dashboard</h1>
-        {{#salesExist}}
-            <!-- Chart -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-chart-area me-1"></i>
-                    Sales Chart
-                </div>
-                <div class="card-body">
-                    <canvas id="myChart"></canvas>
-<!--Script-->
 <script>
-	// Define data
-	var data = {
-	    labels: ['{{topProductsName.0}}', '{{topProductsName.1}}', '{{topProductsName.2}}', '{{topProductsName.3}}', '{{topProductsName.4}}'],
-	    datasets: [{
-	    label: 'Ventas',
-	    data: [{{topSales.0}}, {{topSales.1}}, {{topSales.2}}, {{topSales.3}}, {{topSales.4}}],
-	    backgroundColor: [
-		    'rgba(255, 99, 132, 0.2)',
-		    'rgba(54, 162, 235, 0.2)',
-		    'rgba(255, 206, 86, 0.2)',
-		    'rgba(75, 192, 192, 0.2)',
-		    'rgba(153, 102, 255, 0.2)'
-	    ],
-	    borderColor: [
-		    'rgba(255, 99, 132, 1)',
-		    'rgba(54, 162, 235, 1)',
-		    'rgba(255, 206, 86, 1)',
-		    'rgba(75, 192, 192, 1)',
-		    'rgba(153, 102, 255, 1)'
-	    ],
-		    borderWidth: 1
-	    }]
-    };
-
-	// Definimos las opciones de la gráfica
-	var options = {
-		scales: {
-			yAxes: [{
-				ticks: {
-					beginAtZero: true
-				}
+	function salesChart(){
+		// Define data
+		var axis = [{{#topSales}}{{.}},{{/topSales}}];
+		var data = {
+			labels: [{{#topProducts}}'{{title}}',{{/topProducts}}],
+			datasets: [{
+			label: 'Ventas',
+			data: axis,
+			backgroundColor: [
+				'rgba(255, 99, 132, 0.2)',
+				'rgba(54, 162, 235, 0.2)',
+				'rgba(255, 206, 86, 0.2)',
+				'rgba(75, 192, 192, 0.2)',
+				'rgba(153, 102, 255, 0.2)'
+			],
+			borderColor: [
+				'rgba(255, 99, 132, 1)',
+				'rgba(54, 162, 235, 1)',
+				'rgba(255, 206, 86, 1)',
+				'rgba(75, 192, 192, 1)',
+				'rgba(153, 102, 255, 1)'
+			],
+				borderWidth: 1
 			}]
-		}
-	};
+		};
 
-	// Creamos el gráfico
-	var ctx = document.getElementById('myChart').getContext('2d');
-	var myChart = new Chart(ctx, {
-		type: 'bar',
-		data: data,
-		options: options
+		// Definimos las opciones de la gráfica
+		var options = {
+			responsive: true,
+			aspectRatio: 3 / 1,
+			maintainAspectRatio: true
+		};
+
+		// Creamos el gráfico
+		var ctx = $("#productsChart").get(0).getContext('2d');
+		$("#scrollerSales").width(window.innerWidth*0.4*1/5*axis.length);
+		var myChart = new Chart(ctx, {
+			type: 'bar',
+			data: data,
+			options: options
+		});
+	}
+	$( document ).ready(function() {
+		salesChart();
 	});
 </script>
-
-                    </div>
-                </div>
-            </div>
-            {{/salesExist}}
-            {{^salesExist}}
-            <div> No hay al menos 5 ventas de productos distintos </div>
-            {{/salesExist}}
-        </div>
-    </div>
-</div>
-
-{{> footer}}
+	<!--HTML-->
+<section>
+	<div class="container">
+		<h1 class="mt-4">Panel de control</h1>
+		<div class="row">
+			<div class="col-8">
+				{{#salesExist}}
+				<!-- Chart -->
+				<div class="card m-2">
+					<div class="card-header">
+						<i class="fas fa-chart-area"></i>
+						Grafico de ventas
+					</div>
+					<div class="card-body">
+						<div class="overflow-scroll">
+							<div id="scrollerSales">
+								<canvas id="productsChart"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{/salesExist}}
+				{{^salesExist}}
+					<div> No hay al menos 5 ventas de productos distintos </div>
+				{{/salesExist}}
+			</div>
+			<div class="col-3 row">
+				<div class="col-12">
+					<div class="card m-2">
+						<div class="card-header">
+							Datos
+						</div>
+						<div class="card-body">
+							<div>
+								<h5 class="card-title">Usuarios</h5>
+								<h4 class="card-title">{{users}}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 mb-5">
+					<div class="card m-2">
+						<div class="card-header">
+							Datos del Sitio
+						</div>
+						<div class="card-body">
+							<div>
+								<h5 class="card-title">Usuarios</h5>
+								<h4 class="card-title">{{users}}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			<div>
+		</div>
+	</div>
+</section>
+{{> adminMenuFooter}}

@@ -77,6 +77,8 @@ public class AdminClientsController {
         usersService.registerUserFromForm(name, password, email, bio, admin);
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminUsers")).build();
     }
+
+    
     //MODIFY IMAGE; PAGINATION
         
 }

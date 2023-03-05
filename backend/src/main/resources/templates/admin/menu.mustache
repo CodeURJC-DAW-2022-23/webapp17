@@ -1,0 +1,61 @@
+{{> adminMenu}}
+<script src="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}/{{/base_domain}}webjars/tinymce/tinymce.js"></script>
+<script>
+$( document ).ready(function() {
+    $("#showText").html($("#showText").attr("data-inside"));
+    $("#editor").html($("#showText").attr("data-inside"));
+    tinymce.init({
+        selector: 'textarea#editor',
+        branding: false,
+        promotion: false,
+        plugins: 'code table',
+    });
+});
+function changeMenu(){
+        var newContent = tinymce.get("editor").getContent();
+        $.ajax({ 
+            url:"adminMenu?content="+newContent,    
+            type:"POST",
+            contentType: "application/json; charset=utf-8",
+            success: function(responseData){
+                location.reload();
+            },error: function (xhr, ajaxOptions, thrownError){
+                alert("El menu no pudo ser cambiado");
+            }
+        });
+    }
+</script>
+<section class="py-5">
+    <div class="card m-3 ms-5 me-4">
+        <header class="display-5 m-5">
+            Menu
+        </header>
+        <div class="container px-4 px-lg-5 m-5">
+            <div id="showText" class="me-5 overflow-scroll" data-inside="{{#hasMenu}}{{#menu}}{{menu.content}}{{/menu}}{{/hasMenu}}"></div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changeMenu">Cambiar Menu</button>
+        </div>
+        <div class="modal fade" tabindex="-1" id="changeMenu">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cambiar el Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="descriptionInput">Introduce la nueva Bio</label>
+                        <textarea type="text" id="editor" name="newDescription" class="form-control"></textarea>
+                        <div id="errorDescription"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onClick="javascript:changeMenu()">Guardar cambios</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{> adminMenuFooter}}

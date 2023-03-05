@@ -161,7 +161,6 @@ public class CartController {
         try{
             UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
             List<CartItem> listProductsSold = user.getCart().getCartItems();
-            admin_service.updateTotalSales(listProductsSold);
             items_service.confirmOrder(users_service.getUsersRepo()
             .findByEmail(request.getUserPrincipal().getName()).get(0).getCart());
         }catch(Exception ex){

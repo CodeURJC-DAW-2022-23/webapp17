@@ -59,7 +59,7 @@ public class ProductsController {
             UserProfile user = usersService.getUser(request.getUserPrincipal().getName());
             if(user != null && !user.getOrders().isEmpty()){
                 List<Long> recomendedProducts = usersService.getUsersRepo()
-                    .getRecomendedByProductList(user.getOrders().get(user.getOrders().size()-1).getId());
+                    .getRecomendedByProductList(user.getOrders().get(Math.max(user.getOrders().size()-2, 0)).getId());
                 List<Product> products = productsService.getProductsRepo().findAllById(recomendedProducts);
                 if(products.size() > 0){
                     model.addAttribute("recomended_product", products.subList(0, Math.min(products.size(), 4)));
