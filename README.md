@@ -93,29 +93,29 @@ Web app for the best fast food franchaise Gustosa, made for Web Applications Dev
 #### Guillermo Grande Santi:
   
 📗 Tareas realizadas:  
-    - Template for ordering products, including add to cart functionality and Pagination with Ajax for showing more than 8 products.  
-    - Template for showing the description of a product, every image of the product and their respective comments. This comments are also paginated with Ajax for showing more than 8 comments.   
-    - Template for showing the cart, being able to add or subtract amounts to added products and showing every product price besides of the total price. Also, added the functionality to redeem coupons.  
-    - Template for checking out, being able to see a billing form and the cart before proceeding to payment.  
-    - Global Navigation, Java controllers and Views initialized.  
-    - Access to the admin dashboard and admin sidebar.  
-    - Top 5 products sales chart with chart.js in Admin Dashboard.  
-    - Added Menu table in Menu template.  
-    - Fixed general errors, global testing and final translation.  
+- Template for ordering products, including add to cart functionality and Pagination with Ajax for showing more than 8 products.  
+- Template for showing the description of a product, every image of the product and their respective comments. This comments are also paginated with Ajax for showing more than 8 comments.   
+- Template for showing the cart, being able to add or subtract amounts to added products and showing every product price besides of the total price. Also, added the functionality to redeem coupons.  
+- Template for checking out, being able to see a billing form and the cart before proceeding to payment.  
+- Global Navigation, Java controllers and Views initialized.  
+- Access to the admin dashboard and admin sidebar.  
+- Top 5 products sales chart with chart.js in Admin Dashboard.  
+- Added Menu table in Menu template.  
+- Fixed general errors, global testing and final translation.  
       
 📃 Commits más significativos:  
-    - [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/2bf51aa4fde78515714b289d9de09ea62a279544) Completed Pagination with Ajax and JS.  
-    - [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/864c73332b2b17deb8172dff3a85fc16070fe31c) Cart template fully functional.  
-    - [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/8378d5645c577925eab4a647b9ed962f4d9a0f5d) Sales chart available in admin dashboard.  
-    - [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/d8c072bbd2c227cf706e3b744d8c1e62836f68d5) Comments Pagination with Ajax in description page.  
-    - [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/bfcdd0fa5deda9988394d426016b9887eb3e4919) Added carousel for images in description.  
+- [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/2bf51aa4fde78515714b289d9de09ea62a279544) Completed Pagination with Ajax and JS.  
+- [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/864c73332b2b17deb8172dff3a85fc16070fe31c) Cart template fully functional.  
+- [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/8378d5645c577925eab4a647b9ed962f4d9a0f5d) Sales chart available in admin dashboard.  
+- [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/d8c072bbd2c227cf706e3b744d8c1e62836f68d5) Comments Pagination with Ajax in description page.  
+- [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/bfcdd0fa5deda9988394d426016b9887eb3e4919) Added carousel for images in description.  
       
 📂Ficheros más relevantes:  
-    - [File 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/CartController.java) CartController.java  
-    - [File 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/ProductsController.java) ProductsController.java  
-    - [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/dishes/order.mustache) order.mustache  
-    - [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/dishes/description.mustache) description.mustache  
-    - [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/menu/cart.mustache) cart.mustache  
+- [File 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/CartController.java) CartController.java  
+- [File 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/ProductsController.java) ProductsController.java  
+- [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/dishes/order.mustache) order.mustache  
+- [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/dishes/description.mustache) description.mustache  
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/menu/cart.mustache) cart.mustache  
   
    
 #### Alejandro López Adrados:
