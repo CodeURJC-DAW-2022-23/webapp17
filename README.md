@@ -170,5 +170,11 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 
 #### Jesús González Gironda:
 
+### ⌛ Class and Templates UML Diagram
+![uml1](https://user-images.githubusercontent.com/68378676/222984262-bd0e884b-6241-4cab-a1b2-43a1267127d4.png)
+![uml2](https://user-images.githubusercontent.com/68378676/222984269-8bfb35d5-9302-4840-adb3-2defa4ab02e3.png)
+
+
+
 
 
