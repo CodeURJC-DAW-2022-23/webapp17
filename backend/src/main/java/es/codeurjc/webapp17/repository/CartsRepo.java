@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.UserProfile;
@@ -13,4 +14,7 @@ public interface CartsRepo extends JpaRepository<Cart, Long>{
     Page<Cart> findByStatusNot(int status, Pageable pageable);
     Page<Cart> findByCreatedByAndStatus(UserProfile profile, int status, Pageable pageable);
     Page<Cart> findByCreatedByAndStatusNot(UserProfile profile, int status, Pageable pageable);
+
+    @Query(value="SELECT COUNT(*) AS total_orders FROM CART;", nativeQuery = true)
+    int getTotalOrders();
 }

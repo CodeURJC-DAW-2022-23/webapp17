@@ -78,30 +78,61 @@
 				<div class="col-12">
 					<div class="card m-2">
 						<div class="card-header">
-							Datos
+							Datos de usuarios
 						</div>
 						<div class="card-body">
-							<div>
-								<h5 class="card-title">Usuarios</h5>
-								<h4 class="card-title">{{users}}</h4>
-							</div>
+							<div id="ofertas" class="carousel slide" data-bs-ride="carousel">
+                				<div class="carousel-inner carousel-ofertas">
+    								<div class="carousel-item active h-100" id="oferta1">
+										<div>
+											<h6 class="card-title">Usuarios registrados</h6>
+											<h4 class="card-title">{{users}}</h4>
+										</div>
+									</div>
+									<div class="carousel-item h-100">
+										<div>
+											<h6 class="card-title">Reseñas publicadas</h6>
+											<h4 class="card-title">{{totalComments}}</h4>
+										</div>
+									</div>   
+									<div class="carousel-item h-100">
+										<div>
+											<h6 class="card-title">Pedidos realizados</h6>
+											<h4 class="card-title">{{totalOrders}}</h4>
+										</div>
+									</div>    
+                    			</div>
+                			</div>
+
 						</div>
 					</div>
 				</div>
 				<div class="col-12 mb-5">
 					<div class="card m-2">
 						<div class="card-header">
-							Datos del Sitio
+							Datos de productos
 						</div>
 						<div class="card-body">
-							<div>
-								<h5 class="card-title">Usuarios</h5>
-								<h4 class="card-title">{{users}}</h4>
-							</div>
+							<div id="ofertas" class="carousel slide" data-bs-ride="carousel">
+                				<div class="carousel-inner carousel-ofertas">
+    								<div class="carousel-item active h-100">
+										<div>
+											<h6 class="card-title">Productos en carta</h6>
+											<h4 class="card-title">{{products}}</h4>
+										</div>
+									</div>
+									<div class="carousel-item h-100">
+										<div>
+											<h6 class="card-title">Valoración media</h6>
+											<h4 class="card-title">{{ratingAVG}}</h4>
+										</div>
+									</div>      
+                    			</div>
+                			</div>
 						</div>
-					</div>
+					</div>	
 				</div>
-			<div>
+			</div>
 		</div>
 	</div>
 </section>

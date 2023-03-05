@@ -3,13 +3,9 @@ package es.codeurjc.webapp17.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Map;
-
-import javax.tools.Tool;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,18 +40,18 @@ public class CartsService {
         return cartItems;
     }
 
-    public CartsRepo getCarts() {
+    public CartsRepo getCartsRepo() {
         return carts;
     }
 
     public Page<Cart> getUserOrders(UserProfile user, int numPage, int pageSize){
         Pageable pageable = PageRequest.of(numPage, pageSize);
-        return getCarts().findByCreatedByAndStatusNot(user, Cart.STATUS_NEW, pageable);
+        return getCartsRepo().findByCreatedByAndStatusNot(user, Cart.STATUS_NEW, pageable);
     }
 
     public Page<Cart> getUserOrders(UserProfile user){
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
-        return getCarts().findByCreatedByAndStatus(user, Cart.STATUS_ORDERED, pageable);
+        return getCartsRepo().findByCreatedByAndStatus(user, Cart.STATUS_ORDERED, pageable);
     }
 
     public void confirmOrder(Cart order){

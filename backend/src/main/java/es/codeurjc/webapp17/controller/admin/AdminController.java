@@ -5,18 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.service.AdminService;
 import es.codeurjc.webapp17.service.UsersService;
+import es.codeurjc.webapp17.service.ProductsService;
+import es.codeurjc.webapp17.service.CommentsService;
+import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.PriorityQueue;
-import java.util.Map.Entry;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +25,15 @@ public class AdminController {
 
     @Autowired
     UsersService usersService;
+
+    @Autowired
+    ProductsService productsService;
+
+    @Autowired
+    CommentsService commentsService;
+
+    @Autowired
+    CartsService cartsService;
 
     @GetMapping("/admin")
     @NeedsSecurity(role=Tools.Role.NONE)
@@ -47,7 +50,12 @@ public class AdminController {
             salesExist = true;
             model.addAttribute("salesExist", salesExist);
         }
-        model.addAttribute("users", usersService.getUsersRepo().findAll().size());
+        model.addAttribute("users", usersService.getUsersRepo().getTotalUsers());
+        model.addAttribute("products", productsService.getProductsRepo().getTotalProducts());
+        model.addAttribute("ratingAVG", commentsService.getCommentsRepo().getAvgRating());
+        model.addAttribute("totalComments", commentsService.getCommentsRepo().getTotalComments());
+        model.addAttribute("totalOrders", cartsService.getCartsRepo().getTotalOrders());
+
         return "/admin/dashboard";
     }
 
