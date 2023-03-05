@@ -36,6 +36,13 @@ public class ProductImage extends Image{
         setImageFile(imageBlob);
     }
 
+    public ProductImage(Blob imageBlob, Product product){
+        setImageFile(imageBlob);
+        this.product = product;
+        setPositionInProduct(product.getNumberOfImages());
+        setFirstOne(product.getImages().isEmpty());
+    }
+
     public int getPositionInProduct() {
         return positionInProduct;
     }

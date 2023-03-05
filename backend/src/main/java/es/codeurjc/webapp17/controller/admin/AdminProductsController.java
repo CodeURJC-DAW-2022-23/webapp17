@@ -1,19 +1,29 @@
 package es.codeurjc.webapp17.controller.admin;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.model.Product;
+import es.codeurjc.webapp17.model.ProductImage;
+import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.service.ProductsService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.io.IOException;
 import java.net.URI;
+import java.sql.Blob;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,6 +82,27 @@ public class AdminProductsController {
         String[] tags = {"Nuevo"};
         productsService.addProduct(name, Float.parseFloat(price), description, tags);
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminProducts")).build();
+    }
+
+    
+    @DeleteMapping("/adminProducts/removeImages/{id}")
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public ResponseEntity<Object> removeImage(@PathVariable long id, HttpServletRequest request) {
+        List<Product> products = productsService.getProductsRepo().findById(id);
+        products.get(0).getImages().clear();
+        productsService.getProductsRepo().saveAndFlush(products.get(0));
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/adminProducts/{id}/image")
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public ResponseEntity<Object> uploadImage(@PathVariable long id, @RequestParam MultipartFile imageFile, HttpServletRequest request) throws IOException{
+        List<Product> products = productsService.getProductsRepo().findById(id);
+        Blob newImage = BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize());
+        ProductImage ima = new ProductImage(newImage, products.get(0));
+        products.get(0).getImages().add(ima);
+        productsService.getProductsRepo().saveAndFlush(products.get(0));
+        return ResponseEntity.ok().build();
     }
 
     //TODO MANAGE TAGS; MODIFY IMAGES
