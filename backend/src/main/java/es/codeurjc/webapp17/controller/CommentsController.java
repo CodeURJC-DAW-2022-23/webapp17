@@ -40,7 +40,7 @@ public class CommentsController {
     @GetMapping("/description")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String description(@RequestParam(name="id") long id, Model model, @RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
-        int pageSize = 8;
+        int pageSize = 4;
         Product product = productsService.getProducts().get((int) id - 1);
         List<Comment> listComments = product.getComments();
         int totalPages = commentsService.getTotalPagesComments(listComments);
