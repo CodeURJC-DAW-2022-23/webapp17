@@ -15,8 +15,8 @@ public interface ProductsRepo extends JpaRepository<Product, Long>{
     List<Product> findById(long id);
     Page<Product> findById(long id, Pageable page);
 
-    @Query(value="SELECT PRODUCT_ID, SUM(QUANTITY) FROM CART JOIN CART_ITEM ON CART_ITEM.CART_ID=CART.ID WHERE NOT STATUS="
-    +Cart.STATUS_NEW+" GROUP BY PRODUCT_ID ORDER BY SUM(QUANTITY) DESC", nativeQuery = true)
+    @Query(value="select product_id, sum(quantity) from cart join cart_item on cart_item.cart_id=cart.id where not status="
+    +Cart.STATUS_NEW+" group by product_id order by sum(quantity) desc", nativeQuery = true)
     List<Long[]> getSales();
 
     @Query(value="SELECT COUNT(*) AS total_products FROM PRODUCT;", nativeQuery = true)

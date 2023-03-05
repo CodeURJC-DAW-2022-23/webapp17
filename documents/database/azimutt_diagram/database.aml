@@ -1,3 +1,21 @@
+users
+  id uuid pk
+  role user_role(customer, admin)
+  name varchar
+  bio text nullable
+  email varchar unique
+  email_validated String nullable
+  phone varchar unique
+
+profileimage
+  id uuid pk
+  image_file blob
+  user fk users.id
+
+credentials
+  provider_id provider(google, email) pk
+  provider_key varchar pk | user id in provider system
+  hasher hash_method(md5, sha1, sha256)
   password_hash varchar
   password_salt varchar
   user_id uuid fk users.id
@@ -13,8 +31,8 @@ comments
 bookings
   id uuid pk
   user_id uuid fk users.id
-  when timestamp
-  confirmation timestamp nullable
+  book_time String
+  confirmation bool nullable
 
 
 products
@@ -26,16 +44,39 @@ products
   price number | in Euro
   tags varchar[]
 
+productimages
+  id uuid pk
+  image_file blob
+  product fk products.id
+
 carts
   id uuid pk
-  status cart_status(active, ordered, abandonned)
+  status cart_status(active, ordered, confirmed)
   created_at timestamp=now
   created_by uuid fk users.id
+  coupon uuid fk coupons.id
   updated_at timestamp
 
+coupons
+  id uuid pk
+  code varchar
+  discount float
+  user_remaining
+  user_profile fk users.id
+
+couponimage
+  id uuid pk
+  image_file blob
+  coupon fk coupons.id
+
 cart_items
-  cart_id uuid pk fk carts.id
+  cart_id uuid fk carts.id
   product_id uuid pk fk products.id
   price number
   quantity int check="quantity > 0" | should be > 0
   created_at timestamp
+
+posts
+  id uuid pk
+  title varchar
+  contect blob

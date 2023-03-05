@@ -104,5 +104,18 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<profiles>
+		<profile>
+			<id>sql</id>
+			<properties>
+				<activatedProperties>sql</activatedProperties>
+			</properties>
+			<activation>
+				<property>
+					<name>spring_profiles_active</name>
+					<value>sql</value>
+				</property>
+			</activation>
+		</profile>
+	</profiles>
 </project>

@@ -2,32 +2,87 @@
 
 ## Main menu
 Menu with basic info and cachy pictures to show yummy food.
-![image](s_main.png)
+![image](index.png)
 
 ## Information
 Restaurant information page.
-![image](s_information.png)
+![image](info.png)
 
 ## Menu
 Restaurant menu and timetable
-![image](s_menu.png)
+![image](menu.png)
 
 ## Products
 Products page.
-![image](s_products.png)
+![image](products.png)
+
+## Product
+Products page.
+![image](product.png)
 
 ## Booking
 Here its easy to book.
-![image](s_booking.png)
+![image](book.png)
 
 ## Profile
 User profile page.
-![image](s_main.png)
+![image](user.png)
+
+## Order
+Order.
+![image](order.png)
+
+## Cart
+Cart.
+![image](cart.png)
+
+## Checkout
+Checkout page
+![image](checkout.png)
+
+## Change password
+Change password
+![image](change_pass.png)
+
+## Verify
+Change verify
+![image](verify.png)
+
+## Login
+Login
+![image](login.png)
+
+## Register
+Register
+![image](register.png)
+
+## Bible
+Bible
+![image](bible.png)
 
 ## Admin page
 Admin control page.
-![image](s_admin.png)
+![image](admin.png)
 
+## Admin Coupon
+Admin control page.
+![image](edit_coupon.png)
+
+## Admin Menu
+Admin control page.
+![image](edit_menu.png)
+
+## Admin Product
+Admin control page.
+![image](edit_product.png)
+
+## Admin User
+Admin control page.
+![image](edit_user.png)
+
+## Admin Orders
+Admin control page.
+![image](edit_orders.png)
 
 ## Navigation
 ![image](export.png)

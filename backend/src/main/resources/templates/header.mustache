@@ -39,7 +39,7 @@
                                 $("#logout_but").show();
                                 if ("isAdmin" in responseData && responseData["isAdmin"] === true) {
                                     var adminMenuLink = "<a class=\"btn\" id=\"admin_button\" href=\"/admin\"><i class=\"bi-gear-wide-connected me-1\"></i>Admin</a>";
-                                    $("#navbar-nav").append(adminMenuLink);
+                                    $("#admin").html(adminMenuLink);
                                 }
                             }
                             if("cart_length" in responseData){
@@ -73,6 +73,7 @@
                                 <li><a class="dropdown-item" href="/book">Reservar</a></li>
                             </ul>
                         </li>
+                        <li id="admin"></li>
                     </ul>
                     <div class="d-flex pe-3">
                         <a class="btn" id="user_button" href="/login">
