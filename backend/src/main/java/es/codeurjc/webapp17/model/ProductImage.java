@@ -39,7 +39,7 @@ public class ProductImage extends Image{
     public ProductImage(Blob imageBlob, Product product){
         setImageFile(imageBlob);
         this.product = product;
-        setPositionInProduct(product.getNumberOfImages());
+        setPositionInProduct(product.getImages().size());
         setFirstOne(product.getImages().isEmpty());
     }
 
