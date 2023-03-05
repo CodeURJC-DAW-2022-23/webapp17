@@ -1,6 +1,7 @@
 package es.codeurjc.webapp17.controller.admin;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.webapp17.model.Post;
@@ -35,9 +37,9 @@ public class AdminMenuController {
 
     @PostMapping("/adminMenu")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity postMenu(Model model, @RequestParam(name = "content") String content, HttpServletRequest request) {
+    public ResponseEntity postMenu(Model model, HttpServletRequest request, @RequestBody Map<String, Object> payload) {
         Post menu = postRepo.findByTitle("menu").get(0);
-        menu.setContent(content);
+        menu.setContent((String)payload.get("content"));
         postRepo.saveAndFlush(menu);
         return ResponseEntity.ok().build();
     }

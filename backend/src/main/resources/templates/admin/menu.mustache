@@ -14,9 +14,10 @@ $( document ).ready(function() {
 function changeMenu(){
         var newContent = tinymce.get("editor").getContent();
         $.ajax({ 
-            url:"adminMenu?content="+newContent,    
+            url:"adminMenu",    
             type:"POST",
             contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({"content": newContent}),
             success: function(responseData){
                 location.reload();
             },error: function (xhr, ajaxOptions, thrownError){
