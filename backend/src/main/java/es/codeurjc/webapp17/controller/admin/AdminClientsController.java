@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import es.codeurjc.webapp17.tools.Tools;
-import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -31,7 +30,7 @@ public class AdminClientsController {
 
     @GetMapping("/adminUsers")
     @NeedsSecurity(role=Tools.Role.NONE)
-    public String clients(Model model, @RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
+    public String clients(Model model, @RequestParam(defaultValue = "0") int page) {
         List<UserProfile> listUsers = usersService.getUsers();
         List<UserProfile> shownUsers = new ArrayList<UserProfile>();
         int pageSize = 8;

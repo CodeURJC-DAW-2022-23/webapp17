@@ -37,7 +37,7 @@ public class AdminProductsController {
         model.addAttribute("nextPag", (int)Math.min(page+1, num-1));
         Product product;
         for(int i=0; i<pageSize; i++){ 
-            if(((page) * pageSize)+i<listProducts.size()-1){
+            if(((page) * pageSize)+i<listProducts.size()){
                 product = listProducts.get(((page) * pageSize)+i);
                 shownProducts.add(product);
             }

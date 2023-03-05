@@ -46,6 +46,10 @@ public class Coupon {
         this.secret = false;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public float getDiscount() {
         return discount;
     }
@@ -56,6 +60,10 @@ public class Coupon {
 
     public int getUsesRemaining() {
         return usesRemaining;
+    }
+
+    public void setUsesRemaining(int usesRemaining){
+        this.usesRemaining = usesRemaining;
     }
 
     public void decreaseUse(){
@@ -89,4 +97,14 @@ public class Coupon {
     public void setSecret(boolean secret) {
         this.secret = secret;
     }
+
+    public void setDiscount(float discount) {
+        this.discount = discount;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    
 }

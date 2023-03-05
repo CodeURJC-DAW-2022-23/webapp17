@@ -1,0 +1,298 @@
+<div>
+{{> header}}
+{{> adminMenu}}
+<div class="col">
+    <div class="row flex-lg-nowrap">
+    <script>
+    function editCoupon(button) {
+      // get the user ID from the button's data-id attribute
+      const couponId = button.getAttribute("data-id");
+      const couponCode = button.getAttribute("data-code");
+      const couponUsesRemaining = button.getAttribute("data-uses");
+      const couponUserEmail = button.getAttribute("data-user-email");
+      const couponUserId = button.getAttribute("data-user-id");
+      const couponDiscount = button.getAttribute("data-discount")
+      
+      // set the value of the modal's input field to the user ID
+      var modalInput = document.getElementById("coupon-code-input");
+      modalInput.value = couponCode;
+      modalInput = document.getElementById("coupon-discount-input");
+      modalInput.value = couponDiscount;
+      modalInput = document.getElementById("coupon-uses-input");
+      modalInput.value = couponUsesRemaining;
+      modalInput = document.getElementById("coupon-user-id");
+      modalInput.value = couponUserId;
+      modalInput = document.getElementById("coupon-id");
+      modalInput.value = couponId;
+      var select = document.getElementById("coupon-user-email-input");
+      var valueToSelect = couponUserEmail;
+      for (var i = 0; i < select.options.length; i++) {
+      if (select.options[i].value === valueToSelect) {
+        select.options[i].selected = true;
+      break;
+  }
+}
+    }
+    function addCoupon(button) {      
+      // set the value of the modal's input field to the user ID
+      var modalInput = document.getElementById("coupon-code-input-creation");
+      modalInput.value = "";
+      modalInput = document.getElementById("coupon-discount-input-creation");
+      modalInput.value = "";
+      modalInput = document.getElementById("coupon-uses-input-creation");
+      modalInput.value = "";
+      modalInput = document.getElementById("coupon-user-input-creation");
+      modalInput.value = "";
+    }
+</script>
+      <div class="col mb-3">
+        <div class="e-panel card">
+          <div class="card-body">
+            <div class="card-title">
+              <h6 class="mr-2"><span>Gestión de Coupones</span></h6>
+            </div>
+            <div class="e-table">
+              <div class="table-responsive table-lg mt-3" id="listUsers">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="max-width">Código</th>
+                      <th >Descuento</th>
+                      <th class="sortable">Cuenta asociada</th>
+                      <th >Usos restantes</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#coupon}}                 
+                    <tr>
+                      <td class="text-nowrap align-middle">{{code}}</td>
+                      <td style="min-width: 75px; height: auto;">{{discount}}%</td>
+                      <td style="max-width: 15px; height: auto;">{{userProfile.email}}</td>
+                      <td style="max-width: 15px; height: auto;">{{usesRemaining}}</td>
+                      <td class="text-center align-middle" style="max-width: 5 px">
+                        <div class="btn-group align-top">
+                            <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal-edit" data-code ="{{code}}" data-user-email="{{userProfile.email}}" data-user-id="{{userProfile.id}}" data-id="{{id}}" data-uses="{{usesRemaining}}" data-discount="{{discount}}" onclick="editCoupon(this)">Editar</button>
+                            <a class="btn btn-sm btn-outline-secondary badge" type="button" href="/adminCoupons/removeCoupon?id={{id}}"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    {{/coupon}}
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex justify-content-center">
+                <ul class="pagination mt-3 mb-0">
+                  <li class="page-item"><a href="?page={{prevPag}}" class="page-link"><<</a></li>
+                  <li class="page-item"><a href="?page={{nextPag}}" class="page-link">>></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="text-center px-xl-3">
+              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal" onclick="javascript:addCoupon(this)">Nuevo cupón</button>            </div>
+            <hr class="my-3">
+            <div class="e-navlist e-navlist--active-bold">
+              <ul class="nav">
+                <li class="nav-item active"><a href="" class="nav-link"><span>Todos</span>&nbsp;<small>/&nbsp;32</small></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><span>Usuario</span>&nbsp;<small>/&nbsp;16</small></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><span>Administrador</span>&nbsp;<small>/&nbsp;0</small></a></li>
+              </ul>
+            </div>
+            <hr class="my-3">
+            <div>
+              <div class="form-group">
+                <label>Date from - to:</label>
+                <div>
+                  <input id="dates-range" class="form-control flatpickr-input" placeholder="01 Dec 17 - 27 Jan 18" type="text" readonly="readonly">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Search by Name:</label>
+                <div><input class="form-control w-100" type="text" placeholder="Name" value=""></div>
+              </div>
+            </div>
+            <hr class="my-3">
+            <div class="">
+              <label>Status:</label>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" name="user-status" id="users-status-disabled">
+                  <label class="custom-control-label" for="users-status-disabled">Disabled</label>
+                </div>
+              </div>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" name="user-status" id="users-status-active">
+                  <label class="custom-control-label" for="users-status-active">Active</label>
+                </div>
+              </div>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" name="user-status" id="users-status-any" checked="">
+                  <label class="custom-control-label" for="users-status-any">Any</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Form Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="user-form-modal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Creación de usuario</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="py-1">
+              <form class="form" action="/adminCoupons/createCoupon" method="post">
+                <div class="row">
+                  <div class="col">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Código</label>
+                          <input class="form-control" id="coupon-code-input-creation" type="text" placeholder="GUSTOSA20" name="code">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Porcentaje de descuento</label>
+                          <input class="form-control" id="coupon-discount-input-creation" placeholder="20" type="text" name="discount">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Cuenta asociada (email)</label>
+                          <select class="form-control" id="coupon-user-input-creation" name="user">
+                            {{#user}}
+                            <option value="{{email}}">{{email}}</option>
+                            {{/user}}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Usos permitidos</label>
+                          <input class="form-control" id="coupon-price-input-creation" placeholder="13" type="text" name="usesRemaining">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                    <div class="mb-2"><b>Imagen de perfil</b></div>
+                    <div class="mb-2"><b>MENÚ DE IMÁGENES AQUÍ</b></div>
+                  </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Edit modal form -->
+  <div class="modal fade" id="user-form-modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="py-1">
+              <form class="form" action="/adminCoupons/modifyCoupon" method="post">
+                <div class="row">
+                  <div class="col">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                            <label>Identificador de cupón</label>
+                            <input class="form-control" id="coupon-id" type="text" name="id" readonly>
+                        </div>
+                      </div>
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Identificador de usuario</label>
+                            <input class="form-control" id="coupon-user-id" type="text" name="userId" readonly>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Código</label>
+                          <input class="form-control" id="coupon-code-input" type="text" placeholder="GUSTOSA20" name="code">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Porcentaje de descuento</label>
+                          <input class="form-control" id="coupon-discount-input" placeholder="20" type="text" name="discount">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Cuenta asociada (email)</label>
+                          <select class="form-control" id="coupon-user-email-input" name="userEmail">
+                            {{#user}}
+                            <option value="{{email}}">{{email}}</option>
+                            {{/user}}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Usos permitidos</label>
+                          <input class="form-control" id="coupon-uses-input" type="text" name="uses">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                    <div class="mb-2"><b>Imagen de perfil</b></div>
+                    <div class="mb-2"><b>MENÚ DE IMÁGENES AQUÍ</b></div>
+                  </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+              </form>
+    </div>
+  </div>
+</div>
+
+  </div>
+    
+  </div>
+</div>
+{{> footer}}
+</div>
