@@ -158,7 +158,8 @@ public class UsersController {
     HttpServletRequest request, @RequestParam(name="orderId", required = true) long orderId) throws SQLException {
         Optional<UserProfile> user = users.getUsersRepo().findById(id);
         if(request.getUserPrincipal() != null){
-            if (user.isPresent() && request.getUserPrincipal().getName().equals(user.get().getEmail())) {
+            if (user.isPresent() && (request.getUserPrincipal().getName().equals(user.get().getEmail()) ||
+            users.getUser(request.getUserPrincipal().getName()).hasRole(Tools.Role.ADMIN))) {
                 List<Cart> orderList = carts.getCartsRepo().findById(orderId);
                 if(!orderList.isEmpty() && orderList.get(0).getStatus() != Cart.STATUS_NEW){
                     model.addAttribute("base_domain", "../../");

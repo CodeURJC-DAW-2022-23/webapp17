@@ -31,10 +31,12 @@
 
                     {{#orders}}                 
                     <tr>
-                      <td class="text-nowrap align-middle">{{id}}</td>
+                      <td class="text-nowrap align-middle">{{id}} <a href="/user/{{createdBy.id}}/order?orderId={{id}}">Detalle</td>
                       <td class="text-nowrap align-middle">{{createdBy.email}}</td>
                       <td class="text-nowrap align-middle"><span>{{createdAt}}</span></td>
-                      <td class="text-nowrap align-middle">{{status}}</td>
+                      <td class="text-nowrap align-middle">{{#isPreparing}}<span class="badge bg-primary">En preparación</span>{{/isPreparing}}
+                                                {{^isPreparing}}<span class="badge bg-success">Pedido cerrado</span>{{/isPreparing}}
+                      </td>
                       <td class="text-center align-middle">
                         <div class="btn-group align-top">
                             <form id="form{{id}}" method="post" action="/adminOrders?id={{id}}&action=2"></form>
