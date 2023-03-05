@@ -70,16 +70,16 @@ public class DatabaseInitializer {
         String cerdo = "Cerdo";
         String vacuno = "Vacuno";
         String postre = "Postre";
-        String guarnicion = "Postre";
+        String guarnicion = "Guarnición";
         String bebida = "Bebida";
         String entrante = "Entrante";
         String patoSt = "Pato";
 
-        String[] tags1 = {vendido};
-        String[] tags2 = {vacuno};
-        String[] tags3 = { guarnicion};
-        String[] tags4 = { patoSt};
-        String[] tags5 = { postre};
+        String[] tags1 = {vendido, cerdo};
+        String[] tags2 = {vendido, vacuno};
+        String[] tags3 = {vendido, guarnicion};
+        String[] tags4 = {vendido, patoSt};
+        String[] tags5 = {vendido, postre};
         String[] tagsCerdo = {cerdo};
         String[] tagsEntrante = {entrante};
         String[] tagsPostre = {postre};
