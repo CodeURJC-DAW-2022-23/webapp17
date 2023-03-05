@@ -1,4 +1,4 @@
-
+<div>
 {{> adminMenu}}
 <link href="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}/{{/base_domain}}webjars/github-com-fengyuanchen-cropperjs/cropper.min.css" rel="stylesheet" />
         <script src="{{#base_domain}}{{base_domain}}{{/base_domain}}{{^base_domain}}/{{/base_domain}}webjars/github-com-fengyuanchen-cropperjs/cropper.min.js"></script>
@@ -38,10 +38,10 @@
                                 {{#isConfirmation}}<span class="badge bg-success">Confirmada</span>{{/isConfirmation}}</td>
                       <td class="text-center align-middle">
                         <div class="btn-group align-top">
-                            <form id="form{{id}}" method="post" action="/adminBookings?id={{id}}&action=2"></form>
-                            <a class="btn btn-sm btn-outline-secondary badge" type="button" onclick="document.getElementById('form{{id}}').submit();"><i class="fa fa-check"></i></a>
-                            <form id="form{{id}}" method="post" action="/adminBookings?id={{id}}&action=1"></form>
-                            <a class="btn btn-sm btn-outline-secondary badge" type="button" onclick="document.getElementById('form{{id}}').submit();"><i class="fa fa-trash"></i></a>
+                            <form id="form2{{id}}" method="post" action="/adminBookings?id={{id}}&action=2"></form>
+                            <a class="btn btn-sm btn-outline-secondary badge" type="button" onclick="document.getElementById('form2{{id}}').submit();"><i class="fa fa-check"></i></a>
+                            <form id="form1{{id}}" method="post" action="/adminBookings?id={{id}}&action=1"></form>
+                            <a class="btn btn-sm btn-outline-secondary badge" type="button" onclick="document.getElementById('form1{{id}}').submit();"><i class="fa fa-trash"></i></a>
                         </div>
                       </td>
                     </tr>
@@ -68,3 +68,4 @@
 </div>
 </div>
 {{> adminMenuFooter}}
+</div>

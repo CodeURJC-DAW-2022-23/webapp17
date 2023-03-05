@@ -163,8 +163,8 @@ public class UsersService{
         profile.getEmailValidated().isBlank()|| 
         profile.getEmailValidated().equals("true"))
             return;
-        sendEmail(dest, "You created a Gustosa account", 
-        "Thanks for enjoying Caipirinha as much as we do and creating and account with us your email verification code is "+
+        sendEmail(dest, "Cuenta creada", 
+        "Gracias por crear una cuenta Gustosa y unirte a nuestra gran familia. Para verificar su cuenta pinche en el siguiente enlace: "+
         "https://gustosa/verify?code="+profile.getEmailValidated()+"&"+"user="+profile.getEmail());
     }
 
@@ -175,8 +175,8 @@ public class UsersService{
             return false;
         profile.setForgotPassword(UUID.randomUUID().toString().replace("_", "-"));
         users.saveAndFlush(profile);
-        sendEmail(dest, "Gustosa password change", 
-        "To change your password access the following link: "+
+        sendEmail(dest, "Cambio de contraseña", 
+        "Para cambiar la contraseña de su cuenta Gustosa pinche en el siguiente enlace: "+
         "https://gustosa/forgotPassword?code="+profile.getForgotPassword()+"&"+"user="+profile.getEmail());
         return true;
     }
