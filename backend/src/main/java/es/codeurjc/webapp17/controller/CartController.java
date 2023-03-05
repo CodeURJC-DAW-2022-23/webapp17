@@ -59,7 +59,6 @@ public class CartController {
                     List<CartItem> totalCart = user.getCart().getCartItems();
                     float totalPrice = user.getCart().totalPrice();
                     int totalSize=user.getCart().totalSize();
-                    // TODO: Un-spageti this
                     if (user.getCart().hasDiscount()){
                         float discount = user.getCart().getDiscount();
                         model.addAttribute("couponName", user.getCart().getCoupon().getCode());
@@ -132,7 +131,6 @@ public class CartController {
                     List<CartItem> totalCart = user.getCart().getCartItems();
                     float totalPrice = user.getCart().totalPrice();
                     int totalSize=user.getCart().totalSize();
-                    // TODO: Un-spageti this
                     if (user.getCart().hasDiscount()){
                         float discount = user.getCart().getDiscount();
                         model.addAttribute("couponName", user.getCart().getCoupon().getCode());

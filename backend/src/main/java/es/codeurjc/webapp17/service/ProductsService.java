@@ -38,7 +38,7 @@ public class ProductsService {
         products.delete(products.getReferenceById(id));
     }
 
-    public void editProductImage(long id, int index){  //TODO Menu for modifying different images of the product
+    public void editProductImage(long id, int index){ 
         Product product = products.findById(id).get(0);
         product.setImages(null);
     }

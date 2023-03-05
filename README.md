@@ -44,7 +44,7 @@ To run first install and on backend folder run
 ./mvnw spring-boot:run
 ```
 
-### Run backend with my SQL
+### Run backend with MySQL
 To run first install and on backend folder run
 ```
 docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 3306:3306 -d mysql:8.0.32
@@ -54,39 +54,49 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 ## #️⃣ Features
 
 ### Entities
-- Users
+- Bookings
+- Carts
+- Cart items
+- Comments
 - Coupons
-- Dishes
-- Booking
-- Shopping Cart
-- Comment
+- Coupons image
+- Credentials
+- Posts
+- Products
+- Products images
+- Profile image
+- Users
 
 <img src=documents/database/azimutt_diagram/database_relations.png width="1024"/>
 
 ### 👩‍👦‍👦 User types
 
 - 🧑‍🎓 Guest - Can access basic information such as menu, timetables but can not create any booking nor use any coupon.
-    - Access timetable, menu and restaurant info
+    - Access timetable, menu, cart and restaurant info
     - Create an account
-    - Can see comments
+    - See comments
 
-- 👨‍💻 Registered User - Typical use case. A registered user has permission to do everything from Guest and can buy coupons, book tables, write comments and own a shopping cart.
-    - Buy coupons
+- 👨‍💻 Registered User - Typical use case. A registered user has permission to do everything from Guest and can book tables, write comments and make orders using coupons.
+    - Access to the user control panel (Profile data, last orders, bookings)
+    - See product recomendations based on his last orders
     - Book tables
-    - Own a shopping cart
+    - Make orders
     - Edit profile data
     - Write comments
 
 - 👮‍♀️ Admin access - Can edit timetables, coupons and menu. Also, they have tool access to analytical data and users.
-    - Add/remove dishes from menu
-    - Add coupons
-    - Edit timetables
-    - Manage users
-    - Access analytics panel
+    - Access to the admin control panel (Graphic and stats)
+    - Change the status (In process/finished) of the orders and remove them
+    - Add/remove/edit products from cart
+    - Add/remove/edit user/admin profiles
+    - Delete comments
+    - Edit the menu
+    - Add/remove/edit coupons
+    - Change the status (Confirmed/not confirmed) of the bookings and remove them
 
 ### 🍃 Images
-- Each dish will have an image
-- Each user will have an image
+- Each dish will have some images
+- Each user will have a profile picture
 - Each coupon may have an image
 
 ### 💹 Charts
@@ -167,6 +177,34 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
   
    
 #### Alejandro López Adrados:
+
+📗 Job participation:
+- Creation of the database classes and the relationships between them.
+- Configuration of MySQL as the database of the project.
+- Implemented the possibility of uploading/downloading images from database.
+- Addition of examples to database (Added products, users, comments and coupons with all of their features).
+- Implemented the functionality of adding a product into the cart and the cart view controller to show and delete items on it.
+- Implemented the functionality of the coupons.
+- Implemented the functionality and UI of the admin users manager (Show/create/delete/modify users/admins with all of their fields).
+- Implemented the functionality and UI of the admin products manager (Show/add/delete/modify products with all of their fields).
+- Implemented the functionality and UI of the admin coupons manager (Show/create/delete/modify coupons with all of their fields).
+- Implemented the functionality and UI of the admin comments manager (Show/delete comments of the users).
+- Implemented some SQL queries to add info to the admin dashboard and improve this view.
+- Tested the web app and fixed general errors.
+      
+📃 Top commits:  
+- [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/3a455e6f799ee7647dbe0ddf152c72fd894ffb57) Added admin products manager (func and UI)
+- [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/d325f74380e7c95230bd677436734c752571a918) Added admin clients manager (functionality and UI).
+- [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/18d578bd2139f2cae8299c7d4ab9d15b8509b939) Added coupons manager for admin (func and UI)
+- [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/2960a6014c94d6bb0e8a782c0f56a27ee2b4fa09) Added database classes and relationships.
+- [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/bcc16c8ed3b9ffc158cc8cc5477a36850ff18ce1) Added food examples
+      
+📂 Top files:  
+- [File 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/service/DatabaseInitializer.java) DatabaseInitializer.java  
+- [File 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/admin/clients.mustache) clients.mustache 
+- [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/admin/coupons.mustache) coupons.mustache  
+- [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/admin/AdminClientsController.java) AdminClientsController.java 
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/admin/AdminProductsController.java) AdminProductsController.java 
 
 #### Jesús González Gironda:
 
