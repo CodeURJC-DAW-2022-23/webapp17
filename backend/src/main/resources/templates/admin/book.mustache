@@ -34,13 +34,14 @@
                       <td class="text-nowrap align-middle">{{id}}</td>
                       <td class="text-nowrap align-middle">{{userProfile.email}}</td>
                       <td class="text-nowrap align-middle"><span>{{bookTime}}</span></td>
-                      <td class="text-nowrap align-middle">{{confirmation}}</td>
+                      <td class="text-nowrap align-middle">{{^isConfirmation}}<span class="badge bg-primary">Sin confirmar</span>{{/isConfirmation}}
+                                {{#isConfirmation}}<span class="badge bg-success">Confirmada</span>{{/isConfirmation}}</td>
                       <td class="text-center align-middle">
                         <div class="btn-group align-top">
-                            <form id="form1" method="post" action="/adminBookings?id={{id}}&action=2"></form>
-                            <a class="btn btn-sm btn-outline-secondary badge" type="button" onclick="document.getElementById('form1').submit();"><i class="fa fa-check"></i></a>
-                            <form id="form2" method="post" action="/adminBookings?id={{id}}&action=1"></form>
-                            <a class="btn btn-sm btn-outline-secondary badge" type="button" onclick="document.getElementById('form2').submit();"><i class="fa fa-trash"></i></a>
+                            <form id="form{{id}}" method="post" action="/adminBookings?id={{id}}&action=2"></form>
+                            <a class="btn btn-sm btn-outline-secondary badge" type="button" onclick="document.getElementById('form{{id}}').submit();"><i class="fa fa-check"></i></a>
+                            <form id="form{{id}}" method="post" action="/adminBookings?id={{id}}&action=1"></form>
+                            <a class="btn btn-sm btn-outline-secondary badge" type="button" onclick="document.getElementById('form{{id}}').submit();"><i class="fa fa-trash"></i></a>
                         </div>
                       </td>
                     </tr>

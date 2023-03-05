@@ -11,10 +11,10 @@ import jakarta.servlet.http.HttpServletRequest;
 
 
 
-//@Controller
+@Controller
 public class ExceptionController implements ErrorController {
 
-    //@GetMapping("/error")
+    @GetMapping("/error")
     public String errorHandler(HttpServletRequest request, Model model) {
         // Obtain status code
     Integer statusCode = ((Integer)request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));

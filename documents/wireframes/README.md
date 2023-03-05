@@ -80,6 +80,10 @@ Admin control page.
 Admin control page.
 ![image](edit_user.png)
 
+## Admin Bookings
+Admin control page.
+![image](edit_bookins.png)
+
 ## Admin Orders
 Admin control page.
 ![image](edit_orders.png)
