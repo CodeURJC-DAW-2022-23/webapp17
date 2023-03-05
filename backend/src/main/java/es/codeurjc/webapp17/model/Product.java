@@ -2,9 +2,6 @@ package es.codeurjc.webapp17.model;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-
 import java.util.ArrayList;
 
 import jakarta.annotation.Nonnull;
@@ -92,7 +89,24 @@ public class Product {
     public Float getPrice() {
         return price;
     }
+   
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
 
+    public String getTags() {
+        String result = "";
+        Boolean first = true;
+        for(String tag : tags){
+            if(!first){
+            result = result + ", " + tag;
+            }else{
+                first = false;
+                result = tag;
+            }
+        }
+        return result;
+    }
 
     public void setImages(List<ProductImage> images) {
         this.images = images;

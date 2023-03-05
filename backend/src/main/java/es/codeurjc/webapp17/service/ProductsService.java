@@ -25,11 +25,12 @@ public class ProductsService {
         return products.findAll();
     }
 
-    public void modifyProduct(long id, String title, Float price, String description){
+    public void modifyProduct(long id, String title, Float price, String description, String[] tags){
         Product product = products.findById(id).get(0);
         product.setTtile(title);
         product.setPrice(price);
         product.setDescription(description);
+        product.setTags(tags);
         getProductsRepo().saveAndFlush(product);
     }
 

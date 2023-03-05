@@ -60,9 +60,11 @@ public class AdminProductsController {
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> handleFormSubmission(@RequestParam("id") String id,
                                        @RequestParam("name") String name,
-                                       @RequestParam("description") String description,
+                                       @RequestParam(value = "description", required = false) String description,
+                                       @RequestParam(value = "tags", required = false) String tags,
                                        @RequestParam("price") Float price) {
-        productsService.modifyProduct(Long.parseLong(id), name, price, description);
+        String[] tagsArray = tags.split(", ");
+        productsService.modifyProduct(Long.parseLong(id), name, price, description, tagsArray);
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminProducts")).build();
     }
 
@@ -77,10 +79,11 @@ public class AdminProductsController {
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> handleCreationFormSubmissionAdmin(@RequestParam("name") String name,
                                        @RequestParam("price") String price,
-                                       @RequestParam(value = "description", required = false) String description){
+                                       @RequestParam(value = "description", required = false) String description,
+                                       @RequestParam(value = "tags", required = false) String tags){
         
-        String[] tags = {"Nuevo"};
-        productsService.addProduct(name, Float.parseFloat(price), description, tags);
+        String[] tagsArray = tags.split(", ");
+        productsService.addProduct(name, Float.parseFloat(price), description, tagsArray);
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminProducts")).build();
     }
 
@@ -104,6 +107,4 @@ public class AdminProductsController {
         productsService.getProductsRepo().saveAndFlush(products.get(0));
         return ResponseEntity.ok().build();
     }
-
-    //TODO MANAGE TAGS; MODIFY IMAGES
 }
