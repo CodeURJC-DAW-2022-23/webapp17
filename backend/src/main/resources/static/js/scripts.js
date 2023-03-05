@@ -115,13 +115,22 @@ onload=function()
     
 };
 
+function redeemCode1(){
+    var elemento = document.getElementById("redeemedCoupon");
+    if (elemento) {
+        unredeemCode();
+    }
+    sleep(2000);
+    redeemCode();
+}
+
 function redeemCode(){
     $.ajax({ 
         url:"/redeem?code="+$("#redeemText").val(),    
         type:"POST",
         contentType: "application/json; charset=utf-8",
         success: function(responseData){
-            console.log(responseData);        
+            //console.log(responseData);
             location.reload();
         },error: function (xhr, ajaxOptions, thrownError){
             alert("No se puede canjear ese código")

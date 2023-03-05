@@ -17,7 +17,7 @@
                     type:"POST",
                     contentType: "application/json; charset=utf-8",
                     success: function(responseData){
-                        console.log(responseData);
+                        //console.log(responseData);
                         var popovercontent = "No se ha podido añadir el producto";
                         if(("Login" in responseData)){
                             popovercontent = "Por favor inicie sesión antes";
@@ -69,7 +69,7 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">{{title}}</h5>
                                     <!-- Product price-->
-                                    {{price}} $
+                                    {{price}} &euro;
                                 </div>
                             </div>
                             <!-- Product actions-->
@@ -115,7 +115,7 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">{{title}}</h5>
                                     <!-- Product price-->
-                                    {{price}} $
+                                    {{price}} &euro;
                                 </div>
                             </div>
                             <!-- Product actions-->

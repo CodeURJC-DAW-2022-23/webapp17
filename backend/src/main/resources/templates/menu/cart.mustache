@@ -27,14 +27,14 @@ function changeCoupon(code){
                     <input type="text" class="form-control text-center quantity-input" value="{{quantity}}" readonly>
                     <a class="btn btn-outline-secondary btn-plus btn-sm" type="button" href="/increaseQuantity/{{id}}">+</a>
                 </div>
-                <span class="text-muted col">${{product.price}}&euro;</span>
+                <span class="text-muted col">{{product.price}}&euro;</span>
             </li>
         {{/cartItems}}
             {{#couponApplied}}
             <li class="row list-group-item d-flex bg-light">
                 <div class="col">
                     <div class="text-success">
-                        <h6 class="my-0">CUPÓN CANJEADO</h6>
+                        <h6 id="redeemedCoupon" class="my-0">CUPÓN CANJEADO</h6>
                         <small>Code - {{couponName}}</small>
                     </div>
                     <span class="text-success">-{{discount}}%</span>
@@ -71,7 +71,7 @@ function changeCoupon(code){
                     {{/couponList}}
                 </ul>
                 <input type="text" class="form-control"  id="redeemText" placeholder="Introduzca su cupón">
-                <button type="submit" class="btn btn-secondary" onClick="redeemCode()">Canjear</button>
+                <button type="submit" class="btn btn-secondary" onClick="redeemCode1()">Canjear</button>
             </div>
         </div>
 
