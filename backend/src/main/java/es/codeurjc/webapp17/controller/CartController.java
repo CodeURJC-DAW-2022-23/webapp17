@@ -122,30 +122,31 @@ public class CartController {
     public String checkout(Model model, HttpServletRequest request) {
         try {
             UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+            boolean existing_cart = false;
             if ((user.getCart() != null)){
                 if (user.getCart().getCartItems().size()!=0){
+                    List<Coupon> userCoupons = user.getCoupons();
+                    if(!userCoupons.isEmpty())
+                        model.addAttribute("couponList", userCoupons);
+                    existing_cart = true;
                     List<CartItem> totalCart = user.getCart().getCartItems();
-                    float totalPrice = 0;
-                    int totalSize=0;
-                    for (CartItem cart_item : totalCart) {
-                        for (int i = 0; i < cart_item.getQuantity(); i++) {
-                            totalPrice = totalPrice + cart_item.getProduct().getPrice();
-                            totalSize++;
-                        }
-                    }
+                    float totalPrice = user.getCart().totalPrice();
+                    int totalSize=user.getCart().totalSize();
+                    // TODO: Un-spageti this
                     if (user.getCart().hasDiscount()){
                         float discount = user.getCart().getDiscount();
-                        model.addAttribute("couponName", "couponName");
+                        model.addAttribute("couponName", user.getCart().getCoupon().getCode());
                         if (discount!=-1){
                             model.addAttribute("discount", discount);
                         }
+                        model.addAttribute("couponApplied", user.getCart().hasDiscount());
                     } else {
                         model.addAttribute("couponName", "No se ha aplicado ningún cupón");
                     }
                     model.addAttribute("totalPrice", totalPrice);
                     model.addAttribute("cartItems", totalCart);
                     model.addAttribute("cartSize", totalSize);
-                    model.addAttribute("couponApplied", user.getCart().hasDiscount());
+                    model.addAttribute("existingCart", existing_cart);
                     model.addAttribute("user", user);
                 }
             } else {}
