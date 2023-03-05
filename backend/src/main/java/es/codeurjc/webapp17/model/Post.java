@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "Post")
@@ -19,6 +20,7 @@ public class Post {
     @Nonnull
     private String title = "";
 
+    @Column(length = 65555)
     @Lob
     private String content = "";
 
