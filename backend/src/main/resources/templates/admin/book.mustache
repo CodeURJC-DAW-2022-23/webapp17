@@ -20,8 +20,9 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th class="max-width">Numero</th>
+                      <th class="max-width">Número</th>
                       <th class="max-width">Usuario</th>
+                      <th>Número de personas</th>
                       <th class="sortable">Fecha</th>
                       <th>Confirmada</th>
                       <th></th>
@@ -33,6 +34,7 @@
                     <tr>
                       <td class="text-nowrap align-middle">{{id}}</td>
                       <td class="text-nowrap align-middle">{{userProfile.email}}</td>
+                      <td class="text-nowrap align-middle">{{people}}</td>
                       <td class="text-nowrap align-middle"><span>{{bookTime}}</span></td>
                       <td class="text-nowrap align-middle">{{^isConfirmation}}<span class="badge bg-primary">Sin confirmar</span>{{/isConfirmation}}
                                 {{#isConfirmation}}<span class="badge bg-success">Confirmada</span>{{/isConfirmation}}</td>
