@@ -29,7 +29,7 @@ public class AdminClientsController {
     private UsersService usersService;
 
     @GetMapping("/adminUsers")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public String clients(Model model, @RequestParam(defaultValue = "0") int page) {
         List<UserProfile> listUsers = usersService.getUsers();
         List<UserProfile> shownUsers = new ArrayList<UserProfile>();
@@ -49,7 +49,7 @@ public class AdminClientsController {
     }
 
     @PostMapping("/adminUsers/modifyUser")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> handleEditFormSubmission(@RequestParam("id") String id,
                                        @RequestParam("name") String name,
                                        @RequestParam("email") String email,
@@ -60,14 +60,14 @@ public class AdminClientsController {
     }
 
     @GetMapping("/adminUsers/removeUser")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> removeAction(@RequestParam(name="email") String email){
         usersService.removeUser(email);
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminUsers")).build();
     }
 
     @PostMapping("/adminUsers/createUser")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> handleCreationFormSubmissionAdmin(@RequestParam("role") String role,
                                        @RequestParam("name") String name,
                                        @RequestParam("email") String email,

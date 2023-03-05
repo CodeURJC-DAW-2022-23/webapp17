@@ -31,7 +31,7 @@ public class AdminBookingController {
     BookingsRepo bookingsRepo;
 
     @GetMapping("/adminBookings")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public String menu(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
         int pageSize = 8;
         Page<Booking> carts = bookingsRepo.findAll(PageRequest.of(page, pageSize));
@@ -48,7 +48,7 @@ public class AdminBookingController {
     }
 
     @PostMapping("/adminBookings")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity postMenu(Model model, @RequestParam(name = "id") Long id, 
         @RequestParam(name = "action") int action, HttpServletRequest request) {
         if(action==1){

@@ -81,12 +81,11 @@
         const password2 = document.getElementById('user-password2-input-creation');
 
         form.addEventListener('submit', function(event) {
-          if (password1.value !== password2.value) {
+          if (password1.value != password2.value) {
             alert('Las contraseñas no coinciden.');
             event.preventDefault();
-          }else{
-            changeImage();
           }
+          changeImage();
         });
       });
 

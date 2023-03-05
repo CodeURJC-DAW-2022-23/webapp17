@@ -35,7 +35,7 @@ public class AdminCouponsController {
     private UsersService usersService;
 
     @GetMapping("/adminCoupons")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public String coupons(Model model, @RequestParam(defaultValue = "0") int page) {
         List<Coupon> listCoupons = couponsService.getCoupons();
         List<Coupon> shownCoupons = new ArrayList<Coupon>();
@@ -57,7 +57,7 @@ public class AdminCouponsController {
     }
 
     @PostMapping("/adminCoupons/modifyCoupon")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> handleEditFormSubmission(@RequestParam("id") String id,
                                        @RequestParam("code") String code,
                                        @RequestParam("discount") String discount,
@@ -69,14 +69,14 @@ public class AdminCouponsController {
     }
 
     @GetMapping("/adminCoupons/removeCoupon")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> removeAction(@RequestParam(name="id") String id){
         couponsService.removeCoupon(Long.parseLong(id));
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminCoupons")).build();
     }
 
     @PostMapping("/adminCoupons/createCoupon")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> handleCreationFormSubmission(@RequestParam("code") String code,
                                        @RequestParam("discount") String discount,
                                        @RequestParam("usesRemaining") int uses,

@@ -36,7 +36,7 @@ public class AdminController {
     CartsService cartsService;
 
     @GetMapping("/admin")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public String adminMenu(Model model) {
 
         List<Long[]> productsQuery = adminService.getProductsRepo().getSales();

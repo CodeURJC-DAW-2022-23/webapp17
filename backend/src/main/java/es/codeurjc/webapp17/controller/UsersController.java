@@ -141,7 +141,8 @@ public class UsersController {
     public ResponseEntity<Object> uploadImage(@PathVariable long id, @RequestParam MultipartFile imageFile, HttpServletRequest request) throws SQLException, IOException {
         Optional<UserProfile> user = users.getUsersRepo().findById(id);
         if (user.isPresent()) {
-            if(request.getUserPrincipal().getName().equals(user.get().getEmail()) || true){//user.get().hasRole(Tools.Role.ADMIN)){
+            if(request.getUserPrincipal().getName().equals(user.get().getEmail()) 
+            || users.getUser(request.getUserPrincipal().getName()).hasRole(Tools.Role.ADMIN)){
                 users.changeImage(user.get().getEmail(), BlobProxy.generateProxy(
                 imageFile.getInputStream(), imageFile.getSize()));
             }

@@ -28,7 +28,7 @@ public class AdminCommentsController {
     CommentsService commentsService;
 
     @GetMapping("/adminComments")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public String menu(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
         int pageSize = 8;
         List<Comment> commentsList = commentsService.getCommentsRepo().findAll();
@@ -48,7 +48,7 @@ public class AdminCommentsController {
     }
 
     @GetMapping("/adminComments/removeComment")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> removeAction(@RequestParam(name="id") String id){
         commentsService.removeComment(Long.parseLong(id));
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminComments")).build();

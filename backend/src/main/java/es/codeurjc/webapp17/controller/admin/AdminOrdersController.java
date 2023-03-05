@@ -29,7 +29,7 @@ public class AdminOrdersController {
     CartsRepo cartsRepo;
 
     @GetMapping("/adminOrders")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public String menu(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
         int pageSize = 8;
         Page<Cart> carts = cartsRepo
@@ -47,7 +47,7 @@ public class AdminOrdersController {
     }
 
     @PostMapping("/adminOrders")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity postMenu(Model model, @RequestParam(name = "id") Long id, 
         @RequestParam(name = "action") int action, HttpServletRequest request) {
         if(action==1){

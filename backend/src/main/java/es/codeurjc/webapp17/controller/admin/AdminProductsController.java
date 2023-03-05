@@ -27,7 +27,7 @@ public class AdminProductsController {
     private ProductsService productsService;
 
     @GetMapping("/adminProducts")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public String products(Model model, @RequestParam(name="page", defaultValue = "0") int page, HttpServletRequest request) {
         List<Product> listProducts = productsService.getProducts();
         List<Product> shownProducts = new ArrayList<Product>();
@@ -47,7 +47,7 @@ public class AdminProductsController {
     }
     
     @PostMapping("/adminProducts/modifyProduct")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> handleFormSubmission(@RequestParam("id") String id,
                                        @RequestParam("name") String name,
                                        @RequestParam("description") String description,
@@ -57,14 +57,14 @@ public class AdminProductsController {
     }
 
     @GetMapping("adminProducts/removeProduct")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> removeAction(@RequestParam(name="id") long id) {
         productsService.deleteProduct(id);
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminProducts")).build();
     }
 
     @PostMapping("/adminProducts/addProduct")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> handleCreationFormSubmissionAdmin(@RequestParam("name") String name,
                                        @RequestParam("price") String price,
                                        @RequestParam(value = "description", required = false) String description){

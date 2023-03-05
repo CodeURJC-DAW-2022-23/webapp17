@@ -23,7 +23,7 @@ public class AdminMenuController {
     PostRepo postRepo;
 
     @GetMapping("/adminMenu")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public String menu(Model model, HttpServletRequest request) {
         List<Post> menus = postRepo.findByTitle("menu");
         if(!menus.isEmpty()){
@@ -34,7 +34,7 @@ public class AdminMenuController {
     }
 
     @PostMapping("/adminMenu")
-    @NeedsSecurity(role=Tools.Role.NONE)
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity postMenu(Model model, @RequestParam(name = "content") String content, HttpServletRequest request) {
         Post menu = postRepo.findByTitle("menu").get(0);
         menu.setContent(content);
