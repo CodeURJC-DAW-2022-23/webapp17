@@ -1,5 +1,4 @@
 <div>
-{{> header}}
 {{> adminMenu}}
 <div class="col">
     <div class="row flex-lg-nowrap">
@@ -52,7 +51,7 @@
               <h6 class="mr-2"><span>Gestión de Coupones</span></h6>
             </div>
             <div class="e-table">
-              <div class="table-responsive table-lg mt-3" id="listUsers">
+              <div class="table-responsive table-lg mt-3">
                 <table class="table table-bordered">
                   <thead>
                     <tr>
@@ -67,10 +66,10 @@
                     {{#coupon}}                 
                     <tr>
                       <td class="text-nowrap align-middle">{{code}}</td>
-                      <td style="min-width: 75px; height: auto;">{{discount}}%</td>
-                      <td style="max-width: 15px; height: auto;">{{userProfile.email}}</td>
-                      <td style="max-width: 15px; height: auto;">{{usesRemaining}}</td>
-                      <td class="text-center align-middle" style="max-width: 5 px">
+                      <td class="text-nowrap align-left">{{discount}}%</td>
+                      <td class="text-nowrap align-left">{{userProfile.email}}</td>
+                      <td class="text-nowrap align-left">{{usesRemaining}}</td>
+                      <td class="text-center align-left">
                         <div class="btn-group align-top">
                             <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal-edit" data-code ="{{code}}" data-user-email="{{userProfile.email}}" data-user-id="{{userProfile.id}}" data-id="{{id}}" data-uses="{{usesRemaining}}" data-discount="{{discount}}" onclick="editCoupon(this)">Editar</button>
                             <a class="btn btn-sm btn-outline-secondary badge" type="button" href="/adminCoupons/removeCoupon?id={{id}}"><i class="fa fa-trash"></i></a>
@@ -96,49 +95,6 @@
           <div class="card-body">
             <div class="text-center px-xl-3">
               <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal" onclick="javascript:addCoupon(this)">Nuevo cupón</button>            </div>
-            <hr class="my-3">
-            <div class="e-navlist e-navlist--active-bold">
-              <ul class="nav">
-                <li class="nav-item active"><a href="" class="nav-link"><span>Todos</span>&nbsp;<small>/&nbsp;32</small></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><span>Usuario</span>&nbsp;<small>/&nbsp;16</small></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><span>Administrador</span>&nbsp;<small>/&nbsp;0</small></a></li>
-              </ul>
-            </div>
-            <hr class="my-3">
-            <div>
-              <div class="form-group">
-                <label>Date from - to:</label>
-                <div>
-                  <input id="dates-range" class="form-control flatpickr-input" placeholder="01 Dec 17 - 27 Jan 18" type="text" readonly="readonly">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Search by Name:</label>
-                <div><input class="form-control w-100" type="text" placeholder="Name" value=""></div>
-              </div>
-            </div>
-            <hr class="my-3">
-            <div class="">
-              <label>Status:</label>
-              <div class="px-2">
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="user-status" id="users-status-disabled">
-                  <label class="custom-control-label" for="users-status-disabled">Disabled</label>
-                </div>
-              </div>
-              <div class="px-2">
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="user-status" id="users-status-active">
-                  <label class="custom-control-label" for="users-status-active">Active</label>
-                </div>
-              </div>
-              <div class="px-2">
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="user-status" id="users-status-any" checked="">
-                  <label class="custom-control-label" for="users-status-any">Any</label>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

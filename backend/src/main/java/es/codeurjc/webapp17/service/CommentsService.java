@@ -33,4 +33,13 @@ public class CommentsService {
         return totalPages;
     }
 
+    public CommentsRepo getCommentsRepo(){
+        return comments;
+    }
+
+    public void removeComment(long id){
+        Comment comment = getCommentsRepo().findById(id).get();
+        getCommentsRepo().delete(comment);
+    }
+
 }
