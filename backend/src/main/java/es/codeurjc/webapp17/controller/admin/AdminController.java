@@ -54,7 +54,9 @@ public class AdminController {
         model.addAttribute("products", productsService.getProductsRepo().getTotalProducts());
         model.addAttribute("ratingAVG", commentsService.getCommentsRepo().getAvgRating());
         model.addAttribute("totalComments", commentsService.getCommentsRepo().getTotalComments());
-        model.addAttribute("totalOrders", cartsService.getCartsRepo().getTotalOrders());
+        model.addAttribute("finishedOrders", cartsService.getCartsRepo().getFinishedOrders());
+        model.addAttribute("processOrders", cartsService.getCartsRepo().getInProcessOrders());
+        model.addAttribute("cartOrders", cartsService.getCartsRepo().getFullCarts());
 
         return "/admin/dashboard";
     }
