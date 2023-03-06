@@ -74,47 +74,6 @@ function sleep(milliseconds) {
     }
    }
 
-$(document).ready(function() {
-    // Ocultar el spinner después de que se cargue el documento
-    $('#spinner').hide();
-});
-
-  /** 
-   * Variables index
-   */
-  var imagenesindex=new Array(
-        
-    'images/index1.png',
-
-    'images/index2.png',
-
-    'images/index3.png',
-);
-
-/*** Funcion para cambiar la imagen con desvanecimiento*/
-
-  /*Cambio de imágenes*/
-
-function rotarImagenes(){
-    // obtenemos un numero aleatorio entre 0 y la cantidad de imagenes que hay
-    var index=Math.floor((Math.random()*imagenesindex.length));
-    // cambiamos la imagen
-    
-    document.getElementById("imagenindex").src=imagenesindex[index];
-  
-}
-
-    
-onload=function()
-{
-
-    // Cargamos una imagen aleatoria
-    rotarImagenes();
-    //tiempo en milisegundos
-    setInterval(rotarImagenes,4000);
-    
-};
-
 function redeemCode1(){
     var elemento = document.getElementById("redeemedCoupon");
     if (elemento) {
