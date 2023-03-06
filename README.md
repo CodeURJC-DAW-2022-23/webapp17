@@ -14,7 +14,7 @@ Web app for the best fast food franchaise Gustosa, made for Web Applications Dev
 | Jesús Gonzalez Gironda  | j.gonzalezg.2019@alumnos.urjc.es |
 | Jorge Vega Arias        | j.vega.2019@alumnos.urjc.es      |
 
-## 👽 Build instructions
+## 🏗️ Build instructions
 
 ### Pre-Requirements
 - Java api 17+
@@ -115,6 +115,12 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 <img src=documents/wireframes/export.png width="1024"/>
 <img src=documents/backend/pagemap/pagemap.png width="1024"/>
 
+
+### ⌛ Class and Templates UML Diagram
+![uml1](https://user-images.githubusercontent.com/68378676/222984262-bd0e884b-6241-4cab-a1b2-43a1267127d4.png)
+![uml2](https://user-images.githubusercontent.com/68378676/222984269-8bfb35d5-9302-4840-adb3-2defa4ab02e3.png)
+
+
 ### 🍻 Team contribution
 
 #### Jorge Vega Arias:
@@ -208,9 +214,25 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 
 #### Jesús González Gironda:
 
-### ⌛ Class and Templates UML Diagram
-![uml1](https://user-images.githubusercontent.com/68378676/222984262-bd0e884b-6241-4cab-a1b2-43a1267127d4.png)
-![uml2](https://user-images.githubusercontent.com/68378676/222984269-8bfb35d5-9302-4840-adb3-2defa4ab02e3.png)
+📗 Job participation:
+- Booking template form
+- Homepage changes and added animations for general look
+- Help with translations
+- Information page
+      
+📃 Top commits:  
+- [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/18152293740f459e46cd57adea9aa1d3499ef76b) Added homepage design
+- [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/b53716364b587d48a52b142dc65a849548c8331b) Information page design
+- [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/2864a8fe824bf173af89d922fdd4d631805fe588) Basic forum for reservations
+- [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/1461a06014802854f1dd8ea28555c7c14dd46e0a) Reservation form structure finished
+- [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/5cc77e991a82192accd47647dfc03ffa3653c0cf) Fix up for broken css 
+      
+📂 Top files:  
+- [File 1](backend/src/main/resources/static/css/styles2.css)
+- [File 2](backend/src/main/resources/static/css/styles3.css)
+- [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/index.mustache)
+- [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/templates/info/info.mustache)
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/resources/static/js/scripts.js)
 
 
 
