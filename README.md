@@ -165,7 +165,7 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 - Access to the admin dashboard and admin sidebar.  
 - Top 5 products sales chart with chart.js in Admin Dashboard.  
 - Added Menu table in Menu template.  
-- Fixed general errors, global testing and final translation.  
+- Fixed general errors, global testing, translation and documentation.  
       
 📃 Top commits:  
 - [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/2bf51aa4fde78515714b289d9de09ea62a279544) Completed Pagination with Ajax and JS.  
