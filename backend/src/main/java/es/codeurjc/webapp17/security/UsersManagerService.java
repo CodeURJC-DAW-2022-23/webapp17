@@ -1,9 +1,5 @@
 package es.codeurjc.webapp17.security;
 
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -2,34 +2,32 @@ package es.codeurjc.webapp17.service;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailAuthenticationException;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.nimbusds.oauth2.sdk.Role;
 
-import ch.qos.logback.core.joran.conditional.ElseAction;
 import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.Credential;
 import es.codeurjc.webapp17.model.ProfileImage;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.Coupon;
 import es.codeurjc.webapp17.model.CouponImage;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import es.codeurjc.webapp17.repository.UsersRepo;
 import es.codeurjc.webapp17.tools.Tools;
@@ -117,6 +115,18 @@ public class UsersService{
         return map;
     }
 
+    public ResponseEntity<Object> getUserImage(long id) throws SQLException, IOException{
+        Optional<UserProfile> user = getUsersRepo().findById(id);
+        if (user.isPresent()) {
+            if(user.get().getImage() != null)
+                return user.get().getImage().toHtmEntity();
+            InputStream in = (new ClassPathResource("static/images/profile/Avatar1.png")).getInputStream();
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg").body(new InputStreamResource(in));
+        } else {
+            return null;
+        }
+    }
+
     public Object changeImage(String email, Blob newImage){
         UserProfile profile = getUser(email);
         if(profile == null) return null;
@@ -125,9 +135,9 @@ public class UsersService{
         return true;
     }
 
-    public Object changeName(String email, String newName){
+    public boolean changeName(String email, String newName){
         UserProfile profile = getUser(email);
-        if(profile == null) return null;
+        if(profile == null) return false;
         profile.setName(newName);
         users.saveAndFlush(profile);
         return true;

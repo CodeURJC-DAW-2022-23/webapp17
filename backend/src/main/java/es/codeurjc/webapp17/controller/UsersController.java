@@ -27,13 +27,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
 import es.codeurjc.webapp17.model.Cart;
-import es.codeurjc.webapp17.model.Image;
-import es.codeurjc.webapp17.model.ProfileImage;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.service.CartsService;
+import es.codeurjc.webapp17.service.PermissionsService;
 import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
@@ -45,6 +43,9 @@ public class UsersController {
     
     @Autowired
     private UsersService users;
+
+    @Autowired
+    private PermissionsService permissionsService;
 
     @Autowired
     private CartsService carts;
@@ -74,12 +75,11 @@ public class UsersController {
     @GetMapping("/user/getUserInfo")
     @NeedsSecurity(role=Tools.Role.NONE)
     public @ResponseBody Map<String,Object> getUserInfo(HttpServletRequest request){
-        Principal principal = request.getUserPrincipal();
-        if(principal != null){ 
+        if(permissionsService.isUserLoggedIn(request, users)){
             Map<String,Object> ui = users.getUserInfo(request.getUserPrincipal().getName());
             if(ui != null){
                 return ui;
-            }    
+            }
         }
         HashMap<String, Object> map = new HashMap<>();
         map.put("error", "true");
@@ -92,8 +92,8 @@ public class UsersController {
     public @ResponseBody Map<String,Object> changeNamePost(HttpServletRequest request, 
     @RequestParam(name="newName", required = true) String name){
         HashMap<String, Object> map = new HashMap<>();
-        if(request.getUserPrincipal() != null){
-            if(users.changeName(request.getUserPrincipal().getName(), name) != null){
+        if(permissionsService.isUserLoggedIn(request, users)){
+            if(users.changeName(request.getUserPrincipal().getName(), name)){
                 map.put("changed", "true");
                 return map;
             }
@@ -109,7 +109,7 @@ public class UsersController {
     public @ResponseBody Map<String,Object> changeDescriptionPost(HttpServletRequest request, 
     @RequestParam(name="newDescription", required = true) String name){
         HashMap<String, Object> map = new HashMap<>();
-        if(request.getUserPrincipal() != null){
+        if(permissionsService.isUserLoggedIn(request, users)){
             if(users.changeDescription(request.getUserPrincipal().getName(), name) != null){
                 map.put("changed", "true");
                 return map;
@@ -124,13 +124,9 @@ public class UsersController {
     @GetMapping("/user/{id}/image")
     @NeedsSecurity(role=Tools.Role.NONE)
     public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException, IOException {
-        Optional<UserProfile> user = users.getUsersRepo().findById(id);
-        if (user.isPresent()) {
-            if(user.get().getImage() != null)
-                return user.get().getImage().toHtmEntity();
-                
-            InputStream in = (new ClassPathResource("static/images/profile/Avatar1.png")).getInputStream();
-            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg").body(new InputStreamResource(in));
+        ResponseEntity<Object> res = users.getUserImage(id);
+        if (res != null) {
+            return res;
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }	

@@ -38,6 +38,9 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.util.ByteArrayDataSource;
 
 public class Tools {
+
+    public static final String API_HEADER = "/api";
+
     public static enum HashMethod{
         MD5("MD5"), SHA_1("SHA-1");
         private String code;
