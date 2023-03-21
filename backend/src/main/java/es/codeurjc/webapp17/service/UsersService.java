@@ -66,6 +66,12 @@ public class UsersService{
         return profile.get(0);
     }
 
+    public UserProfile getUser(long id){
+        Optional<UserProfile> profile = getUsersRepo().findById(id);
+        if(profile.isEmpty()) return null;
+        return profile.get();
+    }
+
     public void registerUser(String email, String password, String name){
         registerUserWithProvider(email, name, passwordEncoder.encode(password), Credential.INTERNALSTRING);
     }
@@ -143,17 +149,17 @@ public class UsersService{
         return true;
     }
 
-    public Object changeDescription(String email, String newDescription){
+    public boolean changeDescription(String email, String newDescription){
         UserProfile profile = getUser(email);
-        if(profile == null) return null;
+        if(profile == null) return false;
         profile.setBio(newDescription);
         users.saveAndFlush(profile);
         return true;
     }
     
-    public Object changePassword(String email, String newPassword){
+    public boolean changePassword(String email, String newPassword){
         UserProfile profile = getUser(email);
-        if(profile == null) return null;
+        if(profile == null) return false;
         profile.updateCredential(Credential.INTERNALSTRING, passwordEncoder.encode(newPassword));
         users.saveAndFlush(profile);
         return true;

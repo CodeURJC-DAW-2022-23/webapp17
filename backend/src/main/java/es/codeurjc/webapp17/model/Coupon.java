@@ -1,5 +1,7 @@
 package es.codeurjc.webapp17.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +21,7 @@ public class Coupon {
     private long id;
 
     @ManyToOne
+    @JsonIgnore
     private UserProfile userProfile;
 
     @Nonnull

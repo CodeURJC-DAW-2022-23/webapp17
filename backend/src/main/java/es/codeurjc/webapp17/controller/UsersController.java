@@ -109,7 +109,7 @@ public class UsersController {
     @RequestParam(name="newDescription", required = true) String name){
         HashMap<String, Object> map = new HashMap<>();
         if(permissionsService.isUserLoggedIn(request, users)){
-            if(users.changeDescription(request.getUserPrincipal().getName(), name) != null){
+            if(users.changeDescription(request.getUserPrincipal().getName(), name)){
                 map.put("changed", "true");
                 return map;
             }

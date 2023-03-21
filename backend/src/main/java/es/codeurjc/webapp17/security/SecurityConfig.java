@@ -99,7 +99,7 @@ public class SecurityConfig {
                 }
             }
         });
-
+        http.csrf().ignoringRequestMatchers("/api/**");
         http.csrf().disable();
 
         // Permit every other request

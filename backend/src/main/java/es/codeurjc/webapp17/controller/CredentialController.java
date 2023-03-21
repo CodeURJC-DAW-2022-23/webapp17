@@ -166,7 +166,7 @@ public class CredentialController {
     @RequestParam(name="newPassword", required = true) String password){
         HashMap<String, Object> map = new HashMap<>();
         if(request.getUserPrincipal() != null){
-            if(users.changePassword(request.getUserPrincipal().getName(), password) != null){
+            if(users.changePassword(request.getUserPrincipal().getName(), password)){
                 map.put("changed", "true");
                 return map;
             }
