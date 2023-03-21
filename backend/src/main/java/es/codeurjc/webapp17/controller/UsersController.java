@@ -68,7 +68,6 @@ public class UsersController {
             p, page);
             model.addAttribute("pag_order", pag);
         }
-        
         return "info/user";
     }
 
@@ -172,11 +171,9 @@ public class UsersController {
     @NeedsSecurity(role = Tools.Role.USER)
     public Map<String,Object> changeDescriptionPost(HttpServletRequest request) throws ServletException{
         HashMap<String, Object> map = new HashMap<>();
-        if(request.getUserPrincipal() != null){
-            if(!users.getUserInfo(request.getUserPrincipal().getName()).containsKey("error")){
-                users.removeUser(request.getUserPrincipal().getName());
-                request.logout();
-            }
+        if(permissionsService.isUserLoggedIn(request, users)){
+            users.removeUser(request.getUserPrincipal().getName());
+            request.logout();
         }
         map.put("error", "true");
         return map;

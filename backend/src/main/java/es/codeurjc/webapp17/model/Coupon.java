@@ -39,7 +39,7 @@ public class Coupon {
 
     public Coupon(){}
 
-    public Coupon(int discount, String code, int usesRemaining) {
+    public Coupon(float discount, String code, int usesRemaining) {
         this.discount = discount;
         this.code = code;
         this.usesRemaining = usesRemaining;
