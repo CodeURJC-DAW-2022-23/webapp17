@@ -21,7 +21,6 @@ public class Coupon {
     private long id;
 
     @ManyToOne
-    @JsonIgnore
     private UserProfile userProfile;
 
     @Nonnull
@@ -93,6 +92,7 @@ public class Coupon {
         return image != null;
     }
 
+    @JsonIgnore
     public boolean isSecret() {
         return secret;
     }
@@ -109,5 +109,12 @@ public class Coupon {
         this.code = code;
     }
 
-    
+    @JsonIgnore
+    public long getUserId(){
+        return userProfile.getID();
+    }
+
+    public String getUserEmail(){
+        return userProfile.getEmail();
+    }
 }

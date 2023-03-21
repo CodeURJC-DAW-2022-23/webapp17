@@ -64,7 +64,7 @@ public class AdminCouponsController {
                                        @RequestParam("userId") String userId,
                                        @RequestParam("userEmail") String newUserEmail,
                                        @RequestParam("uses") int uses) {
-        couponsService.modifyCoupon(Long.parseLong(id), uses, Float.parseFloat(discount), code, userId, newUserEmail);
+        couponsService.modifyCoupon(Long.parseLong(id), uses, Float.parseFloat(discount), code, newUserEmail);
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminCoupons")).build();
     }
 

@@ -83,5 +83,13 @@ public class Comment {
     public void setUser(UserProfile user) {
         this.userProfile = user;
     }
+
+    public String getUserEmail(){
+        return userProfile.getEmail();
+    }
+
+    public String getProductName(){
+        return product.getTitle();
+    }
     
 }

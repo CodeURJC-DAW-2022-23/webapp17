@@ -31,9 +31,9 @@ public class CouponsService {
         getCouponsRepo().delete(coupon);
     }
 
-    public void modifyCoupon(long id, int usesRemaining, float discount, String code, String lastUserId, String newUserEmail){
+    public void modifyCoupon(long id, int usesRemaining, float discount, String code, String newUserEmail){
         Coupon coupon = getCouponsRepo().findById(id).get(0);
-        UserProfile user = usersService.getUsersRepo().findById(Long.parseLong(lastUserId)).get();
+        UserProfile user = usersService.getUsersRepo().findById(coupon.getUserId()).get();
         int n = 0;
         while(coupon.getId() != user.getCoupons().get(n).getId()){
             n++;

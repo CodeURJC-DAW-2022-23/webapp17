@@ -91,10 +91,9 @@ public class CouponsApiController {
     public void handleEditFormSubmission(@RequestParam("id") String id,
                                        @RequestParam("code") String code,
                                        @RequestParam("discount") String discount,
-                                       @RequestParam("userId") String userId,
-                                       @RequestParam("userEmail") String newUserEmail,
+                                       @RequestParam("newserEmail") String newUserEmail,
                                        @RequestParam("uses") int uses) {
-        couponsService.modifyCoupon(Long.parseLong(id), uses, Float.parseFloat(discount), code, userId, newUserEmail);
+        couponsService.modifyCoupon(Long.parseLong(id), uses, Float.parseFloat(discount), code, newUserEmail);
     }
 
     @Operation(summary = "Remove a coupon through his id")
@@ -144,7 +143,7 @@ public class CouponsApiController {
     public void handleCreationFormSubmission(@RequestParam("code") String code,
                                        @RequestParam("discount") String discount,
                                        @RequestParam("usesRemaining") int uses,
-                                       @RequestParam("user") String user) {
+                                       @RequestParam("userEmail") String user) {
         couponsService.createCoupon(uses, Integer.parseInt(discount), code, user);
     }
     
