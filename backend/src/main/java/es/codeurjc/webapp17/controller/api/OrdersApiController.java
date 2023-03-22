@@ -52,6 +52,7 @@ public class OrdersApiController {
 
     };
 
+
     @GetMapping("/changeStateOrder")
     @Operation(summary = "Change state of an order")
 	@ApiResponses(value = { 
@@ -73,6 +74,7 @@ public class OrdersApiController {
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public void changeState(){
-
+        
+        
     };
 }
