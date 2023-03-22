@@ -24,7 +24,7 @@ public class CommentsService {
     }
 
     public int getTotalPagesComments(List<Comment> comments) {
-        int pageSize = 8;
+        int pageSize = 4;
         int totalComments = comments.size();
         int totalPages = totalComments / pageSize;
         if (totalComments % pageSize != 0) {

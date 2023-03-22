@@ -49,7 +49,7 @@ public class CommentsApiController {
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public @ResponseBody Map<String,Object> menu(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
 		HashMap<String, Object> map = new HashMap<>();
-        int pageSize = 8;
+        int pageSize = 4;
         List<Comment> commentsList = commentsService.getCommentsRepo().findAll();
         List<Comment> commentsShown = new ArrayList<>();
         Comment comment;

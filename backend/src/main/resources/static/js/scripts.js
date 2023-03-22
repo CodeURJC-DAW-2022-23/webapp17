@@ -6,45 +6,6 @@
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
 
-function moreResults(page) {
-    $('#spinner').show();
-    $('#buttonMoreResults').hide();
-    $.ajax({
-        type: 'GET',
-        url: '/products?page=' + page,
-        success: function(data) {
-            
-            var listProducts = $(data).find('#listProducts').html();
-            $('#containerMoreResults').replaceWith($(data).find("#containerMoreResults"));
-            $('#listProducts').append(listProducts);
-            //console.log(data);
-            //console.log(listProducts);
-            sleep(3000);
-            $('#spinner').hide();
-            
-        }
-    });
-}
-
-function moreComments(page,id) {
-    $('#spinner').show();
-    $('#buttonMoreResults').hide();
-    $.ajax({
-        type: 'GET',
-        url: '/description?page=' + page + '&id=' + id,
-        success: function(data) {
-            
-            var listComments = $(data).find("#listComments").html();
-            $('#containerMoreResults').replaceWith($(data).find("#containerMoreResults"));
-            $('#listComments').append(listComments);
-            console.log(data);
-            console.log(listComments);
-            sleep(3000);
-            $('#spinner').hide();
-            
-        }
-    });
-}
 
 function pagMoreResults(pages, name, urlto){
     $('#spinner'+name).show();

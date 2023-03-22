@@ -44,6 +44,30 @@
                     }
                 });
             }
+
+            function moreResults(page) {
+                $('#spinner').show();
+                $('#buttonMoreResults').hide();
+                $.ajax({
+                type: 'GET',
+                url: '/products?page=' + page,
+                success: function(data) {
+                    var listProducts = $(data).find('#listProducts').html();
+                    $('#containerMoreResults').replaceWith($(data).find("#containerMoreResults"));
+                    $('#listProducts').append(listProducts);
+                    //console.log(data);
+                    //console.log(listProducts);
+                    sleep(3000);
+                    $('#spinner').hide();
+                }
+                });
+            }
+
+            window.addEventListener('load', function() {
+                var spinner = document.getElementById('spinner'); // Reemplace 'spinner' con el ID de su spinner
+                spinner.style.display = 'none';
+            });
+            
         </script> 
 
         {{#has_recomended}}
