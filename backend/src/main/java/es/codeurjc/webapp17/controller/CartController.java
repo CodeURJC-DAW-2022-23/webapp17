@@ -42,7 +42,7 @@ public class CartController {
     @Autowired
     private CartsService cartsService;
 
-    //In swagger product title, price, etc do not appear
+    //In swagger JSON only quantity of cartItems appears.
     @GetMapping("/cart")
     @NeedsSecurity(role=Tools.Role.USER)
     public String cart(Model model, HttpServletRequest request) {
@@ -138,62 +138,22 @@ public class CartController {
     @PostMapping("/checkout")
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> doCheckout(Model model, HttpServletRequest request) {
-        try{
-            UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-            List<CartItem> listProductsSold = user.getCart().getCartItems();
-            cartsService.confirmOrder(usersService.getUsersRepo()
-            .findByEmail(request.getUserPrincipal().getName()).get(0).getCart());
-        }catch(Exception ex){
-            ex.printStackTrace();
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().build();
+        ResponseEntity<Object> response = cartsService.doCheckout(request);
+        return response;
     }
 
     @PostMapping("/redeem")
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> redeem(@RequestParam(name="code") String code, HttpServletRequest request) {
-        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-        List<Coupon> userCoupons = user.getCoupons();
-        int n = 0;
-        try{
-            while(!userCoupons.get(n).getCode().equals(code)){
-                n++;
-            }
-            Coupon selectedCoupon = userCoupons.get(n);
-            if(selectedCoupon.getUsesRemaining()>0 && !user.getCart().hasDiscount()){
-                user.getCart().setCoupon(selectedCoupon);
-                selectedCoupon.decreaseUse();
-                usersService.getUsersRepo().saveAndFlush(user);
-            }
-        }catch (Exception e){
-            ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok().build();
+        ResponseEntity<Object> response = cartsService.redeem(code, request);
+        return response;
     }
 
     @PostMapping("/unredeem")
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> unredeem(HttpServletRequest request) {
-        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-        List<Coupon> userCoupons = user.getCoupons();
-        int n = 0;
-        try{
-            
-            if(user.getCart().hasDiscount()){
-                while(!userCoupons.get(n).getCode().equals(user.getCart().getCoupon().getCode())){
-                    n++;
-                }
-                Coupon selectedCoupon = userCoupons.get(n);
-
-                user.getCart().setCoupon(null);
-                selectedCoupon.increaseUse();
-                usersService.getUsersRepo().saveAndFlush(user);
-            }
-        }catch (Exception e){
-            ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok().build();
+        ResponseEntity<Object> response = cartsService.unredeem(request);
+        return response;
     }
 
 

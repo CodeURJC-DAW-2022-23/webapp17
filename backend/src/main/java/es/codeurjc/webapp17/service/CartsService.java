@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -44,23 +45,28 @@ public class CartsService {
     @Autowired
     private JavaMailSender emailSender;
 
+
     public CartItemsRepo getCartItemsRepo(){
         return cartItems;
     }
 
+
     public CartsRepo getCartsRepo() {
         return carts;
     }
+
 
     public Page<Cart> getUserOrders(UserProfile user, int numPage, int pageSize){
         Pageable pageable = PageRequest.of(numPage, pageSize);
         return getCartsRepo().findByCreatedByAndStatusNot(user, Cart.STATUS_NEW, pageable);
     }
 
+
     public Page<Cart> getUserOrders(UserProfile user){
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         return getCartsRepo().findByCreatedByAndStatus(user, Cart.STATUS_ORDERED, pageable);
     }
+
 
     public void confirmOrder(Cart order){
         order.setStatus(Cart.STATUS_ORDERED);
@@ -72,6 +78,7 @@ public class CartsService {
 
         sendOrderMail(order);
     }
+
 
     public void sendOrderMail(Cart order){
         try {
@@ -92,6 +99,7 @@ public class CartsService {
             e.printStackTrace();
         }
     }
+
 
     public HashMap<String,Object> cartAndCheckout(HttpServletRequest request) {
         try {
@@ -130,6 +138,7 @@ public class CartsService {
         }
     }
 
+
     public void deleteItem(long id, HttpServletRequest request){
         CartItem item = getCartItemsRepo().findById(id).get(0);
         UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
@@ -137,11 +146,10 @@ public class CartsService {
         usersService.getUsersRepo().saveAndFlush(user);
     }
 
+
     public void decreaseQuantity(long id, HttpServletRequest request){
+        CartItem item = getCartItemsRepo().findById(id).get(0);
         UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-        List<CartItem> totalCart = user.getCart().getCartItems();
-        int idInt = (int) id;
-        CartItem item = totalCart.get(idInt);
         int n = user.getCart().positionOfCartItem(item);
         if (user.getCart().getCartItems().get(n).getQuantity()>1) {
             user.getCart().getCartItems().get(n).decreaseQuantity();
@@ -151,7 +159,9 @@ public class CartsService {
         }
     }
 
+
     public void increaseQuantity(long id, HttpServletRequest request){
+        //long idPrueba = id;
         CartItem item = getCartItemsRepo().findById(id).get(0);
         UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         int n = user.getCart().positionOfCartItem(item);
@@ -159,4 +169,62 @@ public class CartsService {
         usersService.getUsersRepo().saveAndFlush(user);
     }
 
+
+    public ResponseEntity<Object> doCheckout(HttpServletRequest request){
+        try{
+            //UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+            //List<CartItem> listProductsSold = user.getCart().getCartItems();
+            confirmOrder(usersService.getUsersRepo()
+            .findByEmail(request.getUserPrincipal().getName()).get(0).getCart());
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<Object> redeem(String code, HttpServletRequest request) {
+        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+        List<Coupon> userCoupons = user.getCoupons();
+        int n = 0;
+        try{
+            while(!userCoupons.get(n).getCode().equals(code)){
+                n++;
+            }
+            Coupon selectedCoupon = userCoupons.get(n);
+            if(selectedCoupon.getUsesRemaining()>0 && !user.getCart().hasDiscount()){
+                user.getCart().setCoupon(selectedCoupon);
+                selectedCoupon.decreaseUse();
+                usersService.getUsersRepo().saveAndFlush(user);
+            }
+        }catch (Exception e){
+            ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
+    public ResponseEntity<Object> unredeem(HttpServletRequest request) {
+        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+        List<Coupon> userCoupons = user.getCoupons();
+        int n = 0;
+        try{
+            
+            if(user.getCart().hasDiscount()){
+                while(!userCoupons.get(n).getCode().equals(user.getCart().getCoupon().getCode())){
+                    n++;
+                }
+                Coupon selectedCoupon = userCoupons.get(n);
+
+                user.getCart().setCoupon(null);
+                selectedCoupon.increaseUse();
+                usersService.getUsersRepo().saveAndFlush(user);
+            }
+        }catch (Exception e){
+            ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    
 }
