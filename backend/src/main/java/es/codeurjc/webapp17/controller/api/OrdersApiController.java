@@ -74,7 +74,5 @@ public class OrdersApiController {
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public void changeState(){
-        
-        
     };
 }
