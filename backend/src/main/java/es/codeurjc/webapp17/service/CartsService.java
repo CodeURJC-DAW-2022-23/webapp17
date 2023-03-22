@@ -3,6 +3,8 @@ package es.codeurjc.webapp17.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.webapp17.model.Cart;
+import es.codeurjc.webapp17.model.CartItem;
+import es.codeurjc.webapp17.model.Coupon;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.repository.CartItemsRepo;
 import es.codeurjc.webapp17.repository.CartsRepo;
@@ -20,10 +24,14 @@ import es.codeurjc.webapp17.repository.UsersRepo;
 import es.codeurjc.webapp17.tools.Tools;
 import jakarta.mail.MessagingException;
 import jakarta.mail.util.ByteArrayDataSource;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class CartsService {
     
+    @Autowired
+    private UsersService usersService;
+
     @Autowired
     private CartItemsRepo cartItems;
 
@@ -84,4 +92,71 @@ public class CartsService {
             e.printStackTrace();
         }
     }
+
+    public HashMap<String,Object> cartAndCheckout(HttpServletRequest request) {
+        try {
+            HashMap<String,Object> map = new HashMap<>();
+            UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+            boolean existing_cart = false;
+            if ((user.getCart() != null)){
+                if (user.getCart().getCartItems().size()!=0){
+                    List<Coupon> userCoupons = user.getCoupons();
+                    if(!userCoupons.isEmpty())
+                        map.put("couponList", userCoupons);
+                    existing_cart = true;
+                    List<CartItem> totalCart = user.getCart().getCartItems();
+                    float totalPrice = user.getCart().totalPrice();
+                    int totalSize=user.getCart().totalSize();
+                    if (user.getCart().hasDiscount()){
+                        float discount = user.getCart().getDiscount();
+                        map.put("couponName", user.getCart().getCoupon().getCode());
+                        if (discount!=-1){
+                            map.put("discount", discount);
+                        }
+                        map.put("couponApplied", user.getCart().hasDiscount());
+                    } else {
+                        map.put("couponName", "No se ha aplicado ningún cupón");
+                    }
+                    map.put("totalPrice", totalPrice);     
+                    map.put("cartItems", totalCart);
+                    map.put("cartSize", totalSize);
+                    map.put("existingCart", existing_cart);
+                    map.put("user", user);
+                }
+            } else {}
+            return map;
+        }catch(NullPointerException ex){
+            return null;
+        }
+    }
+
+    public void deleteItem(long id, HttpServletRequest request){
+        CartItem item = getCartItemsRepo().findById(id).get(0);
+        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+        user.getCart().deleteCartItem(item);
+        usersService.getUsersRepo().saveAndFlush(user);
+    }
+
+    public void decreaseQuantity(long id, HttpServletRequest request){
+        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+        List<CartItem> totalCart = user.getCart().getCartItems();
+        int idInt = (int) id;
+        CartItem item = totalCart.get(idInt);
+        int n = user.getCart().positionOfCartItem(item);
+        if (user.getCart().getCartItems().get(n).getQuantity()>1) {
+            user.getCart().getCartItems().get(n).decreaseQuantity();
+            usersService.getUsersRepo().saveAndFlush(user);
+        } else {
+            deleteItem(id, request);
+        }
+    }
+
+    public void increaseQuantity(long id, HttpServletRequest request){
+        CartItem item = getCartItemsRepo().findById(id).get(0);
+        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+        int n = user.getCart().positionOfCartItem(item);
+        user.getCart().getCartItems().get(n).increaseQuantity();
+        usersService.getUsersRepo().saveAndFlush(user);
+    }
+
 }

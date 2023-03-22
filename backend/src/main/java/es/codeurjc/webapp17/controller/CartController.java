@@ -4,6 +4,7 @@ import es.codeurjc.webapp17.tools.Tools;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -33,134 +34,114 @@ import jakarta.servlet.http.HttpServletRequest;
 public class CartController {
     
     @Autowired
-    private UsersService users_service;
+    private UsersService usersService;
 
     @Autowired
-    private AdminService admin_service;
+    ProductsService productsService;
 
     @Autowired
-    ProductsService products_service;
+    private CartsService cartsService;
 
-    @Autowired
-    private CartsService items_service;
-
+    //In swagger product title, price, etc do not appear
     @GetMapping("/cart")
     @NeedsSecurity(role=Tools.Role.USER)
     public String cart(Model model, HttpServletRequest request) {
-        try {
-            UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-            boolean existing_cart = false;
-            if ((user.getCart() != null)){
-                if (user.getCart().getCartItems().size()!=0){
-                    List<Coupon> userCoupons = user.getCoupons();
-                    if(!userCoupons.isEmpty())
-                        model.addAttribute("couponList", userCoupons);
-                    existing_cart = true;
-                    List<CartItem> totalCart = user.getCart().getCartItems();
-                    float totalPrice = user.getCart().totalPrice();
-                    int totalSize=user.getCart().totalSize();
-                    if (user.getCart().hasDiscount()){
-                        float discount = user.getCart().getDiscount();
-                        model.addAttribute("couponName", user.getCart().getCoupon().getCode());
-                        if (discount!=-1){
-                            model.addAttribute("discount", discount);
-                        }
-                        model.addAttribute("couponApplied", user.getCart().hasDiscount());
-                    } else {
-                        model.addAttribute("couponName", "No se ha aplicado ningún cupón");
-                    }
-                    model.addAttribute("totalPrice", totalPrice);
-                    model.addAttribute("cartItems", totalCart);
-                    model.addAttribute("cartSize", totalSize);
-                    model.addAttribute("existingCart", existing_cart);
-                }
-            } else {}
-            return "menu/cart";
-        }catch(NullPointerException ex){
-            return "";
+        HashMap<String,Object> map = cartsService.cartAndCheckout(request);
+
+        if(map.get("couponList")!=null){ 
+            model.addAttribute("couponList", map.get("couponList"));
         }
+        if(map.get("couponName")!=null){ 
+            model.addAttribute("couponName", map.get("couponName"));
+        }
+        if(map.get("discount")!=null){ 
+            model.addAttribute("discount", map.get("discount"));
+        }
+        if(map.get("couponApplied")!=null){ 
+            model.addAttribute("couponApplied", map.get("couponApplied"));
+        }
+        if(map.get("totalPrice")!=null){ 
+            model.addAttribute("totalPrice", map.get("totalPrice"));
+        }
+        if(map.get("cartItems")!=null){ 
+            model.addAttribute("cartItems", map.get("cartItems"));
+        }
+        if(map.get("cartSize")!=null){ 
+            model.addAttribute("cartSize", map.get("cartSize"));
+        }
+        if(map.get("existingCart")!=null){ 
+            model.addAttribute("existingCart", map.get("existingCart"));
+        }
+        if(map.get("user")!=null){ 
+            model.addAttribute("user", map.get("user"));
+        }
+        return "menu/cart";
     }
 
-    @GetMapping("/deleteItem/{id}")
+    @DeleteMapping("/deleteItem/{id}")
     @NeedsSecurity(role=Tools.Role.USER)
     public void deleteItem(@PathVariable long id, HttpServletRequest request){
-        CartItem item = items_service.getCartItemsRepo().findById(id).get(0);
-        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-        user.getCart().deleteCartItem(item);
-        users_service.getUsersRepo().saveAndFlush(user);
+        cartsService.deleteItem(id, request);
     }
 
+    //Can only be Get?
     @GetMapping("/decreaseQuantity/{id}")
     @NeedsSecurity(role=Tools.Role.USER)
     public ModelAndView decreaseQuantity(@PathVariable long id, HttpServletRequest request){
-        CartItem item = items_service.getCartItemsRepo().findById(id).get(0);
-        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-        int n = user.getCart().positionOfCartItem(item);
-        if (user.getCart().getCartItems().get(n).getQuantity()>1) {
-            user.getCart().getCartItems().get(n).decreaseQuantity();
-            users_service.getUsersRepo().saveAndFlush(user);
-        } else {
-            deleteItem(id, request);
-        }
+        cartsService.decreaseQuantity(id, request);
         return new ModelAndView("redirect:/cart");
     }
-
+    //Can only be Get?
     @GetMapping("/increaseQuantity/{id}")
     @NeedsSecurity(role=Tools.Role.USER)
     public ModelAndView increaseQuantity(@PathVariable long id, HttpServletRequest request){
-        CartItem item = items_service.getCartItemsRepo().findById(id).get(0);
-        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-        int n = user.getCart().positionOfCartItem(item);
-        user.getCart().getCartItems().get(n).increaseQuantity();
-        users_service.getUsersRepo().saveAndFlush(user);
+        cartsService.increaseQuantity(id, request);
         return new ModelAndView("redirect:/cart");
     }
 
     @GetMapping("/checkout")
     @NeedsSecurity(role=Tools.Role.USER)
     public String checkout(Model model, HttpServletRequest request) {
-        try {
-            UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-            boolean existing_cart = false;
-            if ((user.getCart() != null)){
-                if (user.getCart().getCartItems().size()!=0){
-                    List<Coupon> userCoupons = user.getCoupons();
-                    if(!userCoupons.isEmpty())
-                        model.addAttribute("couponList", userCoupons);
-                    existing_cart = true;
-                    List<CartItem> totalCart = user.getCart().getCartItems();
-                    float totalPrice = user.getCart().totalPrice();
-                    int totalSize=user.getCart().totalSize();
-                    if (user.getCart().hasDiscount()){
-                        float discount = user.getCart().getDiscount();
-                        model.addAttribute("couponName", user.getCart().getCoupon().getCode());
-                        if (discount!=-1){
-                            model.addAttribute("discount", discount);
-                        }
-                        model.addAttribute("couponApplied", user.getCart().hasDiscount());
-                    } else {
-                        model.addAttribute("couponName", "No se ha aplicado ningún cupón");
-                    }
-                    model.addAttribute("totalPrice", totalPrice);
-                    model.addAttribute("cartItems", totalCart);
-                    model.addAttribute("cartSize", totalSize);
-                    model.addAttribute("existingCart", existing_cart);
-                    model.addAttribute("user", user);
-                }
-            } else {}
-            return "menu/checkout";
-        }catch(NullPointerException ex){
-            return "";
+        HashMap<String,Object> map = cartsService.cartAndCheckout(request);
+
+        if(map.get("couponList")!=null){ 
+            model.addAttribute("couponList", map.get("couponList"));
         }
+        if(map.get("couponName")!=null){ 
+            model.addAttribute("couponName", map.get("couponName"));
+        }
+        if(map.get("discount")!=null){ 
+            model.addAttribute("discount", map.get("discount"));
+        }
+        if(map.get("couponApplied")!=null){ 
+            model.addAttribute("couponApplied", map.get("couponApplied"));
+        }
+        if(map.get("totalPrice")!=null){ 
+            model.addAttribute("totalPrice", map.get("totalPrice"));
+        }
+        if(map.get("cartItems")!=null){ 
+            model.addAttribute("cartItems", map.get("cartItems"));
+        }
+        if(map.get("cartSize")!=null){ 
+            model.addAttribute("cartSize", map.get("cartSize"));
+        }
+        if(map.get("existingCart")!=null){ 
+            model.addAttribute("existingCart", map.get("existingCart"));
+        }
+        if(map.get("user")!=null){ 
+            model.addAttribute("user", map.get("user"));
+        }
+        
+        return "menu/checkout";
     }
 
     @PostMapping("/checkout")
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> doCheckout(Model model, HttpServletRequest request) {
         try{
-            UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+            UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
             List<CartItem> listProductsSold = user.getCart().getCartItems();
-            items_service.confirmOrder(users_service.getUsersRepo()
+            cartsService.confirmOrder(usersService.getUsersRepo()
             .findByEmail(request.getUserPrincipal().getName()).get(0).getCart());
         }catch(Exception ex){
             ex.printStackTrace();
@@ -172,7 +153,7 @@ public class CartController {
     @PostMapping("/redeem")
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> redeem(@RequestParam(name="code") String code, HttpServletRequest request) {
-        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         List<Coupon> userCoupons = user.getCoupons();
         int n = 0;
         try{
@@ -183,7 +164,7 @@ public class CartController {
             if(selectedCoupon.getUsesRemaining()>0 && !user.getCart().hasDiscount()){
                 user.getCart().setCoupon(selectedCoupon);
                 selectedCoupon.decreaseUse();
-                users_service.getUsersRepo().saveAndFlush(user);
+                usersService.getUsersRepo().saveAndFlush(user);
             }
         }catch (Exception e){
             ResponseEntity.badRequest().build();
@@ -194,7 +175,7 @@ public class CartController {
     @PostMapping("/unredeem")
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> unredeem(HttpServletRequest request) {
-        UserProfile user = users_service.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         List<Coupon> userCoupons = user.getCoupons();
         int n = 0;
         try{
@@ -207,36 +188,12 @@ public class CartController {
 
                 user.getCart().setCoupon(null);
                 selectedCoupon.increaseUse();
-                users_service.getUsersRepo().saveAndFlush(user);
+                usersService.getUsersRepo().saveAndFlush(user);
             }
         }catch (Exception e){
             ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
-    }
-
-    public UsersService getUsers_service() {
-        return users_service;
-    }
-
-    public void setUsers_service(UsersService users_service) {
-        this.users_service = users_service;
-    }
-
-    public ProductsService getProducts_service() {
-        return products_service;
-    }
-
-    public void setProducts_service(ProductsService products_service) {
-        this.products_service = products_service;
-    }
-
-    public CartsService getItems_service() {
-        return items_service;
-    }
-
-    public void setItems_service(CartsService items_service) {
-        this.items_service = items_service;
     }
 
 
