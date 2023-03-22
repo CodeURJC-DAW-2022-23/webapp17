@@ -1,6 +1,8 @@
 package es.codeurjc.webapp17.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -63,4 +65,22 @@ public class ProductsService {
         getProductsRepo().saveAndFlush(product);
     }
 
+    public Map<String, Object> products(int page) {
+        Map<String,Object> map = new HashMap<String, Object>();
+        int pageSize = 8;
+        List<Product> listProducts = getProducts();
+        int totalPages = getTotalPages(listProducts);
+        boolean moreProducts = true;
+        //Page<Product> test = productsService.getProducts(page, pageSize);
+        map.put("totalPages", totalPages);
+        map.put("currentPage", page);
+        if (page<=totalPages-1){
+            map.put("product", getProducts(page, pageSize));
+        } else {
+            moreProducts=false;
+            map.put("product", null);
+        }
+        map.put("moreProducts", moreProducts);
+        return map;
+    }
 }
