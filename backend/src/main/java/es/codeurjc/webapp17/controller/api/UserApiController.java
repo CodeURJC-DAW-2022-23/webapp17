@@ -2,6 +2,7 @@ package es.codeurjc.webapp17.controller.api;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +41,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
@@ -54,7 +57,7 @@ public class UserApiController {
 
 
 	//Image
-	@GetMapping("/{id}/profileImage")
+	@GetMapping("/profileImage")
     @Operation(summary = "Get user image")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -70,7 +73,7 @@ public class UserApiController {
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
     public ResponseEntity<Object> downloadImage(@Parameter(description = "id of the user") 
-	@PathVariable long id) throws SQLException, IOException {
+	@RequestParam long id) throws SQLException, IOException {
         ResponseEntity<Object> res = usersService.getUserImage(id);
         if (res != null) {
             return res;
@@ -79,7 +82,7 @@ public class UserApiController {
         }	
     }
 
-	@PostMapping(value="/{id}/profileImage",
+	@PostMapping(value="/profileImage",
 	consumes = {
 		"multipart/form-data"
 	})
@@ -102,7 +105,7 @@ public class UserApiController {
 				content = @Content
 				) 		
 	})
-    public ResponseEntity<Object> uploadImage(@PathVariable long id, @RequestPart MultipartFile imageFile, HttpServletRequest request) throws SQLException, IOException {
+    public ResponseEntity<Object> uploadImage(@RequestParam long id, @RequestPart MultipartFile imageFile, HttpServletRequest request) throws SQLException, IOException {
 
 		if((permissionsService.isUserLoggedIn(request, usersService) && usersService.getUser(request.getUserPrincipal().getName()).getID().equals(id))
 			|| permissionsService.canEditUsers(request, usersService)){
@@ -113,7 +116,7 @@ public class UserApiController {
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
-	@GetMapping("/getUserInfo")
+	@GetMapping("/user")
     @NeedsSecurity(role=Tools.Role.USER)
 	@Operation(summary = "Get user info, if user not specified returns current user")
 	@ApiResponses(value = { 
@@ -153,7 +156,7 @@ public class UserApiController {
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
-	@PutMapping("/modifyUser")
+	@PutMapping("/user")
 	@NeedsSecurity(role = Tools.Role.USER)
 	@Operation(summary = "Modify user, if user not specified modifies current user")
 	@ApiResponses(value = { 
@@ -225,13 +228,13 @@ public class UserApiController {
 				content = @Content
 				) 		
 	})
-	@DeleteMapping("/deleteUser")
+	@DeleteMapping("/user")
     @NeedsSecurity(role = Tools.Role.USER)
     public ResponseEntity<Object> changeDescriptionPost(HttpServletRequest request, @RequestParam(name="email", required = false) String email) throws ServletException{
         HashMap<String, Object> map = new HashMap<>();
         if(permissionsService.isUserLoggedIn(request, usersService)){
 			if(permissionsService.canEditUsers(request, usersService) && email != null){
-				if(usersService.removeUser(request.getUserPrincipal().getName()))
+				if(usersService.removeUser(email))
 					return ResponseEntity.ok().build();
 				else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
@@ -255,14 +258,14 @@ public class UserApiController {
 				content = @Content
 				) 		
 	})
-	@PostMapping("/adminUsers/createUser")
+	@PostMapping("/user")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> handleCreationFormSubmissionAdmin(@RequestParam("role") String role,
                                        @RequestParam("name") String name,
                                        @RequestParam("email") String email,
                                        @RequestParam(value = "bio", required = false) String bio,
                                        @RequestParam("password") String password) throws IOException{
-        Boolean admin = role.equals("Administrador");
+        Boolean admin = role.equals("admin");
         usersService.registerUserFromForm(name, password, email, bio, admin);
         return ResponseEntity.ok().build();
     }
@@ -288,7 +291,7 @@ public class UserApiController {
 				content = @Content
 				) 		
 	})
-	@GetMapping("/getUsers")
+	@GetMapping("/users")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public @ResponseBody Object getUsers(@RequestParam(defaultValue = "0") int pageNumber) {
 		Page<UserProfile> page = usersService.getUsersRepo().findAll(PageRequest.of(pageNumber, 8));
@@ -296,6 +299,51 @@ public class UserApiController {
 		map.put("users", page);
 
 		return map;
+	}
+
+	@Operation(summary = "Login")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Ok", 
+					content = {@Content(
+							mediaType = "application/json"
+							)}
+					),
+			@ApiResponse(
+				responseCode = "403", 
+				description = "Wrong auth", 
+				content = @Content
+				) 		
+	})
+	@GetMapping("/login")
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public @ResponseBody Object login(@RequestParam String email, @RequestParam String password, HttpServletRequest request) {
+		try {
+			request.login(email, password);
+			String cookie = Arrays.stream(request.getCookies())
+            .filter(c -> c.getName().equals("JSESSIONID"))
+            .findFirst()
+            .map(Cookie::getValue)
+            .orElse(null);
+			Map m = new HashMap<String, Object>();
+			m.put("JSESSIONID", cookie != null ? cookie : "none");
+			return m;
+		} catch (ServletException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
+	}
+
+	@Operation(summary = "Logout")
+	@GetMapping("/logout")
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public @ResponseBody Object logout(HttpServletRequest request) {
+		try {
+			request.logout();
+			return ResponseEntity.ok().build();
+		} catch (ServletException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
 	}
     
 }

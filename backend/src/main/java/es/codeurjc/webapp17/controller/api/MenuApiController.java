@@ -28,7 +28,7 @@ public class MenuApiController {
     GeneralInfoService generalInfoService;
 
 
-    @GetMapping("/getMenu")
+    @GetMapping("/menu")
     @NeedsSecurity(role=Tools.Role.NONE)
     @Operation(summary = "Get menu")
 	@ApiResponses(value = { 
@@ -49,7 +49,7 @@ public class MenuApiController {
         return generalInfoService.getMenu();
     }
 
-    @PutMapping("/modifyMenu")
+    @PutMapping("/menu")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     @Operation(summary = "Modify menu")
 	@ApiResponses(value = { 

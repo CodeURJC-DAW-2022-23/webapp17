@@ -52,7 +52,7 @@ public class BookingsApiController {
     PermissionsService permissionsService;
 
     @Operation(summary = "Get bookings")
-    @GetMapping("/getBookings")
+    @GetMapping("/bookings")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public HashMap<String,Object> getBookings(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
         HashMap<String,Object> map = new HashMap<>();
@@ -70,7 +70,7 @@ public class BookingsApiController {
         return map;
     }
 
-    @PutMapping("/changeBooking")
+    @PutMapping("/booking")
     @Operation(summary = "Change booking state")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity changeBooking(Model model, @RequestParam(name = "id") Long id, 
@@ -79,7 +79,7 @@ public class BookingsApiController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/addBooking")
+    @PostMapping("/booking")
     @Operation(summary = "Add booking")
     @NeedsSecurity(role=Tools.Role.USER)
     public Object addBooking(Model model, HttpServletRequest request, 

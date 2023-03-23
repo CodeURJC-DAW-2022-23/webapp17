@@ -64,6 +64,8 @@ public class CouponsApiController {
 		return map;        
     }
 
+    @PutMapping("/modifyCoupon")
+    @NeedsSecurity(role=Tools.Role.ADMIN)
     @Operation(summary = "Modify a coupon through his id, introducing all the parameters")
     @ApiResponses(value = { 
         @ApiResponse(
@@ -82,12 +84,10 @@ public class CouponsApiController {
             description = "Coupon not found, wrong id"
         ),
         @ApiResponse(
-            responseCode = "", 
+            responseCode = "404", 
             description = "Bad parameters"
         ),          
-})
-    @PutMapping("/modifyCoupon")
-    @NeedsSecurity(role=Tools.Role.ADMIN)
+    })
     public void handleEditFormSubmission(@RequestParam("id") String id,
                                        @RequestParam("code") String code,
                                        @RequestParam("discount") String discount,
@@ -134,7 +134,7 @@ public class CouponsApiController {
             description = "User not authorized, login with an admin account"
         ),
         @ApiResponse(
-            responseCode = "", 
+            responseCode = "404", 
             description = "Bad parameters"
         ),        
 })
