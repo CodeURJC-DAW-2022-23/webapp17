@@ -69,4 +69,12 @@ public class CartItem {
     public void setQuantity(int quantity){
         this.quantity = quantity;
     }
+
+    public String getProductName(){
+        return product.getTitle();
+    }
+
+    public long getId(){
+        return id;
+    }
 }
