@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -84,8 +85,8 @@ public class CartApiController {
     }
 
 
-    //Problem with having the cartItems id in JSON Map
-    @GetMapping("/decreaseQuantity/{id}")
+
+    @PutMapping("/decreaseQuantity/{id}")
     @Operation(summary = "Decrease the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -106,7 +107,7 @@ public class CartApiController {
 
 
 
-    @GetMapping("/increaseQuantity/{id}")
+    @PutMapping("/increaseQuantity/{id}")
     @Operation(summary = "Increase the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -151,7 +152,7 @@ public class CartApiController {
     }
 
 
-    @PostMapping("/checkout")
+    @PostMapping("/finishCheckout")
     @Operation(summary = "Finalize the checkout")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -215,5 +216,5 @@ public class CartApiController {
         return response;
     }
 
-    
+
 }

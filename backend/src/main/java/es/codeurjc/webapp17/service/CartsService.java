@@ -148,6 +148,7 @@ public class CartsService {
 
 
     public void decreaseQuantity(long id, HttpServletRequest request){
+        
         CartItem item = getCartItemsRepo().findById(id).get(0);
         UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         int n = user.getCart().positionOfCartItem(item);
@@ -157,6 +158,7 @@ public class CartsService {
         } else {
             deleteItem(id, request);
         }
+    
     }
 
 
@@ -226,5 +228,10 @@ public class CartsService {
         return ResponseEntity.ok().build();
     }
 
-    
+    public void changeOrderState(long id){
+        Cart cart = getCartsRepo().findById(id).get(0);
+        cart.setStatus(Cart.STATUS_DONE);
+        getCartsRepo().saveAndFlush(cart);
+    }
+
 }

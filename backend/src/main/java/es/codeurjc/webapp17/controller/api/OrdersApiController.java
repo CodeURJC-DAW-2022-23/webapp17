@@ -1,21 +1,19 @@
 package es.codeurjc.webapp17.controller.api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import java.util.HashMap;
+import java.util.Map;
+import es.codeurjc.webapp17.model.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import es.codeurjc.webapp17.model.Comment;
-import es.codeurjc.webapp17.service.CommentsService;
+import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,10 +21,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.Page;
 
 @RestController
 @RequestMapping(Tools.API_HEADER + "/orders/")
 public class OrdersApiController {
+
+        @Autowired
+        CartsService cartsService;
 
     @GetMapping("/viewOrders")
     @Operation(summary = "View orders")
@@ -48,12 +50,19 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public void viewOrdersPaginated(){
-
+    public @ResponseBody Map<String,Object> viewOrdersPaginated(HttpServletRequest request, @RequestParam(defaultValue = "0") int page){
+        HashMap<String, Object> map = new HashMap<>();
+        int pageSize = 8;
+        Page<Cart> carts = cartsService.getCartsRepo().findByStatusNot(Cart.STATUS_NEW, PageRequest.of(page, pageSize));             
+        if(!carts.isEmpty()){
+            map.put("hasCarts", true);
+            map.put("orders", carts);
+        }
+        return map;
     };
 
 
-    @GetMapping("/changeStateOrder")
+    @PutMapping("/changeStateOrder")
     @Operation(summary = "Change state of an order")
 	@ApiResponses(value = { 
         @ApiResponse(
@@ -73,6 +82,32 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public void changeState(){
-    };
+    public  void changeState(@RequestParam(name = "id") Long id) {
+        cartsService.changeOrderState(id);
+          
+};
+
+@DeleteMapping("/deleteOrder")
+    @Operation(summary = "Change state of an order")
+	@ApiResponses(value = { 
+        @ApiResponse(
+                responseCode = "200", 
+                description = "Found the order", 
+                content = @Content
+                ),
+        @ApiResponse(
+                responseCode = "404", 
+                description = "Order not found", 
+                content = @Content
+                ),
+        @ApiResponse(
+            responseCode = "403", 
+            description = "No permission to  change the state of the order", 
+            content = @Content
+            )
+    })
+    @NeedsSecurity(role=Tools.Role.ADMIN)
+    public void deleteOrder(@RequestParam(name = "id") Long id) {
+        cartsService.getCartsRepo().deleteById(id);          
+};
 }
