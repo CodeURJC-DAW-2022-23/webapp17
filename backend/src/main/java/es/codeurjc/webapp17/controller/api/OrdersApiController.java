@@ -57,19 +57,15 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public String viewOrdersPaginated(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page){
-         int pageSize = 8;
-        Page<Cart> carts = cartsRepo.findByStatusNot(Cart.STATUS_NEW, PageRequest.of(page, pageSize));
-        model.addAttribute("prevPag", (int)Math.max(0, page-1));
-        int num = (int)Math.ceil((float)carts.getSize() / (float)pageSize);
-        model.addAttribute("nextPag", (int)Math.min(page+1, num-1));
-        
-        
+    public @ResponseBody Map<String,Object> viewOrdersPaginated(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page){
+        HashMap<String, Object> map = new HashMap<>();
+        int pageSize = 8;
+        Page<Cart> carts = cartsRepo.findByStatusNot(Cart.STATUS_NEW, PageRequest.of(page, pageSize));             
         if(!carts.isEmpty()){
-            model.addAttribute("hasCarts", true);
-            model.addAttribute("orders", carts);
+            map.put("hasCarts", true);
+            map.put("orders", carts);
         }
-        return "admin/orders";
+        return map;
     };
 
 
