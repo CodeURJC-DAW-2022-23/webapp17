@@ -21,7 +21,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
+import es.codeurjc.webapp17.model.Booking;
 import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.Credential;
 import es.codeurjc.webapp17.model.ProfileImage;
@@ -228,6 +228,13 @@ public class UsersService{
         if(password!=null){
             user.updateCredential(Credential.INTERNALSTRING, passwordEncoder.encode(password));
         }
+        getUsersRepo().saveAndFlush(user);
+    }
+
+    public void addBookingToUser(String email, Booking booking){
+        UserProfile user = getUser(email);
+        booking.setUserProfile(user);
+        user.getBookings().add(booking);
         getUsersRepo().saveAndFlush(user);
     }
 }

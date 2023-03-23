@@ -45,6 +45,10 @@ public class Booking {
         confirmation = false;
     }
 
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
     public void setBookTime(String bookTime) {
         this.bookTime = bookTime;
     }
