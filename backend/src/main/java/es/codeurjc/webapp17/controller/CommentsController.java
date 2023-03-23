@@ -1,12 +1,17 @@
 package es.codeurjc.webapp17.controller;
 
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.webapp17.service.CommentsService;
@@ -18,6 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.Product;
 
+//Controller for getting information about individual products and adding comments to them.
 @Controller
 public class CommentsController {
 
@@ -30,35 +36,32 @@ public class CommentsController {
     @Autowired
     UsersService usersService;
 
-    /*@GetMapping("/description")
-    @NeedsSecurity(role=Tools.Role.NONE)
-    public String description(@RequestParam(name="id") long id, Model model) {
-        model.addAttribute("product", productsService.getProductsRepo().findById(id));
-        return "dishes/description";
-    }*/
+
+    @PostMapping("/products/{id}/addComment")
+    @NeedsSecurity(role=Tools.Role.USER)
+    public ResponseEntity<Object> addComment(HttpServletRequest request, @PathVariable long id,@RequestParam(name = "content") String content, 
+    @RequestParam(name = "stars") int stars) throws SQLException {
+        ResponseEntity<Object> response = productsService.addComment(request, id, content, stars);
+        return response;
+    }
+
 
     @GetMapping("/description")
     @NeedsSecurity(role=Tools.Role.NONE)
     public String description(@RequestParam(name="id") long id, Model model, @RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
-        int pageSize = 4;
-        Product product = productsService.getProducts().get((int) id - 1);
-        List<Comment> listComments = product.getComments();
-        int totalPages = commentsService.getTotalPagesComments(listComments);
-        boolean moreProducts = true;
-        //Page<Product> test = productsService.getProducts(page, pageSize);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("product", product);
-        //model.addAttribute("product", productsService.getProductsRepo().findById(id));
-        if (page<=totalPages-1){
-            model.addAttribute("productComments", commentsService.getComments(product, page, pageSize));
-        } else {
-            moreProducts=false;
-            model.addAttribute("productComments", null);
+        HashMap<String,Object> map = productsService.descriptionProduct(id, page, request);
+        model.addAttribute("totalPages", map.get("totalPages"));
+        model.addAttribute("currentPage", map.get("currentPage"));
+        model.addAttribute("product", map.get("product"));
+        if(map.get("productComments")!=null){
+            model.addAttribute("productComments", map.get("productComments"));
         }
-        model.addAttribute("moreComments", moreProducts);
-        if(request.getUserPrincipal() != null)
-            model.addAttribute("userProfile_id", usersService.getUser(request.getUserPrincipal().getName()).getID());
+        model.addAttribute("moreComments", map.get("moreComments"));
+        if(map.get("userProfile_id")!=null){
+            model.addAttribute("userProfile_id", map.get("userProfile_id"));
+        }
         return "dishes/description";
     }
+
+    
 }

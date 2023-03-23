@@ -52,13 +52,6 @@ public class ProductsController {
         return response;
     }
 
-    @PostMapping("/products/{id}/addComment")
-    @NeedsSecurity(role=Tools.Role.USER)
-    public ResponseEntity<Object> addComment(HttpServletRequest request, @PathVariable long id,@RequestParam(name = "content") String content, 
-    @RequestParam(name = "stars") int stars) throws SQLException {
-        ResponseEntity<Object> response = productsService.addComment(request, id, content, stars);
-        return response;
-    }
 
     @PostMapping("/addToCart")
     @NeedsSecurity(role=Tools.Role.NONE)

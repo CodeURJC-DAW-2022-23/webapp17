@@ -117,4 +117,24 @@ public class ProductsApiController {
         return map;
     }
     
+
+	@GetMapping("/getIndividualProduct")
+    @Operation(summary = "Get the description of a product (individual)")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Showed the information of the product", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Cannot show the information of the product", 
+					content = @Content
+					) 
+	})
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public @ResponseBody Map<String,Object> getIndividualProduct(@RequestParam(name="id") long id, HttpServletRequest request) {
+        HashMap<String,Object> map = productsService.descriptionProduct(id, 0, request);
+        return map;
+    }
 }

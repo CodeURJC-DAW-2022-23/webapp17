@@ -152,7 +152,7 @@ public class CartApiController {
     }
 
 
-    @PostMapping("/checkout")
+    @PostMapping("/finishCheckout")
     @Operation(summary = "Finalize the checkout")
 	@ApiResponses(value = { 
 			@ApiResponse(
