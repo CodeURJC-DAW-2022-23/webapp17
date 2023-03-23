@@ -228,5 +228,10 @@ public class CartsService {
         return ResponseEntity.ok().build();
     }
 
+    public void changeOrderState(long id){
+        Cart cart = getCartsRepo().findById(id).get(0);
+        cart.setStatus(Cart.STATUS_DONE);
+        getCartsRepo().saveAndFlush(cart);
+    }
 
 }
