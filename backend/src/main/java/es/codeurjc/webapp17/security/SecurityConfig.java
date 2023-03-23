@@ -1,5 +1,6 @@
 package es.codeurjc.webapp17.security;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,9 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -35,10 +39,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import org.hibernate.engine.spi.Resolution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 
 @Configuration
 @EnableWebSecurity
@@ -104,8 +110,18 @@ public class SecurityConfig {
 
         // Permit every other request
         http.authorizeHttpRequests().anyRequest().permitAll();
-
-
+        http.exceptionHandling(handling -> handling.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"){
+            @Override
+            public void commence(HttpServletRequest request, HttpServletResponse response,
+                                                         AuthenticationException authException) throws IOException, ServletException {
+                String in = request.getRequestURI();
+                if (in.startsWith("/api")) {
+                    response.sendError(HttpStatus.FORBIDDEN.value(), "Forbidden api call");
+                } else {
+                    super.commence(request, response, authException);
+                }
+            }
+        }));
         // Login form
         http.formLogin().loginPage("/login");
         http.formLogin().usernameParameter("username");

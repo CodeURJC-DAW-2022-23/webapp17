@@ -75,7 +75,7 @@ public class UserApiController {
         if (res != null) {
             return res;
         } else {
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }	
     }
 
@@ -110,7 +110,7 @@ public class UserApiController {
 			imageFile.getInputStream(), imageFile.getSize()));
 			return ResponseEntity.ok().build();
         }
-		throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
 	@GetMapping("/getUserInfo")
@@ -136,7 +136,7 @@ public class UserApiController {
 				) 		
 	})
 	@JsonView(UserProfile.class)
-    public @ResponseBody Map<String,Object> getUserInfo(HttpServletRequest request,
+    public @ResponseBody Object getUserInfo(HttpServletRequest request,
 	@RequestParam(name="email", required = false) String email){
 		if(permissionsService.canViewUsers(request, usersService)){
 			Map<String,Object> ui = usersService.getUserInfo(email);
@@ -150,7 +150,7 @@ public class UserApiController {
                 return ui;
             }
         }
-		throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
 	@PutMapping("/modifyUser")
@@ -190,20 +190,20 @@ public class UserApiController {
 		if(emailToChange != null){	
             if(name != null){
 				if(!usersService.changeName(emailToChange, name))
-					throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
 			if(newBio != null){
 				if(!usersService.changeDescription(emailToChange, newBio))
-					throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
 			if(newPassword != null){
 				if(!usersService.changePassword(emailToChange, newPassword))
-					throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+					return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			}
 			return ResponseEntity.ok().build();
         }
 
-        throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
 
@@ -233,13 +233,38 @@ public class UserApiController {
 			if(permissionsService.canEditUsers(request, usersService) && email != null){
 				if(usersService.removeUser(request.getUserPrincipal().getName()))
 					return ResponseEntity.ok().build();
-				else throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+				else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
             usersService.removeUser(request.getUserPrincipal().getName());
             request.logout();
 			return ResponseEntity.ok().build();
         }
-		throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+	@Operation(summary = "Create user")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "User Added", 
+					content = @Content
+					),
+			@ApiResponse(
+				responseCode = "403", 
+				description = "No permission to edit user", 
+				content = @Content
+				) 		
+	})
+	@PostMapping("/adminUsers/createUser")
+    @NeedsSecurity(role=Tools.Role.ADMIN)
+    public ResponseEntity<Object> handleCreationFormSubmissionAdmin(@RequestParam("role") String role,
+                                       @RequestParam("name") String name,
+                                       @RequestParam("email") String email,
+                                       @RequestParam(value = "bio", required = false) String bio,
+                                       @RequestParam("password") String password) throws IOException{
+        Boolean admin = role.equals("Administrador");
+        usersService.registerUserFromForm(name, password, email, bio, admin);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -265,10 +290,11 @@ public class UserApiController {
 	})
 	@GetMapping("/getUsers")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public @ResponseBody Map<String, Object> getUsers(@RequestParam(defaultValue = "0") int pageNumber) {
+    public @ResponseBody Object getUsers(@RequestParam(defaultValue = "0") int pageNumber) {
 		Page<UserProfile> page = usersService.getUsersRepo().findAll(PageRequest.of(pageNumber, 8));
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("users", page.getContent());
+		map.put("users", page);
+
 		return map;
 	}
     

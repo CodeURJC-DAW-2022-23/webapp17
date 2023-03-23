@@ -9,6 +9,8 @@ import org.hibernate.annotations.Where;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import es.codeurjc.webapp17.tools.Tools;
 import es.codeurjc.webapp17.tools.Tools.Role;
 
@@ -63,6 +65,7 @@ public class UserProfile {
     private List<Cart> orders;
 
     @OneToOne(mappedBy="imageOwner", cascade=CascadeType.ALL, orphanRemoval=true)
+    @JsonIgnore
     private ProfileImage image;
 
     @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, orphanRemoval=true)

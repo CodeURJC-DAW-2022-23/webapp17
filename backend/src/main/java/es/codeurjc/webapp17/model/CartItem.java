@@ -24,7 +24,6 @@ public class CartItem {
 
     @Nonnull
     @ManyToOne
-    @JsonIgnore
     private Product product;
 
     @Nonnull

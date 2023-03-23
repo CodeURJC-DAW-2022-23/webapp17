@@ -21,6 +21,7 @@ public class Coupon {
     private long id;
 
     @ManyToOne
+    @JsonIgnore
     private UserProfile userProfile;
 
     @Nonnull

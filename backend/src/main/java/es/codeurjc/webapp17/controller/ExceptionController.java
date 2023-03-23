@@ -1,10 +1,15 @@
 package es.codeurjc.webapp17.controller;
 
+import java.util.Enumeration;
+import java.util.Iterator;
+
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.nimbusds.oauth2.sdk.Response;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,9 +20,14 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ExceptionController implements ErrorController {
 
     @GetMapping("/error")
-    public String errorHandler(HttpServletRequest request, Model model) {
+    public Object errorHandler(HttpServletRequest request, Model model) {
+        String in =  (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
         // Obtain status code
-    Integer statusCode = ((Integer)request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+        Integer statusCode = ((Integer)request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+        if (in.startsWith("/api")) {
+            return ResponseEntity.status(statusCode).build();
+        }
+        
         String message = "Unknown error.";
         if(statusCode != null)
             switch(statusCode){
