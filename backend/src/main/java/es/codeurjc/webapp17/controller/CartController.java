@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,7 +45,7 @@ public class CartController {
     @Autowired
     private CartsService cartsService;
 
-    //In swagger JSON only quantity of cartItems appears.
+
     @GetMapping("/cart")
     @NeedsSecurity(role=Tools.Role.USER)
     public String cart(Model model, HttpServletRequest request) {
@@ -84,20 +87,22 @@ public class CartController {
         cartsService.deleteItem(id, request);
     }
 
-    //Can only be Get?
+
     @GetMapping("/decreaseQuantity/{id}")
     @NeedsSecurity(role=Tools.Role.USER)
-    public ModelAndView decreaseQuantity(@PathVariable long id, HttpServletRequest request){
+    public ResponseEntity<Object> decreaseQuantity(@PathVariable long id, HttpServletRequest request){
         cartsService.decreaseQuantity(id, request);
-        return new ModelAndView("redirect:/cart");
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/cart")).build();
     }
-    //Can only be Get?
+
+
     @GetMapping("/increaseQuantity/{id}")
     @NeedsSecurity(role=Tools.Role.USER)
-    public ModelAndView increaseQuantity(@PathVariable long id, HttpServletRequest request){
+    public ResponseEntity<Object> increaseQuantity(@PathVariable long id, HttpServletRequest request){
         cartsService.increaseQuantity(id, request);
-        return new ModelAndView("redirect:/cart");
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/cart")).build();
     }
+
 
     @GetMapping("/checkout")
     @NeedsSecurity(role=Tools.Role.USER)
