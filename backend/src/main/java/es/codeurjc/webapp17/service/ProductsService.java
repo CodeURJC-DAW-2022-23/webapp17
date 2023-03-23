@@ -49,8 +49,12 @@ public class ProductsService {
         Product product = products.findById(id).get(0);
         product.setTtile(title);
         product.setPrice(price);
-        product.setDescription(description);
-        product.setTags(tags);
+        if(description != null){
+            product.setDescription(description);
+        }
+        if(tags != null){
+            product.setTags(tags);
+        }
         getProductsRepo().saveAndFlush(product);
     }
 
@@ -102,6 +106,9 @@ public class ProductsService {
     }
 
     public void addProduct(String name, Float price, String description, String[] tags){
+        if (description == null){
+            description = "";
+        }
         Product product = new Product(name, description, price, tags);
         getProductsRepo().saveAndFlush(product);
     }

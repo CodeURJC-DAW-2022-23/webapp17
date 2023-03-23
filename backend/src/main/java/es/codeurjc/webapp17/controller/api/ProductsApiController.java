@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -115,6 +117,40 @@ public class ProductsApiController {
     public @ResponseBody Map<String,Object> addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {
         HashMap<String,Object> map = productsService.addToCart(id, request);
         return map;
+    }
+
+	@PutMapping("/modifyProduct")
+    @NeedsSecurity(role=Tools.Role.ADMIN)
+    public void handleFormSubmission(@RequestParam("id") String id,
+                                       @RequestParam("name") String name,
+                                       @RequestParam(value = "description", required = false) String description,
+                                       @RequestParam(value = "tags", required = false) String tags,
+                                       @RequestParam("price") Float price) {
+	String[] tagsArray = null;
+	if(tags != null){
+		tagsArray = tags.split(", ");
+	}
+        productsService.modifyProduct(Long.parseLong(id), name, price, description, tagsArray);
+    }
+
+    @DeleteMapping("/removeProduct")
+    @NeedsSecurity(role=Tools.Role.ADMIN)
+    public void removeAction(@RequestParam(name="id") long id) {
+        productsService.deleteProduct(id);
+    }
+
+    @PostMapping("/addProduct")
+    @NeedsSecurity(role=Tools.Role.ADMIN)
+    public void handleCreationFormSubmissionAdmin(@RequestParam("name") String name,
+                                       @RequestParam("price") String price,
+                                       @RequestParam(value = "description", required = false) String description,
+                                       @RequestParam(value = "tags", required = false) String tags){
+        
+	String[] tagsArray = {""};
+	if(tags != null){
+		tagsArray = tags.split(", ");
+	}
+        productsService.addProduct(name, Float.parseFloat(price), description, tagsArray);
     }
     
 
