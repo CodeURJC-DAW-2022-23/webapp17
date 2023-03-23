@@ -13,9 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ui.Model;
 import es.codeurjc.webapp17.repository.CartsRepo;
@@ -57,7 +59,7 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public @ResponseBody Map<String,Object> viewOrdersPaginated(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page){
+    public @ResponseBody Map<String,Object> viewOrdersPaginated(HttpServletRequest request, @RequestParam(defaultValue = "0") int page){
         HashMap<String, Object> map = new HashMap<>();
         int pageSize = 8;
         Page<Cart> carts = cartsRepo.findByStatusNot(Cart.STATUS_NEW, PageRequest.of(page, pageSize));             
@@ -69,7 +71,7 @@ public class OrdersApiController {
     };
 
 
-    @GetMapping("/changeStateOrder")
+    @PutMapping("/changeStateOrder")
     @Operation(summary = "Change state of an order")
 	@ApiResponses(value = { 
         @ApiResponse(
@@ -89,7 +91,7 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public  ResponseEntity changeState(Model model, @RequestParam(name = "id") Long id,@RequestParam(name = "action") int action, HttpServletRequest request) {
+    public  void changeState(@RequestParam(name = "id") Long id,@RequestParam(name = "action") int action, HttpServletRequest request) {
         if(action==1){
                 cartsRepo.deleteById(id);
             }else{
@@ -97,6 +99,6 @@ public class OrdersApiController {
                 c.setStatus(Cart.STATUS_DONE);
                 cartsRepo.saveAndFlush(c);
             }
-            return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminOrders")).build();
+          
 };
 }
