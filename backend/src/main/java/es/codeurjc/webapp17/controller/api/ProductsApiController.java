@@ -154,7 +154,7 @@ public class ProductsApiController {
     }
     
 
-	@GetMapping("/getIndividualProduct")
+	@GetMapping("/IndividualProduct")
     @Operation(summary = "Get the description of a product (individual)")
 	@ApiResponses(value = { 
 			@ApiResponse(
