@@ -1,28 +1,21 @@
 package es.codeurjc.webapp17.controller.api;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
-import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.service.CartsService;
-import es.codeurjc.webapp17.service.CommentsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,7 +48,7 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public HashMap<String,Object> cart(Model model, HttpServletRequest request) {
+    public HashMap<String,Object> cart(HttpServletRequest request) {
         HashMap<String,Object> map = cartsService.cartAndCheckout(request);
         if (map.size()!=0) {
             return map;
@@ -65,7 +58,7 @@ public class CartApiController {
 
 
 
-    @DeleteMapping("/deleteItem/{id}")
+    @DeleteMapping("/deleteItem")
     @Operation(summary = "Deletes an item from cart")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -80,13 +73,14 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public void deleteItem(@PathVariable long id, HttpServletRequest request){
+    public Object deleteItem(@RequestParam long id, HttpServletRequest request){
         cartsService.deleteItem(id, request);
+		return ResponseEntity.ok().build();
     }
 
 
 
-    @PutMapping("/decreaseQuantity/{id}")
+    @PutMapping("/decreaseQuantity")
     @Operation(summary = "Decrease the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -101,13 +95,14 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public void decreaseQuantity(@PathVariable long id, HttpServletRequest request){
+    public Object decreaseQuantity(@RequestParam long id, HttpServletRequest request){
         cartsService.decreaseQuantity(id, request);
+		return ResponseEntity.ok().build();
     }
 
 
 
-    @PutMapping("/increaseQuantity/{id}")
+    @PutMapping("/increaseQuantity")
     @Operation(summary = "Increase the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -122,8 +117,9 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public void increaseQuantity(@PathVariable long id, HttpServletRequest request){
+    public Object increaseQuantity(@RequestParam long id, HttpServletRequest request){
         cartsService.increaseQuantity(id, request);
+		return ResponseEntity.ok().build();
     }
     
 
@@ -143,7 +139,7 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public HashMap<String,Object> checkout(Model model, HttpServletRequest request) {
+    public HashMap<String,Object> checkout(HttpServletRequest request) {
         HashMap<String,Object> map = cartsService.cartAndCheckout(request);
         if (map.size()!=0) {
             return map;
@@ -167,7 +163,7 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public ResponseEntity<Object> doCheckout(Model model, HttpServletRequest request) {
+    public ResponseEntity<Object> doCheckout(HttpServletRequest request) {
         ResponseEntity<Object> response = cartsService.doCheckout(request);
         return response;
     }

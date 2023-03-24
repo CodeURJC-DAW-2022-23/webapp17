@@ -7,10 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +48,7 @@ public class ProductsApiController {
 					) 
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
-    public Map<String,Object> products(Model model, @RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
+    public Map<String,Object> products(@RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
         Map<String,Object> map = productsService.productsPaginated(page, request);
 		if (map!=null){
 			return map;
@@ -58,7 +56,7 @@ public class ProductsApiController {
 		throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/products/{id}/image/{idImage}")
+    @GetMapping("/productImages")
     @Operation(summary = "Get list of images from a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -72,13 +70,13 @@ public class ProductsApiController {
 					content = @Content
 					) 
 	})
-    public ResponseEntity<Object> downloadImage(@PathVariable long id,@PathVariable int idImage) throws SQLException {
+    public ResponseEntity<Object> downloadImage(@RequestParam long id,@RequestParam int idImage) throws SQLException {
         ResponseEntity<Object> response = productsService.downloadImage(id, idImage);
         return response;
     }
 
 
-    @PostMapping("/products/{id}/addComment")
+    @PostMapping("/addComment")
     @Operation(summary = "Add a comment on a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -93,7 +91,7 @@ public class ProductsApiController {
 					) 
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public ResponseEntity<Object> addComment(HttpServletRequest request, @PathVariable long id,@RequestParam(name = "content") String content, 
+    public ResponseEntity<Object> addComment(HttpServletRequest request, @RequestParam long id,@RequestParam(name = "content") String content, 
     @RequestParam(name = "stars") int stars) throws SQLException {
         ResponseEntity<Object> response = productsService.addComment(request, id, content, stars);
         return response;
@@ -154,7 +152,7 @@ public class ProductsApiController {
     }
     
 
-	@GetMapping("/IndividualProduct")
+	@GetMapping("/individualProduct")
     @Operation(summary = "Get the description of a product (individual)")
 	@ApiResponses(value = { 
 			@ApiResponse(

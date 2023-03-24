@@ -202,6 +202,7 @@ public class DatabaseInitializer {
         Coupon coup3 = new Coupon(20, "GUSTOSA20", 5);
         Coupon coup4 = new Coupon(20, "GUSTOSA20", 5);
         Coupon coup5 = new Coupon(20, "GUSTOSA20", 5);
+        Coupon coup6 = new Coupon(20, "GUSTOSA20", 5);
 
         coup1.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Especial5.png"), coup1));
         coup2.setImage(new CouponImage(Tools.resourceToBlob("/static/images/coupons/Gustosa20.png"), coup2));
@@ -220,6 +221,8 @@ public class DatabaseInitializer {
         setCoupons(jesus, coup3);
         setCoupons(test, coup4);
         setCoupons(guillermo, coup5);
+        setCoupons(admin, coup6);
+
 
         Cart orderCart = new Cart(test);
         orderCart.addCartItem(new CartItem(feijoada, orderCart));
