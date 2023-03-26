@@ -76,7 +76,7 @@ public class ProductsApiController {
     }
 
 
-    @PostMapping("/addComment")
+    @PostMapping("/comment")
     @Operation(summary = "Add a comment on a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -117,7 +117,7 @@ public class ProductsApiController {
         return map;
     }
 
-	@PutMapping("/modifyProduct")
+	@PutMapping("/product")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public void handleFormSubmission(@RequestParam("id") String id,
                                        @RequestParam("name") String name,
@@ -131,7 +131,7 @@ public class ProductsApiController {
         productsService.modifyProduct(Long.parseLong(id), name, price, description, tagsArray);
     }
 
-    @DeleteMapping("/removeProduct")
+    @DeleteMapping("/product")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public void removeAction(@RequestParam(name="id") long id) {
         productsService.deleteProduct(id);

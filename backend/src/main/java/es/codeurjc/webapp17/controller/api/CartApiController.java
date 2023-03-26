@@ -80,7 +80,7 @@ public class CartApiController {
 
 
 
-    @PutMapping("/decreaseQuantity")
+    @PutMapping("/lessQuantity")
     @Operation(summary = "Decrease the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -102,7 +102,7 @@ public class CartApiController {
 
 
 
-    @PutMapping("/increaseQuantity")
+    @PutMapping("/moreQuantity")
     @Operation(summary = "Increase the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
