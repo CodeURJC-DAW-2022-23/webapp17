@@ -1,6 +1,7 @@
 package es.codeurjc.webapp17.controller.api;
 
 import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -111,7 +112,7 @@ public class UserApiController {
 			|| permissionsService.canEditUsers(request, usersService)){
 			usersService.changeImage(usersService.getUser(id).getEmail(), BlobProxy.generateProxy(
 			imageFile.getInputStream(), imageFile.getSize()));
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/users/profileImage")).build();
         }
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
@@ -203,7 +204,7 @@ public class UserApiController {
 				if(!usersService.changePassword(emailToChange, newPassword))
 					return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			}
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/users/user")).build();
         }
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -267,7 +268,7 @@ public class UserApiController {
                                        @RequestParam("password") String password) throws IOException{
         Boolean admin = role.equals("admin");
         usersService.registerUserFromForm(name, password, email, bio, admin);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/users/user")).build();
     }
 
 

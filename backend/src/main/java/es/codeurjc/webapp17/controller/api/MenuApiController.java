@@ -1,8 +1,10 @@
 package es.codeurjc.webapp17.controller.api;
 
+import java.net.URI;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,6 +70,6 @@ public class MenuApiController {
     })
     public ResponseEntity postMenu(HttpServletRequest request, @RequestBody Map<String, Object> payload) {
         generalInfoService.setMenu(payload);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/menu/menu")).build();
     }
 }

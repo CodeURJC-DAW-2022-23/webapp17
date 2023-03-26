@@ -1,5 +1,6 @@
 package es.codeurjc.webapp17.controller.api;
 
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class BookingsApiController {
     public ResponseEntity changeBooking(Model model, @RequestParam(name = "id") Long id, 
         @RequestParam(name = "action") int action, HttpServletRequest request) {
         generalInfoService.bookingApplyState(id, action);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/bookings/booking")).build();
     }
 
     @PostMapping("/booking")
@@ -87,7 +88,7 @@ public class BookingsApiController {
     @RequestParam(name="date", required = true) String date, @RequestParam(name="hour", required = true) String hour) {
         if(permissionsService.isUserLoggedIn(request, usersService)){
             usersService.addBookingToUser(request.getUserPrincipal().getName(), new Booking(null, date+" "+hour, num, tlf));
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/bookings/booking")).build();
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
