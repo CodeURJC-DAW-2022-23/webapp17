@@ -1,1 +1,2 @@
-docker build . -t gustosa_image
+docker build . -t gustosa_image --no-cache
+docker push 

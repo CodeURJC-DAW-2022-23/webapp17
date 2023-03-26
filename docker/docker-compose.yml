@@ -1,21 +1,20 @@
 version: "3.9"
 services:
   db:
-    image: mysql:latest
+    image: mysql:8.0.32
     environment:
-      MYSQL_ROOT_PASSWORD: "password"
-      MYSQL_DATABASE: "webappdb"
-      MYSQL_USER: "webappuser"
-      MYSQL_PASSWORD: "webapppassword"
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=gustosa
     restart: always
   web:
-    build: .
+    image: gustosa_image
     ports:
       - "8443:8443"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/webappdb?useSSL=false&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: webappuser
-      SPRING_DATASOURCE_PASSWORD: webapppassword
+      - SPRING_PROFILES_ACTIVE=sql
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db/gustosa
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
     depends_on:
       - db
     restart: always
