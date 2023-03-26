@@ -30,7 +30,7 @@ public class OrdersApiController {
         @Autowired
         CartsService cartsService;
 
-    @GetMapping("/viewOrders")
+    @GetMapping("/orders")
     @Operation(summary = "View orders")
     @ApiResponses(value = { 
         @ApiResponse(
@@ -62,8 +62,8 @@ public class OrdersApiController {
     };
 
 
-    @PutMapping("/changeStateOrder")
-    @Operation(summary = "Change state of an order")
+    @PutMapping("/orderStatus")
+    @Operation(summary = "Change the status of an order")
 	@ApiResponses(value = { 
         @ApiResponse(
                 responseCode = "200", 
@@ -71,13 +71,13 @@ public class OrdersApiController {
                 content = @Content
                 ),
         @ApiResponse(
-                responseCode = "404", 
+                responseCode = "405", 
                 description = "Order not found", 
                 content = @Content
                 ),
         @ApiResponse(
             responseCode = "403", 
-            description = "No permission to  change the state of the order", 
+            description = "No permission to  change the status of the order", 
             content = @Content
             )
     })
@@ -87,7 +87,7 @@ public class OrdersApiController {
           
 };
 
-@DeleteMapping("/deleteOrder")
+@DeleteMapping("/order")
     @Operation(summary = "Change state of an order")
 	@ApiResponses(value = { 
         @ApiResponse(
@@ -96,13 +96,13 @@ public class OrdersApiController {
                 content = @Content
                 ),
         @ApiResponse(
-                responseCode = "404", 
+                responseCode = "405", 
                 description = "Order not found", 
                 content = @Content
                 ),
         @ApiResponse(
             responseCode = "403", 
-            description = "No permission to  change the state of the order", 
+            description = "No permission to  change the status of the order", 
             content = @Content
             )
     })

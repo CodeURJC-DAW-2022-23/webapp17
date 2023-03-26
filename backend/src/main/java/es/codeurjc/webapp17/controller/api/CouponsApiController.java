@@ -46,7 +46,7 @@ public class CouponsApiController {
                 description = "User not authorized, login with an admin account"
             )
 	})
-	@GetMapping("/getCoupons")
+	@GetMapping("/coupons")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public @ResponseBody Map<String,Object> coupons(Model model, @RequestParam(defaultValue = "0") int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -64,7 +64,7 @@ public class CouponsApiController {
 		return map;        
     }
 
-    @PutMapping("/modifyCoupon")
+    @PutMapping("/coupon")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     @Operation(summary = "Modify a coupon through his id, introducing all the parameters")
     @ApiResponses(value = { 
@@ -80,13 +80,9 @@ public class CouponsApiController {
             description = "User not authorized, login with an admin account"
         ),
         @ApiResponse(
-            responseCode = "404", 
-            description = "Coupon not found, wrong id"
-        ),
-        @ApiResponse(
-            responseCode = "404", 
-            description = "Bad parameters"
-        ),          
+            responseCode = "405", 
+            description = "Coupon not found or bad parameters"
+        ),        
     })
     public void handleEditFormSubmission(@RequestParam("id") String id,
                                        @RequestParam("code") String code,
@@ -110,11 +106,11 @@ public class CouponsApiController {
             description = "User not authorized, login with an admin account"
         ),
         @ApiResponse(
-            responseCode = "404", 
+            responseCode = "405", 
             description = "Coupon not found, wrong id"
         ),        
 })
-    @DeleteMapping("/removeCoupon")
+    @DeleteMapping("/coupon")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public void removeAction(@RequestParam(name="id") String id){
         couponsService.removeCoupon(Long.parseLong(id));
@@ -134,11 +130,11 @@ public class CouponsApiController {
             description = "User not authorized, login with an admin account"
         ),
         @ApiResponse(
-            responseCode = "404", 
-            description = "Bad parameters"
+            responseCode = "405", 
+            description = "Bad parameters, check if the user exists"
         ),        
 })
-    @PostMapping("/createCoupon")
+    @PostMapping("/coupon")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public void handleCreationFormSubmission(@RequestParam("code") String code,
                                        @RequestParam("discount") String discount,

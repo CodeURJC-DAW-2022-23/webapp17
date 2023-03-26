@@ -45,7 +45,7 @@ public class CommentsApiController {
                 description = "User not authorized, login with an admin account"
             )
 	})
-	@GetMapping("/getComments")
+	@GetMapping("/comments")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public @ResponseBody Map<String,Object> menu(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -77,11 +77,11 @@ public class CommentsApiController {
 				description = "User not authorized, login with an admin account"
 			),
             @ApiResponse(
-				responseCode = "404", 
+				responseCode = "405", 
 				description = "Comment not found, wrong id"
 			),        
 	})
-	@DeleteMapping("/removeComment")
+	@DeleteMapping("/comment")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public void removeAction(@RequestParam(name="id") String id){
         commentsService.removeComment(Long.parseLong(id));

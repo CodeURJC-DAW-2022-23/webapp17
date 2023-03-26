@@ -51,7 +51,7 @@ public class AdminApiController {
     @Autowired
     CartsService cartsService;
     
-    @GetMapping("/getStatistics")
+    @GetMapping("/statistics")
     @Operation(summary = "See the statistics")
 	@ApiResponses(value = { 
         @ApiResponse(
