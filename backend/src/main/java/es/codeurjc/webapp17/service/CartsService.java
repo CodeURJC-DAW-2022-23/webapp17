@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -102,40 +104,36 @@ public class CartsService {
 
 
     public HashMap<String,Object> cartAndCheckout(HttpServletRequest request) {
-        try {
-            HashMap<String,Object> map = new HashMap<>();
-            UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
-            boolean existing_cart = false;
-            if ((user.getCart() != null)){
-                if (user.getCart().getCartItems().size()!=0){
-                    List<Coupon> userCoupons = user.getCoupons();
-                    if(!userCoupons.isEmpty())
-                        map.put("couponList", userCoupons);
-                    existing_cart = true;
-                    List<CartItem> totalCart = user.getCart().getCartItems();
-                    float totalPrice = user.getCart().totalPrice();
-                    int totalSize=user.getCart().totalSize();
-                    if (user.getCart().hasDiscount()){
-                        float discount = user.getCart().getDiscount();
-                        map.put("couponName", user.getCart().getCoupon().getCode());
-                        if (discount!=-1){
-                            map.put("discount", discount);
-                        }
-                        map.put("couponApplied", user.getCart().hasDiscount());
-                    } else {
-                        map.put("couponName", "No se ha aplicado ningún cupón");
+        HashMap<String,Object> map = new HashMap<>();
+        UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
+        boolean existing_cart = false;
+        if ((user.getCart() != null)){
+            if (user.getCart().getCartItems().size()!=0){
+                List<Coupon> userCoupons = user.getCoupons();
+                if(!userCoupons.isEmpty())
+                    map.put("couponList", userCoupons);
+                existing_cart = true;
+                List<CartItem> totalCart = user.getCart().getCartItems();
+                float totalPrice = user.getCart().totalPrice();
+                int totalSize=user.getCart().totalSize();
+                if (user.getCart().hasDiscount()){
+                    float discount = user.getCart().getDiscount();
+                    map.put("couponName", user.getCart().getCoupon().getCode());
+                    if (discount!=-1){
+                        map.put("discount", discount);
                     }
-                    map.put("totalPrice", totalPrice);     
-                    map.put("cartItems", totalCart);
-                    map.put("cartSize", totalSize);
-                    map.put("existingCart", existing_cart);
-                    map.put("user", user);
+                    map.put("couponApplied", user.getCart().hasDiscount());
+                } else {
+                    map.put("couponName", "No se ha aplicado ningún cupón");
                 }
-            } else {}
-            return map;
-        }catch(NullPointerException ex){
-            return null;
-        }
+                map.put("totalPrice", totalPrice);     
+                map.put("cartItems", totalCart);
+                map.put("cartSize", totalSize);
+                map.put("existingCart", existing_cart);
+                map.put("user", user);
+            }
+        } else {}
+        return map;
     }
 
 
@@ -180,7 +178,7 @@ public class CartsService {
             .findByEmail(request.getUserPrincipal().getName()).get(0).getCart());
         }catch(Exception ex){
             ex.printStackTrace();
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok().build();
     }
@@ -200,7 +198,7 @@ public class CartsService {
                 usersService.getUsersRepo().saveAndFlush(user);
             }
         }catch (Exception e){
-            ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok().build();
     }
@@ -223,7 +221,7 @@ public class CartsService {
                 usersService.getUsersRepo().saveAndFlush(user);
             }
         }catch (Exception e){
-            ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok().build();
     }

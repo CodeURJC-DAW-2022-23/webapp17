@@ -67,7 +67,7 @@ public class ProductsService {
         if (!product.isEmpty() && product.get(0).getImages().get(idImage).getImageFile() != null) {
             return product.get(0).getImages().get(idImage).toHtmEntity();
         } else {
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }	
     }
 
@@ -86,7 +86,7 @@ public class ProductsService {
                 getProductsRepo().saveAndFlush(product.get(0));
                 return ResponseEntity.ok().build();  
         } else {
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }	
     }
 
@@ -113,34 +113,37 @@ public class ProductsService {
         getProductsRepo().saveAndFlush(product);
     }
 
-    public Map<String, Object> productsPaginated(int page, HttpServletRequest request) {
-        Map<String,Object> map = new HashMap<String, Object>();
-        int pageSize = 8;
-        List<Product> listProducts = getProducts();
-        int totalPages = getTotalPages(listProducts);
-        boolean moreProducts = true;
-        map.put("totalPages", totalPages);
-        map.put("currentPage", page);
-        if (page<=totalPages-1){
-            map.put("product", getProducts(page, pageSize));
-        } else {
-            moreProducts=false;
-            map.put("product", null);
-        }
-        map.put("moreProducts", moreProducts);
+    public HashMap<String, Object> productsPaginated(int page, HttpServletRequest request) {
+        HashMap<String,Object> map = new HashMap<String, Object>();
+        try {
+            int pageSize = 8;
+            List<Product> listProducts = getProducts();
+            int totalPages = getTotalPages(listProducts);
+            boolean moreProducts = true;
+            map.put("totalPages", totalPages);
+            map.put("currentPage", page);
+            if (page<=totalPages-1){
+                map.put("product", getProducts(page, pageSize));
+            } else {
+                moreProducts=false;
+                map.put("product", null);
+            }
+            map.put("moreProducts", moreProducts);
 
-        if(request.getUserPrincipal() != null){
-            UserProfile user = usersService.getUser(request.getUserPrincipal().getName());
-            if(user != null && !user.getOrders().isEmpty()){
-                List<Long> recomendedProducts = usersService.getUsersRepo()
-                    .getRecomendedByProductList(user.getOrders().get(Math.max(user.getOrders().size()-2, 0)).getId());
-                List<Product> products = getProductsRepo().findAllById(recomendedProducts);
-                if(products.size() > 0){
-                    map.put("recomended_product", products.subList(0, Math.min(products.size(), 4)));
-                    map.put("has_recomended", true);
+            if(request.getUserPrincipal() != null){
+                UserProfile user = usersService.getUser(request.getUserPrincipal().getName());
+                if(user != null && !user.getOrders().isEmpty()){
+                    List<Long> recomendedProducts = usersService.getUsersRepo()
+                        .getRecomendedByProductList(user.getOrders().get(Math.max(user.getOrders().size()-2, 0)).getId());
+                    List<Product> products = getProductsRepo().findAllById(recomendedProducts);
+                    if(products.size() > 0){
+                        map.put("recomended_product", products.subList(0, Math.min(products.size(), 4)));
+                        map.put("has_recomended", true);
+                    }
                 }
             }
-        }
+        } catch (Exception ex) {}
+        
         return map;
     }
 
@@ -160,25 +163,27 @@ public class ProductsService {
 
     public HashMap<String,Object> descriptionProduct(long id, int page, HttpServletRequest request) {
         HashMap<String,Object> map = new HashMap<>();
-        int pageSize = 4;
-        Product product = getProducts().get((int) id - 1);
-        List<Comment> listComments = product.getComments();
-        int totalPages = commentsService.getTotalPagesComments(listComments);
-        boolean moreProducts = true;
-        //Page<Product> test = productsService.getProducts(page, pageSize);
-        map.put("totalPages", totalPages);
-        map.put("currentPage", page);
-        map.put("product", product);
-        //model.addAttribute("product", productsService.getProductsRepo().findById(id));
-        if (page<=totalPages-1){
-            map.put("productComments", commentsService.getComments(product, page, pageSize));
-        } else {
-            moreProducts=false;
-            map.put("productComments", null);
-        }
-        map.put("moreComments", moreProducts);
-        if(request.getUserPrincipal() != null)
-        map.put("userProfile_id", usersService.getUser(request.getUserPrincipal().getName()).getID());
+        try {
+            int pageSize = 4;
+            Product product = getProducts().get((int) id - 1);
+            List<Comment> listComments = product.getComments();
+            int totalPages = commentsService.getTotalPagesComments(listComments);
+            boolean moreProducts = true;
+            //Page<Product> test = productsService.getProducts(page, pageSize);
+            map.put("totalPages", totalPages);
+            map.put("currentPage", page);
+            map.put("product", product);
+            //model.addAttribute("product", productsService.getProductsRepo().findById(id));
+            if (page<=totalPages-1){
+                map.put("productComments", commentsService.getComments(product, page, pageSize));
+            } else {
+                moreProducts=false;
+                map.put("productComments", null);
+            }
+            map.put("moreComments", moreProducts);
+            if(request.getUserPrincipal() != null)
+            map.put("userProfile_id", usersService.getUser(request.getUserPrincipal().getName()).getID());
+            } catch (Exception ex) {}
         return map;
     }
 
