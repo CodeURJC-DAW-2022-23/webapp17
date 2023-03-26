@@ -48,12 +48,12 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public HashMap<String,Object> cart(HttpServletRequest request) {
+    public Object cart(HttpServletRequest request) {
         HashMap<String,Object> map = cartsService.cartAndCheckout(request);
         if (map.size()!=0) {
             return map;
         }
-        throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 
@@ -74,8 +74,13 @@ public class CartApiController {
 	})
     @NeedsSecurity(role=Tools.Role.USER)
     public Object deleteItem(@RequestParam long id, HttpServletRequest request){
-        cartsService.deleteItem(id, request);
-		return ResponseEntity.ok().build();
+        try {
+			cartsService.deleteItem(id, request);
+			return ResponseEntity.ok().build();
+		} catch (Exception ex){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
     }
 
 
@@ -96,8 +101,12 @@ public class CartApiController {
 	})
     @NeedsSecurity(role=Tools.Role.USER)
     public Object decreaseQuantity(@RequestParam long id, HttpServletRequest request){
-        cartsService.decreaseQuantity(id, request);
-		return ResponseEntity.ok().build();
+    	try {
+			cartsService.decreaseQuantity(id, request);
+			return ResponseEntity.ok().build();
+		} catch (Exception ex){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
     }
 
 
@@ -118,8 +127,12 @@ public class CartApiController {
 	})
     @NeedsSecurity(role=Tools.Role.USER)
     public Object increaseQuantity(@RequestParam long id, HttpServletRequest request){
-        cartsService.increaseQuantity(id, request);
-		return ResponseEntity.ok().build();
+    	try {
+			cartsService.increaseQuantity(id, request);
+			return ResponseEntity.ok().build();
+		} catch (Exception ex){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
     }
     
 
@@ -139,12 +152,12 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public HashMap<String,Object> checkout(HttpServletRequest request) {
+    public Object checkout(HttpServletRequest request) {
         HashMap<String,Object> map = cartsService.cartAndCheckout(request);
         if (map.size()!=0) {
             return map;
         }
-        throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 

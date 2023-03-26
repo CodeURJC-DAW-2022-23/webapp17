@@ -48,12 +48,12 @@ public class ProductsApiController {
 					) 
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
-    public Map<String,Object> products(@RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
-        Map<String,Object> map = productsService.productsPaginated(page, request);
-		if (map!=null){
+    public Object products(@RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
+        HashMap<String,Object> map = productsService.productsPaginated(page, request);
+		if (map.get("product")!=null){
 			return map;
 		}
-		throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @GetMapping("/productImages")
@@ -167,8 +167,11 @@ public class ProductsApiController {
 					) 
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
-    public @ResponseBody Map<String,Object> getIndividualProduct(@RequestParam(name="id") long id, HttpServletRequest request) {
+    public @ResponseBody Object getIndividualProduct(@RequestParam(name="id") long id, HttpServletRequest request) {
         HashMap<String,Object> map = productsService.descriptionProduct(id, 0, request);
-        return map;
+		if (map.size()!=0){
+			return map;
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
