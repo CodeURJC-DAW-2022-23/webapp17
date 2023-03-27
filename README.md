@@ -50,6 +50,8 @@ To run first install and on backend folder run
 docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 3306:3306 -d mysql:8.0.32
 ./mvnw spring-boot:run 
 ```
+## 💻 API documentation
+
 
 ## #️⃣ Features
 
@@ -288,21 +290,27 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 #### Alejandro López Adrados:
 
 📗 Job participation:
+- Implemented the whole Coupons API Controller (Methods, descriptions and error codes)
+- Implemented the whole Comments API Controller (Methods, descriptions and error codes)
+- Implemented the part of the admin (Add/Modify/Remove products) in Products API Controller (Methods, descriptions and error codes)
+- Helped in the implementation of the Admin API Controller (Methods, descriptions and error codes)
+- Helped in the implementation of the Orders API Controller (Methods, descriptions and error codes)
+- Added the calls and examples for Coupons/Comments/Products(admin part)/Admin/Orders API Controllers in Postman and tested them (in Swagger and Postman)
+- Tested some of the rest API calls and fixed some global errors
 
-      
 📃 Top commits:  
-- [Commit 1]
-- [Commit 2]
-- [Commit 3]
-- [Commit 4]
-- [Commit 5]
+- [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/0fdbf8d29d6ac0707ca182c6130e38346ba5aaa9) Coupons API Controller implemented
+- [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/3d38a74a30e38e118988257c4f71cbb3452f2c6b) Comments API Controller implemented
+- [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/9e28a253142a42c19fef8491d817e5bc281a27a2) Admin part of Products API Controller implemented
+- [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/828d7aaf516ad0ee879dc14e3098d23113943090) Fixes in Orders API Controller
+- [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/e936c29638853698b520f8a95d7fe5ffa4d3d7a8) Added upload/delete images in Products API Controller
       
 📂 Top files:  
-- [File 1] 
-- [File 2]
-- [File 3] 
-- [File 4]
-- [File 5]
+- [File 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/api/CouponsApiController.java) CouponsApiController.java
+- [File 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/api/ProductsApiController.java) ProductsApiController.java
+- [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/api/CommentsApiController.java) CommentsApiController.java
+- [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/service/ProductsService.java) ProductsService.java
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/api/OrdersApiController.java) OrdersApiController.java
 
 #### Jesús González Gironda:
 
