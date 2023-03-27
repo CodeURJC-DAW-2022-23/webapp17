@@ -97,7 +97,7 @@ public class ProductsApiController {
         return response;
     }
 
-    @PostMapping("/addToCart")
+    @PostMapping("/cart")
     @Operation(summary = "Add a product to the cart")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -137,7 +137,7 @@ public class ProductsApiController {
         productsService.deleteProduct(id);
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/newProduct")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public void handleCreationFormSubmissionAdmin(@RequestParam("name") String name,
                                        @RequestParam("price") String price,

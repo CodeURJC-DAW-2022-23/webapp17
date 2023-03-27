@@ -1,6 +1,7 @@
 package es.codeurjc.webapp17.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,9 +38,14 @@ public class CommentsService {
         return comments;
     }
 
-    public void removeComment(long id){
-        Comment comment = getCommentsRepo().findById(id).get();
-        getCommentsRepo().delete(comment);
+    public Boolean removeComment(long id){
+        Optional <Comment> comment = getCommentsRepo().findById(id);
+        if(!comment.isEmpty()){
+            getCommentsRepo().delete(comment.get());
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

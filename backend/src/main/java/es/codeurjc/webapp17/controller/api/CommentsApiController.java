@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,18 +75,22 @@ public class CommentsApiController {
 				)}
 			),
             @ApiResponse(
-				responseCode = "403", 
+				responseCode = "405", 
 				description = "User not authorized, login with an admin account"
 			),
             @ApiResponse(
-				responseCode = "405", 
-				description = "Comment not found, wrong id"
+				responseCode = "404", 
+				description = "Comment not found"
 			),        
 	})
 	@DeleteMapping("/comment")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public void removeAction(@RequestParam(name="id") String id){
-        commentsService.removeComment(Long.parseLong(id));
+    public ResponseEntity<Object> removeAction(@RequestParam(name="id") String id){
+        if(commentsService.removeComment(Long.parseLong(id))){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
     
 }
