@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
 import es.codeurjc.webapp17.service.CartsService;
+import es.codeurjc.webapp17.service.PermissionsService;
+import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +33,12 @@ public class CartApiController {
 
     @Autowired
     CartsService cartsService;
+	
+	@Autowired
+    UsersService usersService;
+
+    @Autowired
+    PermissionsService permissionsService;
 
 
 
@@ -42,16 +50,24 @@ public class CartApiController {
 					description = "Cart showed", 
 					content = @Content
 					),
+				@ApiResponse(
+					responseCode = "403", 
+					description = "User not logged in", 
+					content = @Content
+					),
 			@ApiResponse(
 					responseCode = "404", 
-					description = "Cart not found", 
+					description = "Cart not found or empty", 
 					content = @Content
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
     public Object cart(HttpServletRequest request) {
         HashMap<String,Object> map = cartsService.cartAndCheckout(request);
-        if (map.size()!=0) {
+        if (map.containsKey("notLogged")) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
+		else if (map.size()!=0) {
             return map;
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -68,6 +84,11 @@ public class CartApiController {
 					content = @Content
 					),
 			@ApiResponse(
+					responseCode = "405", 
+					description = "User not logged in", 
+					content = @Content
+					),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Item cannot be deleted", 
 					content = @Content
@@ -76,6 +97,9 @@ public class CartApiController {
     @NeedsSecurity(role=Tools.Role.USER)
     public Object deleteItem(@RequestParam long id, HttpServletRequest request){
         try {
+			if (!permissionsService.isUserLoggedIn(request, usersService)) {
+				return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+			}
 			cartsService.deleteItem(id, request);
             return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/item")).build();
 		} catch (Exception ex){
@@ -95,6 +119,11 @@ public class CartApiController {
 					content = @Content
 					),
 			@ApiResponse(
+					responseCode = "405", 
+					description = "User not logged in", 
+					content = @Content
+					),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Cannot decrease quantity", 
 					content = @Content
@@ -103,6 +132,9 @@ public class CartApiController {
     @NeedsSecurity(role=Tools.Role.USER)
     public Object decreaseQuantity(@RequestParam long id, HttpServletRequest request){
     	try {
+			if (!permissionsService.isUserLoggedIn(request, usersService)) {
+				return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+			}
 			cartsService.decreaseQuantity(id, request);
             return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/lessQuantity")).build();
 		} catch (Exception ex){
@@ -121,6 +153,11 @@ public class CartApiController {
 					content = @Content
 					),
 			@ApiResponse(
+						responseCode = "405", 
+						description = "User not logged in", 
+						content = @Content
+						),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Cannot increase quantity", 
 					content = @Content
@@ -129,6 +166,9 @@ public class CartApiController {
     @NeedsSecurity(role=Tools.Role.USER)
     public Object increaseQuantity(@RequestParam long id, HttpServletRequest request){
     	try {
+			if (!permissionsService.isUserLoggedIn(request, usersService)) {
+				return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+			}
 			cartsService.increaseQuantity(id, request);
             return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/moreQuantity")).build();
 		} catch (Exception ex){
@@ -147,6 +187,11 @@ public class CartApiController {
 					content = @Content
 					),
 			@ApiResponse(
+					responseCode = "403", 
+					description = "User not logged in", 
+					content = @Content
+					),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Checkout form not found", 
 					content = @Content
@@ -155,6 +200,9 @@ public class CartApiController {
     @NeedsSecurity(role=Tools.Role.USER)
     public Object checkout(HttpServletRequest request) {
         HashMap<String,Object> map = cartsService.cartAndCheckout(request);
+		if (map.containsKey("notLogged")) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
         if (map.size()!=0) {
             return map;
         }
@@ -171,6 +219,11 @@ public class CartApiController {
 					content = @Content
 					),
 			@ApiResponse(
+						responseCode = "405", 
+						description = "User not logged in", 
+						content = @Content
+						),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Checkout form not sent correctly", 
 					content = @Content
@@ -178,6 +231,9 @@ public class CartApiController {
 	})
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> doCheckout(HttpServletRequest request) {
+		if (!permissionsService.isUserLoggedIn(request, usersService)) {
+			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+		}
         ResponseEntity<Object> response = cartsService.doCheckout(request);
         return response;
     }
@@ -193,6 +249,11 @@ public class CartApiController {
 					content = @Content
 					),
 			@ApiResponse(
+						responseCode = "405", 
+						description = "User not logged in", 
+						content = @Content
+						),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Cannot redeem coupon", 
 					content = @Content
@@ -200,6 +261,9 @@ public class CartApiController {
 	})
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> redeem(@RequestParam(name="code") String code, HttpServletRequest request) {
+		if (!permissionsService.isUserLoggedIn(request, usersService)) {
+			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+		}
         ResponseEntity<Object> response = cartsService.redeem(code, request);
         return response;
     }
@@ -215,6 +279,11 @@ public class CartApiController {
 					content = @Content
 					),
 			@ApiResponse(
+						responseCode = "405", 
+						description = "User not logged in", 
+						content = @Content
+						),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Cannot unredeem coupon", 
 					content = @Content
@@ -222,6 +291,9 @@ public class CartApiController {
 	})
     @NeedsSecurity(role=Tools.Role.USER)
     public ResponseEntity<Object> unredeem(HttpServletRequest request) {
+		if (!permissionsService.isUserLoggedIn(request, usersService)) {
+			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+		}
         ResponseEntity<Object> response = cartsService.unredeem(request);
         return response;
     }

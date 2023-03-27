@@ -40,6 +40,9 @@ public class CartsService {
     private CartItemsRepo cartItems;
 
     @Autowired
+    private PermissionsService permissionsService;
+
+    @Autowired
     private CartsRepo carts;
 
     @Autowired
@@ -106,6 +109,10 @@ public class CartsService {
 
     public HashMap<String,Object> cartAndCheckout(HttpServletRequest request) {
         HashMap<String,Object> map = new HashMap<>();
+        if (!permissionsService.isUserLoggedIn(request, usersService)) {
+            map.put("notLogged", true);
+            return map;
+        }
         UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         boolean existing_cart = false;
         if ((user.getCart() != null)){

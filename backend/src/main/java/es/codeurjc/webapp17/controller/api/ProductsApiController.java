@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
 
 import es.codeurjc.webapp17.service.ProductsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
@@ -32,7 +31,8 @@ public class ProductsApiController {
 
     @Autowired
     ProductsService productsService;
-    
+
+
     @GetMapping("/products")
     @Operation(summary = "Get list of products paginated")
 	@ApiResponses(value = { 
@@ -85,6 +85,11 @@ public class ProductsApiController {
 					content = @Content
 					),
 			@ApiResponse(
+					responseCode = "405", 
+					description = "User is not logged in", 
+					content = @Content
+					),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Error while adding comment on a product", 
 					content = @Content
@@ -106,14 +111,22 @@ public class ProductsApiController {
 					content = @Content
 					),
 			@ApiResponse(
+					responseCode = "405", 
+					description = "User is not logged in", 
+					content = @Content
+					),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Error while adding product to the cart", 
 					content = @Content
 					) 
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
-    public @ResponseBody Map<String,Object> addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {
+    public @ResponseBody Object addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {
         HashMap<String,Object> map = productsService.addToCart(id, request);
+		if (map.get("Login")=="true") {
+			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+		}
         return map;
     }
 

@@ -66,7 +66,7 @@ public class ProductsService {
 
     public ResponseEntity<Object> downloadImage(long id, int idImage) throws SQLException {
         List<Product> product = getProductsRepo().findById(id);
-        if (!product.isEmpty() && product.get(0).getImages().get(idImage).getImageFile() != null) {
+        if (product != null && product.get(0).getImages().get(idImage).getImageFile() != null) {
             return product.get(0).getImages().get(idImage).toHtmEntity();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -81,6 +81,9 @@ public class ProductsService {
     public ResponseEntity<Object> addComment(HttpServletRequest request, long id, String content, int stars) throws SQLException {
         List<Product> product = getProductsRepo().findById(id);
         if (!product.isEmpty() && request.getUserPrincipal() != null) {
+            if (!permissionsService.isUserLoggedIn(request, usersService)) {
+                return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+            }
             UserProfile user = usersService.getUser(request.getUserPrincipal().getName());
                 Comment comment = new Comment(stars,content,
                     new Timestamp(System.currentTimeMillis()), user, product.get(0));
