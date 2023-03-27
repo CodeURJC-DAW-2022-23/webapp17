@@ -1,12 +1,14 @@
 package es.codeurjc.webapp17.service;
 
+import java.io.IOException;
 import java.net.URI;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,11 +16,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.webapp17.model.CartItem;
 import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.Product;
+import es.codeurjc.webapp17.model.ProductImage;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.repository.ProductsRepo;
 import es.codeurjc.webapp17.tools.Tools;
@@ -47,21 +50,32 @@ public class ProductsService {
         return products.findAll();
     }
 
-    public void modifyProduct(long id, String title, Float price, String description, String[] tags){
-        Product product = products.findById(id).get(0);
-        product.setTtile(title);
-        product.setPrice(price);
-        if(description != null){
-            product.setDescription(description);
+    public Boolean modifyProduct(long id, String title, Float price, String description, String[] tags){
+        List<Product> product = products.findById(id);
+        if(product != null){
+            product.get(0).setTtile(title);
+            product.get(0).setPrice(price);
+            if(description != null){
+                product.get(0).setDescription(description);
+            }
+            if(tags != null){
+                product.get(0).setTags(tags);
+            }
+            getProductsRepo().saveAndFlush(product.get(0));
+            return true;
+        }else{
+            return false;
         }
-        if(tags != null){
-            product.setTags(tags);
-        }
-        getProductsRepo().saveAndFlush(product);
     }
 
-    public void deleteProduct(long id){
-        products.delete(products.getReferenceById(id));
+    public Boolean deleteProduct(long id){
+        List <Product> product = products.findById(id);
+        if(product != null){
+            products.delete(product.get(0));
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public ResponseEntity<Object> downloadImage(long id, int idImage) throws SQLException {
@@ -190,6 +204,31 @@ public class ProductsService {
             map.put("userProfile_id", usersService.getUser(request.getUserPrincipal().getName()).getID());
             } catch (Exception ex) {}
         return map;
+    }
+
+    public Boolean deleteImage(long id){
+        List<Product> products = getProductsRepo().findById(id);
+        if(products != null){
+            products.get(0).getImages().clear();
+            getProductsRepo().saveAndFlush(products.get(0));
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public Boolean addImage(long id, MultipartFile imageFile) throws IOException{
+        List<Product> products = getProductsRepo().findById(id);
+        if(products != null){
+            Blob newImage = BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize());
+            ProductImage ima = new ProductImage(newImage, products.get(0));
+            products.get(0).getImages().add(ima);
+            getProductsRepo().saveAndFlush(products.get(0));
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

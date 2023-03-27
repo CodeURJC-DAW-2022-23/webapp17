@@ -1,8 +1,8 @@
 package es.codeurjc.webapp17.controller.api;
 
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.webapp17.service.ProductsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
@@ -131,8 +132,26 @@ public class ProductsApiController {
     }
 
 	@PutMapping("/product")
+	@Operation(summary = "Modify the fields of a product")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Product modified succesfully", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Product not found, wrong id", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "405", 
+					description = "User not authorized, login with an admin account",
+					content = @Content
+							) 
+	})
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public void handleFormSubmission(@RequestParam("id") String id,
+    public ResponseEntity<Object> modifyProduct(@RequestParam("id") String id,
                                        @RequestParam("name") String name,
                                        @RequestParam(value = "description", required = false) String description,
                                        @RequestParam(value = "tags", required = false) String tags,
@@ -141,18 +160,56 @@ public class ProductsApiController {
 	if(tags != null){
 		tagsArray = tags.split(", ");
 	}
-        productsService.modifyProduct(Long.parseLong(id), name, price, description, tagsArray);
+        if(productsService.modifyProduct(Long.parseLong(id), name, price, description, tagsArray)){
+			return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/products/product")).build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @DeleteMapping("/product")
+	@Operation(summary = "Remove a product")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Product removed succesfully", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Product not found, wrong id", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "405", 
+					description = "User not authorized, login with an admin account",
+					content = @Content
+							)
+	})
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public void removeAction(@RequestParam(name="id") long id) {
-        productsService.deleteProduct(id);
+    public ResponseEntity<Object> removeProduct(@RequestParam(name="id") long id) {
+        if(productsService.deleteProduct(id)){
+			return ResponseEntity.ok().build();
+		}else{
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
     }
 
-    @PostMapping("/newProduct")
+    @PostMapping("/product")
+	@Operation(summary = "Create a new product")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Product created succesfully", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "405", 
+					description = "User not authorized, login with an admin account",
+					content = @Content
+							)
+	})
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public void handleCreationFormSubmissionAdmin(@RequestParam("name") String name,
+    public ResponseEntity<Object> addProduct(@RequestParam("name") String name,
                                        @RequestParam("price") String price,
                                        @RequestParam(value = "description", required = false) String description,
                                        @RequestParam(value = "tags", required = false) String tags){
@@ -162,6 +219,8 @@ public class ProductsApiController {
 		tagsArray = tags.split(", ");
 	}
         productsService.addProduct(name, Float.parseFloat(price), description, tagsArray);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/products/product")).build();
+
     }
     
 
@@ -186,5 +245,70 @@ public class ProductsApiController {
 			return map;
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+	@DeleteMapping("/image")
+	@Operation(summary = "Delete the image of a product")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "The image has been removed succesfully", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Product not found, wrong id", 
+					content = @Content
+					),
+			@ApiResponse(
+            responseCode = "405", 
+            description = "User not authorized, login with an admin account",
+			content = @Content
+        			)
+	})
+    @NeedsSecurity(role=Tools.Role.ADMIN)
+    public ResponseEntity<Object> removeImage(@RequestParam(name="id") long id, HttpServletRequest request) {
+        if(productsService.deleteImage(id)){
+        	return ResponseEntity.ok().build();
+		}else{
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
+		}
+    }
+
+    @PostMapping("/image")
+	@Operation(summary = "Add an image to a product")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "The image has been added succesfully", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "400", 
+					description = "Error uploading the image", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Product not found, wrong id", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "405", 
+					description = "User not authorized, login with an admin account",
+					content = @Content
+        			)
+	})
+    @NeedsSecurity(role=Tools.Role.ADMIN)
+    public ResponseEntity<Object> uploadImage(@RequestParam(name="id") long id, @RequestParam MultipartFile imageFile, HttpServletRequest request){
+        try{
+			if(productsService.addImage(id, imageFile)){
+				return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/products/image")).build();
+			}else{
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();			
+			}
+		}catch(Exception ex){
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
     }
 }
