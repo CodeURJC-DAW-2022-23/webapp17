@@ -89,7 +89,7 @@ public class ProductsService {
                     new Timestamp(System.currentTimeMillis()), user, product.get(0));
                 product.get(0).getComments().add(comment);
                 getProductsRepo().saveAndFlush(product.get(0));
-                return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/products/comment")).build();
+                return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/products/comment")).build();
             } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }	

@@ -80,7 +80,7 @@ public class ProductsApiController {
     @Operation(summary = "Add a comment on a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
-					responseCode = "200", 
+					responseCode = "201", 
 					description = "Added comment on a product", 
 					content = @Content
 					),

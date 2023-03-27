@@ -79,7 +79,7 @@ public class CartApiController {
     @Operation(summary = "Deletes an item from cart")
 	@ApiResponses(value = { 
 			@ApiResponse(
-					responseCode = "200", 
+					responseCode = "202", 
 					description = "Item deleted", 
 					content = @Content
 					),
@@ -114,7 +114,7 @@ public class CartApiController {
     @Operation(summary = "Decrease the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
-					responseCode = "200", 
+					responseCode = "202", 
 					description = "Decreased Succesfully", 
 					content = @Content
 					),
@@ -148,7 +148,7 @@ public class CartApiController {
     @Operation(summary = "Increase the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
-					responseCode = "200", 
+					responseCode = "202", 
 					description = "Increased Succesfully", 
 					content = @Content
 					),
@@ -214,7 +214,7 @@ public class CartApiController {
     @Operation(summary = "Finalize the checkout")
 	@ApiResponses(value = { 
 			@ApiResponse(
-					responseCode = "200", 
+					responseCode = "202", 
 					description = "Checkout form sent correctly", 
 					content = @Content
 					),
@@ -244,7 +244,7 @@ public class CartApiController {
     @Operation(summary = "Redeem a Coupon")
 	@ApiResponses(value = { 
 			@ApiResponse(
-					responseCode = "200", 
+					responseCode = "202", 
 					description = "Redeemed coupon successfully", 
 					content = @Content
 					),
@@ -274,7 +274,7 @@ public class CartApiController {
     @Operation(summary = "Unredeem a Coupon")
 	@ApiResponses(value = { 
 			@ApiResponse(
-					responseCode = "200", 
+					responseCode = "202", 
 					description = "Unredeemed coupon successfully", 
 					content = @Content
 					),
