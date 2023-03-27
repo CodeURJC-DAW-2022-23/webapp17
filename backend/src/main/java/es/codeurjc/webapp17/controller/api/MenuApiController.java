@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,7 +67,7 @@ public class MenuApiController {
             content = @Content
             ) 		
     })
-    public ResponseEntity postMenu(HttpServletRequest request, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Object> postMenu(HttpServletRequest request, @RequestBody Map<String, Object> payload) {
         generalInfoService.setMenu(payload);
         return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/menu/menu")).build();
     }
