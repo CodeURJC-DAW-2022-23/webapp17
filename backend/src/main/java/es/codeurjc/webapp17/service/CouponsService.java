@@ -1,6 +1,7 @@
 package es.codeurjc.webapp17.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,34 +27,58 @@ public class CouponsService {
         return getCouponsRepo().findAll();
     }
 
-    public void removeCoupon(long id){
-        Coupon coupon = getCouponsRepo().findById(id).get(0);
-        getCouponsRepo().delete(coupon);
+    public Boolean removeCoupon(long id){
+        List<Coupon> coupon = getCouponsRepo().findById(id);
+        if(!coupon.isEmpty()){
+            getCouponsRepo().delete(coupon.get(0));
+            return true;
+        }else{
+            return false;
+        }
     }
 
-    public void modifyCoupon(long id, int usesRemaining, float discount, String code, String newUserEmail){
-        Coupon coupon = getCouponsRepo().findById(id).get(0);
-        UserProfile user = usersService.getUsersRepo().findById(coupon.getUserId()).get();
-        int n = 0;
-        while(coupon.getId() != user.getCoupons().get(n).getId()){
-            n++;
+    /*
+     * Returns 0 if coupon modified succesfully
+     * Returns 1 if coupon does not exist
+     * Returns 2 if new user does not exist
+     */
+    public int modifyCoupon(long id, int usesRemaining, float discount, String code, String newUserEmail){  
+        List<Coupon> coupon = getCouponsRepo().findById(id);
+        if(coupon != null){
+            Optional<UserProfile> user = usersService.getUsersRepo().findById(coupon.get(0).getUserId());
+            int n = 0;
+            while(coupon.get(0).getId() != user.get().getCoupons().get(n).getId()){
+                n++;
+            }
+            List<UserProfile> newUser = usersService.getUsersRepo().findByEmail(newUserEmail);
+            if(!newUser.isEmpty()){
+                user.get().getCoupons().get(n).setUser(newUser.get(0));
+                coupon.get(0).setUsesRemaining(usesRemaining);
+                coupon.get(0).setCode(code);
+                coupon.get(0).setDiscount(discount);
+                if(!user.equals(newUser)){
+                    usersService.getUsersRepo().save(user.get());
+                }
+                usersService.getUsersRepo().save(newUser.get(0));
+                return 0;
+            }else{
+                return 2;
+            }
+        }else{
+            return 1;
         }
-        UserProfile newUser = usersService.getUsersRepo().findByEmail(newUserEmail).get(0);
-        user.getCoupons().get(n).setUser(newUser);
-        coupon.setUsesRemaining(usesRemaining);
-        coupon.setCode(code);
-        coupon.setDiscount(discount);
-        if(!user.equals(newUser)){
-            usersService.getUsersRepo().save(user);
-        }
-        usersService.getUsersRepo().save(newUser);
     }
 
-    public void createCoupon(int usesRemaining, int discount, String code, String User){
+    public Boolean createCoupon(int usesRemaining, int discount, String code, String User){
         Coupon coupon = new Coupon(discount,code, usesRemaining);
-        UserProfile user = usersService.getUsersRepo().findByEmail(User).get(0);
-        coupon.setUser(user);
-        user.getCoupons().add(coupon);
-        usersService.getUsersRepo().saveAndFlush(user);
+        List<UserProfile> user = usersService.getUsersRepo().findByEmail(User);
+        if(!user.isEmpty()){
+            coupon.setUser(user.get(0));
+            user.get(0).getCoupons().add(coupon);
+            usersService.getUsersRepo().saveAndFlush(user.get(0));
+            return true;
+        }else{
+            return false;
+        }
     }
 }

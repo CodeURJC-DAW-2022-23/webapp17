@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,20 +78,37 @@ public class CouponsApiController {
             )}
         ),
         @ApiResponse(
-            responseCode = "403", 
+            responseCode = "405", 
             description = "User not authorized, login with an admin account"
         ),
         @ApiResponse(
-            responseCode = "405", 
-            description = "Coupon not found or bad parameters"
-        ),        
+            responseCode = "404", 
+            description = "Coupon not found, wrong id"
+        ),
+        @ApiResponse(
+            responseCode = "400", 
+            description = "User is not registered, wrong newUserEmail"
+        ),
+        @ApiResponse(
+            responseCode = "501", 
+            description = "Comment has not been modified"
+        ),                 
     })
-    public void handleEditFormSubmission(@RequestParam("id") String id,
+    public ResponseEntity<Object> modifyCoupon(@RequestParam("id") String id,
                                        @RequestParam("code") String code,
                                        @RequestParam("discount") String discount,
                                        @RequestParam("newserEmail") String newUserEmail,
                                        @RequestParam("uses") int uses) {
-        couponsService.modifyCoupon(Long.parseLong(id), uses, Float.parseFloat(discount), code, newUserEmail);
+        int status = couponsService.modifyCoupon(Long.parseLong(id), uses, Float.parseFloat(discount), code, newUserEmail);
+        if(status==0){
+            return ResponseEntity.ok().build();
+        }else if(status==1){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }else if(status==2){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        }
     }
 
     @Operation(summary = "Remove a coupon through his id")
@@ -102,18 +121,22 @@ public class CouponsApiController {
             )}
         ),
         @ApiResponse(
-            responseCode = "403", 
+            responseCode = "405", 
             description = "User not authorized, login with an admin account"
         ),
         @ApiResponse(
-            responseCode = "405", 
+            responseCode = "404", 
             description = "Coupon not found, wrong id"
         ),        
 })
     @DeleteMapping("/coupon")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public void removeAction(@RequestParam(name="id") String id){
-        couponsService.removeCoupon(Long.parseLong(id));
+    public ResponseEntity<Object> removeAction(@RequestParam(name="id") String id){
+        if(couponsService.removeCoupon(Long.parseLong(id))){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @Operation(summary = "Create a coupon introducing all the parameters")
@@ -126,21 +149,25 @@ public class CouponsApiController {
             )}
         ),
         @ApiResponse(
-            responseCode = "403", 
+            responseCode = "405", 
             description = "User not authorized, login with an admin account"
         ),
         @ApiResponse(
-            responseCode = "405", 
-            description = "Bad parameters, check if the user exists"
+            responseCode = "400", 
+            description = "User is not registered, wrong userEmail"
         ),        
 })
     @PostMapping("/coupon")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public void handleCreationFormSubmission(@RequestParam("code") String code,
+    public ResponseEntity<Object> handleCreationFormSubmission(@RequestParam("code") String code,
                                        @RequestParam("discount") String discount,
                                        @RequestParam("usesRemaining") int uses,
                                        @RequestParam("userEmail") String user) {
-        couponsService.createCoupon(uses, Integer.parseInt(discount), code, user);
+        if(couponsService.createCoupon(uses, Integer.parseInt(discount), code, user)){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
     
 }

@@ -45,7 +45,7 @@ public class OrdersApiController {
                 ),
         @ApiResponse(
             responseCode = "403", 
-            description = "No permission to  see the orders", 
+            description = "User not authorized, login with an admin account", 
             content = @Content
             )
     })
@@ -71,13 +71,13 @@ public class OrdersApiController {
                 content = @Content
                 ),
         @ApiResponse(
-                responseCode = "405", 
+                responseCode = "404", 
                 description = "Order not found", 
                 content = @Content
                 ),
         @ApiResponse(
-            responseCode = "403", 
-            description = "No permission to  change the status of the order", 
+            responseCode = "405", 
+            description = "User not authorized, login with an admin account", 
             content = @Content
             )
     })
@@ -96,13 +96,13 @@ public class OrdersApiController {
                 content = @Content
                 ),
         @ApiResponse(
-                responseCode = "405", 
+                responseCode = "404", 
                 description = "Order not found", 
                 content = @Content
                 ),
         @ApiResponse(
-            responseCode = "403", 
-            description = "No permission to  change the status of the order", 
+            responseCode = "405", 
+            description = "User not authorized, login with an admin account", 
             content = @Content
             )
     })
