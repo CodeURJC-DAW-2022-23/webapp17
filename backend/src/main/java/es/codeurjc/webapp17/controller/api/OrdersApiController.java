@@ -1,17 +1,16 @@
 package es.codeurjc.webapp17.controller.api;
 
-
 import java.util.HashMap;
-import java.util.Map;
 import es.codeurjc.webapp17.model.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
@@ -35,12 +34,12 @@ public class OrdersApiController {
     @ApiResponses(value = { 
         @ApiResponse(
                 responseCode = "200", 
-                description = "Found the order", 
+                description = "Orders listed", 
                 content = @Content
                 ),
         @ApiResponse(
                 responseCode = "404", 
-                description = "Order not found", 
+                description = "Orders not found", 
                 content = @Content  
                 ),
         @ApiResponse(
@@ -50,15 +49,18 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public @ResponseBody Map<String,Object> viewOrdersPaginated(HttpServletRequest request, @RequestParam(defaultValue = "0") int page){
+    public Object viewOrdersPaginated(HttpServletRequest request, @RequestParam(defaultValue = "0") int page){
         HashMap<String, Object> map = new HashMap<>();
         int pageSize = 8;
         Page<Cart> carts = cartsService.getCartsRepo().findByStatusNot(Cart.STATUS_NEW, PageRequest.of(page, pageSize));             
         if(!carts.isEmpty()){
-            map.put("hasCarts", true);
             map.put("orders", carts);
         }
-        return map;
+        if(!map.isEmpty()){
+            return map;
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     };
 
 
@@ -67,7 +69,7 @@ public class OrdersApiController {
 	@ApiResponses(value = { 
         @ApiResponse(
                 responseCode = "200", 
-                description = "Found the order", 
+                description = "Order status changed succesfully", 
                 content = @Content
                 ),
         @ApiResponse(
@@ -82,13 +84,17 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public  void changeState(@RequestParam(name = "id") Long id) {
-        cartsService.changeOrderState(id);
+    public ResponseEntity<Object> changeState(@RequestParam(name = "id") Long id) {
+        if(cartsService.changeOrderState(id)){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
           
 };
 
 @DeleteMapping("/order")
-    @Operation(summary = "Change state of an order")
+    @Operation(summary = "Delete an order")
 	@ApiResponses(value = { 
         @ApiResponse(
                 responseCode = "200", 
@@ -107,7 +113,12 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public void deleteOrder(@RequestParam(name = "id") Long id) {
-        cartsService.getCartsRepo().deleteById(id);          
+    public ResponseEntity<Object> deleteOrder(@RequestParam(name = "id") Long id) {
+        if(cartsService.deleteOrder(id)){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+           
 };
 }

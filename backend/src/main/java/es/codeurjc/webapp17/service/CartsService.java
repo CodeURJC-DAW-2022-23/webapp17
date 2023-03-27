@@ -234,10 +234,25 @@ public class CartsService {
         return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/couponFree")).build();
     }
 
-    public void changeOrderState(long id){
-        Cart cart = getCartsRepo().findById(id).get(0);
-        cart.setStatus(Cart.STATUS_DONE);
-        getCartsRepo().saveAndFlush(cart);
+    public Boolean changeOrderState(long id){
+        List<Cart> cart = getCartsRepo().findById(id);
+        if(cart != null){
+            cart.get(0).setStatus(Cart.STATUS_DONE);
+            getCartsRepo().saveAndFlush(cart.get(0));
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public Boolean deleteOrder(long id){
+        List<Cart> cart = getCartsRepo().findById(id);
+        if(cart != null){
+            getCartsRepo().delete(cart.get(0));
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

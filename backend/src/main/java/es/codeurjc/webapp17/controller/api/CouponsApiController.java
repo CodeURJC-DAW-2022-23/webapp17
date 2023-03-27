@@ -1,9 +1,9 @@
 package es.codeurjc.webapp17.controller.api;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.codeurjc.webapp17.model.Coupon;
@@ -45,12 +44,18 @@ public class CouponsApiController {
 			),
 			@ApiResponse(
                 responseCode = "403", 
-                description = "User not authorized, login with an admin account"
-            )
+                description = "User not authorized, login with an admin account", 
+                content = @Content
+            ),
+            @ApiResponse(
+				responseCode = "404", 
+				description = "Coupons not found", 
+				content = @Content
+				),
 	})
 	@GetMapping("/coupons")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public @ResponseBody Map<String,Object> coupons(Model model, @RequestParam(defaultValue = "0") int page) {
+    public Object coupons(Model model, @RequestParam(defaultValue = "0") int page) {
 		HashMap<String, Object> map = new HashMap<>();
         List<Coupon> listCoupons = couponsService.getCoupons();
         List<Coupon> shownCoupons = new ArrayList<Coupon>();
@@ -63,7 +68,11 @@ public class CouponsApiController {
             }
         }
         map.put("coupon", shownCoupons);
-		return map;        
+        if(!map.isEmpty()){
+		    return map;
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }        
     }
 
     @PutMapping("/coupon")
@@ -79,19 +88,23 @@ public class CouponsApiController {
         ),
         @ApiResponse(
             responseCode = "405", 
-            description = "User not authorized, login with an admin account"
+            description = "User not authorized, login with an admin account", 
+            content = @Content
         ),
         @ApiResponse(
             responseCode = "404", 
-            description = "Coupon not found, wrong id"
+            description = "Coupon not found, wrong id", 
+            content = @Content
         ),
         @ApiResponse(
             responseCode = "400", 
-            description = "User is not registered, wrong newUserEmail"
+            description = "User is not registered, wrong newUserEmail", 
+            content = @Content
         ),
         @ApiResponse(
             responseCode = "501", 
-            description = "Comment has not been modified"
+            description = "Comment has not been modified", 
+            content = @Content
         ),                 
     })
     public ResponseEntity<Object> modifyCoupon(@RequestParam("id") String id,
@@ -101,7 +114,7 @@ public class CouponsApiController {
                                        @RequestParam("uses") int uses) {
         int status = couponsService.modifyCoupon(Long.parseLong(id), uses, Float.parseFloat(discount), code, newUserEmail);
         if(status==0){
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/coupons/coupon")).build();
         }else if(status==1){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }else if(status==2){
@@ -122,11 +135,13 @@ public class CouponsApiController {
         ),
         @ApiResponse(
             responseCode = "405", 
-            description = "User not authorized, login with an admin account"
+            description = "User not authorized, login with an admin account", 
+            content = @Content
         ),
         @ApiResponse(
             responseCode = "404", 
-            description = "Coupon not found, wrong id"
+            description = "Coupon not found, wrong id", 
+            content = @Content
         ),        
 })
     @DeleteMapping("/coupon")
@@ -150,11 +165,13 @@ public class CouponsApiController {
         ),
         @ApiResponse(
             responseCode = "405", 
-            description = "User not authorized, login with an admin account"
+            description = "User not authorized, login with an admin account", 
+            content = @Content
         ),
         @ApiResponse(
             responseCode = "400", 
-            description = "User is not registered, wrong userEmail"
+            description = "User is not registered, wrong userEmail", 
+            content = @Content
         ),        
 })
     @PostMapping("/coupon")
@@ -164,7 +181,7 @@ public class CouponsApiController {
                                        @RequestParam("usesRemaining") int uses,
                                        @RequestParam("userEmail") String user) {
         if(couponsService.createCoupon(uses, Integer.parseInt(discount), code, user)){
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/coupons/coupon")).build();
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

@@ -3,7 +3,6 @@ package es.codeurjc.webapp17.controller.api;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.codeurjc.webapp17.model.Comment;
@@ -44,12 +42,18 @@ public class CommentsApiController {
 			),
             @ApiResponse(
                 responseCode = "403", 
-                description = "User not authorized, login with an admin account"
-            )
+                description = "User not authorized, login with an admin account", 
+                content = @Content
+            ),
+            @ApiResponse(
+                responseCode = "404", 
+                description = "Comments not found", 
+                content = @Content
+            ),
 	})
 	@GetMapping("/comments")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public @ResponseBody Map<String,Object> menu(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
+    public Object showComments(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
 		HashMap<String, Object> map = new HashMap<>();
         int pageSize = 4;
         List<Comment> commentsList = commentsService.getCommentsRepo().findAll();
@@ -62,7 +66,11 @@ public class CommentsApiController {
             }
         }
         map.put("comments", commentsShown);
-        return map;
+        if(!map.isEmpty()){
+            return map;
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }   
     }
 
     @Operation(summary = "Remove a comment through his id")
@@ -76,11 +84,13 @@ public class CommentsApiController {
 			),
             @ApiResponse(
 				responseCode = "405", 
-				description = "User not authorized, login with an admin account"
+				description = "User not authorized, login with an admin account", 
+                content = @Content
 			),
             @ApiResponse(
 				responseCode = "404", 
-				description = "Comment not found"
+				description = "Comment not found", 
+                content = @Content
 			),        
 	})
 	@DeleteMapping("/comment")

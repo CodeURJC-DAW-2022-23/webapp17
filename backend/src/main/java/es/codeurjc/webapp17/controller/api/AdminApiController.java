@@ -2,12 +2,12 @@ package es.codeurjc.webapp17.controller.api;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.codeurjc.webapp17.model.Product;
@@ -50,7 +50,7 @@ public class AdminApiController {
 	@ApiResponses(value = { 
         @ApiResponse(
                 responseCode = "200", 
-                description = "Found the statistic", 
+                description = "Found the statistics", 
                 content = @Content
                 ),
         @ApiResponse(
@@ -65,7 +65,7 @@ public class AdminApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public  @ResponseBody Map<String,Object> getStatistics(){
+    public Object getStatistics(){
         HashMap<String, Object> map = new HashMap<>();
 
         List<Long[]> productsQuery = adminService.getProductsRepo().getSales();
@@ -87,6 +87,10 @@ public class AdminApiController {
         map.put("processOrders", cartsService.getCartsRepo().getInProcessOrders());
         map.put("cartOrders", cartsService.getCartsRepo().getFullCarts());
 
-        return map;
+        if(!map.isEmpty()){
+            return map;
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     };
 }
