@@ -125,6 +125,8 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 
 ### 🍻 Team contribution
 
+#### FASE 2️⃣
+
 #### Jorge Vega Arias:
 
 📗 Job participation:  
@@ -238,5 +240,84 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 
 
 
+#### FASE 3️⃣
+
+#### Jorge Vega Arias:
+
+📗 Job participation:  
+
+      
+📃 Top commits:  
+- [Commit 1] 
+- [Commit 2]  
+- [Commit 3] 
+- [Commit 4]
+- [Commit 5]
+      
+📂 Top files:  
+- [File 1]
+- [File 2]
+- [File 3]
+- [File 4]
+- [File 5]
+
+
+#### Guillermo Grande Santi:
+  
+📗 Job participation:  
+
+      
+📃 Top commits:  
+- [Commit 1]
+- [Commit 2]
+- [Commit 3]
+- [Commit 4]
+- [Commit 5]
+      
+📂 Top files:  
+- [File 1] 
+- [File 2]
+- [File 3]
+- [File 4]
+- [File 5]
+  
+   
+#### Alejandro López Adrados:
+
+📗 Job participation:
+
+      
+📃 Top commits:  
+- [Commit 1]
+- [Commit 2]
+- [Commit 3]
+- [Commit 4]
+- [Commit 5]
+      
+📂 Top files:  
+- [File 1] 
+- [File 2]
+- [File 3] 
+- [File 4]
+- [File 5]
+
+#### Jesús González Gironda:
+
+📗 Job participation:
+
+      
+📃 Top commits:  
+- [Commit 1]
+- [Commit 2]
+- [Commit 3]
+- [Commit 4]
+- [Commit 5]
+      
+📂 Top files:  
+- [File 1]
+- [File 2]
+- [File 3]
+- [File 4]
+- [File 5]
 
 
