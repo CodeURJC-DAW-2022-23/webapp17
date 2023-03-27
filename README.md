@@ -125,6 +125,8 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 
 ### 🍻 Team contribution
 
+#### FASE 2️⃣:
+
 #### Jorge Vega Arias:
 
 📗 Job participation:  
@@ -238,5 +240,87 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 
 
 
+#### FASE 3️⃣:
+
+#### Jorge Vega Arias:
+
+📗 Job participation:  
+
+      
+📃 Top commits:  
+- [Commit 1] 
+- [Commit 2]  
+- [Commit 3] 
+- [Commit 4]
+- [Commit 5]
+      
+📂 Top files:  
+- [File 1]
+- [File 2]
+- [File 3]
+- [File 4]
+- [File 5]
+
+
+#### Guillermo Grande Santi:
+  
+📗 Job participation:  
+- ProductsRestController implementation (except admin methods), including testing in swagger-ui and their inclusion in postman collection with examples. Also, errors for unauthorized access and not found elements have been implemented. 
+- CartRestController whole implementation, including testing in swagger-ui and their inclusion in postman collection with examples. Also, errors for unauthorized access and not found elements have been implemented.
+- Docker-compose file.
+- Updated class diagram and documentation.
+      
+📃 Top commits:  
+- [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/2b9aeb24d9f9d5007214af3fd566d68c4ee72b7d) CartApiController Fully Implemented
+- [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/f0a8e557c8a5a3a8a7811fb4a706e586a5900285) ProductsApiController Fully Implemented
+- [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/46ae526311c4abb3817bd6a0592b9ae59aa3b5b0) Docker Compose File Structure
+- [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/442d17a909af357cbb88228790ad0367a0045d87) Unauthorized access errors updated
+- [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/c3af40c7e12c7f4e19b472873697c8fd3e254a2f) Update Class Diagram (RestControllers)
+      
+📂 Top files:  
+- [File 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/api/CartApiController.java) CartApiController.java
+- [File 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/api/ProductsApiController.java) ProductsApiController.java
+- [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/service/CartsService.java) CartService.java
+- [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/service/ProductsService.java) ProductsService.java
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/docker/docker-compose.yml) docker-compose.yml
+  
+   
+#### Alejandro López Adrados:
+
+📗 Job participation:
+
+      
+📃 Top commits:  
+- [Commit 1]
+- [Commit 2]
+- [Commit 3]
+- [Commit 4]
+- [Commit 5]
+      
+📂 Top files:  
+- [File 1] 
+- [File 2]
+- [File 3] 
+- [File 4]
+- [File 5]
+
+#### Jesús González Gironda:
+
+📗 Job participation:
+
+      
+📃 Top commits:  
+- [Commit 1]
+- [Commit 2]
+- [Commit 3]
+- [Commit 4]
+- [Commit 5]
+      
+📂 Top files:  
+- [File 1]
+- [File 2]
+- [File 3]
+- [File 4]
+- [File 5]
 
 
