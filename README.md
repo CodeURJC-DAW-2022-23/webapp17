@@ -245,21 +245,24 @@ docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 330
 #### Jorge Vega Arias:
 
 📗 Job participation:  
-
+- UserApiController, BookingsApiController, MenuApiController and Postman api calls.
+- Dockerfile and docker interaction as well as docker compose fix.
+- Maven configuration to handle profiles and generate Open Api.
+- Postman configuration for auto login.
       
 📃 Top commits:  
-- [Commit 1] 
-- [Commit 2]  
-- [Commit 3] 
-- [Commit 4]
-- [Commit 5]
+- [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/33ef67e938e066b3f7ead78f49032b8635ab2938)
+- [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/1e70571dd836d6bb9b2916d0880efa5c8a8a8d3a)  
+- [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/6f6a1657a0d3edfece00337d4a0c4154b02150b2) 
+- [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/a9b68871f0dec9840033a54f9b6df4203041d0ea)
+- [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/8ba002860f09fc434ac40303caa129e90fea9cbe)
       
 📂 Top files:  
-- [File 1]
-- [File 2]
-- [File 3]
-- [File 4]
-- [File 5]
+- [File 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/api/UserApiController.java)
+- [File 2](https://github.com/Codehttps://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/api/CartApiController.javaURJC-DAW-2022-23/webapp17/blob/main/backend/src/main/java/es/codeurjc/webapp17/controller/api/MenuApiController.java)
+- [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/pom.xml)
+- [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/docker/Dockerfile)
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/backend/api.postman_collection.json)
 
 
 #### Guillermo Grande Santi:

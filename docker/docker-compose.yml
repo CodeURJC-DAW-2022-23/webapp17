@@ -7,7 +7,7 @@ services:
       - MYSQL_DATABASE=gustosa
     restart: always
   web:
-    image: gustosa_image
+    image: rattata2me/gustosa_image
     ports:
       - "8443:8443"
     environment:

@@ -54,6 +54,7 @@ public class UserProfile {
 
     private Timestamp lastModified;
 
+    @JsonIgnore
     @OneToMany(mappedBy="userProfile", cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private List<Credential> credentials = new ArrayList<Credential>();
     

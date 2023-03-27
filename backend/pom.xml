@@ -139,8 +139,8 @@
 						<phase>integration-test</phase>
 						<configuration>
 							<target>
-								<delete dir="${project.basedir}/api-docs"/>
-								<mkdir dir="${project.basedir}/api-docs"/>
+								<delete dir="${project.basedir}/../api-docs"/>
+								<mkdir dir="${project.basedir}/../api-docs"/>
 							</target>
 						</configuration>
 						<goals>
@@ -164,7 +164,7 @@
 				<configuration>
 					<apiDocsUrl>http://localhost:8443/v3/api-docs.yaml</apiDocsUrl>
 					<outputFileName>api-docs.yaml</outputFileName>
-					<outputDir>${project.basedir}/api-docs</outputDir>
+					<outputDir>${project.basedir}/../api-docs</outputDir>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -180,9 +180,9 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/api-docs/api-docs.yaml</inputSpec>
+							<inputSpec>${project.basedir}/../api-docs/api-docs.yaml</inputSpec>
 							<generatorName>html2</generatorName>
-							<output>${project.basedir}/api-docs/</output>
+							<output>${project.basedir}/../api-docs/</output>
 						</configuration>
 					</execution>
 				</executions>

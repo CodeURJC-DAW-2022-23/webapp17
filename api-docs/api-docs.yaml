@@ -1,0 +1,1050 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8443
+  description: Generated server url
+paths:
+  /api/users/user:
+    get:
+      tags:
+      - user-api-controller
+      summary: "Get user info, if user not specified returns current user"
+      operationId: getUserInfo_1
+      parameters:
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Found the user
+          content:
+            application/json: {}
+        "404":
+          description: User not found
+        "403":
+          description: No permission to see user info
+    put:
+      tags:
+      - user-api-controller
+      summary: "Modify user, if user not specified modifies current user"
+      operationId: modifyUser
+      parameters:
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: newName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: newBio
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: newPassword
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "404":
+          description: User not found
+        "200":
+          description: Updated info
+          content:
+            application/json: {}
+        "403":
+          description: No permission to edit user
+    post:
+      tags:
+      - user-api-controller
+      summary: Create user
+      operationId: handleCreationFormSubmissionAdmin
+      parameters:
+      - name: role
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: bio
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: password
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "403":
+          description: No permission to edit user
+        "200":
+          description: User Added
+    delete:
+      tags:
+      - user-api-controller
+      summary: "Remove user, if email not specified remove current user"
+      operationId: changeDescriptionPost_1
+      parameters:
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "404":
+          description: User not found
+        "200":
+          description: User Removed
+        "403":
+          description: No permission to edit user
+  /api/products/product:
+    put:
+      tags:
+      - products-api-controller
+      operationId: handleFormSubmission
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: tags
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: price
+        in: query
+        required: true
+        schema:
+          type: number
+          format: float
+      responses:
+        "200":
+          description: OK
+    delete:
+      tags:
+      - products-api-controller
+      operationId: removeAction
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/orders/orderStatus:
+    put:
+      tags:
+      - orders-api-controller
+      summary: Change the status of an order
+      operationId: changeState
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "405":
+          description: "User not authorized, login with an admin account"
+        "200":
+          description: Found the order
+        "404":
+          description: Order not found
+  /api/menu/menu:
+    get:
+      tags:
+      - menu-api-controller
+      summary: Get menu
+      operationId: menu
+      responses:
+        "200":
+          description: Found the user
+          content:
+            application/json: {}
+        "403":
+          description: No permission to view
+    put:
+      tags:
+      - menu-api-controller
+      summary: Modify menu
+      operationId: postMenu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: object
+        required: true
+      responses:
+        "200":
+          description: Found the user
+          content:
+            application/json: {}
+        "403":
+          description: No permission to edit
+  /api/coupons/coupon:
+    put:
+      tags:
+      - coupons-api-controller
+      summary: "Modify a coupon through his id, introducing all the parameters"
+      operationId: modifyCoupon
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: code
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: discount
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: newserEmail
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: uses
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "400":
+          description: "User is not registered, wrong newUserEmail"
+          content:
+            '*/*':
+              schema:
+                type: object
+        "404":
+          description: "Coupon not found, wrong id"
+          content:
+            '*/*':
+              schema:
+                type: object
+        "405":
+          description: "User not authorized, login with an admin account"
+          content:
+            '*/*':
+              schema:
+                type: object
+        "501":
+          description: Comment has not been modified
+          content:
+            '*/*':
+              schema:
+                type: object
+        "200":
+          description: Comment modified succesfully
+          content:
+            application/json: {}
+    post:
+      tags:
+      - coupons-api-controller
+      summary: Create a coupon introducing all the parameters
+      operationId: handleCreationFormSubmission
+      parameters:
+      - name: code
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: discount
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: usesRemaining
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: userEmail
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Comment added succesfully
+          content:
+            application/json: {}
+        "400":
+          description: "User is not registered, wrong userEmail"
+          content:
+            '*/*':
+              schema:
+                type: object
+        "405":
+          description: "User not authorized, login with an admin account"
+          content:
+            '*/*':
+              schema:
+                type: object
+    delete:
+      tags:
+      - coupons-api-controller
+      summary: Remove a coupon through his id
+      operationId: removeAction_1
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: "Coupon not found, wrong id"
+          content:
+            '*/*':
+              schema:
+                type: object
+        "405":
+          description: "User not authorized, login with an admin account"
+          content:
+            '*/*':
+              schema:
+                type: object
+        "200":
+          description: Coupon removed succesfully
+          content:
+            application/json: {}
+  /api/carts/moreQuantity:
+    put:
+      tags:
+      - cart-api-controller
+      summary: Increase the quantity of a cart product
+      operationId: increaseQuantity
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Increased Succesfully
+        "404":
+          description: Cannot increase quantity
+  /api/carts/lessQuantity:
+    put:
+      tags:
+      - cart-api-controller
+      summary: Decrease the quantity of a cart product
+      operationId: decreaseQuantity
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Cannot decrease quantity
+        "200":
+          description: Decreased Succesfully
+  /api/bookings/booking:
+    put:
+      tags:
+      - bookings-api-controller
+      summary: Change booking state
+      operationId: changeBooking
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: action
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    post:
+      tags:
+      - bookings-api-controller
+      summary: Add booking
+      operationId: addBooking
+      parameters:
+      - name: numPeople
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: tlfNumber
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: date
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: hour
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /user/changePassword:
+    post:
+      tags:
+      - credential-controller
+      operationId: changePasswordPost
+      parameters:
+      - name: newPassword
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /user/changeName:
+    post:
+      tags:
+      - users-controller
+      operationId: changeNamePost
+      parameters:
+      - name: newName
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /user/changeDescription:
+    post:
+      tags:
+      - users-controller
+      operationId: changeDescriptionPost
+      parameters:
+      - name: newDescription
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /forgotPassword:
+    post:
+      tags:
+      - credential-controller
+      operationId: forgotPasswordPost
+      parameters:
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /api/users/profileImage:
+    get:
+      tags:
+      - user-api-controller
+      summary: Get user image
+      operationId: downloadImage
+      parameters:
+      - name: id
+        in: query
+        description: id of the user
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Found the Image
+        "404":
+          description: User not found
+    post:
+      tags:
+      - user-api-controller
+      summary: Add user profile picture
+      operationId: uploadImage
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - imageFile
+              type: object
+              properties:
+                imageFile:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: Updated profile picture
+        "404":
+          description: User not found
+        "403":
+          description: No permission to edit user info
+  /api/products/newProduct:
+    post:
+      tags:
+      - products-api-controller
+      operationId: handleCreationFormSubmissionAdmin_1
+      parameters:
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: price
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: tags
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/products/comment:
+    post:
+      tags:
+      - products-api-controller
+      summary: Add a comment on a product
+      operationId: addComment
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: content
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: stars
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "404":
+          description: Error while adding comment on a product
+        "200":
+          description: Added comment on a product
+  /api/products/cart:
+    post:
+      tags:
+      - products-api-controller
+      summary: Add a product to the cart
+      operationId: addToCart
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Error while adding product to the cart
+        "200":
+          description: Added product to the cart
+  /api/carts/coupon:
+    post:
+      tags:
+      - cart-api-controller
+      summary: Redeem a Coupon
+      operationId: redeem
+      parameters:
+      - name: code
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Cannot redeem coupon
+        "200":
+          description: Redeemed coupon successfully
+  /api/carts/couponFree:
+    post:
+      tags:
+      - cart-api-controller
+      summary: Unredeem a Coupon
+      operationId: unredeem
+      responses:
+        "200":
+          description: Unredeemed coupon successfully
+        "404":
+          description: Cannot unredeem coupon
+  /api/carts/checkout:
+    get:
+      tags:
+      - cart-api-controller
+      summary: Get the actual checkout form
+      operationId: checkout
+      responses:
+        "200":
+          description: Checkout form showed
+        "404":
+          description: Checkout form not found
+    post:
+      tags:
+      - cart-api-controller
+      summary: Finalize the checkout
+      operationId: doCheckout
+      responses:
+        "200":
+          description: Checkout form sent correctly
+        "404":
+          description: Checkout form not sent correctly
+  /addToCart:
+    post:
+      tags:
+      - products-controller
+      operationId: addToCart_1
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /user/getUserInfo:
+    get:
+      tags:
+      - users-controller
+      operationId: getUserInfo
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /api/users/users:
+    get:
+      tags:
+      - user-api-controller
+      summary: Get users info
+      operationId: getUsers
+      parameters:
+      - name: pageNumber
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json: {}
+        "403":
+          description: No permission
+        "404":
+          description: Page not found
+  /api/users/logout:
+    get:
+      tags:
+      - user-api-controller
+      summary: Logout
+      operationId: logout
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/users/login:
+    get:
+      tags:
+      - user-api-controller
+      summary: Login
+      operationId: login
+      parameters:
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: password
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json: {}
+        "403":
+          description: Wrong auth
+  /api/products/products:
+    get:
+      tags:
+      - products-api-controller
+      summary: Get list of products paginated
+      operationId: products
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      responses:
+        "200":
+          description: Found the Products
+        "404":
+          description: Products not found
+  /api/products/productImages:
+    get:
+      tags:
+      - products-api-controller
+      summary: Get list of images from a product
+      operationId: downloadImage_1
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: idImage
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "404":
+          description: Error showing images of product
+        "200":
+          description: Found images of the product
+  /api/products/individualProduct:
+    get:
+      tags:
+      - products-api-controller
+      summary: Get the description of a product (individual)
+      operationId: getIndividualProduct
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Showed the information of the product
+        "404":
+          description: Cannot show the information of the product
+  /api/orders/orders:
+    get:
+      tags:
+      - orders-api-controller
+      summary: View orders
+      operationId: viewOrdersPaginated
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      responses:
+        "200":
+          description: Found the order
+        "404":
+          description: Order not found
+        "403":
+          description: "User not authorized, login with an admin account"
+  /api/coupons/coupons:
+    get:
+      tags:
+      - coupons-api-controller
+      summary: Get coupons of every user sorted by pages of 8
+      operationId: coupons
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      responses:
+        "200":
+          description: Coupons loaded succesfully
+          content:
+            application/json: {}
+        "403":
+          description: "User not authorized, login with an admin account"
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /api/comments/comments:
+    get:
+      tags:
+      - comments-api-controller
+      summary: Get comments of everyone sorted by pages of 8
+      operationId: menu_1
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      responses:
+        "200":
+          description: Comments loaded succesfully
+          content:
+            application/json: {}
+        "403":
+          description: "User not authorized, login with an admin account"
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /api/carts/cart:
+    get:
+      tags:
+      - cart-api-controller
+      summary: Get the actual cart
+      operationId: cart
+      responses:
+        "200":
+          description: Cart showed
+        "404":
+          description: Cart not found
+  /api/bookings/bookings:
+    get:
+      tags:
+      - bookings-api-controller
+      summary: Get bookings
+      operationId: getBookings
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /api/admin/statistics:
+    get:
+      tags:
+      - admin-api-controller
+      summary: See the statistics
+      operationId: getStatistics
+      responses:
+        "200":
+          description: Found the statistic
+        "403":
+          description: No permission to see the statistics
+        "404":
+          description: Statistics not found
+  /api/orders/order:
+    delete:
+      tags:
+      - orders-api-controller
+      summary: Change state of an order
+      operationId: deleteOrder
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "405":
+          description: "User not authorized, login with an admin account"
+        "200":
+          description: Found the order
+        "404":
+          description: Order not found
+  /api/comments/comment:
+    delete:
+      tags:
+      - comments-api-controller
+      summary: Remove a comment through his id
+      operationId: removeAction_2
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Comment removed succesfully
+          content:
+            application/json: {}
+        "405":
+          description: "User not authorized, login with an admin account"
+          content:
+            '*/*':
+              schema:
+                type: object
+        "404":
+          description: Comment not found
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/carts/item:
+    delete:
+      tags:
+      - cart-api-controller
+      summary: Deletes an item from cart
+      operationId: deleteItem
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Item deleted
+        "404":
+          description: Item cannot be deleted
+components: {}
