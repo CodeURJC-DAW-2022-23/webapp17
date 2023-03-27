@@ -55,7 +55,7 @@ public class CouponsApiController {
 	})
 	@GetMapping("/coupons")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public Object coupons(Model model, @RequestParam(defaultValue = "0") int page) {
+    public Object showCoupons(Model model, @RequestParam(defaultValue = "0") int page) {
 		HashMap<String, Object> map = new HashMap<>();
         List<Coupon> listCoupons = couponsService.getCoupons();
         List<Coupon> shownCoupons = new ArrayList<Coupon>();
@@ -146,7 +146,7 @@ public class CouponsApiController {
 })
     @DeleteMapping("/coupon")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> removeAction(@RequestParam(name="id") String id){
+    public ResponseEntity<Object> removeCoupon(@RequestParam(name="id") String id){
         if(couponsService.removeCoupon(Long.parseLong(id))){
             return ResponseEntity.ok().build();
         }else{
@@ -176,7 +176,7 @@ public class CouponsApiController {
 })
     @PostMapping("/coupon")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> handleCreationFormSubmission(@RequestParam("code") String code,
+    public ResponseEntity<Object> createCoupon(@RequestParam("code") String code,
                                        @RequestParam("discount") String discount,
                                        @RequestParam("usesRemaining") int uses,
                                        @RequestParam("userEmail") String user) {

@@ -252,7 +252,7 @@ public class UserApiController {
 	})
 	@PostMapping("/user")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> handleCreationFormSubmissionAdmin(@RequestParam("role") String role,
+    public ResponseEntity<Object> createUser(@RequestParam("role") String role,
                                        @RequestParam("name") String name,
                                        @RequestParam("email") String email,
                                        @RequestParam(value = "bio", required = false) String bio,

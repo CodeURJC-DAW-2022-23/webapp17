@@ -95,7 +95,7 @@ public class CommentsApiController {
 	})
 	@DeleteMapping("/comment")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> removeAction(@RequestParam(name="id") String id){
+    public ResponseEntity<Object> deleteComment(@RequestParam(name="id") String id){
         if(commentsService.removeComment(Long.parseLong(id))){
             return ResponseEntity.ok().build();
         }else{
