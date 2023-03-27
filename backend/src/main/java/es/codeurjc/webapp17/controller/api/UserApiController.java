@@ -2,6 +2,8 @@ package es.codeurjc.webapp17.controller.api;
 
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.attribute.UserPrincipal;
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,6 +46,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
@@ -322,15 +325,8 @@ public class UserApiController {
     public @ResponseBody Object login(@RequestParam String email, @RequestParam String password, HttpServletRequest request) {
 		try {
 			request.login(email, password);
-			String cookie = Arrays.stream(request.getCookies())
-            .filter(c -> c.getName().equals("JSESSIONID"))
-            .findFirst()
-            .map(Cookie::getValue)
-            .orElse(null);
-			Map m = new HashMap<String, Object>();
-			m.put("JSESSIONID", cookie != null ? cookie : "none");
-			return m;
-		} catch (ServletException e) {
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 	}
