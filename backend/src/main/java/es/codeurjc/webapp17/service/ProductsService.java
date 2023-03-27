@@ -1,5 +1,6 @@
 package es.codeurjc.webapp17.service;
 
+import java.net.URI;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import es.codeurjc.webapp17.model.Comment;
 import es.codeurjc.webapp17.model.Product;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.repository.ProductsRepo;
+import es.codeurjc.webapp17.tools.Tools;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
@@ -84,8 +86,8 @@ public class ProductsService {
                     new Timestamp(System.currentTimeMillis()), user, product.get(0));
                 product.get(0).getComments().add(comment);
                 getProductsRepo().saveAndFlush(product.get(0));
-                return ResponseEntity.ok().build();  
-        } else {
+                return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/products/comment")).build();
+            } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }	
     }

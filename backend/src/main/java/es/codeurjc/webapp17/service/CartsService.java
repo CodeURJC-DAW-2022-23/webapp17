@@ -3,6 +3,7 @@ package es.codeurjc.webapp17.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 
@@ -180,7 +181,7 @@ public class CartsService {
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/checkout")).build();
     }
 
     public ResponseEntity<Object> redeem(String code, HttpServletRequest request) {
@@ -200,7 +201,7 @@ public class CartsService {
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/coupon")).build();
     }
 
 
@@ -223,7 +224,7 @@ public class CartsService {
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/couponFree")).build();
     }
 
     public void changeOrderState(long id){
