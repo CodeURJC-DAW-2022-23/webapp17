@@ -58,7 +58,7 @@ public class CartApiController {
 
 
 
-    @DeleteMapping("/deleteItem")
+    @DeleteMapping("/item")
     @Operation(summary = "Deletes an item from cart")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -161,7 +161,7 @@ public class CartApiController {
     }
 
 
-    @PostMapping("/finishCheckout")
+    @PostMapping("/checkout")
     @Operation(summary = "Finalize the checkout")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -183,7 +183,7 @@ public class CartApiController {
 
 
 
-    @PostMapping("/redeem")
+    @PostMapping("/coupon")
     @Operation(summary = "Redeem a Coupon")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -205,7 +205,7 @@ public class CartApiController {
 
 
 
-    @PostMapping("/unredeem")
+    @PostMapping("/couponFree")
     @Operation(summary = "Unredeem a Coupon")
 	@ApiResponses(value = { 
 			@ApiResponse(
