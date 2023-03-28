@@ -17,7 +17,7 @@ Web app for the best fast food franchaise Gustosa, made for Web Applications Dev
 ## 🏗️ Build instructions
 
 ### Pre-Requirements
-- Java api 17+
+- Java api 17+ (Only for the non dockerized app)
 - Docker 20.10.23
 
 ### Important Dependency Note
@@ -26,7 +26,15 @@ Project uses
 - Spring Boot version 3.0.2
 - MySql 8.0.32
 
-### Install
+### Install the dockerized application 
+Assuming docker is installed on your machine run:
+```
+git clone https://github.com/CodeURJC-DAW-2022-23/webapp17.git
+cd webapp17/docker
+sh create_image.sh
+```
+
+### Install the non dockerized application 
 Assuming java and docker are installed on your machine run:
 ```
 git clone https://github.com/CodeURJC-DAW-2022-23/webapp17.git
@@ -36,24 +44,40 @@ cd webapp17/backend
 
 ## 👽 Execution Instructions
 
-### Run backend with h2 for testing
+### Run the dockerized application
+To execute the application run the following command on the docker folder
+```
+docker compose up
+```
+Then, open in your browser
+```
+https://localhost:8443/
+```
+### Run backend with h2 for testing (Non dockerized app)
 Keep in mind project uses public api keys for google mail and google api. Change them to your own on application.properties file.
 
 To run first install and on backend folder run
 ```
 ./mvnw spring-boot:run
 ```
-
-### Run backend with MySQL
+Then, open in your browser
+```
+https://localhost:8443/
+```
+### Run backend with MySQL (Non dockerized app)
 To run first install and on backend folder run
 ```
 docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gustosa -p 3306:3306 -d mysql:8.0.32
 ./mvnw spring-boot:run 
 ```
+Then, open in your browser
+```
+https://localhost:8443/
+```
 ## 💻 API documentation
 To see the API documentation there are two options:
 - [api-docs.yaml](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/api-docs/api-docs.yaml): To visualize the content in a file
-- [api-docs.html](https://rawcdn.githack.com/CodeURJC-DAW-2022-23/webapp17/4e106ba2a75415959ecc0cb6f3c50252e95cb120/api-docs/index.html): To visualize the content in a web page
+- [api-docs.html](https://raw.githack.com/CodeURJC-DAW-2022-23/webapp17/tree/main/api-docs): To visualize the content in a web page
 
 ## #️⃣ Features
 
