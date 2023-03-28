@@ -192,7 +192,7 @@ public class CartApiController {
 					),
 			@ApiResponse(
 					responseCode = "404", 
-					description = "Checkout form not found", 
+					description = "Checkout form not found or empty cart", 
 					content = @Content
 					)	
 	})
@@ -224,7 +224,7 @@ public class CartApiController {
 						),
 			@ApiResponse(
 					responseCode = "404", 
-					description = "Checkout form not sent correctly", 
+					description = "Checkout form not sent correctly (maybe empty cart)", 
 					content = @Content
 					)	
 	})
@@ -233,8 +233,13 @@ public class CartApiController {
 		if (!permissionsService.isUserLoggedIn(request, usersService)) {
 			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
 		}
-        ResponseEntity<Object> response = cartsService.doCheckout(request);
-        return response;
+		HashMap<String,Object> map = cartsService.cartAndCheckout(request);
+		if (map.size()!=0) {
+            ResponseEntity<Object> response = cartsService.doCheckout(request);
+        	return response;
+        }
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+ 
     }
 
 
