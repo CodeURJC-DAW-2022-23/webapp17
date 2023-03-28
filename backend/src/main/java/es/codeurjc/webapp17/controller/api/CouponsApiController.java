@@ -181,7 +181,7 @@ public class CouponsApiController {
                                        @RequestParam("usesRemaining") int uses,
                                        @RequestParam("userEmail") String user) {
         if(couponsService.createCoupon(uses, Integer.parseInt(discount), code, user)){
-            return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/coupons/coupon")).build();
+            return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/coupons/coupon")).build();
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

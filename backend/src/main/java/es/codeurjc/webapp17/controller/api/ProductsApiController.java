@@ -219,7 +219,7 @@ public class ProductsApiController {
 		tagsArray = tags.split(", ");
 	}
         productsService.addProduct(name, Float.parseFloat(price), description, tagsArray);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/products/product")).build();
+		return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/products/product")).build();
 
     }
     
@@ -303,7 +303,7 @@ public class ProductsApiController {
     public ResponseEntity<Object> uploadImage(@RequestParam(name="id") long id, @RequestParam MultipartFile imageFile, HttpServletRequest request){
         try{
 			if(productsService.addImage(id, imageFile)){
-				return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/products/image")).build();
+				return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/products/image")).build();
 			}else{
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();			
 			}
