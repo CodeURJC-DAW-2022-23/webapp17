@@ -344,7 +344,9 @@ To see the API documentation there are two options:
 #### Jesús González Gironda:
 
 📗 Job participation:
-
+-Implemented the AdminApiController.
+-Implemented the OrdersApiController.
+-Fixed some missing html.
       
 📃 Top commits:  
 - [Commit 1]
