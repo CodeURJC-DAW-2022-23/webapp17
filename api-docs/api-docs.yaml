@@ -19,12 +19,12 @@ paths:
         schema:
           type: string
       responses:
+        "404":
+          description: User not found
         "200":
           description: Found the user
           content:
             application/json: {}
-        "404":
-          description: User not found
         "403":
           description: No permission to see user info
     put:
@@ -54,19 +54,19 @@ paths:
         schema:
           type: string
       responses:
-        "404":
-          description: User not found
         "200":
           description: Updated info
           content:
             application/json: {}
+        "404":
+          description: User not found
         "403":
           description: No permission to edit user
     post:
       tags:
       - user-api-controller
       summary: Create user
-      operationId: handleCreationFormSubmissionAdmin
+      operationId: createUser
       parameters:
       - name: role
         in: query
@@ -94,10 +94,10 @@ paths:
         schema:
           type: string
       responses:
-        "403":
-          description: No permission to edit user
         "200":
           description: User Added
+        "403":
+          description: No permission to edit user
     delete:
       tags:
       - user-api-controller
@@ -112,15 +112,16 @@ paths:
       responses:
         "404":
           description: User not found
-        "200":
-          description: User Removed
         "403":
           description: No permission to edit user
+        "200":
+          description: User Removed
   /api/products/product:
     put:
       tags:
       - products-api-controller
-      operationId: handleFormSubmission
+      summary: Modify the fields of a product
+      operationId: modifyProduct
       parameters:
       - name: id
         in: query
@@ -149,12 +150,48 @@ paths:
           type: number
           format: float
       responses:
+        "405":
+          description: "User not authorized, login with an admin account"
+        "404":
+          description: "Product not found, wrong id"
         "200":
-          description: OK
+          description: Product modified succesfully
+    post:
+      tags:
+      - products-api-controller
+      summary: Create a new product
+      operationId: addProduct
+      parameters:
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: price
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: tags
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "405":
+          description: "User not authorized, login with an admin account"
+        "200":
+          description: Product created succesfully
     delete:
       tags:
       - products-api-controller
-      operationId: removeAction
+      summary: Remove a product
+      operationId: removeProduct
       parameters:
       - name: id
         in: query
@@ -163,8 +200,12 @@ paths:
           type: integer
           format: int64
       responses:
+        "405":
+          description: "User not authorized, login with an admin account"
+        "404":
+          description: "Product not found, wrong id"
         "200":
-          description: OK
+          description: Product removed succesfully
   /api/orders/orderStatus:
     put:
       tags:
@@ -179,10 +220,10 @@ paths:
           type: integer
           format: int64
       responses:
+        "200":
+          description: Order status changed succesfully
         "405":
           description: "User not authorized, login with an admin account"
-        "200":
-          description: Found the order
         "404":
           description: Order not found
   /api/menu/menu:
@@ -192,12 +233,12 @@ paths:
       summary: Get menu
       operationId: menu
       responses:
+        "403":
+          description: No permission to view
         "200":
           description: Found the user
           content:
             application/json: {}
-        "403":
-          description: No permission to view
     put:
       tags:
       - menu-api-controller
@@ -252,39 +293,23 @@ paths:
           type: integer
           format: int32
       responses:
-        "400":
-          description: "User is not registered, wrong newUserEmail"
-          content:
-            '*/*':
-              schema:
-                type: object
-        "404":
-          description: "Coupon not found, wrong id"
-          content:
-            '*/*':
-              schema:
-                type: object
         "405":
           description: "User not authorized, login with an admin account"
-          content:
-            '*/*':
-              schema:
-                type: object
         "501":
           description: Comment has not been modified
-          content:
-            '*/*':
-              schema:
-                type: object
         "200":
           description: Comment modified succesfully
           content:
             application/json: {}
+        "400":
+          description: "User is not registered, wrong newUserEmail"
+        "404":
+          description: "Coupon not found, wrong id"
     post:
       tags:
       - coupons-api-controller
       summary: Create a coupon introducing all the parameters
-      operationId: handleCreationFormSubmission
+      operationId: createCoupon
       parameters:
       - name: code
         in: query
@@ -308,27 +333,19 @@ paths:
         schema:
           type: string
       responses:
+        "405":
+          description: "User not authorized, login with an admin account"
         "200":
           description: Comment added succesfully
           content:
             application/json: {}
         "400":
           description: "User is not registered, wrong userEmail"
-          content:
-            '*/*':
-              schema:
-                type: object
-        "405":
-          description: "User not authorized, login with an admin account"
-          content:
-            '*/*':
-              schema:
-                type: object
     delete:
       tags:
       - coupons-api-controller
       summary: Remove a coupon through his id
-      operationId: removeAction_1
+      operationId: removeCoupon
       parameters:
       - name: id
         in: query
@@ -336,22 +353,14 @@ paths:
         schema:
           type: string
       responses:
-        "404":
-          description: "Coupon not found, wrong id"
-          content:
-            '*/*':
-              schema:
-                type: object
         "405":
           description: "User not authorized, login with an admin account"
-          content:
-            '*/*':
-              schema:
-                type: object
         "200":
           description: Coupon removed succesfully
           content:
             application/json: {}
+        "404":
+          description: "Coupon not found, wrong id"
   /api/carts/moreQuantity:
     put:
       tags:
@@ -366,8 +375,10 @@ paths:
           type: integer
           format: int64
       responses:
-        "200":
+        "202":
           description: Increased Succesfully
+        "405":
+          description: User not logged in
         "404":
           description: Cannot increase quantity
   /api/carts/lessQuantity:
@@ -384,11 +395,35 @@ paths:
           type: integer
           format: int64
       responses:
+        "405":
+          description: User not logged in
+        "202":
+          description: Decreased Succesfully
         "404":
           description: Cannot decrease quantity
+  /api/bookings/bookings:
+    get:
+      tags:
+      - bookings-api-controller
+      summary: Get bookings
+      operationId: getBookings
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      responses:
         "200":
-          description: Decreased Succesfully
-  /api/bookings/booking:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
     put:
       tags:
       - bookings-api-controller
@@ -409,11 +444,7 @@ paths:
           format: int32
       responses:
         "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: string
+          description: Change Accepted
     post:
       tags:
       - bookings-api-controller
@@ -443,11 +474,7 @@ paths:
           type: string
       responses:
         "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
+          description: Change Accepted
   /user/changePassword:
     post:
       tags:
@@ -573,39 +600,62 @@ paths:
       responses:
         "200":
           description: Updated profile picture
-        "404":
-          description: User not found
         "403":
           description: No permission to edit user info
-  /api/products/newProduct:
+        "404":
+          description: User not found
+  /api/products/image:
     post:
       tags:
       - products-api-controller
-      operationId: handleCreationFormSubmissionAdmin_1
+      summary: Add an image to a product
+      operationId: uploadImage_1
       parameters:
-      - name: name
+      - name: id
         in: query
         required: true
         schema:
-          type: string
-      - name: price
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: description
-        in: query
-        required: false
-        schema:
-          type: string
-      - name: tags
-        in: query
-        required: false
-        schema:
-          type: string
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - imageFile
+              type: object
+              properties:
+                imageFile:
+                  type: string
+                  format: binary
       responses:
         "200":
-          description: OK
+          description: The image has been added succesfully
+        "405":
+          description: "User not authorized, login with an admin account"
+        "404":
+          description: "Product not found, wrong id"
+        "400":
+          description: Error uploading the image
+    delete:
+      tags:
+      - products-api-controller
+      summary: Delete the image of a product
+      operationId: removeImage
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "405":
+          description: "User not authorized, login with an admin account"
+        "404":
+          description: "Product not found, wrong id"
+        "200":
+          description: The image has been removed succesfully
   /api/products/comment:
     post:
       tags:
@@ -631,9 +681,11 @@ paths:
           type: integer
           format: int32
       responses:
+        "405":
+          description: User is not logged in
         "404":
           description: Error while adding comment on a product
-        "200":
+        "201":
           description: Added comment on a product
   /api/products/cart:
     post:
@@ -649,10 +701,12 @@ paths:
           type: integer
           format: int64
       responses:
-        "404":
-          description: Error while adding product to the cart
+        "405":
+          description: User is not logged in
         "200":
           description: Added product to the cart
+        "404":
+          description: Error while adding product to the cart
   /api/carts/coupon:
     post:
       tags:
@@ -666,10 +720,12 @@ paths:
         schema:
           type: string
       responses:
+        "202":
+          description: Redeemed coupon successfully
+        "405":
+          description: User not logged in
         "404":
           description: Cannot redeem coupon
-        "200":
-          description: Redeemed coupon successfully
   /api/carts/couponFree:
     post:
       tags:
@@ -677,7 +733,9 @@ paths:
       summary: Unredeem a Coupon
       operationId: unredeem
       responses:
-        "200":
+        "405":
+          description: User not logged in
+        "202":
           description: Unredeemed coupon successfully
         "404":
           description: Cannot unredeem coupon
@@ -688,20 +746,24 @@ paths:
       summary: Get the actual checkout form
       operationId: checkout
       responses:
+        "403":
+          description: User not logged in
+        "404":
+          description: Checkout form not found or empty cart
         "200":
           description: Checkout form showed
-        "404":
-          description: Checkout form not found
     post:
       tags:
       - cart-api-controller
       summary: Finalize the checkout
       operationId: doCheckout
       responses:
-        "200":
+        "202":
           description: Checkout form sent correctly
+        "405":
+          description: User not logged in
         "404":
-          description: Checkout form not sent correctly
+          description: Checkout form not sent correctly (maybe empty cart)
   /addToCart:
     post:
       tags:
@@ -756,10 +818,10 @@ paths:
           description: Ok
           content:
             application/json: {}
-        "403":
-          description: No permission
         "404":
           description: Page not found
+        "403":
+          description: No permission
   /api/users/logout:
     get:
       tags:
@@ -791,12 +853,12 @@ paths:
         schema:
           type: string
       responses:
+        "403":
+          description: Wrong auth
         "200":
           description: Ok
           content:
             application/json: {}
-        "403":
-          description: Wrong auth
   /api/products/products:
     get:
       tags:
@@ -854,10 +916,10 @@ paths:
           type: integer
           format: int64
       responses:
-        "200":
-          description: Showed the information of the product
         "404":
           description: Cannot show the information of the product
+        "200":
+          description: Showed the information of the product
   /api/orders/orders:
     get:
       tags:
@@ -874,9 +936,9 @@ paths:
           default: 0
       responses:
         "200":
-          description: Found the order
+          description: Orders listed
         "404":
-          description: Order not found
+          description: Orders not found
         "403":
           description: "User not authorized, login with an admin account"
   /api/coupons/coupons:
@@ -884,7 +946,7 @@ paths:
       tags:
       - coupons-api-controller
       summary: Get coupons of every user sorted by pages of 8
-      operationId: coupons
+      operationId: showCoupons
       parameters:
       - name: page
         in: query
@@ -900,18 +962,14 @@ paths:
             application/json: {}
         "403":
           description: "User not authorized, login with an admin account"
-          content:
-            '*/*':
-              schema:
-                type: object
-                additionalProperties:
-                  type: object
+        "404":
+          description: Coupons not found
   /api/comments/comments:
     get:
       tags:
       - comments-api-controller
       summary: Get comments of everyone sorted by pages of 8
-      operationId: menu_1
+      operationId: showComments
       parameters:
       - name: page
         in: query
@@ -927,12 +985,8 @@ paths:
             application/json: {}
         "403":
           description: "User not authorized, login with an admin account"
-          content:
-            '*/*':
-              schema:
-                type: object
-                additionalProperties:
-                  type: object
+        "404":
+          description: Comments not found
   /api/carts/cart:
     get:
       tags:
@@ -940,33 +994,12 @@ paths:
       summary: Get the actual cart
       operationId: cart
       responses:
+        "404":
+          description: Cart not found or empty
         "200":
           description: Cart showed
-        "404":
-          description: Cart not found
-  /api/bookings/bookings:
-    get:
-      tags:
-      - bookings-api-controller
-      summary: Get bookings
-      operationId: getBookings
-      parameters:
-      - name: page
-        in: query
-        required: false
-        schema:
-          type: integer
-          format: int32
-          default: 0
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
-                additionalProperties:
-                  type: object
+        "403":
+          description: User not logged in
   /api/admin/statistics:
     get:
       tags:
@@ -974,17 +1007,17 @@ paths:
       summary: See the statistics
       operationId: getStatistics
       responses:
-        "200":
-          description: Found the statistic
         "403":
           description: No permission to see the statistics
         "404":
           description: Statistics not found
+        "200":
+          description: Found the statistics
   /api/orders/order:
     delete:
       tags:
       - orders-api-controller
-      summary: Change state of an order
+      summary: Delete an order
       operationId: deleteOrder
       parameters:
       - name: id
@@ -994,10 +1027,10 @@ paths:
           type: integer
           format: int64
       responses:
-        "405":
-          description: "User not authorized, login with an admin account"
         "200":
           description: Found the order
+        "405":
+          description: "User not authorized, login with an admin account"
         "404":
           description: Order not found
   /api/comments/comment:
@@ -1005,7 +1038,7 @@ paths:
       tags:
       - comments-api-controller
       summary: Remove a comment through his id
-      operationId: removeAction_2
+      operationId: deleteComment
       parameters:
       - name: id
         in: query
@@ -1019,16 +1052,8 @@ paths:
             application/json: {}
         "405":
           description: "User not authorized, login with an admin account"
-          content:
-            '*/*':
-              schema:
-                type: object
         "404":
           description: Comment not found
-          content:
-            '*/*':
-              schema:
-                type: object
   /api/carts/item:
     delete:
       tags:
@@ -1043,8 +1068,10 @@ paths:
           type: integer
           format: int64
       responses:
-        "200":
+        "202":
           description: Item deleted
+        "405":
+          description: User not logged in
         "404":
           description: Item cannot be deleted
 components: {}
