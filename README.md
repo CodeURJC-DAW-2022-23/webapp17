@@ -77,7 +77,7 @@ https://localhost:8443/
 ## 💻 API documentation
 To see the API documentation there are two options:
 - [api-docs.yaml](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/api-docs/api-docs.yaml): To visualize the content in a file
-- [api-docs.html](https://raw.githack.com/CodeURJC-DAW-2022-23/webapp17/tree/main/api-docs): To visualize the content in a web page
+- [api-docs.html](https://rawcdn.githack.com/CodeURJC-DAW-2022-23/webapp17/76a602669b935c7d168969d08f948255eb449469/api-docs/index.html): To visualize the content in a web page
 
 ## #️⃣ Features
 
