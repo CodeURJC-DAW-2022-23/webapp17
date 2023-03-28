@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "c9821f67-f7b9-4085-a16f-af14a3446be0",
-		"name": "api",
+		"_postman_id": "fb502e52-b853-494f-b219-4c20735a310b",
+		"name": "api v2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26531976"
 	},
@@ -15,10 +15,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/users/user",
+							"raw": "https://{{gustosa_api_host}}:8443/api/users/user",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{gustosa_api_host}}"
 							],
 							"port": "8443",
 							"path": [
@@ -35,10 +35,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:8443/api/users/user?email=test@test.com",
+									"raw": "https://{{gustosa_api_host}}:8443/api/users/user?email=test@test.com",
 									"protocol": "https",
 									"host": [
-										"localhost"
+										"{{gustosa_api_host}}"
 									],
 									"port": "8443",
 									"path": [
@@ -118,10 +118,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/users/user",
+							"raw": "https://{{gustosa_api_host}}:8443/api/users/user",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{gustosa_api_host}}"
 							],
 							"port": "8443",
 							"path": [
@@ -138,10 +138,10 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:8443/api/users/user?email=test@test.com",
+									"raw": "https://{{gustosa_api_host}}:8443/api/users/user?email=test@test.com",
 									"protocol": "https",
 									"host": [
-										"localhost"
+										"{{gustosa_api_host}}"
 									],
 									"port": "8443",
 									"path": [
@@ -157,10 +157,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -170,10 +170,10 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/users/user",
+							"raw": "https://{{gustosa_api_host}}:8443/api/users/user",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{gustosa_api_host}}"
 							],
 							"port": "8443",
 							"path": [
@@ -190,10 +190,10 @@
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:8443/api/users/user?email=test@test.com&newName=Test User",
+									"raw": "https://{{gustosa_api_host}}:8443/api/users/user?email=test@test.com&newName=Test User",
 									"protocol": "https",
 									"host": [
-										"localhost"
+										"{{gustosa_api_host}}"
 									],
 									"port": "8443",
 									"path": [
@@ -213,10 +213,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -226,10 +226,10 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/users/user",
+							"raw": "https://{{gustosa_api_host}}:8443/api/users/user",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{gustosa_api_host}}"
 							],
 							"port": "8443",
 							"path": [
@@ -246,10 +246,10 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:8443/api/users/user?role=user&name=Test&email=test@test.com&password=test",
+									"raw": "https://{{gustosa_api_host}}:8443/api/users/user?role=user&name=Test&email=test@test.com&password=test",
 									"protocol": "https",
 									"host": [
-										"localhost"
+										"{{gustosa_api_host}}"
 									],
 									"port": "8443",
 									"path": [
@@ -277,10 +277,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -290,10 +290,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/users/login",
+							"raw": "https://{{gustosa_api_host}}:8443/api/users/login",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{gustosa_api_host}}"
 							],
 							"port": "8443",
 							"path": [
@@ -310,10 +310,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:8443/api/users/login?email=admin@admin&password=1234",
+									"raw": "https://{{gustosa_api_host}}:8443/api/users/login?email=admin@admin&password=1234",
 									"protocol": "https",
 									"host": [
-										"localhost"
+										"{{gustosa_api_host}}"
 									],
 									"port": "8443",
 									"path": [
@@ -333,10 +333,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -346,10 +346,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/users/logout",
+							"raw": "https://{{gustosa_api_host}}:8443/api/users/logout",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{gustosa_api_host}}"
 							],
 							"port": "8443",
 							"path": [
@@ -366,10 +366,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:8443/api/users/logout",
+									"raw": "https://{{gustosa_api_host}}:8443/api/users/logout",
 									"protocol": "https",
 									"host": [
-										"localhost"
+										"{{gustosa_api_host}}"
 									],
 									"port": "8443",
 									"path": [
@@ -379,10 +379,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -392,10 +392,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/users/profileImage",
+							"raw": "https://{{gustosa_api_host}}:8443/api/users/profileImage",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{gustosa_api_host}}"
 							],
 							"port": "8443",
 							"path": [
@@ -412,10 +412,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:8443/api/users/profileImage?id=1",
+									"raw": "https://{{gustosa_api_host}}:8443/api/users/profileImage?id=1",
 									"protocol": "https",
 									"host": [
-										"localhost"
+										"{{gustosa_api_host}}"
 									],
 									"port": "8443",
 									"path": [
@@ -431,10 +431,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -454,10 +454,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/users/profileImage",
+							"raw": "https://{{gustosa_api_host}}:8443/api/users/profileImage",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{gustosa_api_host}}"
 							],
 							"port": "8443",
 							"path": [
@@ -490,10 +490,10 @@
 									]
 								},
 								"url": {
-									"raw": "https://localhost:8443/api/users/profileImage?id=1",
+									"raw": "https://{{gustosa_api_host}}:8443/api/users/profileImage?id=2",
 									"protocol": "https",
 									"host": [
-										"localhost"
+										"{{gustosa_api_host}}"
 									],
 									"port": "8443",
 									"path": [
@@ -504,15 +504,67 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "1"
+											"value": "2"
 										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get_users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/users/users",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"users",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get_users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/users/users?pageNumber=0",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"users",
+										"users"
+									],
+									"query": [
+										{
+											"key": "pageNumber",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				}
@@ -527,10 +579,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/bookings/bookings",
+							"raw": "https://{{gustosa_api_host}}:8443/api/bookings/bookings",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{gustosa_api_host}}"
 							],
 							"port": "8443",
 							"path": [
@@ -540,7 +592,1819 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "get_booking",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/bookings/bookings",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"bookings",
+										"bookings"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "put_booking",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/bookings/bookings?",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"bookings",
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "put_booking",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/bookings/bookings?id=1&action=0",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"bookings",
+										"bookings"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										},
+										{
+											"key": "action",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "post_booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/bookings/bookings?",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"bookings",
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "post_booking",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/bookings/bookings?numPeople=1&tlfNumber=1&date=Manana&hour=2",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"bookings",
+										"bookings"
+									],
+									"query": [
+										{
+											"key": "numPeople",
+											"value": "1"
+										},
+										{
+											"key": "tlfNumber",
+											"value": "1"
+										},
+										{
+											"key": "date",
+											"value": "Manana"
+										},
+										{
+											"key": "hour",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "get_products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/products",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "products",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/products?page=1",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get_productsImages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/productImages",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"productImages"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "productsImages",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/productImages?id=2&idImage=0",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"productImages"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "2"
+										},
+										{
+											"key": "idImage",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get_individualProduct",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/individualProduct",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"individualProduct"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "individualProduct",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/individualProduct?id=1",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"individualProduct"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "post_cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/cart",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"cart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "productToCart",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/cart?id=5",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"cart"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "post_comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/comment",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"comment"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "comment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/comment?id=6&content=Muy bueno&stars=8",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"comment"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "6"
+										},
+										{
+											"key": "content",
+											"value": "Muy bueno"
+										},
+										{
+											"key": "stars",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "post_product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/product",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"product"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "post_product",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/product?name=Taco Pastor&price=20&description=Tortilla de maíz rellena con carne de cerdo&tags=Cerdo, Entrante",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"product"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Taco Pastor"
+										},
+										{
+											"key": "price",
+											"value": "20"
+										},
+										{
+											"key": "description",
+											"value": "Tortilla de maíz rellena con carne de cerdo"
+										},
+										{
+											"key": "tags",
+											"value": "Cerdo, Entrante"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "put_product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/product",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"product"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "modify_product",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/product?id=15&name=Croquetas Españolas&price=10",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"product"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "15"
+										},
+										{
+											"key": "name",
+											"value": "Croquetas Españolas"
+										},
+										{
+											"key": "description",
+											"value": "Nueva descripción",
+											"disabled": true
+										},
+										{
+											"key": "tags",
+											"value": "Nuevas tags",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "delete_product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/product",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"product"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete_product",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/product?id=12",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"product"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "delete_image",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/image",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"image"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete_image",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/image?id=2",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"image"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "post_image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/products/image",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"products",
+								"image"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "post_image",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "imageFile",
+											"type": "file",
+											"src": "user.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/products/image?id=2",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"products",
+										"image"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "get_cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/carts/cart",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"carts",
+								"cart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "cart",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/carts/cart",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"carts",
+										"cart"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "put_moreQuantity",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/carts/moreQuantity",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"carts",
+								"moreQuantity"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "increaseQuantity",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/carts/moreQuantity?id=12",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"carts",
+										"moreQuantity"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "put_lessQuantity",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/carts/lessQuantity",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"carts",
+								"lessQuantity"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "decreaseQuantity",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/carts/lessQuantity?id=12",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"carts",
+										"lessQuantity"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "delete_item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/carts/item",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"carts",
+								"item"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete_item",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/carts/item?id=12",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"carts",
+										"item"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get_checkout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/carts/checkout",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"carts",
+								"checkout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get_checkout",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/carts/checkout",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"carts",
+										"checkout"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "post_checkout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/carts/checkout",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"carts",
+								"checkout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "post_checkout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/carts/checkout",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"carts",
+										"checkout"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "post_coupon",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/carts/redeem",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"carts",
+								"redeem"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "redeemCoupon",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/carts/coupon?code=GUSTOSA20",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"carts",
+										"coupon"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "GUSTOSA20"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "post_couponFree",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/carts/couponFree",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"carts",
+								"couponFree"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "unredeemCoupon",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/carts/couponFree",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"carts",
+										"couponFree"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "menu",
+			"item": [
+				{
+					"name": "get_menu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/menu/menu",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"menu",
+								"menu"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get_menu",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/menu/menu",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"menu",
+										"menu"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "put_menu",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/menu/menu",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"menu",
+								"menu"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "put_menu",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"Hello\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/menu/menu",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"menu",
+										"menu"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "coupon",
+			"item": [
+				{
+					"name": "get_coupons",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/coupons/coupons",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"coupons",
+								"coupons"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get_coupons",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/coupons/coupons?page=0",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"coupons",
+										"coupons"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "post_coupon",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/coupons/coupon",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"coupons",
+								"coupon"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "post_coupon",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/coupons/coupon?code=PROMOCION30&discount=30&usesRemaining=1&userEmail=alejandro%40gmail.com",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"coupons",
+										"coupon"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "PROMOCION30"
+										},
+										{
+											"key": "discount",
+											"value": "30"
+										},
+										{
+											"key": "usesRemaining",
+											"value": "1"
+										},
+										{
+											"key": "userEmail",
+											"value": "alejandro%40gmail.com"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "put_coupon",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/coupons/coupon",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"coupons",
+								"coupon"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "put_coupon",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/coupons/coupon?id=1&code=GUSTOSA50&discount=50&newserEmail=admin%40admin&uses=5",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"coupons",
+										"coupon"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										},
+										{
+											"key": "code",
+											"value": "GUSTOSA50"
+										},
+										{
+											"key": "discount",
+											"value": "50"
+										},
+										{
+											"key": "newserEmail",
+											"value": "admin%40admin"
+										},
+										{
+											"key": "uses",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "delete_coupon",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/coupons/coupon",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"coupons",
+								"coupon"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete_coupon",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/coupons/coupon?id=3",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"coupons",
+										"coupon"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "get_comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/comments/comments",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"comments",
+								"comments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get_comments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/comments/comments?page=0",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"comments",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "delete_comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/comments/comment",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"comments",
+								"comment"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete_comment",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/comments/comment?id=2",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"comments",
+										"comment"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "get_orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/orders/orders",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"orders",
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get_orders",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/orders/orders?page=0",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"orders",
+										"orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "put_orderStatus",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/orders/orderStatus",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"orders",
+								"orderStatus"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "put_orderStatus",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/orders/orderStatus?id=7",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"orders",
+										"orderStatus"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "delete_order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/orders/order",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"orders",
+								"order"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete_order",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/orders/order?id=7",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"orders",
+										"order"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "get_statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gustosa_api_host}}:8443/api/admin/statistics",
+							"protocol": "https",
+							"host": [
+								"{{gustosa_api_host}}"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"admin",
+								"statistics"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get_statistics",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{gustosa_api_host}}:8443/api/admin/statistics",
+									"protocol": "https",
+									"host": [
+										"{{gustosa_api_host}}"
+									],
+									"port": "8443",
+									"path": [
+										"api",
+										"admin",
+										"statistics"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
 				}
 			]
 		}
@@ -566,9 +2430,10 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"pm.sendRequest(\"https://localhost:8443/api/users/login?email=admin@admin&password=1234\", function (err, response) {",
+					"g = pm.collectionVariables.get(\"gustosa_api_host\");",
+					"pm.sendRequest(\"https://\"+g+\":8443/api/users/login?email=admin@admin&password=1234\", function (err, response) {",
 					"    if(response.status != 200) return;",
-					"    pm.collectionVariables.set(\"JSSESIONID\", response.json()[\"JSESSIONID\"]);",
+					"    //pm.collectionVariables.set(\"JSSESIONID\", response.json()[\"JSESSIONID\"]);",
 					"});"
 				]
 			}
@@ -587,6 +2452,10 @@
 		{
 			"key": "JSSESIONID",
 			"value": ""
+		},
+		{
+			"key": "gustosa_api_host",
+			"value": "44.206.226.223"
 		}
 	]
 }

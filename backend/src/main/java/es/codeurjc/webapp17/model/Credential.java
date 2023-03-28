@@ -27,6 +27,7 @@ public class Credential {
 
     private String providerId;
 
+    @JsonIgnore
     private String passwordHash;
 
     public Credential(){}

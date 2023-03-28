@@ -24,7 +24,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.webapp17.model.Booking;
 import es.codeurjc.webapp17.service.UsersService;
-
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
 
 @RestController
 @RequestMapping(Tools.API_HEADER + "/bookings/")
@@ -58,8 +60,15 @@ public class BookingsApiController {
         return map;
     }
 
-    @PutMapping("/booking")
+    @PutMapping("/bookings")
     @Operation(summary = "Change booking state")
+    @ApiResponses(value = { 
+        @ApiResponse(
+                responseCode = "200", 
+                description = "Change Accepted", 
+                content = @Content
+                )
+    })
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> changeBooking(Model model, @RequestParam(name = "id") Long id, 
         @RequestParam(name = "action") int action, HttpServletRequest request) {
@@ -67,8 +76,15 @@ public class BookingsApiController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/bookings/booking")).build();
     }
 
-    @PostMapping("/booking")
+    @PostMapping("/bookings")
     @Operation(summary = "Add booking")
+    @ApiResponses(value = { 
+        @ApiResponse(
+                responseCode = "200", 
+                description = "Change Accepted", 
+                content = @Content
+                )
+    })
     @NeedsSecurity(role=Tools.Role.USER)
     public Object addBooking(Model model, HttpServletRequest request, 
     @RequestParam(name="numPeople", required = true)int num, @RequestParam(name="tlfNumber", required = true)String tlf,
