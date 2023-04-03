@@ -29,7 +29,7 @@ public class MenuApiController {
     GeneralInfoService generalInfoService;
 
 
-    @GetMapping("/menu")
+    @GetMapping("/")
     @NeedsSecurity(role=Tools.Role.NONE)
     @Operation(summary = "Get menu")
 	@ApiResponses(value = { 
@@ -50,7 +50,7 @@ public class MenuApiController {
         return generalInfoService.getMenu();
     }
 
-    @PutMapping("/menu")
+    @PutMapping("/")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     @Operation(summary = "Modify menu")
 	@ApiResponses(value = { 
@@ -69,6 +69,6 @@ public class MenuApiController {
     })
     public ResponseEntity<Object> postMenu(HttpServletRequest request, @RequestBody Map<String, Object> payload) {
         generalInfoService.setMenu(payload);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/menu/menu")).build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/menu")).build();
     }
 }

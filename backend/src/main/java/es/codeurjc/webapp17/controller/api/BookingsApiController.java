@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +24,13 @@ import es.codeurjc.webapp17.tools.Tools;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.webapp17.model.Booking;
+import es.codeurjc.webapp17.model.request.BookingRequests.ChangeBookingRequest;
+import es.codeurjc.webapp17.model.request.BookingRequests.CreateBookingRequest;
 import es.codeurjc.webapp17.service.UsersService;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping(Tools.API_HEADER + "/bookings/")
@@ -42,7 +46,7 @@ public class BookingsApiController {
     PermissionsService permissionsService;
 
     @Operation(summary = "Get bookings")
-    @GetMapping("/bookings")
+    @GetMapping("/")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public HashMap<String,Object> getBookings(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
         HashMap<String,Object> map = new HashMap<>();
@@ -60,7 +64,7 @@ public class BookingsApiController {
         return map;
     }
 
-    @PutMapping("/bookings")
+    @PutMapping("/{id}")
     @Operation(summary = "Change booking state")
     @ApiResponses(value = { 
         @ApiResponse(
@@ -70,13 +74,13 @@ public class BookingsApiController {
                 )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> changeBooking(Model model, @RequestParam(name = "id") Long id, 
-        @RequestParam(name = "action") int action, HttpServletRequest request) {
-        generalInfoService.bookingApplyState(id, action);
+    public ResponseEntity<Object> changeBooking(Model model, @PathVariable(name = "id") Long id, 
+        @RequestBody ChangeBookingRequest changeBookingRequest, HttpServletRequest request) {
+        generalInfoService.bookingApplyState(id, changeBookingRequest.getAction());
         return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/bookings/booking")).build();
     }
 
-    @PostMapping("/bookings")
+    @PostMapping("/")
     @Operation(summary = "Add booking")
     @ApiResponses(value = { 
         @ApiResponse(
@@ -87,10 +91,10 @@ public class BookingsApiController {
     })
     @NeedsSecurity(role=Tools.Role.USER)
     public Object addBooking(Model model, HttpServletRequest request, 
-    @RequestParam(name="numPeople", required = true)int num, @RequestParam(name="tlfNumber", required = true)String tlf,
-    @RequestParam(name="date", required = true) String date, @RequestParam(name="hour", required = true) String hour) {
+    @RequestBody CreateBookingRequest bookingRequest) {
         if(permissionsService.isUserLoggedIn(request, usersService)){
-            usersService.addBookingToUser(request.getUserPrincipal().getName(), new Booking(null, date+" "+hour, num, tlf));
+            usersService.addBookingToUser(request.getUserPrincipal().getName(), new Booking(null, bookingRequest.getDate()
+            +" "+bookingRequest.getHour(), bookingRequest.getNumPeople(), bookingRequest.getTlf()));
             return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/bookings/booking")).build();
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
