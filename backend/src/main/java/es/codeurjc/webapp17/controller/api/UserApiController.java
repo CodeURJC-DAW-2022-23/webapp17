@@ -14,8 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -26,6 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import es.codeurjc.webapp17.model.UserProfile;
+import es.codeurjc.webapp17.model.request.UsersRequests;
+import es.codeurjc.webapp17.model.request.UsersRequests.CreateUserRequest;
+import es.codeurjc.webapp17.model.request.UsersRequests.LoginRequest;
+import es.codeurjc.webapp17.model.request.UsersRequests.ModifyUserRequest;
+import es.codeurjc.webapp17.model.request.UsersRequests.UserInfoRequest;
 import es.codeurjc.webapp17.service.PermissionsService;
 import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
@@ -50,7 +57,7 @@ public class UserApiController {
 
 
 	//Image
-	@GetMapping("/profileImage")
+	@GetMapping("/{id}/image")
     @Operation(summary = "Get user image")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -66,7 +73,7 @@ public class UserApiController {
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
     public ResponseEntity<Object> downloadImage(@Parameter(description = "id of the user") 
-	@RequestParam long id) throws SQLException, IOException {
+	@PathVariable long id) throws SQLException, IOException {
         ResponseEntity<Object> res = usersService.getUserImage(id);
         if (res != null) {
             return res;
@@ -75,7 +82,7 @@ public class UserApiController {
         }	
     }
 
-	@PostMapping(value="/profileImage",
+	@PostMapping(value="/{id}/image",
 	consumes = {
 		"multipart/form-data"
 	})
@@ -98,7 +105,7 @@ public class UserApiController {
 				content = @Content
 				) 		
 	})
-    public ResponseEntity<Object> uploadImage(@RequestParam long id, @RequestPart MultipartFile imageFile, HttpServletRequest request) throws SQLException, IOException {
+    public ResponseEntity<Object> uploadImage(@PathVariable long id, @RequestPart MultipartFile imageFile, HttpServletRequest request) throws SQLException, IOException {
 
 		if((permissionsService.isUserLoggedIn(request, usersService) && usersService.getUser(request.getUserPrincipal().getName()).getID().equals(id))
 			|| permissionsService.canEditUsers(request, usersService)){
@@ -133,10 +140,11 @@ public class UserApiController {
 	})
 	@JsonView(UserProfile.class)
     public @ResponseBody Object getUserInfo(HttpServletRequest request,
-	@RequestParam(name="email", required = false) String email){
+	@RequestBody(required = false) UserInfoRequest email){
 		if(permissionsService.canViewUsers(request, usersService)){
-			Map<String,Object> ui = usersService.getUserInfo(email);
+			Map<String,Object> ui = usersService.getUserInfo(email.getEmail());
             if(ui != null){
+
                 return ui;
             }
 		}
@@ -172,10 +180,11 @@ public class UserApiController {
 				) 		
 	})
     public ResponseEntity<Object> modifyUser(HttpServletRequest request, 
-	@RequestParam(name="email", required = false) String email,
-    @RequestParam(name="newName", required = false) String name, @RequestParam(name="newBio", required = false) String newBio,
-	@RequestParam(name="newPassword", required = false) String newPassword){
-        
+	@RequestBody ModifyUserRequest user){
+        String email = user.getEmail();
+		String name = user.getName();
+		String newBio = user.getNewBio();
+		String newPassword = user.getNewPassword();
 		String emailToChange = "";
 		if(permissionsService.canEditUsers(request, usersService) && email != null){
 			emailToChange = email;
@@ -223,10 +232,10 @@ public class UserApiController {
 	})
 	@DeleteMapping("/user")
     @NeedsSecurity(role = Tools.Role.USER)
-    public ResponseEntity<Object> changeDescriptionPost(HttpServletRequest request, @RequestParam(name="email", required = false) String email) throws ServletException{
+    public ResponseEntity<Object> changeDescriptionPost(HttpServletRequest request, @RequestBody(required = false) UserInfoRequest email) throws ServletException{
         if(permissionsService.isUserLoggedIn(request, usersService)){
-			if(permissionsService.canEditUsers(request, usersService) && email != null){
-				if(usersService.removeUser(email))
+			if(permissionsService.canEditUsers(request, usersService) && email.getEmail() != null){
+				if(usersService.removeUser(email.getEmail()))
 					return ResponseEntity.ok().build();
 				else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
@@ -252,13 +261,9 @@ public class UserApiController {
 	})
 	@PostMapping("/user")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> createUser(@RequestParam("role") String role,
-                                       @RequestParam("name") String name,
-                                       @RequestParam("email") String email,
-                                       @RequestParam(value = "bio", required = false) String bio,
-                                       @RequestParam("password") String password) throws IOException{
-        Boolean admin = role.equals("admin");
-        usersService.registerUserFromForm(name, password, email, bio, admin);
+    public ResponseEntity<Object> createUser(@RequestBody CreateUserRequest user) throws IOException{
+        Boolean admin = user.getRole().equals("admin");
+        usersService.registerUserFromForm(user.getName(), user.getPassword(), user.getEmail(), user.getBio(), admin);
         return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/users/user")).build();
     }
 
@@ -310,9 +315,9 @@ public class UserApiController {
 	})
 	@GetMapping("/login")
     @NeedsSecurity(role=Tools.Role.NONE)
-    public @ResponseBody Object login(@RequestParam String email, @RequestParam String password, HttpServletRequest request) {
+    public @ResponseBody Object login(HttpServletRequest request, @RequestBody LoginRequest loginRequest) {
 		try {
-			request.login(email, password);
+			request.login(loginRequest.getEmail(), loginRequest.getPassword());
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
