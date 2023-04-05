@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,7 +52,7 @@ public class CommentsApiController {
                 content = @Content
             ),
 	})
-	@GetMapping("/comments")
+	@GetMapping("/")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public Object showComments(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -93,9 +94,9 @@ public class CommentsApiController {
                 content = @Content
 			),        
 	})
-	@DeleteMapping("/comment")
+	@DeleteMapping("/{id}")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> deleteComment(@RequestParam(name="id") String id){
+    public ResponseEntity<Object> deleteComment(@PathVariable(name = "id") String id){
         if(commentsService.removeComment(Long.parseLong(id))){
             return ResponseEntity.ok().build();
         }else{

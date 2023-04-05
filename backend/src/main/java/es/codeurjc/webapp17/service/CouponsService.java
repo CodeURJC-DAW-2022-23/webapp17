@@ -69,16 +69,17 @@ public class CouponsService {
         }
     }
 
-    public Boolean createCoupon(int usesRemaining, int discount, String code, String User){
+    public long createCoupon(int usesRemaining, int discount, String code, String User){
         Coupon coupon = new Coupon(discount,code, usesRemaining);
         List<UserProfile> user = usersService.getUsersRepo().findByEmail(User);
         if(!user.isEmpty()){
             coupon.setUser(user.get(0));
             user.get(0).getCoupons().add(coupon);
-            usersService.getUsersRepo().saveAndFlush(user.get(0));
-            return true;
+            UserProfile userModified = usersService.getUsersRepo().saveAndFlush(user.get(0));
+            long id = userModified.getCoupons().get(userModified.getCoupons().size() - 1).getId();
+            return id;
         }else{
-            return false;
+            return -1;
         }
     }
 }

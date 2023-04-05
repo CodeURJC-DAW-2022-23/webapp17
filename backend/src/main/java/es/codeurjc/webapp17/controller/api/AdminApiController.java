@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 
 
     @RestController
-    @RequestMapping(Tools.API_HEADER + "/admin/")
+    @RequestMapping(Tools.API_HEADER + "/statistics/")
 public class AdminApiController {
 
 
@@ -45,7 +45,7 @@ public class AdminApiController {
     @Autowired
     CartsService cartsService;
     
-    @GetMapping("/statistics")
+    @GetMapping("/")
     @Operation(summary = "See the statistics")
 	@ApiResponses(value = { 
         @ApiResponse(
