@@ -9,14 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.codeurjc.webapp17.model.request.ProductsRequests.CreateProductsRequest;
+import es.codeurjc.webapp17.model.request.ProductsRequests.ModifyProductsRequest;
 import es.codeurjc.webapp17.service.ProductsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
@@ -131,11 +135,11 @@ public class ProductsApiController {
         return map;
     }
 
-	@PutMapping("/product")
+	@PutMapping("/{id}")
 	@Operation(summary = "Modify the fields of a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
-					responseCode = "200", 
+					responseCode = "202", 
 					description = "Product modified succesfully", 
 					content = @Content
 					),
@@ -151,22 +155,20 @@ public class ProductsApiController {
 							) 
 	})
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> modifyProduct(@RequestParam("id") String id,
-                                       @RequestParam("name") String name,
-                                       @RequestParam(value = "description", required = false) String description,
-                                       @RequestParam(value = "tags", required = false) String tags,
-                                       @RequestParam("price") Float price) {
-	String[] tagsArray = null;
-	if(tags != null){
-		tagsArray = tags.split(", ");
-	}
-        if(productsService.modifyProduct(Long.parseLong(id), name, price, description, tagsArray)){
-			return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/products/product")).build();
+    public ResponseEntity<Object> modifyProduct(@PathVariable("id") String id,
+								@RequestBody ModifyProductsRequest request) {
+		
+		String[] tagsArray = null;
+		if(request.getTags() != null){
+			tagsArray = request.getTags().split(", ");
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			if(productsService.modifyProduct(Long.parseLong(id), request.getName(), request.getPrice(), request.getDescription(), tagsArray)){
+				return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/products/" + id)).build();
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @DeleteMapping("/product")
+    @DeleteMapping("/{id}")
 	@Operation(summary = "Remove a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -186,7 +188,7 @@ public class ProductsApiController {
 							)
 	})
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> removeProduct(@RequestParam(name="id") long id) {
+    public ResponseEntity<Object> removeProduct(@PathVariable(name="id") long id) {
         if(productsService.deleteProduct(id)){
 			return ResponseEntity.ok().build();
 		}else{
@@ -194,11 +196,11 @@ public class ProductsApiController {
 		}
     }
 
-    @PostMapping("/product")
+    @PostMapping("/{id}")
 	@Operation(summary = "Create a new product")
 	@ApiResponses(value = { 
 			@ApiResponse(
-					responseCode = "200", 
+					responseCode = "201", 
 					description = "Product created succesfully", 
 					content = @Content
 					),
@@ -209,17 +211,14 @@ public class ProductsApiController {
 							)
 	})
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> addProduct(@RequestParam("name") String name,
-                                       @RequestParam("price") String price,
-                                       @RequestParam(value = "description", required = false) String description,
-                                       @RequestParam(value = "tags", required = false) String tags){
+    public ResponseEntity<Object> addProduct(@RequestBody CreateProductsRequest request){
         
 	String[] tagsArray = {""};
-	if(tags != null){
-		tagsArray = tags.split(", ");
+	if(request.getTags() != null){
+		tagsArray = request.getTags().split(", ");
 	}
-        productsService.addProduct(name, Float.parseFloat(price), description, tagsArray);
-		return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/products/product")).build();
+        long id = productsService.addProduct(request.getName(), Float.parseFloat(request.getPrice()), request.getDescription(),tagsArray);
+		return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/products/" + id)).build();
 
     }
     
