@@ -196,7 +196,7 @@ public class ProductsApiController {
 		}
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/")
 	@Operation(summary = "Create a new product")
 	@ApiResponses(value = { 
 			@ApiResponse(
