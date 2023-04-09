@@ -11,13 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.codeurjc.webapp17.model.Coupon;
+import es.codeurjc.webapp17.model.request.CouponsRequests.CreateCouponsRequest;
+import es.codeurjc.webapp17.model.request.CouponsRequests.ModifyCouponsRequest;
 import es.codeurjc.webapp17.service.CouponsService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
@@ -53,7 +57,7 @@ public class CouponsApiController {
 				content = @Content
 				),
 	})
-	@GetMapping("/coupons")
+	@GetMapping("/")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public Object showCoupons(Model model, @RequestParam(defaultValue = "0") int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -75,12 +79,12 @@ public class CouponsApiController {
         }        
     }
 
-    @PutMapping("/coupon")
+    @PutMapping("/{id}")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     @Operation(summary = "Modify a coupon through his id, introducing all the parameters")
     @ApiResponses(value = { 
         @ApiResponse(
-            responseCode = "200", 
+            responseCode = "202", 
             description = "Comment modified succesfully", 
             content = {@Content(
                 mediaType = "application/json"
@@ -107,14 +111,12 @@ public class CouponsApiController {
             content = @Content
         ),                 
     })
-    public ResponseEntity<Object> modifyCoupon(@RequestParam("id") String id,
-                                       @RequestParam("code") String code,
-                                       @RequestParam("discount") String discount,
-                                       @RequestParam("newserEmail") String newUserEmail,
-                                       @RequestParam("uses") int uses) {
-        int status = couponsService.modifyCoupon(Long.parseLong(id), uses, Float.parseFloat(discount), code, newUserEmail);
+    public ResponseEntity<Object> modifyCoupon(@PathVariable(name = "id") String id,
+                                        @RequestBody ModifyCouponsRequest couponsRequest) {
+        int status = couponsService.modifyCoupon(Long.parseLong(id), couponsRequest.getUses(), 
+        Float.parseFloat(couponsRequest.getDiscount()), couponsRequest.getCode(), couponsRequest.getNewUserEmail());
         if(status==0){
-            return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/coupons/coupon")).build();
+            return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/coupons/" + id)).build();
         }else if(status==1){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }else if(status==2){
@@ -144,9 +146,9 @@ public class CouponsApiController {
             content = @Content
         ),        
 })
-    @DeleteMapping("/coupon")
+    @DeleteMapping("/{id}")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> removeCoupon(@RequestParam(name="id") String id){
+    public ResponseEntity<Object> removeCoupon(@PathVariable(name="id") String id){
         if(couponsService.removeCoupon(Long.parseLong(id))){
             return ResponseEntity.ok().build();
         }else{
@@ -157,7 +159,7 @@ public class CouponsApiController {
     @Operation(summary = "Create a coupon introducing all the parameters")
     @ApiResponses(value = { 
         @ApiResponse(
-            responseCode = "200", 
+            responseCode = "201", 
             description = "Comment added succesfully", 
             content = {@Content(
                 mediaType = "application/json"
@@ -174,14 +176,14 @@ public class CouponsApiController {
             content = @Content
         ),        
 })
-    @PostMapping("/coupon")
+    @PostMapping("/")
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> createCoupon(@RequestParam("code") String code,
-                                       @RequestParam("discount") String discount,
-                                       @RequestParam("usesRemaining") int uses,
-                                       @RequestParam("userEmail") String user) {
-        if(couponsService.createCoupon(uses, Integer.parseInt(discount), code, user)){
-            return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/coupons/coupon")).build();
+    public ResponseEntity<Object> createCoupon(@RequestBody CreateCouponsRequest couponsRequest) {
+        long newCoupon = couponsService.createCoupon(couponsRequest.getUses(),
+        Integer.parseInt(couponsRequest.getDiscount()),
+        couponsRequest.getCode(), couponsRequest.getUser());
+        if(newCoupon != -1){
+            return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/coupons/" + newCoupon)).build();
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

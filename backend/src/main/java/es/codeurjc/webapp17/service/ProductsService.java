@@ -124,12 +124,12 @@ public class ProductsService {
         return totalPages;
     }
 
-    public void addProduct(String name, Float price, String description, String[] tags){
+    public long addProduct(String name, Float price, String description, String[] tags){
         if (description == null){
             description = "";
         }
         Product product = new Product(name, description, price, tags);
-        getProductsRepo().saveAndFlush(product);
+        return getProductsRepo().saveAndFlush(product).getId();
     }
 
     public HashMap<String, Object> productsPaginated(int page, HttpServletRequest request) {
