@@ -21,6 +21,9 @@
             <div class="d-flex pe-3">
                 <a class="btn" id="user_button" href="/login">
                     Entrar
+                    <div *ngIf="user | async as resuser">
+                        {{resuser.name}}
+                    </div>
                 </a>
                 <a class="btn" href="\logout" id="logout_but" style="display:none">
                     <i class="bi bi-box-arrow-in-right"></i>
@@ -35,4 +38,4 @@
             </div>
         </div>
     </div>
-</nav>
+</nav> 
