@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.codeurjc.webapp17.model.request.ProductsRequests.GetCommentInfoRequest;
+import es.codeurjc.webapp17.model.request.ProductsRequests.GetPaginationRequest;
 import es.codeurjc.webapp17.model.request.ProductsRequests.CreateProductsRequest;
 import es.codeurjc.webapp17.model.request.ProductsRequests.ModifyProductsRequest;
 import es.codeurjc.webapp17.service.ProductsService;
@@ -38,7 +40,7 @@ public class ProductsApiController {
     ProductsService productsService;
 
 
-    @GetMapping("/products")
+    @GetMapping("/")
     @Operation(summary = "Get list of products paginated")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -61,7 +63,7 @@ public class ProductsApiController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @GetMapping("/productImages")
+    @GetMapping("/{id}/images/{idImage}")
     @Operation(summary = "Get list of images from a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -75,13 +77,13 @@ public class ProductsApiController {
 					content = @Content
 					) 
 	})
-    public ResponseEntity<Object> downloadImage(@RequestParam long id,@RequestParam int idImage) throws SQLException {
+    public ResponseEntity<Object> downloadImage(@PathVariable long id,@PathVariable int idImage) throws SQLException {
         ResponseEntity<Object> response = productsService.downloadImage(id, idImage);
         return response;
     }
 
 
-    @PostMapping("/comment")
+    @PostMapping("/comment/{id}")
     @Operation(summary = "Add a comment on a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -101,13 +103,12 @@ public class ProductsApiController {
 					) 
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public ResponseEntity<Object> addComment(HttpServletRequest request, @RequestParam long id,@RequestParam(name = "content") String content, 
-    @RequestParam(name = "stars") int stars) throws SQLException {
-        ResponseEntity<Object> response = productsService.addComment(request, id, content, stars);
+    public ResponseEntity<Object> addComment(HttpServletRequest request, @PathVariable long id,@RequestBody GetCommentInfoRequest commentInfo) throws SQLException {
+        ResponseEntity<Object> response = productsService.addComment(request, id, commentInfo.getContent(), commentInfo.getStars());
         return response;
     }
 
-    @PostMapping("/cart")
+    @PostMapping("/cart/{id}")
     @Operation(summary = "Add a product to the cart")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -127,7 +128,7 @@ public class ProductsApiController {
 					) 
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
-    public @ResponseBody Object addToCart(@RequestParam(name="id") long id, HttpServletRequest request) {
+    public @ResponseBody Object addToCart(@PathVariable(name="id") long id, HttpServletRequest request) {
         HashMap<String,Object> map = productsService.addToCart(id, request);
 		if (map.get("Login")=="true") {
 			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
@@ -223,7 +224,7 @@ public class ProductsApiController {
     }
     
 
-	@GetMapping("/individualProduct")
+	@GetMapping("/{id}")
     @Operation(summary = "Get the description of a product (individual)")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -238,7 +239,7 @@ public class ProductsApiController {
 					) 
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
-    public @ResponseBody Object getIndividualProduct(@RequestParam(name="id") long id, HttpServletRequest request) {
+    public @ResponseBody Object getIndividualProduct(@PathVariable(name="id") long id, HttpServletRequest request) {
         HashMap<String,Object> map = productsService.descriptionProduct(id, 0, request);
 		if (map.size()!=0){
 			return map;

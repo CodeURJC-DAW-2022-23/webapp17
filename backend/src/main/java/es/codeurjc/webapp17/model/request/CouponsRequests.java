@@ -37,8 +37,14 @@ public class CouponsRequests {
         }
         public String getUser() {
             return user;
-        }
+        }   
+    }
 
-        
+    public static class GetCouponRequest{
+        private String code;
+
+        public String getCode() {
+            return code;
+        }
     }
 }

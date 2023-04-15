@@ -9,12 +9,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.codeurjc.webapp17.model.request.CouponsRequests.GetCouponRequest;
 import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.service.PermissionsService;
 import es.codeurjc.webapp17.service.UsersService;
@@ -41,7 +44,7 @@ public class CartApiController {
 
 
 
-    @GetMapping("/cart")
+    @GetMapping("/")
     @Operation(summary = "Get the actual cart")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -74,7 +77,7 @@ public class CartApiController {
 
 
 
-    @DeleteMapping("/item")
+    @DeleteMapping("/item/{id}")
     @Operation(summary = "Deletes an item from cart")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -94,7 +97,7 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public Object deleteItem(@RequestParam long id, HttpServletRequest request){
+    public Object deleteItem(@PathVariable long id, HttpServletRequest request){
         try {
 			if (!permissionsService.isUserLoggedIn(request, usersService)) {
 				return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
@@ -109,7 +112,7 @@ public class CartApiController {
 
 
 
-    @PutMapping("/lessQuantity")
+    @PutMapping("/lessQuantity/{id}")
     @Operation(summary = "Decrease the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -129,7 +132,7 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public Object decreaseQuantity(@RequestParam long id, HttpServletRequest request){
+    public Object decreaseQuantity(@PathVariable long id, HttpServletRequest request){
     	try {
 			if (!permissionsService.isUserLoggedIn(request, usersService)) {
 				return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
@@ -143,7 +146,7 @@ public class CartApiController {
 
 
 
-    @PutMapping("/moreQuantity")
+    @PutMapping("/moreQuantity/{id}")
     @Operation(summary = "Increase the quantity of a cart product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -163,7 +166,7 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public Object increaseQuantity(@RequestParam long id, HttpServletRequest request){
+    public Object increaseQuantity(@PathVariable long id, HttpServletRequest request){
     	try {
 			if (!permissionsService.isUserLoggedIn(request, usersService)) {
 				return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
@@ -177,7 +180,7 @@ public class CartApiController {
     
 
 
-    @GetMapping("/checkout")
+    @GetMapping("/finalCart")
     @Operation(summary = "Get the actual checkout form")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -209,7 +212,7 @@ public class CartApiController {
     }
 
 
-    @PostMapping("/checkout")
+    @PostMapping("/finalCart")
     @Operation(summary = "Finalize the checkout")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -264,11 +267,11 @@ public class CartApiController {
 					)	
 	})
     @NeedsSecurity(role=Tools.Role.USER)
-    public ResponseEntity<Object> redeem(@RequestParam(name="code") String code, HttpServletRequest request) {
+    public ResponseEntity<Object> redeem(@RequestBody GetCouponRequest code, HttpServletRequest request) {
 		if (!permissionsService.isUserLoggedIn(request, usersService)) {
 			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
 		}
-        ResponseEntity<Object> response = cartsService.redeem(code, request);
+        ResponseEntity<Object> response = cartsService.redeem(code.getCode(), request);
         return response;
     }
 

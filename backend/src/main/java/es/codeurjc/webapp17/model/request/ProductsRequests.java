@@ -18,9 +18,7 @@ public class ProductsRequests {
         }
         public Float getPrice() {
             return price;
-        }
-
-               
+        }      
     }
 
     public static class CreateProductsRequest{
@@ -40,7 +38,25 @@ public class ProductsRequests {
         public String getTags() {
             return tags;
         }
+    }
 
-        
+    public static class GetPaginationRequest{
+        private int page;
+
+        public int getPage() {
+            return page;
+        }
+    }
+
+    public static class GetCommentInfoRequest{
+        private String content;
+        private int stars;
+
+        public String getContent() {
+            return content;
+        }
+        public int getStars() {
+            return stars;
+        }
     }
 }
