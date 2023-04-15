@@ -140,9 +140,9 @@ public class UserApiController {
 	})
 	@JsonView(UserProfile.class)
     public @ResponseBody Object getUserInfo(HttpServletRequest request,
-	@RequestBody(required = false) UserInfoRequest email){
+	@RequestParam(required = false, name = "email") String email){
 		if(permissionsService.canViewUsers(request, usersService)){
-			Map<String,Object> ui = usersService.getUserInfo(email.getEmail());
+			Map<String,Object> ui = usersService.getUserInfo(email);
             if(ui != null){
 
                 return ui;
@@ -315,9 +315,10 @@ public class UserApiController {
 	})
 	@GetMapping("/login")
     @NeedsSecurity(role=Tools.Role.NONE)
-    public @ResponseBody Object login(HttpServletRequest request, @RequestBody LoginRequest loginRequest) {
+    public @ResponseBody Object login(HttpServletRequest request, @RequestParam(name="email") String email, 
+	@RequestParam(name="password") String password) {
 		try {
-			request.login(loginRequest.getEmail(), loginRequest.getPassword());
+			request.login(email, password);
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();

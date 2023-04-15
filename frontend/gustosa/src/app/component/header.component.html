@@ -20,12 +20,14 @@
             </ul>
             <div class="d-flex pe-3">
                 <a class="btn" id="user_button" href="/login">
-                    Entrar
-                    <div *ngIf="user | async as resuser">
-                        {{resuser.name}}
+                    <div *ngIf="user | async as resuser; else loading">
+                        {{resuser["name"]}}
                     </div>
+                    <ng-template #loading>
+                        <div>Loading ...</div>
+                    </ng-template>
                 </a>
-                <a class="btn" href="\logout" id="logout_but" style="display:none">
+                <a class="btn" href="/logout" id="logout_but" style="display:none">
                     <i class="bi bi-box-arrow-in-right"></i>
                 </a>
             </div>
