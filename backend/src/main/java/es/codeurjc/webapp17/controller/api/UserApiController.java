@@ -141,14 +141,12 @@ public class UserApiController {
 	@JsonView(UserProfile.class)
     public @ResponseBody Object getUserInfo(HttpServletRequest request,
 	@RequestParam(required = false, name = "email") String email){
-		if(permissionsService.canViewUsers(request, usersService)){
+		if(email != null && permissionsService.canViewUsers(request, usersService)){
 			Map<String,Object> ui = usersService.getUserInfo(email);
             if(ui != null){
-
                 return ui;
             }
-		}
-        if(permissionsService.isUserLoggedIn(request, usersService)){
+		}else if(permissionsService.isUserLoggedIn(request, usersService)){
             Map<String,Object> ui = usersService.getUserInfo(request.getUserPrincipal().getName());
             if(ui != null){
                 return ui;

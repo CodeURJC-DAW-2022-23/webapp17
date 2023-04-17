@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../service/user.service';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'header',
@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent {
   user: Observable<any>;
+  isCollapsed:boolean;
   constructor(private userService: UserService){
-    this.user = userService.getTest(userService.getUser());
+    this.user = userService.getUser();
+    this.isCollapsed = true;
   }
 }

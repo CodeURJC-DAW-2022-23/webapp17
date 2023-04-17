@@ -5,6 +5,7 @@ import { BrowserAnimationsModule }
 import { HttpClientModule } from '@angular/common/http';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './component/app.component';
@@ -19,6 +20,7 @@ import { HeaderComponent } from './component/header.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
+    CollapseModule.forRoot(),
     HttpClientModule
   ],
   providers: [],
