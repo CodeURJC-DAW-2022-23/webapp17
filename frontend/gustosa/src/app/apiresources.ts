@@ -1,5 +1,6 @@
 export enum ApiResources {
     User = "users/user",
     Users = "users",
-    Login = "users/login"
+    Login = "users/login",
+    Logout = "users/logout"
 }

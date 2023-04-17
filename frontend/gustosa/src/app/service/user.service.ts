@@ -10,23 +10,30 @@ export class UserService {
 
     constructor(private httpClient: HttpClient) {}
 
-    getTest() : Observable<any>{
+    getTest(to:Observable<any>) : Observable<any>{
         var observable = new Observable<any>((subscriber) => {
                 console.log('Test Function');
-                this.login().subscribe(()=>{
-                    this.getUser().subscribe(response => { 
-                        subscriber.next(response);
-                        subscriber.complete();
+                this.logout().subscribe(()=>{
+                    this.login().subscribe(()=>{
+                        to.subscribe(response => { 
+                            subscriber.next(response);
+                            subscriber.complete();
+                        });
                     });
                 });
             });
         return observable;
     }
     
-    getUser() : Observable<any>{
+    getUser(email?:string) : Observable<any>{
         let url = environment.apiUrl+"/"+ApiResources.User;
         const err = new Error('Server error.');
-        return this.httpClient.get(url, { params:{"email":"test@test.com"}, withCredentials: true}).pipe(
+        var data = {};
+        if(email)
+            data = {
+                "email": email
+            }
+        return this.httpClient.get(url, { params:data, withCredentials: true}).pipe(
             map(response =>response),
             catchError(error => throwError(() => err))
         );
@@ -40,6 +47,15 @@ export class UserService {
         let url = environment.apiUrl+"/"+ApiResources.Login;
         const err = new Error('Server error.');
         return this.httpClient.get(url, { withCredentials: true, params:data}).pipe(
+            map(response =>response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    logout() : Observable<any>{
+        let url = environment.apiUrl+"/"+ApiResources.Logout;
+        const err = new Error('Server error.');
+        return this.httpClient.get(url, { withCredentials: true}).pipe(
             map(response =>response),
             catchError(error => throwError(() => err))
         );

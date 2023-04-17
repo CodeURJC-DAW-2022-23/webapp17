@@ -10,6 +10,6 @@ import { Observable } from 'rxjs';
 export class HeaderComponent {
   user: Observable<any>;
   constructor(private userService: UserService){
-    this.user = userService.getTest();
+    this.user = userService.getTest(userService.getUser());
   }
 }
