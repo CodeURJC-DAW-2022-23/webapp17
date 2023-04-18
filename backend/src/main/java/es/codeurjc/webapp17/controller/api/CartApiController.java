@@ -30,7 +30,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(Tools.API_HEADER + "/carts/")
+@RequestMapping(Tools.API_HEADER + "/carts")
 public class CartApiController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class CartApiController {
 
 
 
-    @GetMapping("/")
+    @GetMapping("")
     @Operation(summary = "Get the actual cart")
 	@ApiResponses(value = { 
 			@ApiResponse(

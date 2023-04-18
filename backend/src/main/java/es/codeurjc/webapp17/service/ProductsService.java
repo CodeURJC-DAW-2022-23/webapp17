@@ -167,6 +167,26 @@ public class ProductsService {
         return map;
     }
 
+    public HashMap<String, Object> productsPaginatedApi(int page, HttpServletRequest request) {
+        HashMap<String,Object> map = new HashMap<String, Object>();
+        try {
+            if(request.getUserPrincipal() != null){
+                UserProfile user = usersService.getUser(request.getUserPrincipal().getName());
+                if(user != null && !user.getOrders().isEmpty()){
+                    List<Long> recomendedProducts = usersService.getUsersRepo()
+                        .getRecomendedByProductList(user.getOrders().get(Math.max(user.getOrders().size()-2, 0)).getId());
+                    List<Product> products = getProductsRepo().findAllById(recomendedProducts);
+                    if(products.size() > 0){
+                        map.put("recommendedProducts", products.subList(0, Math.min(products.size(), 4)));
+                    }
+                }
+            }
+            map.put("page", getProducts(page, 8));
+        } catch (Exception ex) {}
+        
+        return map;
+    }
+
     public HashMap<String,Object> addToCart(long id, HttpServletRequest request){
     HashMap<String, Object> map = new HashMap<>();
         Product product = getProductsRepo().findById(id).get(0);

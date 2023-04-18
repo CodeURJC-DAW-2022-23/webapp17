@@ -33,14 +33,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(Tools.API_HEADER + "/products/")
+@RequestMapping(Tools.API_HEADER + "/products")
 public class ProductsApiController {
 
     @Autowired
     ProductsService productsService;
 
 
-    @GetMapping("/")
+    @GetMapping("")
     @Operation(summary = "Get list of products paginated")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -56,8 +56,8 @@ public class ProductsApiController {
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
     public Object products(@RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
-        HashMap<String,Object> map = productsService.productsPaginated(page, request);
-		if (map.get("product")!=null){
+        HashMap<String,Object> map = productsService.productsPaginatedApi(page, request);
+		if (!map.isEmpty()){
 			return map;
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -197,7 +197,7 @@ public class ProductsApiController {
 		}
     }
 
-    @PostMapping("/")
+    @PostMapping("")
 	@Operation(summary = "Create a new product")
 	@ApiResponses(value = { 
 			@ApiResponse(
