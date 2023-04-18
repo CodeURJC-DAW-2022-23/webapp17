@@ -1,0 +1,56 @@
+<!--Header-->
+<div class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder fade-in-big">La mejor comida brasileña</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Comida casera de calidad</p>
+        </div>
+    </div>
+</div>
+
+<section *ngIf="products | async as productsPackage" class="py-5">
+    <!--Recommended Products-->
+    <div *ngIf="productsPackage.recommendedProducts" class="container px-4 px-lg-5 mt-5 border rounded shadow-sm">
+        <!--Queda probarlo cuando funcione el login y el carrito--> Hola
+    </div>
+    <!--Products-->
+    <div id="listProducts" class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            
+
+            <div *ngFor="let elem of productsPackage.page.content" class="col mb-5">
+                <div class="card h-100">
+
+                    <!--Tags-->
+
+                    <!-- Product image-->
+                    <!--<img class="card-img-top" src="" alt="..." />-->
+                    <img src="/products/{{elem.id}}/image/0" style="height: 180px; object-fit: cover;" alt="...">       
+                    
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{elem["title"]}}</h5>
+                            <!-- Product price-->
+                            {{elem["price"]}} &euro;
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center mb-3">
+                            <!-- Hacer con description<a class="btn btn-outline-dark btn-smaller mt-auto" [routerLink]="['/description', elem.id]">Detalles</a>-->
+                        </div>
+                        <div class="text-center">
+                            <!-- Añadir al carrito <a class="btn btn-outline-dark mt-auto" id="add_but{{id}}" data-bs-toggle="popover" 
+                            data-bs-trigger="focus" data-bs-content="wdwd" onClick="javascript:addToCart({{id}})">Añadir al carrito</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div> </div>
+</section>
+        

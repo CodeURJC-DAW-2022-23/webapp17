@@ -10,10 +10,11 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './component/app.component';
 import { HeaderComponent } from './component/header.component';
+import { ProductsComponent } from './component/products.component';
 
 @NgModule({
   declarations: [
-    AppComponent, HeaderComponent
+    AppComponent, HeaderComponent, ProductsComponent
   ],
   imports: [
     BrowserModule,
