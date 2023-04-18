@@ -46,7 +46,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping(Tools.API_HEADER+"/users/")
+@RequestMapping(Tools.API_HEADER+"/users")
 public class UserApiController {
 
     @Autowired
@@ -286,14 +286,11 @@ public class UserApiController {
 				content = @Content
 				) 		
 	})
-	@GetMapping("/users")
+	@GetMapping("")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public @ResponseBody Object getUsers(@RequestParam(defaultValue = "0") int pageNumber) {
 		Page<UserProfile> page = usersService.getUsersRepo().findAll(PageRequest.of(pageNumber, 8));
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("users", page);
-
-		return map;
+		return page;
 	}
 
 	@Operation(summary = "Login")

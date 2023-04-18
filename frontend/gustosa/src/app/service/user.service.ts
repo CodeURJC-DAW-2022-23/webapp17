@@ -4,6 +4,7 @@ import { Observable, catchError, map, throwError, of } from 'rxjs';
 
 import { environment } from '../environment';
 import { ApiResources } from '../apiresources';
+import { Page } from '../model/pageable.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -62,6 +63,15 @@ export class UserService {
         const err = new Error('Server error.');
         return this.httpClient.get(url, { withCredentials: true}).pipe(
             map(response =>response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    getUsers() : Observable<any>{
+        let url = environment.apiUrl+"/"+ApiResources.Users;
+        const err = new Error('Server error.');
+        return this.httpClient.get(url, { withCredentials: true}).pipe(
+            map(response =>response as Page<any>),
             catchError(error => throwError(() => err))
         );
     }

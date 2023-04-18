@@ -13,5 +13,8 @@ export class HeaderComponent {
   constructor(private userService: UserService){
     this.user = userService.getUser();
     this.isCollapsed = true;
+
+    // Test line
+    userService.getUsers().subscribe({next : response => response, error : e => e});
   }
 }
