@@ -20,7 +20,7 @@
                             <!-- Product image-->
 
                             <!--<img class="card-img-top" src="" alt="..." />-->
-                            <img src="/products/{{elem.id}}/image/0" style="height: 180px; object-fit: cover;" alt="...">                    
+                            <img src="/api/products/{{elem.id}}/images/0" style="height: 180px; object-fit: cover;" alt="...">                    
                             
                             <!-- Product details-->
                             <div class="card-body p-4">
@@ -57,7 +57,7 @@
 
                     <!-- Product image-->
                     <!--<img class="card-img-top" src="" alt="..." />-->
-                    <img src="/products/{{elem.id}}/image/0" style="height: 180px; object-fit: cover;" alt="...">       
+                    <img src="/api/products/{{elem.id}}/images/0" style="height: 180px; object-fit: cover;" alt="...">       
                     
                     <!-- Product details-->
                     <div class="card-body p-4">
@@ -71,11 +71,12 @@
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center mb-3">
-                            Hacer con description<a class="btn btn-outline-dark btn-smaller mt-auto" href="/description?id={{elem.id}}">Detalles</a>
-                        </div>
-                        <div class="text-center">
-                            <!-- Añadir al carrito <a class="btn btn-outline-dark mt-auto" id="add_but{{id}}" data-bs-toggle="popover" 
-                            data-bs-trigger="focus" data-bs-content="wdwd" onClick="javascript:addToCart({{id}})">Añadir al carrito</a>-->
+                            <p class="row">{{elem["description"]}}</p>
+                            <a class="row btn btn-outline-dark btn-smaller mt-auto" href="/description?id={{elem.id}}">Detalles</a>
+                            <div class="text-center pt-3">
+                                <button [id]="'add'+elem.id" class="btn btn-outline-dark mt-auto" id="add_but" [popover]="'Producto añadido'"
+                                triggers="" (click)="addToCart($event, elem.id)">Añadir al carrito</button>
+                            </div>
                         </div>
                     </div>
                 </div>
