@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -8,9 +8,12 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class ModalComponent {
 
-    bsModalRef: BsModalRef | undefined;
+  bsModalRef: BsModalRef | undefined;
 
-    constructor(private modalService: BsModalService) {}
-  
+  constructor(private modalService: BsModalService, public modalRef: BsModalRef) {
+  }
 
+  cancel() {
+    this.modalRef.hide();
+  }
 }

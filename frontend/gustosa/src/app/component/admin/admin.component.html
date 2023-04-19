@@ -1,99 +1,62 @@
-<div class="sidebar"> <sidebar></sidebar></div>
-<div class="rest">
-    <div class="col">
-        <div class="row flex-lg-nowrap">
-        <script>
-        function editCoupon(button) {
-          // get the user ID from the button's data-id attribute
-          const couponId = button.getAttribute("data-id");
-          const couponCode = button.getAttribute("data-code");
-          const couponUsesRemaining = button.getAttribute("data-uses");
-          const couponUserEmail = button.getAttribute("data-user-email");
-          const couponUserId = button.getAttribute("data-user-id");
-          const couponDiscount = button.getAttribute("data-discount")
-          
-          // set the value of the modal's input field to the user ID
-          var modalInput = document.getElementById("coupon-code-input");
-          modalInput.value = couponCode;
-          modalInput = document.getElementById("coupon-discount-input");
-          modalInput.value = couponDiscount;
-          modalInput = document.getElementById("coupon-uses-input");
-          modalInput.value = couponUsesRemaining;
-          modalInput = document.getElementById("coupon-user-id");
-          modalInput.value = couponUserId;
-          modalInput = document.getElementById("coupon-id");
-          modalInput.value = couponId;
-          var select = document.getElementById("coupon-user-email-input");
-          var valueToSelect = couponUserEmail;
-          for (var i = 0; i < select.options.length; i++) {
-          if (select.options[i].value === valueToSelect) {
-            select.options[i].selected = true;
-          break;
-      }
-    }
-        }
-        function addCoupon(button) {      
-          // set the value of the modal's input field to the user ID
-          var modalInput = document.getElementById("coupon-code-input-creation");
-          modalInput.value = "";
-          modalInput = document.getElementById("coupon-discount-input-creation");
-          modalInput.value = "";
-          modalInput = document.getElementById("coupon-uses-input-creation");
-          modalInput.value = "";
-          modalInput = document.getElementById("coupon-user-input-creation");
-          modalInput.value = "";
-        }
-    </script>
-          <div class="col mb-3">
-            <div class="e-panel card">
-              <div class="card-body">
-                <div class="card-title">
-                  <h6 class="mr-2"><span>Gestión de Cupones</span></h6>
-                </div>
-                <div class="e-table">
-                  <div class="table-responsive table-lg mt-3">
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th class="max-width">Código</th>
-                          <th >Descuento</th>
-                          <th class="sortable">Cuenta asociada</th>
-                          <th >Usos restantes</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>              
-                        <tr>
-                          <td class="text-nowrap align-middle">CODE</td>
-                          <td class="text-nowrap align-left">DISCOUNT%</td>
-                          <td class="text-nowrap align-left">EMAIL</td>
-                          <td class="text-nowrap align-left">USES</td>
-                          <td class="text-center align-left">
-                            <div class="btn-group align-top">
-                                <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal-edit" onclick="editCoupon(this)">Editar</button>
-                                <a class="btn btn-sm btn-outline-secondary badge" type="button" href="/adminCoupons/removeCoupon?id=ID"><i class="fa fa-trash"></i></a>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="d-flex justify-content-center">
-                    <ul class="pagination mt-3 mb-0">
-                      <li class="page-item"><a  class="page-link"><<</a></li>
-                      <li class="page-item"><a  class="page-link">>></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-3 mb-3">
-            <div class="card">
-              <div class="card-body">
-                <div class="text-center px-xl-3">
-                    <button class="btn btn-primary" (click)="openModal()">Open modal</button>                </div>
-            </div>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<div>
+<div class = "rest">
+<div class="row">
+  <div class="col-lg-9">
+    <div class="e-panel card">
+      <div class="card-body">
+        <div class="card-title">
+          <h6 class="mr-2"><span>Gestión de Cupones</span></h6>
+        </div>
+        <div class="e-table">
+          <div class="table-responsive table-lg mt-3">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Descuento</th>
+                  <th>Cuenta asociada</th>
+                  <th>Usos restantes</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="coupons | async as couponPage">
+                <tr *ngFor="let coupon of couponPage.content">
+                  <td class="text-nowrap align-middle">{{coupon.code}}</td>
+                  <td class="text-nowrap align-left">{{coupon.discount}}%</td>
+                  <td class="text-nowrap align-left">{{coupon.userEmail}}</td>
+                  <td class="text-nowrap align-left">{{coupon.usesRemaining}}</td>
+                  <td class="text-center align-left">
+                    <div class="btn-group align-top">
+                      <button class="btn btn-sm btn-outline-secondary badge" (click)="openModal()">Editar</button>
+                      <a class="btn btn-sm btn-outline-secondary badge" type="button" (click)="onDelete(coupon.id)"><i class="fa fa-trash"></i></a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+        <div class="d-flex justify-content-center">
+          <ul class="pagination mt-3 mb-0">
+            <li class="page-item"><a class="page-link"><<</a></li>
+            <li class="page-item"><a class="page-link">>></a></li>
+          </ul>
+        </div>
       </div>
+    </div>
+  </div>
+  <div class="col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="text-center px-xl-3">
+          <button class="btn btn-primary" (click)="openModal()">Nuevo cupón</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="sidebar"><sidebar></sidebar></div>
+</div>

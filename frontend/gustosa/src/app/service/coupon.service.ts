@@ -26,4 +26,10 @@ export class CouponService {
         );
     }
 
+    deleteCoupon(id:string){
+        let url = environment.apiUrl+"/"+ApiResources.Coupon+"/"+id;
+        const err = new Error('Server error.');
+        return this.httpClient.delete(url, {withCredentials: true});
+    }
+
 }

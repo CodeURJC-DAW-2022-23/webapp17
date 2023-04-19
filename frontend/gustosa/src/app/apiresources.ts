@@ -4,6 +4,7 @@ export enum ApiResources {
     Login = "users/login",
     Logout = "users/logout",
     Coupons = "coupons",
+    Coupon = "coupons/coupon",
     Products = "products",
     Cart = "cart"
 }

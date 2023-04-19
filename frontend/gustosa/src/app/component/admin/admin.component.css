@@ -7,9 +7,14 @@
   }
   .rest {
     position:relative;
-    padding-left: 300px;
+    padding-left: 17%;
+  }
+  .sidebar {
+    position:fixed;
+    min-width: 17%;
   }
   .nav-link {
-    padding-top: 1rem;
-    padding-bottom: 0.25rem;
-}
+    font-size: 30px;
+  }
+
+  
