@@ -182,8 +182,17 @@ public class ProductsService {
                 }
             }
             map.put("page", getProducts(page, 8));
+            List<Product> listProducts = getProducts();
+            boolean moreProducts = true;
+            map.put("currentPage", page);
+            if (page<=getTotalPages(listProducts)-1){
+                //map.put("product", getProducts(page, pageSize));
+            } else {
+                moreProducts=false;
+                //map.put("product", null);
+            }
+            map.put("moreProducts", moreProducts);
         } catch (Exception ex) {}
-        
         return map;
     }
 

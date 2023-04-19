@@ -12,9 +12,9 @@ export class ProductsService {
 
     constructor(private httpClient: HttpClient) {}
 
-    getProducts() : Observable<any>{
-        let url = environment.apiUrl+"/"+ApiResources.Products;
-        const err = new Error('Server error.');
+    getProducts(page:number) : Observable<any>{
+        let url = environment.apiUrl+"/"+ApiResources.Products+'?page=' + page;
+        const err = new Error('Server error.');;
         return this.httpClient.get(url, { withCredentials: true }).pipe(
             map(response =>response as ProductsPackage),
             catchError(error => throwError(() => err))

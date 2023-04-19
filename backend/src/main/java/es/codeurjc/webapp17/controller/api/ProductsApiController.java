@@ -77,7 +77,7 @@ public class ProductsApiController {
 					content = @Content
 					) 
 	})
-    public ResponseEntity<Object> downloadImage(@PathVariable long id,@PathVariable int idImage) throws SQLException {
+    public ResponseEntity<Object> downloadImage(@RequestParam long id,@RequestParam int idImage) throws SQLException {
         ResponseEntity<Object> response = productsService.downloadImage(id, idImage);
         return response;
     }

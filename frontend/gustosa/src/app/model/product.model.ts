@@ -2,6 +2,8 @@ import { Page } from "./pageable.model";
 
 export interface ProductsPackage {
     page: Page<Product>;
+    currentPage: number;
+    moreProducts: boolean;
     recommendedProducts: Product[];
 }
 
