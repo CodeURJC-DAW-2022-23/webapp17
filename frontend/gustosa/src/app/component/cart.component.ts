@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { ProductsService } from '../service/products.service';
+import { CartService } from '../service/cart.service';
 import { Observable, catchError, map, of } from 'rxjs';
+import { SessionService } from '../service/session.service';
 
 @Component({
   selector: 'cart',
@@ -9,7 +10,16 @@ import { Observable, catchError, map, of } from 'rxjs';
 })
 
 export class CartComponent {
+
+  cart: Observable<any>;
     
+  constructor(private cartService : CartService, private sessionService : SessionService){
+      this.cart = cartService.getCart();
+      this.cart.subscribe((data) => {
+        console.log(data.cartItems);
+      });
+  }
+  
     
 
 }

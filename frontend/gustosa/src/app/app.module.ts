@@ -21,10 +21,13 @@ import { AdminComponent } from './component/admin/admin.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ModalComponent } from './component/admin/modal.component';
 import { SidebarComponent } from './component/admin/sidebar.component';
+import { CartComponent } from './component/cart.component';
 
 @NgModule({
   declarations: [
-    AppComponent, HeaderComponent, HomeComponent, ProductsComponent, AdminComponent, ModalComponent, SidebarComponent, LoginComponent, LogoutComponent
+    AppComponent, HeaderComponent, HomeComponent, ProductsComponent, 
+    AdminComponent, ModalComponent, SidebarComponent, LoginComponent,
+    LogoutComponent, CartComponent
   ],
   imports: [
     BrowserModule,

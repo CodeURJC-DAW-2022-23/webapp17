@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable, catchError, map, throwError } from "rxjs";
 import { environment } from "../environment";
 import { ApiResources } from "../apiresources";
+import { CartPackage } from "../model/cart.model";
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
@@ -17,11 +18,20 @@ export class CartService {
         );
     }
 
+    lessQuantity(id: number) : Observable<any>{
+        let url = environment.apiUrl+"/"+ApiResources.LessQuantity+"/"+id;
+        const err = new Error('Server error.');
+        return this.httpClient.put(url, { withCredentials: true }).pipe(
+            map(response => response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
     getCart(){
         let url = environment.apiUrl+"/"+ApiResources.Cart;
         const err = new Error('Server error.');
         return this.httpClient.get(url, { withCredentials: true }).pipe(
-            map(response =>response),
+            map(response => response as CartPackage),
             catchError(error => throwError(() => err))
         );
     }

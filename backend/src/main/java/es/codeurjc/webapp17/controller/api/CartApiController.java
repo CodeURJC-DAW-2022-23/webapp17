@@ -69,11 +69,11 @@ public class CartApiController {
 	})
     @NeedsSecurity(role=Tools.Role.USER)
     public Object cart(HttpServletRequest request) {
-        HashMap<String,Object> map = cartsService.cartAndCheckout(request);
+        HashMap<String,Object> map = cartsService.cartAndCheckoutApi(request);
         if (map.containsKey("notLogged")) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
-		else if (map.size()!=0) {
+		else if (!map.isEmpty()) {
             return map;
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

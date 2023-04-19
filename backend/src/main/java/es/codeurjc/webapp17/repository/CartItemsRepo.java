@@ -8,4 +8,5 @@ import es.codeurjc.webapp17.model.CartItem;
 
 public interface CartItemsRepo extends JpaRepository<CartItem, Long>{
     List<CartItem> findById(long id);
+    List<CartItem> findAll(); 
 }

@@ -1,4 +1,6 @@
 import { Page } from "./pageable.model";
+import { CartItem } from "./cart.model";
+import { Comment } from "./comment.model";
 
 export interface ProductsPackage {
     page: Page<Product>;
@@ -10,6 +12,11 @@ export interface ProductsPackage {
 export interface Product{
     title: string;
     price: number;
-    summary: string;
+    description: string;
     id: number;
+    comments: Comment[];
+    numberOfImages: number;
+    cartItems: CartItem[];
+    //Imágenes
 }
+
