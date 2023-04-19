@@ -9,13 +9,15 @@ import { Page } from '../model/pageable.model';
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-    constructor(private httpClient: HttpClient) {}
+    constructor(private httpClient: HttpClient) {
+        
+    }
 
     getTest(to:Observable<any>) : Observable<any>{
         var observable = new Observable<any>((subscriber) => {
                 console.log('Test Function');
                 this.logout().subscribe(()=>{
-                    this.login().subscribe(()=>{
+                    this.login("admin@admin", "1234").subscribe(()=>{
                         to.subscribe(response => { 
                             subscriber.next(response);
                             subscriber.complete();
@@ -45,10 +47,10 @@ export class UserService {
         );
     }
 
-    login() : Observable<any>{
+    login(email : string, password : string) : Observable<any>{
         var data = {
-            "email": "admin@admin",
-            "password": "1234"
+            "email": email,
+            "password": password
         }
         let url = environment.apiUrl+"/"+ApiResources.Login;
         const err = new Error('Server error.');

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { UserService } from '../service/user.service';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, concat, map, of, retry } from 'rxjs';
 import { Router } from '@angular/router';
+import { SessionService } from '../service/session.service';
 
 @Component({
   selector: 'logout',
@@ -9,7 +10,12 @@ import { Router } from '@angular/router';
   styleUrls: []
 })
 export class LogoutComponent {
-    constructor(private router: Router, userService:UserService){
-        userService.logout().subscribe(()=>router.navigateByUrl(""));
+    e : number = 12;
+    constructor(private router: Router, userService:UserService, sessionService : SessionService){
+        userService.logout().subscribe(()=>{
+          sessionService.updateProfile();
+          router.navigateByUrl("");
+        });
+        
     }
 }

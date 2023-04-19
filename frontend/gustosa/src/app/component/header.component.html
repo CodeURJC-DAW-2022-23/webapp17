@@ -19,9 +19,9 @@
                 <li id="admin"></li>
             </ul>
             <div class="d-flex pe-3">
-                <div  *ngIf="user | async as resuser; else login">
+                <div *ngIf="profile as resuser; else login">
                     <a class="btn" [routerLink]="['/user']">{{resuser["name"]}}</a>
-                    <a class="btn" href="\logout" id="logout_but">
+                    <a class="btn" [routerLink]="['/logout']" id="logout_but">
                         <i class="bi bi-box-arrow-in-right"></i>
                     </a>
                 </div>

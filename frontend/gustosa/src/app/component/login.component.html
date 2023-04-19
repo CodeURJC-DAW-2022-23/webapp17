@@ -1,1 +1,40 @@
-<div>Login</div>
+<section class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+    <div class="card p-4">
+        <div class="row p-2 display-5"><div class="col-auto">Iniciar sesión</div></div>
+        <div class="row">
+          <form name="f" (ngSubmit)="sumbitLoginForm()">
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <input type="email" id="email-input" name="username" class="form-control" [(ngModel)]="email" />
+                <label class="form-label" for="email-input">Correo electrónico</label>
+              </div>
+            
+              <!-- Password input -->
+              <div class="form-outline mb-4">
+                <input type="password" id="password-input" name="password" class="form-control" [(ngModel)]="password"/>
+                <label class="form-label" for="password-input">Contraseña</label>
+              </div>
+            
+              <!-- 2 column grid layout for inline styling -->
+              <div class="row mb-4">
+                <div class="col">
+                  <!-- Simple link -->
+                  <a id="forgot-password" href="javascript:changePassword()">¿Ha olvidado su contraseña?</a>
+                  <div id="changePasswordLayout"></div>
+                </div>
+              </div>
+            
+              <!-- Submit button -->
+              <input name="submit" type="submit" value="Enviar" class="btn btn-primary" />                   
+          </form>
+          <!-- Register buttons -->
+          <div class="text-center">
+            <p>¿Aún no está registrado? <a href="/register">Registrar</a></p>
+            <p>O inicia sesión con:</p>
+            <a type="button" class="btn btn-link btn-floating mx-1" href="e">
+              <i class="bi bi-google"></i>
+            </a>
+          </div>
+        </div>
+    </div>
+</section>
