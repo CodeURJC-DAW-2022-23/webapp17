@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './component/app.component';
@@ -14,7 +15,6 @@ import { HeaderComponent } from './component/header.component';
 import { HomeComponent } from './component/home.component';
 import { ProductsComponent } from './component/products.component';
 import { LoginComponent } from './component/login.component';
-import { SessionService } from './service/session.service';
 import { LogoutComponent } from './component/logout.component';
 
 import { AdminComponent } from './component/admin/admin.component';
@@ -33,6 +33,7 @@ import { SidebarComponent } from './component/admin/sidebar.component';
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
+    PopoverModule.forRoot(),
     HttpClientModule,
     FormsModule
   ],

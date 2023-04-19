@@ -14,8 +14,8 @@ export class HeaderComponent {
   constructor(private sessionService : SessionService){
     this.user = sessionService.sessionProfile;
     sessionService.sessionProfile.subscribe({
-      next: (res) => {console.log(res);this.profile = res},
-      error: () => {console.log("errer");this.profile = false},
+      next: (res) => {this.profile = res},
+      error: () => {this.profile = false},
     });
     sessionService.updateProfile()
     this.isCollapsed = true;

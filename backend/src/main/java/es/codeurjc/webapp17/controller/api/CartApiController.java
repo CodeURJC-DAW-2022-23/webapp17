@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.codeurjc.webapp17.model.request.CouponsRequests.GetCouponRequest;
 import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.service.PermissionsService;
+import es.codeurjc.webapp17.service.ProductsService;
 import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
 import es.codeurjc.webapp17.tools.Tools;
@@ -38,6 +39,9 @@ public class CartApiController {
 	
 	@Autowired
     UsersService usersService;
+
+	@Autowired
+	ProductsService productsService;
 
     @Autowired
     PermissionsService permissionsService;
@@ -171,7 +175,7 @@ public class CartApiController {
 			if (!permissionsService.isUserLoggedIn(request, usersService)) {
 				return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
 			}
-			cartsService.increaseQuantity(id, request);
+			productsService.addToCart(id, request);
             return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/moreQuantity")).build();
 		} catch (Exception ex){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

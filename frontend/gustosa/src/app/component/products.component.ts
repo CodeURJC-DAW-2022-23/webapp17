@@ -1,6 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import { ProductsService } from '../service/products.service';
 import { Observable, catchError, map, of, concat, combineLatest } from 'rxjs';
+import { CartService } from '../service/cart.service';
+import { SessionService } from '../service/session.service';
 
 @Component({
   selector: 'products',
@@ -12,8 +14,9 @@ export class ProductsComponent implements OnInit{
 
     products: Observable<any>;
     
-    constructor(private productsService: ProductsService){
-      this.products = this.productsService.getProducts(0) 
+    constructor(private productsService: ProductsService, private cartService : CartService, 
+      private sessionService : SessionService){
+        this.products = productsService.getProducts(0);
     }
 
     ngOnInit() {
@@ -49,7 +52,12 @@ export class ProductsComponent implements OnInit{
       });
 
       //Falta testear con dos veces más resultados
-      
+    }
+    
+    addToCart(event:Event, id : number){
+      this.cartService.moreQuantity(id).subscribe(() => {
+        this.sessionService.updateProfile();
+      });
     }
 
 }
