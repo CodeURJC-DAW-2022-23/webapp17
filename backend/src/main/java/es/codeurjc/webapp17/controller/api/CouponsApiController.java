@@ -1,11 +1,10 @@
 package es.codeurjc.webapp17.controller.api;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -31,7 +30,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping(Tools.API_HEADER+"/coupons/")
+@RequestMapping(Tools.API_HEADER+"/coupons")
 public class CouponsApiController {
 
     @Autowired
@@ -57,29 +56,18 @@ public class CouponsApiController {
 				content = @Content
 				),
 	})
-	@GetMapping("/")
+	@GetMapping("")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public Object showCoupons(Model model, @RequestParam(defaultValue = "0") int page) {
-		HashMap<String, Object> map = new HashMap<>();
-        List<Coupon> listCoupons = couponsService.getCoupons();
-        List<Coupon> shownCoupons = new ArrayList<Coupon>();
-        int pageSize = 8;
-        Coupon coupon;
-        for(int i=0; i<pageSize; i++){ 
-            if(((page) * pageSize)+i<listCoupons.size()){
-                coupon = listCoupons.get(((page) * pageSize)+i);
-                shownCoupons.add(coupon);
-            }
-        }
-        map.put("coupon", shownCoupons);
-        if(!map.isEmpty()){
-		    return map;
+        Page<Coupon> coupons = couponsService.getCouponsRepo().findAll(PageRequest.of(page, 8));
+        if(!coupons.isEmpty()){
+		    return coupons;
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }        
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/coupon/{id}")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     @Operation(summary = "Modify a coupon through his id, introducing all the parameters")
     @ApiResponses(value = { 
@@ -146,7 +134,7 @@ public class CouponsApiController {
             content = @Content
         ),        
 })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/coupon/{id}")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> removeCoupon(@PathVariable(name="id") String id){
         if(couponsService.removeCoupon(Long.parseLong(id))){
@@ -176,7 +164,7 @@ public class CouponsApiController {
             content = @Content
         ),        
 })
-    @PostMapping("/")
+    @PostMapping("/coupon")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> createCoupon(@RequestBody CreateCouponsRequest couponsRequest) {
         long newCoupon = couponsService.createCoupon(couponsRequest.getUses(),
