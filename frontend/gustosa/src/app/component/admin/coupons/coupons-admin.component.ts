@@ -25,7 +25,9 @@ export class CouponsAdminComponent {
     }
 
     onDelete(couponId: string) {
-      this.couponService.deleteCoupon(couponId);
+      this.couponService.deleteCoupon(couponId).subscribe(() => {
+        this.coupons = this.couponService.getCoupons(0)
+      });
     }
 
     onCreate(){
