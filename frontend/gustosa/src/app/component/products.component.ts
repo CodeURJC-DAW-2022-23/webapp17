@@ -76,7 +76,7 @@ export class ProductsComponent implements OnInit{
     }
     
     addToCart(event:Event, id : number){
-      this.cartService.moreQuantity(id).subscribe(() => {
+      this.cartService.addToCart(id).subscribe(() => {
         this.sessionService.updateProfile();
         //Si da error irse a login para no hacer changeBgColor
       });

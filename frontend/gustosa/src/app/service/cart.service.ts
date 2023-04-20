@@ -20,7 +20,7 @@ export class CartService {
 
     lessQuantity(id: number) : Observable<any>{
         let url = environment.apiUrl+"/"+ApiResources.LessQuantity+"/"+id;
-        console.log(id, "Llamada API realizada")
+        //console.log(id, "Llamada API realizada")
         const err = new Error('Server error.');
         return this.httpClient.put(url, { withCredentials: true }).pipe(
             map(response => response),
@@ -40,14 +40,32 @@ export class CartService {
     redeemCoupon(code: string){
         let url = environment.apiUrl+"/"+ApiResources.Redeem;
         const err = new Error('Server error.');
-        return this.httpClient.post(url, { withCredentials: true }).pipe(
+        return this.httpClient.post(url, { code: code }, { withCredentials: true }).pipe(
             map(response => response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    addToCart(id: number){
+        let url = environment.apiUrl+"/"+ApiResources.AddToCart+"/"+id;
+        const err = new Error('Server error.');
+        return this.httpClient.post(url, { withCredentials: true }).pipe(
+            map(response =>response),
             catchError(error => throwError(() => err))
         );
     }
 
     unredeemCoupon(){
         let url = environment.apiUrl+"/"+ApiResources.Unredeem;
+        const err = new Error('Server error.');
+        return this.httpClient.post(url, { withCredentials: true }).pipe(
+            map(response => response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    doCheckout(){
+        let url = environment.apiUrl+"/"+ApiResources.Checkout;
         const err = new Error('Server error.');
         return this.httpClient.post(url, { withCredentials: true }).pipe(
             map(response => response),

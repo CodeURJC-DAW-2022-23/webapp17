@@ -1,6 +1,7 @@
 
 import { Product } from "./product.model";
 import { Coupon } from "./coupon.model";
+import { UserProfile } from "./userProfile.model";
 
 export interface CartPackage {
     cartItems: CartItem[];
@@ -9,7 +10,8 @@ export interface CartPackage {
     cartSize: number;
     totalPrice: number;
     coupon: Coupon;
-    couponList: Coupon[]
+    couponList: Coupon[];
+    user: UserProfile;
 }
 
 export interface CartItem{

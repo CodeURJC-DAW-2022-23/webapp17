@@ -27,12 +27,12 @@
                 <div class="col">
                     <div class="text-success">
                         <h6 id="redeemedCoupon" class="my-0">CUPÓN CANJEADO</h6>
-                        <small>Code - {{cartPackage.coupon.couponName}}</small>
+                        <small>Code - {{cartPackage.coupon.code}}</small>
                     </div>
                     <span class="text-success">-{{cartPackage.coupon.discount}}%</span>
                 </div>
                 <div class="col d-flex flex-row-reverse">
-                    <button class="btn btn-light" click()="unredeemCode()"><i class="bi bi-x fs-3 text-success"></i></button>
+                    <button class="btn btn-light" (click)="unredeemCode()"><i class="bi bi-x fs-3 text-success"></i></button>
                 </div>
             </li>
 
@@ -47,18 +47,23 @@
 
         <div class="row card p-2">
             <div class="input-group">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Cupones</button>
-                <ul class="dropdown-menu">
-                    <li><p class="dropdown-item">Hola</p></li>
-                        <!--<li *ngFor="let elem of cartPackage.couponList"><p class="dropdown-item" (click)="changeCoupon(&quot;{{elem.code}}&quot;)">
-                            {{elem.code}} x {{elem.usesRemaining}}
-                                <img *ngIf="elem.hasImage" class="ms-2" src="/coupon/{{elem.id}}/image" alt="avatar" width="50px" height="40px"/>
-                        </p></li>
-                    
-  
-                        <li *ngIf="cartPackage.couponList.length === 0" class="m-2 ms-3"><p>No hay cupones</p></li>-->
+                
+                <div class="nav-item dropdown" dropdown>
+                    <div class="btn btn-outline-secondary dropdown-toggle" dropdownToggle id="navbarDropdown" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cupones</div>
+                    <ul *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                </ul>
+                        <li *ngFor="let elem of cartPackage.couponList">
+                            <p class="dropdown-item" (click)="changeCoupon(elem.code)">
+                                {{elem.code}} x {{elem.usesRemaining}}
+                                <img *ngIf="elem.hasImage" class="ms-2" src="/coupon/{{elem.id}}/image" alt="avatar" width="50px" height="40px"/>
+                            </p>
+                        </li>
+                    
+                        <li *ngIf="cartPackage.couponList.length === 0" class="m-2 ms-3"><p>No hay cupones</p></li>
+
+                    </ul>
+                </div>
+
                 <input type="text" class="form-control"  id="redeemText" placeholder="Introduzca su cupón">
                 <button type="submit" class="btn btn-secondary" (click)="redeemCode1()">Canjear</button>
             </div>

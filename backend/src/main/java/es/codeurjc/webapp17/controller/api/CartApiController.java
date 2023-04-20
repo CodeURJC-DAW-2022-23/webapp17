@@ -175,7 +175,7 @@ public class CartApiController {
 			if (!permissionsService.isUserLoggedIn(request, usersService)) {
 				return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
 			}
-			productsService.addToCart(id, request);
+			cartsService.increaseQuantity(id, request);
             return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/moreQuantity")).build();
 		} catch (Exception ex){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

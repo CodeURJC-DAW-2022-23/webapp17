@@ -17,16 +17,20 @@ export class CartComponent {
   constructor(private cartService : CartService, private sessionService : SessionService){
       this.cart = cartService.getCart();
       this.cart.subscribe((data) => {
-        console.log(data.cartItems);
+        //console.log(data.cartItems);
       });
   }
   
   decreaseQuantity(id: number){
-    this.cartService.lessQuantity(id);
+    this.cartService.lessQuantity(id).subscribe(() => {
+      this.cart = this.cartService.getCart();
+    });;
   }
 
   increaseQuantity(id:number){
-    this.cartService.moreQuantity(id);
+    this.cartService.moreQuantity(id).subscribe(() => {
+      this.cart = this.cartService.getCart();
+    });;
   }
     
   changeCoupon(code: string): void {
@@ -35,18 +39,19 @@ export class CartComponent {
   }
 
 
-
-redeemCode(): void {
-  const redeemText = document.getElementById("redeemText") as HTMLInputElement;
-  const code = redeemText.value;
-  this.cartService.redeemCoupon(code);
+  redeemCode(): void {
+    const redeemText = document.getElementById('redeemText') as HTMLInputElement;
+    console.log(redeemText.value);
+    this.cartService.redeemCoupon(redeemText.value).subscribe(() => {
+      this.cart = this.cartService.getCart();
+    });;
   }
 
 
-unredeemCode(): void {
-  const redeemText = document.getElementById("redeemText") as HTMLInputElement;
-  const code = redeemText.value;
-  this.cartService.unredeemCoupon();
+  unredeemCode(): void {
+    this.cartService.unredeemCoupon().subscribe(() => {
+      this.cart = this.cartService.getCart();
+    });;
   }
 
   redeemCode1(): void {
@@ -57,7 +62,7 @@ unredeemCode(): void {
     setTimeout(() => {
       // Código que se ejecutará después de dos segundos
       this.redeemCode();
-    }, 2000);
+    }, 500);
   }
 
 
