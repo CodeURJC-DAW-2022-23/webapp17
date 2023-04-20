@@ -31,4 +31,10 @@ export class CouponService {
         return this.httpClient.delete(url, {withCredentials: true});
     }
 
+    createCoupon(data:{}){
+        let url = environment.apiUrl+"/"+ApiResources.Coupon;
+        const err = new Error('Server error.');
+        return this.httpClient.post(url, {params : data, withCredentials: true});
+    }
+
 }

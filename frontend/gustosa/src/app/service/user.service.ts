@@ -5,6 +5,7 @@ import { Observable, catchError, map, throwError, of } from 'rxjs';
 import { environment } from '../environment';
 import { ApiResources } from '../apiresources';
 import { Page } from '../model/pageable.model';
+import { UserProfile } from '../model/userProfile.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -74,6 +75,19 @@ export class UserService {
         const err = new Error('Server error.');
         return this.httpClient.get(url, { withCredentials: true}).pipe(
             map(response =>response as Page<any>),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    getNoPaginatedUsers() : Observable<any>{
+        let url = environment.apiUrl+"/"+ApiResources.Users;
+        var data = {}
+        data = {
+            "pageNumber" : -1
+        }
+        const err = new Error('Server error.');
+        return this.httpClient.get(url, { params:data, withCredentials: true}).pipe(
+            map(response =>response as Array<UserProfile>),
             catchError(error => throwError(() => err))
         );
     }

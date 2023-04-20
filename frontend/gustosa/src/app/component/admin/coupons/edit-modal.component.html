@@ -8,7 +8,7 @@
     </div>
     <div class="modal-body">
           <div class="py-1">
-            <form class="form" action="/adminCoupons/modifyCoupon" method="post">
+            <form class="form" (ngSubmit)="onSubmit()" method="post">
               <div class="row">
                 <div class="col">
                   <div class="row">
@@ -20,7 +20,7 @@
                     </div>
                       <div class="col">
                         <div class="form-group">
-                          <label>Identificador de usuario</label>
+                          <label>Usuario actual</label>
                           <input class="form-control" value="{{coupon?.userEmail}}" readonly>
                         </div>
                     </div>
@@ -42,9 +42,9 @@
                   <div class="row">
                     <div class="col">
                       <div class="form-group">
-                        <label>Cuenta asociada (email)</label>
-                        <select class="form-control" id="coupon-user-email-input" name="userEmail">
-                          <option value="EMAIL">EMAIL</option>
+                        <label>Usuario nuevo</label>
+                        <select class="form-control" id="coupon-user-input-creation" name="user" *ngIf="usersList | async as users">
+                          <option *ngFor="let user of users" value="{{user.email}}">{{user.email}} </option>
                         </select>
                       </div>
                     </div>

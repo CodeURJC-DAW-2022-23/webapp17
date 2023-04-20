@@ -1,66 +1,52 @@
-
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Crear cupón</h5>
-      <button type="button" (click)="cancel()"class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-          <div class="py-1">
-            <form class="form" action="/adminCoupons/modifyCoupon" method="post">
-              <div class="row">
-                <div class="col">
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group">
-                          <label>Identificador de cupón</label>
-                          <input class="form-control" value="{{coupon?.id}}" type="text" readonly>
-                      </div>
-                    </div>
-                      <div class="col">
-                        <div class="form-group">
-                          <label>Identificador de usuario</label>
-                          <input class="form-control" value="{{coupon?.userEmail}}" readonly>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group">
-                        <label>Código</label>
-                        <input class="form-control" value="{{coupon?.code}}">
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label>Descuento</label>
-                        <input class="form-control" id="coupon-discount-input" value="{{coupon?.discount}}" type="text" name="discount">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group">
-                        <label>Cuenta asociada (email)</label>
-                        <select class="form-control" id="coupon-user-email-input" name="userEmail">
-                          <option value="EMAIL">EMAIL</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label>Usos permitidos</label>
-                        <input class="form-control" value="{{coupon?.usesRemaining}}" type="text" name="uses">
-                      </div>
-                    </div>
-                  </div>
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title">Creación de cupón</h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="py-1">
+      <form class="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>Código</label>
+                  <input class="form-control" [(ngModel)]="code" type="text" placeholder="GUSTOSA20" name="code">
                 </div>
               </div>
-              <div class="modal-footer">
-                <button type="button" (click)="cancel()" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+              <div class="col">
+                <div class="form-group">
+                  <label>Porcentaje de descuento</label>
+                  <input class="form-control" [(ngModel)]="discount" placeholder="20" type="text" name="discount">
+                </div>
               </div>
-            </form>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>Cuenta asociada (email)</label>
+                  <select class="form-control" *ngIf="usersList | async as users">
+                    <option *ngFor="let user of users" value="{{user.email}}">{{user.email}} </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label>Usos permitidos</label>
+                  <input class="form-control" [(ngModel)]="uses" placeholder="5" type="text" name="usesRemaining">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hide()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

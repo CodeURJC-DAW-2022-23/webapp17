@@ -289,8 +289,12 @@ public class UserApiController {
 	@GetMapping("")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public @ResponseBody Object getUsers(@RequestParam(defaultValue = "0") int pageNumber) {
-		Page<UserProfile> page = usersService.getUsersRepo().findAll(PageRequest.of(pageNumber, 8));
-		return page;
+		if(pageNumber == -1){
+			return usersService.getUsersRepo().findAll();
+		}else{
+			Page<UserProfile> page = usersService.getUsersRepo().findAll(PageRequest.of(pageNumber, 8));
+			return page;
+		}
 	}
 
 	@Operation(summary = "Login")
