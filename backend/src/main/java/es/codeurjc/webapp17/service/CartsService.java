@@ -158,8 +158,12 @@ public class CartsService {
         if ((user.getCart() != null)){
             if (user.getCart().getCartItems().size()!=0){
                 List<Coupon> userCoupons = user.getCoupons();
-                if(!userCoupons.isEmpty())
-                    //map.put("couponList", userCoupons);
+                if(!userCoupons.isEmpty()){
+                    map.put("couponList", userCoupons);
+                } else {
+                    //map.put("couponList", 0);
+                }
+                    
                 existing_cart = true;
                 List<CartItem> totalCart = user.getCart().getCartItems();
                 float totalPrice = user.getCart().totalPrice();
@@ -178,10 +182,10 @@ public class CartsService {
                 map.put("totalPrice", totalPrice);     
                 map.put("cartItems", totalCart);
                 map.put("cartSize", totalSize);
-                map.put("existingCart", existing_cart);
                 map.put("user", user);
             }
         }
+        map.put("existingCart", existing_cart);
         return map;
     }
 
@@ -199,6 +203,7 @@ public class CartsService {
         CartItem item = getCartItemsRepo().findById(id).get(0);
         UserProfile user = usersService.getUsersRepo().findByEmail(request.getUserPrincipal().getName()).get(0);
         int n = user.getCart().positionOfCartItem(item);
+        //long id2 = id;
         if (user.getCart().getCartItems().get(n).getQuantity()>1) {
             user.getCart().getCartItems().get(n).decreaseQuantity();
             usersService.getUsersRepo().saveAndFlush(user);

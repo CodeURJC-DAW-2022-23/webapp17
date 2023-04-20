@@ -9,6 +9,7 @@ export interface CartPackage {
     cartSize: number;
     totalPrice: number;
     coupon: Coupon;
+    couponList: Coupon[]
 }
 
 export interface CartItem{

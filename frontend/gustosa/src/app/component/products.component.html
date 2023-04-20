@@ -34,11 +34,11 @@
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center mb-3">
-                                    <a class="btn btn-outline-dark btn-smaller mt-auto" href="/description?id={{elem.id}}">Detalles</a>
+                                    <a class="row btn btn-outline-dark btn-smaller mt-auto" href="/description?id={{elem.id}}">Detalles</a>
                                 </div>
                                 <div class="text-center">
-                                    <!--<a class="btn btn-outline-dark mt-auto" id="add_but{{id}}" data-bs-toggle="popover" 
-                                    data-bs-trigger="focus" data-bs-content="wdwd" onClick="javascript:addToCart({{id}})">Añadir al carrito</a>-->
+                                    <button [id]="'add'+elem.id" class="btn btn-outline-dark mt-auto" id="add_but" [popover]="'Producto añadido'"
+                                triggers="" (click)="addToCart($event, elem.id)" [@bgChange]="bgState">Añadir al carrito</button>
                                 </div>
                             </div>
                         </div>
@@ -71,11 +71,11 @@
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center mb-3">
-                            <p class="row">{{elem["description"]}}</p>
+                            <!--<p class="row">{{elem["description"]}}</p>-->
                             <a class="row btn btn-outline-dark btn-smaller mt-auto" href="/description?id={{elem.id}}">Detalles</a>
                             <div class="text-center pt-3">
                                 <button [id]="'add'+elem.id" class="btn btn-outline-dark mt-auto" id="add_but" [popover]="'Producto añadido'"
-                                triggers="" (click)="addToCart($event, elem.id)">Añadir al carrito</button>
+                                triggers="" (click)="addToCart($event, elem.id)" [@bgChange]="bgState">Añadir al carrito</button>
                             </div>
                         </div>
                     </div>

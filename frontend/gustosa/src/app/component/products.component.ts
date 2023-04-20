@@ -1,17 +1,33 @@
 import { Component, OnInit} from '@angular/core';
 import { ProductsService } from '../service/products.service';
-import { Observable, catchError, map, of, concat, combineLatest } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { CartService } from '../service/cart.service';
 import { SessionService } from '../service/session.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'products',
   templateUrl: './products.component.html',
-  styleUrls: []
+  styleUrls: [],
+  animations: [
+    trigger('bgChange', [
+      state('start', style({
+        backgroundColor: 'white',
+        color: 'black'
+      })),
+      state('end', style({
+        backgroundColor: 'rgb(0, 255, 0)',
+        color:'black'
+      })),
+      transition('start => end', animate('500ms ease-in')),
+      transition('end => start', animate('500ms ease-out'))
+    ])
+  ]
 })
 
 export class ProductsComponent implements OnInit{
-
+    
+    bgState: string = 'start';
     products: Observable<any>;
     
     constructor(private productsService: ProductsService, private cartService : CartService, 
@@ -20,10 +36,14 @@ export class ProductsComponent implements OnInit{
     }
 
     ngOnInit() {
-      window.addEventListener('load', () => {
-        const spinner = document.getElementById('spinner') as HTMLElement; // Reemplace 'spinner' con el ID de su spinner
-        spinner.style.display = 'none';
-      });
+      window.onload = () => {
+        console.log("Hola")
+        setTimeout(() => {
+          // Código que se ejecutará después de medio segundo
+          const spinner = document.getElementById('spinner') as HTMLElement;
+          spinner.style.display = 'none';
+        }, 2000);
+      };
     }
 
     moreResults(page: number) {
@@ -42,6 +62,7 @@ export class ProductsComponent implements OnInit{
         newArray = [...currentData.page.content, ...newData.page.content];
         const updatedData = { ...newData, page: { ...newData.page, content: newArray } };
         this.products = of(updatedData);
+
         //Esconder spinner
         spinner.style.display = 'none';
         buttonMoreResults.style.display = 'block';
@@ -57,7 +78,16 @@ export class ProductsComponent implements OnInit{
     addToCart(event:Event, id : number){
       this.cartService.moreQuantity(id).subscribe(() => {
         this.sessionService.updateProfile();
+        //Si da error irse a login para no hacer changeBgColor
       });
+      this.changeBgColor();
+    }
+
+    changeBgColor() {
+      this.bgState = 'end';
+      setTimeout(() => {
+        this.bgState = 'start';
+      }, 250);
     }
 
 }

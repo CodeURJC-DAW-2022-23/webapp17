@@ -6,5 +6,6 @@ export interface Coupon{
     usesRemaining : BigInt;
     //image
     userEmail : string;
-
+    secret: boolean;
+    hasImage: boolean;
 }

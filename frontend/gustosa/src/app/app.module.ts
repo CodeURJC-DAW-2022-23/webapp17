@@ -5,7 +5,7 @@ import { BrowserAnimationsModule }
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDropdownDirective, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
@@ -40,7 +40,7 @@ import { CartComponent } from './component/cart.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [BsDropdownDirective],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
