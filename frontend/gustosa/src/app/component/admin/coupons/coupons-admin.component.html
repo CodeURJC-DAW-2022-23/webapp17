@@ -29,7 +29,7 @@
                   <td class="text-nowrap align-left">{{coupon.usesRemaining}}</td>
                   <td class="text-center align-left">
                     <div class="btn-group align-top">
-                      <button class="btn btn-sm btn-outline-secondary badge" (click)="openModal()">Editar</button>
+                      <button class="btn btn-sm btn-outline-secondary badge" (click)="onEdit(coupon)">Editar</button>
                       <a class="btn btn-sm btn-outline-secondary badge" type="button" (click)="onDelete(coupon.id)"><i class="fa fa-trash"></i></a>
                     </div>
                   </td>
@@ -51,7 +51,7 @@
     <div class="card">
       <div class="card-body">
         <div class="text-center px-xl-3">
-          <button class="btn btn-primary" (click)="openModal()">Nuevo cupón</button>
+          <button class="btn btn-primary" (click)="onCreate()">Nuevo cupón</button>
         </div>
       </div>
     </div>

@@ -4,14 +4,11 @@
     left: 0;
     width: 250px;
     height: 100%;
+    min-width: 17%;
   }
   .rest {
     position:relative;
     padding-left: 17%;
-  }
-  .sidebar {
-    position:fixed;
-    min-width: 17%;
   }
   .nav-link {
     font-size: 30px;

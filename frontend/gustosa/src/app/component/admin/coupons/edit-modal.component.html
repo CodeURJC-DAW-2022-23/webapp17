@@ -1,7 +1,7 @@
 
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Crear cupón</h5>
+      <h5 class="modal-title" id="exampleModalLabel">Editar cupón</h5>
       <button type="button" (click)="cancel()"class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -15,13 +15,13 @@
                     <div class="col">
                       <div class="form-group">
                           <label>Identificador de cupón</label>
-                          <input class="form-control" id="coupon-id" type="text" name="id" readonly>
+                          <input class="form-control" value="{{coupon?.id}}" type="text" readonly>
                       </div>
                     </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Identificador de usuario</label>
-                          <input class="form-control" id="coupon-user-id" type="text" name="userId" readonly>
+                          <input class="form-control" value="{{coupon?.userEmail}}" readonly>
                         </div>
                     </div>
                   </div>
@@ -29,13 +29,13 @@
                     <div class="col">
                       <div class="form-group">
                         <label>Código</label>
-                        <input class="form-control" id="coupon-code-input" type="text" placeholder="GUSTOSA20" name="code">
+                        <input class="form-control" value="{{coupon?.code}}">
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-group">
-                        <label>Porcentaje de descuento</label>
-                        <input class="form-control" id="coupon-discount-input" placeholder="20" type="text" name="discount">
+                        <label>Descuento</label>
+                        <input class="form-control" id="coupon-discount-input" value="{{coupon?.discount}}" type="text" name="discount">
                       </div>
                     </div>
                   </div>
@@ -51,7 +51,7 @@
                     <div class="col">
                       <div class="form-group">
                         <label>Usos permitidos</label>
-                        <input class="form-control" id="coupon-uses-input" type="text" name="uses">
+                        <input class="form-control" value="{{coupon?.usesRemaining}}" type="text" name="uses">
                       </div>
                     </div>
                   </div>

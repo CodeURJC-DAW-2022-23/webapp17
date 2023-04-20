@@ -1,0 +1,66 @@
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Crear cupón</h5>
+      <button type="button" (click)="cancel()"class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+          <div class="py-1">
+            <form class="form" action="/adminCoupons/modifyCoupon" method="post">
+              <div class="row">
+                <div class="col">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                          <label>Identificador de cupón</label>
+                          <input class="form-control" value="{{coupon?.id}}" type="text" readonly>
+                      </div>
+                    </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Identificador de usuario</label>
+                          <input class="form-control" value="{{coupon?.userEmail}}" readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label>Código</label>
+                        <input class="form-control" value="{{coupon?.code}}">
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label>Descuento</label>
+                        <input class="form-control" id="coupon-discount-input" value="{{coupon?.discount}}" type="text" name="discount">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label>Cuenta asociada (email)</label>
+                        <select class="form-control" id="coupon-user-email-input" name="userEmail">
+                          <option value="EMAIL">EMAIL</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label>Usos permitidos</label>
+                        <input class="form-control" value="{{coupon?.usesRemaining}}" type="text" name="uses">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" (click)="cancel()" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+              </div>
+            </form>
+  </div>
+</div>

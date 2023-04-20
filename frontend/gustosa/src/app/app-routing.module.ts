@@ -6,7 +6,8 @@ import { LogoutComponent } from './component/logout.component';
 import { ProductsComponent } from './component/products.component';
 import { CartComponent } from './component/cart.component';
 import { DescriptionComponent } from './component/description.component';
-import { AdminComponent } from './component/admin/admin.component';
+import { AdminDashboardComponent } from './component/admin/dashboard/admin.component';
+import { CouponsAdminComponent } from './component/admin/coupons/coupons-admin.component';
 import { CheckoutComponent } from './component/checkout.component';
 
 
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: "cart", component: CartComponent},
   {path: "description", component: DescriptionComponent},
   {path: "", component: HomeComponent},
-  {path: "admin", component: AdminComponent},
+  {path: "admin/dashboard", component: AdminDashboardComponent},
+  {path: "admin/coupons", component: CouponsAdminComponent},
   {path: "checkout", component: CheckoutComponent},
 
 ];
