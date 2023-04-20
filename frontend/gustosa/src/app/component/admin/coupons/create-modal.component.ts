@@ -2,7 +2,7 @@ import { Component} from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Coupon } from 'src/app/model/coupon.model';
-import { UserProfile } from 'src/app/model/userProfile.model';
+import { UserProfile } from 'src/app/model/user.model';
 import { CouponService } from 'src/app/service/coupon.service';
 import { UserService } from 'src/app/service/user.service';
 

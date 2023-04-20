@@ -10,6 +10,7 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,12 +28,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import es.codeurjc.webapp17.model.Booking;
+import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.request.UsersRequests;
 import es.codeurjc.webapp17.model.request.UsersRequests.CreateUserRequest;
 import es.codeurjc.webapp17.model.request.UsersRequests.LoginRequest;
 import es.codeurjc.webapp17.model.request.UsersRequests.ModifyUserRequest;
 import es.codeurjc.webapp17.model.request.UsersRequests.UserInfoRequest;
+import es.codeurjc.webapp17.service.CartsService;
 import es.codeurjc.webapp17.service.PermissionsService;
 import es.codeurjc.webapp17.service.UsersService;
 import es.codeurjc.webapp17.tools.NeedsSecurity;
@@ -51,6 +55,9 @@ public class UserApiController {
 
     @Autowired
     UsersService usersService;
+
+	@Autowired
+    CartsService cartsService;
 
 	@Autowired
 	PermissionsService permissionsService;
@@ -138,16 +145,15 @@ public class UserApiController {
 				content = @Content
 				) 		
 	})
-	@JsonView(UserProfile.class)
     public @ResponseBody Object getUserInfo(HttpServletRequest request,
 	@RequestParam(required = false, name = "email") String email){
 		if(email != null && permissionsService.canViewUsers(request, usersService)){
-			Map<String,Object> ui = usersService.getUserInfo(email);
+			UserProfile ui = usersService.getUser(email);
             if(ui != null){
                 return ui;
             }
 		}else if(permissionsService.isUserLoggedIn(request, usersService)){
-            Map<String,Object> ui = usersService.getUserInfo(request.getUserPrincipal().getName());
+            UserProfile ui = usersService.getUser(request.getUserPrincipal().getName());
             if(ui != null){
                 return ui;
             }
@@ -258,13 +264,51 @@ public class UserApiController {
 				) 		
 	})
 	@PostMapping("/user")
-    @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> createUser(@RequestBody CreateUserRequest user) throws IOException{
-        Boolean admin = user.getRole().equals("admin");
+    @NeedsSecurity(role=Tools.Role.NONE)
+    public ResponseEntity<Object> createUser(@RequestBody CreateUserRequest user, HttpServletRequest request) throws IOException{
+        Boolean admin = false;
+		if(user.getRole() != null)
+			admin = user.getRole().equals("admin") && permissionsService.canEditUsers(request, usersService);
         usersService.registerUserFromForm(user.getName(), user.getPassword(), user.getEmail(), user.getBio(), admin);
-        return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/users/user")).build();
+		try{
+        	if(!permissionsService.isUserLoggedIn(request, usersService)) request.login(user.getEmail(), user.getPassword());
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/users/user")).build();
     }
 
+
+	@Operation(summary = "Get users info")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Ok", 
+					content = {@Content(
+							mediaType = "application/json"
+							)}
+					),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Page not found", 
+					content = @Content
+					),
+			@ApiResponse(
+				responseCode = "403", 
+				description = "No permission", 
+				content = @Content
+				) 		
+	})
+	@GetMapping("/orders")
+    @NeedsSecurity(role=Tools.Role.ADMIN)
+    public @ResponseBody Object getUserOrders(@RequestParam(defaultValue = "0") int pageNumber, HttpServletRequest request) {
+		if(permissionsService.isUserLoggedIn(request, usersService)){
+			UserProfile u = usersService.getUser(request.getUserPrincipal().getName());
+			Page<Cart> page = cartsService.getUserOrders(u, pageNumber, 4);
+			return page;
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	}
 
 	@Operation(summary = "Get users info")
 	@ApiResponses(value = { 

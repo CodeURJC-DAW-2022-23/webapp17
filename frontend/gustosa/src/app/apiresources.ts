@@ -3,6 +3,7 @@ export enum ApiResources {
     Users = "users",
     Login = "users/login",
     Logout = "users/logout",
+    Register = "users/user",
     Coupons = "coupons",
     Coupon = "coupons/coupon",
     Products = "products",
@@ -12,5 +13,6 @@ export enum ApiResources {
     Redeem = "carts/coupon",
     Unredeem="carts/couponFree",
     AddToCart="products/cart",
-    Checkout="carts/finalCart"
+    Checkout="carts/finalCart",
+    Orders = "users/orders"
 }

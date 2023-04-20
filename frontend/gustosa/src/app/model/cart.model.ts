@@ -1,7 +1,7 @@
 
 import { Product } from "./product.model";
 import { Coupon } from "./coupon.model";
-import { UserProfile } from "./userProfile.model";
+import { UserProfile } from "./user.model";
 
 export interface CartPackage {
     cartItems: CartItem[];

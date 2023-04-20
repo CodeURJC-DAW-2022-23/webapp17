@@ -1,19 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './component/login.component';
+import { LoginComponent } from './component/auth/login.component';
 import { HomeComponent } from './component/home.component';
-import { LogoutComponent } from './component/logout.component';
+import { LogoutComponent } from './component/auth/logout.component';
 import { ProductsComponent } from './component/products.component';
 import { CartComponent } from './component/cart.component';
 import { DescriptionComponent } from './component/description.component';
 import { AdminDashboardComponent } from './component/admin/dashboard/admin.component';
 import { CouponsAdminComponent } from './component/admin/coupons/coupons-admin.component';
 import { CheckoutComponent } from './component/checkout.component';
+import { RegisterComponent } from './component/auth/register.component';
+import { ProfileComponent } from './component/user/profile.component';
 
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
+  {path: "register", component: RegisterComponent},
   {path: "logout", component: LogoutComponent},
+  {path: "user", component: ProfileComponent},
   {path: "products", component: ProductsComponent},
   {path: "cart", component: CartComponent},
   {path: "description", component: DescriptionComponent},
@@ -28,4 +32,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+
+}

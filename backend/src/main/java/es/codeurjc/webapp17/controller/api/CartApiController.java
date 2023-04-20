@@ -4,6 +4,7 @@ package es.codeurjc.webapp17.controller.api;
 import java.net.URI;
 import java.util.HashMap;
 
+import org.apache.catalina.startup.Catalina;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -3,12 +3,15 @@ package es.codeurjc.webapp17.model;
 import java.time.Instant;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import es.codeurjc.webapp17.tools.Tools;
@@ -22,7 +25,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -93,6 +95,13 @@ public class UserProfile {
         this.role.add(Role.USER);
         this.coupons = new ArrayList<Coupon>();
         this.lastModified = Timestamp.from(Instant.now());
+    }
+
+    @JsonAnyGetter
+    public Map<String,Object> otherFields() {
+        Map<String,Object> extra = new HashMap<String,Object>();
+        extra.put("cartLength", this.getCart().getCartItems().size());
+        return extra;
     }
 
     public User toUser(){

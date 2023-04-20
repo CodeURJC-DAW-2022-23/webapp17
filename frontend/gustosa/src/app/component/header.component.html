@@ -12,7 +12,7 @@
                     <ul *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="/menu">Menu</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="/products">Carta</a></li>
+                        <li><a class="dropdown-item" [routerLink]="['/products']">Carta</a></li>
                         <li><a class="dropdown-item" href="/book">Reservar</a></li>
                     </ul>
                 </li>
@@ -33,7 +33,7 @@
                 <a class="btn btn-outline-dark" type="submit" href="/cart">
                             <i class="bi-cart-fill me-1"></i>
                             Carrito
-                        <span *ngIf="profile as resuser; else nocart" class="col badge bg-dark text-white ms-1 rounded-pill" id="cart_length">{{resuser["cart_length"]}}</span>
+                        <span *ngIf="profile as resuser; else nocart" class="col badge bg-dark text-white ms-1 rounded-pill" id="cart_length">{{resuser["cartLength"]}}</span>
                         <ng-template #nocart>
                             <span class="col badge bg-dark text-white ms-1 rounded-pill" id="cart_length">0</span>
                         </ng-template>
