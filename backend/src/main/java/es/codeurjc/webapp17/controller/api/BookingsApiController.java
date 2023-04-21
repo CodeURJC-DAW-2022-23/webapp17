@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,13 +25,13 @@ import es.codeurjc.webapp17.tools.Tools;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.webapp17.model.Booking;
+import es.codeurjc.webapp17.model.UserProfile;
 import es.codeurjc.webapp17.model.request.BookingRequests.ChangeBookingRequest;
 import es.codeurjc.webapp17.model.request.BookingRequests.CreateBookingRequest;
 import es.codeurjc.webapp17.service.UsersService;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping(Tools.API_HEADER + "/bookings/")
@@ -93,7 +94,8 @@ public class BookingsApiController {
     public Object addBooking(Model model, HttpServletRequest request, 
     @RequestBody CreateBookingRequest bookingRequest) {
         if(permissionsService.isUserLoggedIn(request, usersService)){
-            usersService.addBookingToUser(request.getUserPrincipal().getName(), new Booking(null, bookingRequest.getDate()
+            UserProfile user = usersService.getUser(request.getUserPrincipal().getName());
+            usersService.addBookingToUser(request.getUserPrincipal().getName(), new Booking(user, bookingRequest.getDate()
             +" "+bookingRequest.getHour(), bookingRequest.getNumPeople(), bookingRequest.getTlf()));
             return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/bookings/booking")).build();
         }

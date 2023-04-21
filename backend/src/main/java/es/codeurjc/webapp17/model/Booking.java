@@ -30,14 +30,14 @@ public class Booking {
     private Boolean confirmation;
 
     @Nonnull
-    private int people;
+    private long people;
 
     private String number;
 
     //Getters, Constructors...
     public Booking(){}
 
-    public Booking(UserProfile user, String bookString, int people, String number){
+    public Booking(UserProfile user, String bookString, long people, String number){
         this.userProfile = user;
         this.bookTime = bookString;
         this.people = people;
@@ -61,7 +61,7 @@ public class Booking {
         this.people = people;
     }
 
-    public int getPeople() {
+    public long getPeople() {
         return people;
     }
 

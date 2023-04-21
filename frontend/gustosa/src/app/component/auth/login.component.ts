@@ -11,10 +11,18 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
+  googleLink = "https://localhost:8443/oauth2/authorization/google";
+
   email? : string
   password? : string
 
   constructor(private router: Router, private userService : UserService, private sessionService: SessionService){
+    userService.isUserLoggedIn().subscribe((val)=>{
+      if(val){
+          sessionService.updateProfile();
+          router.navigateByUrl("");
+      }
+    });
   }
 
   sumbitLoginForm(){

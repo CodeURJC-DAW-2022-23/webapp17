@@ -1,0 +1,49 @@
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <form class="row g-3 needs-validation" (ngSubmit)="sendBookingRequest()" novalidate>
+            <div class="col-md-6">
+              <label for="validationCustom03" class="form-label">Nº Personas</label>
+              <input type="number" class="form-control" name="numPeople" id="validationCustom03" [(ngModel)]="numPeople" required>
+              <div class="invalid-feedback">
+                Por favor introduce un numero de personas.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="validationCustom03" class="form-label">Numero de teléfono</label>
+              <input type="text" class="form-control" name="tlfNumber" id="validationCustom03" [(ngModel)]="tlfNumber" required>
+              <div class="invalid-feedback">
+                Please provide a valid number.
+              </div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom04" class="form-label">Date</label>
+                <input id="startDate" class="form-control" [(ngModel)]="startDate" name="date" type="date" required>
+                <div class="invalid-feedback">
+                  Please provide a valid number.
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="validationCustom04" class="form-label">Hour</label>
+                <input type="time" class="form-control" [(ngModel)]="time" name="hour" id="time" required>
+                <div class="invalid-feedback">
+                  Please provide a valid number.
+                </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="" id="invalidCheck" required>
+                <label class="form-check-label" for="invalidCheck">
+                  Aceptar los terminos y condiciones
+                </label>
+                <div class="invalid-feedback">
+                  Tienes que aceptar
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <input name="submit" type="submit" value="Enviar" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</section>

@@ -13,6 +13,7 @@ import { RegisterComponent } from './component/auth/register.component';
 import { ProfileComponent } from './component/user/profile.component';
 import { OrderComponent } from './component/order/order.component';
 import { MenuComponent } from './component/menu/menu.component';
+import { BookingFormComponent } from './component/book/bookingform.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
   {path: "checkout", component: CheckoutComponent},
   {path: "order/:id", component: OrderComponent},
   {path: "menu", component: MenuComponent},
+  {path: "book", component: BookingFormComponent},
 
 ];
 
