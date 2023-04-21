@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "install-legacy": "npm install --legacy-peer-deps",
+    "buildAndPrepare": "ng build --base-href='/new/' && npx copyfiles -E -V -u 2 dist/gustosa/**/* ../../backend/src/main/resources/static/new"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +34,7 @@
     "@angular/cli": "~15.2.5",
     "@angular/compiler-cli": "^15.2.0",
     "@types/jasmine": "~4.3.0",
+    "copyfiles": "^2.4.1",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",

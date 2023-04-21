@@ -34,3 +34,5 @@ build/
 
 
 api-docs/**
+
+src/main/resources/static/new/**
