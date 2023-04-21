@@ -17,6 +17,11 @@ export interface Product{
     comments: Comment[];
     numberOfImages: number;
     cartItems: CartItem[];
-    //Imágenes
+    images: ProductImage[];
 }
 
+export interface ProductImage{
+    idImage:number;
+    positionInProduct: number;
+    firstOne: boolean;
+}

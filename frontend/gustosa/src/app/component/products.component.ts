@@ -37,7 +37,7 @@ export class ProductsComponent implements OnInit{
 
     ngOnInit() {
       window.onload = () => {
-        console.log("Hola")
+        //console.log("Hola")
         setTimeout(() => {
           // Código que se ejecutará después de medio segundo
           const spinner = document.getElementById('spinner') as HTMLElement;

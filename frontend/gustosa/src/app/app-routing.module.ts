@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: "user", component: ProfileComponent},
   {path: "products", component: ProductsComponent},
   {path: "cart", component: CartComponent},
-  {path: "description", component: DescriptionComponent},
+  {path: "description/:id", component: DescriptionComponent},
   {path: "", component: HomeComponent},
   {path: "admin/dashboard", component: AdminDashboardComponent},
   {path: "admin/coupons", component: CouponsAdminComponent},
