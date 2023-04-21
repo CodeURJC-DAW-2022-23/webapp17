@@ -52,7 +52,7 @@ public class CommentsApiController {
                 content = @Content
             ),
 	})
-	@GetMapping("/")
+	@GetMapping("")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public Object showComments(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
 		HashMap<String, Object> map = new HashMap<>();

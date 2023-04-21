@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { CartService } from '../service/cart.service';
+import { CartService } from '../../service/cart.service';
 import { Observable, catchError, map, of } from 'rxjs';
-import { SessionService } from '../service/session.service';
+import { SessionService } from '../../service/session.service';
 
 @Component({
   selector: 'checkout',

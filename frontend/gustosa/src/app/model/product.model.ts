@@ -20,6 +20,14 @@ export interface Product{
     images: ProductImage[];
 }
 
+export interface IndividualProduct {
+    moreComments: boolean;
+    currentPage: number;
+    productComments: Comment[];
+    product: Product;
+    userProfile_id: number;
+}
+
 export interface ProductImage{
     idImage:number;
     positionInProduct: number;

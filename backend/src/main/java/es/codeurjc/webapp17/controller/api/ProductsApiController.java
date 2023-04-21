@@ -239,8 +239,8 @@ public class ProductsApiController {
 					) 
 	})
     @NeedsSecurity(role=Tools.Role.NONE)
-    public @ResponseBody Object getIndividualProduct(@PathVariable(name="id") long id, HttpServletRequest request) {
-        HashMap<String,Object> map = productsService.descriptionProduct(id, 0, request);
+    public @ResponseBody Object getIndividualProduct(@PathVariable(name="id") long id, @RequestParam int page, HttpServletRequest request) {
+        HashMap<String,Object> map = productsService.descriptionProduct(id, page, request);
 		if (map.size()!=0){
 			return map;
 		}

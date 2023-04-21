@@ -16,5 +16,6 @@ export enum ApiResources {
     Checkout="carts/finalCart",
     Orders = "users/orders",
     Order = "users/orders",
-    Menu = "menu/"
+    Menu = "menu/",
+    NewComment = "products/comment"
 }
