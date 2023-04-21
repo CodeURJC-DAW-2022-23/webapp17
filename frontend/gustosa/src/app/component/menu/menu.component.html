@@ -1,0 +1,13 @@
+<div class="bg-dark py-5">
+    <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder fade-in-big">Menu</h1>
+        <h5>Disponible sólo presencialmente</h5>
+    </div>
+</div>
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5" *ngIf="content | async as menu">
+    <div id="showText" [innerHtml]="menu['content']"></div>
+    <a type="button" class="btn btn-primary" href="/book">Reserva tu mesa</a>
+    </div>
+</section>

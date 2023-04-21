@@ -51,6 +51,8 @@ public class Cart {
     @OneToMany(mappedBy="cart", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<CartItem> cartItems;
 
+    private float totalPrice = 0;
+
     //Getters, Constructors...
 
     public Cart(UserProfile user){
@@ -157,7 +159,12 @@ public class Cart {
             total_price += cart_item.getProduct().getPrice()*cart_item.getQuantity();
         }
         total_price -= total_price*getDiscount()*0.01;
-        return total_price;
+        this.totalPrice = total_price;
+        return totalPrice;
+    }
+
+    public float getTotalPrice() {
+        return totalPrice;
     }
 
     public boolean isPreparing(){

@@ -14,22 +14,32 @@ import { AppComponent } from './component/app.component';
 import { HeaderComponent } from './component/header.component';
 import { HomeComponent } from './component/home.component';
 import { ProductsComponent } from './component/products.component';
-import { LoginComponent } from './component/login.component';
-import { LogoutComponent } from './component/logout.component';
+import { LoginComponent } from './component/auth/login.component';
+import { LogoutComponent } from './component/auth/logout.component';
 
-import { AdminComponent } from './component/admin/admin.component';
+import { CouponsAdminComponent } from './component/admin/coupons/coupons-admin.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { ModalComponent } from './component/admin/modal.component';
+import { EditModalComponent } from './component/admin/coupons/edit-modal.component';
 import { SidebarComponent } from './component/admin/sidebar.component';
 import { CartComponent } from './component/cart.component';
+import { AdminDashboardComponent } from './component/admin/dashboard/admin.component';
+import { CreateModalComponent } from './component/admin/coupons/create-modal.component';
 import { CheckoutComponent } from './component/checkout.component';
 import { DescriptionComponent } from './component/description.component';
+import { RegisterComponent } from './component/auth/register.component';
+import { ProfileComponent } from './component/user/profile.component';
+import { AngularCropperjsModule } from 'angular-cropperjs';
+import { LoaderComponent } from './component/common/loader.component';
+import { OrderComponent } from './component/order/order.component';
+import { MenuComponent } from './component/menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent, HeaderComponent, HomeComponent, ProductsComponent, 
-    AdminComponent, ModalComponent, SidebarComponent, LoginComponent,
-    LogoutComponent, CartComponent, CheckoutComponent, DescriptionComponent
+    CouponsAdminComponent, CreateModalComponent, EditModalComponent, SidebarComponent, LoginComponent,
+    LogoutComponent, CartComponent, AdminDashboardComponent, CheckoutComponent, DescriptionComponent,
+    SidebarComponent, LoginComponent, LogoutComponent,
+    RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +50,7 @@ import { DescriptionComponent } from './component/description.component';
     CollapseModule.forRoot(),
     PopoverModule.forRoot(),
     HttpClientModule,
+    AngularCropperjsModule,
     FormsModule
   ],
   providers: [BsDropdownDirective],

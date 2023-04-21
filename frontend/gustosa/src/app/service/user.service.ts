@@ -5,6 +5,8 @@ import { Observable, catchError, map, throwError, of } from 'rxjs';
 import { environment } from '../environment';
 import { ApiResources } from '../apiresources';
 import { Page } from '../model/pageable.model';
+import { UserProfile } from '../model/user.model';
+import { CartPackage } from '../model/cart.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -42,7 +44,7 @@ export class UserService {
                 "email": email
             }
         return this.httpClient.get(url, { params:data, withCredentials: true}).pipe(
-            map(response => response),
+            map(response => response as UserProfile),
             catchError(error => throwError(() => err))
         );
     }
@@ -69,11 +71,93 @@ export class UserService {
         );
     }
 
+    register(email : string, password : string, name : string) : Observable<any>{
+        var data = {
+            "email": email,
+            "password": password,
+            "name" : name
+        }
+        let url = environment.apiUrl+"/"+ApiResources.Register;
+        const err = new Error('Server error.');
+        return this.httpClient.post(url, data, {withCredentials: true}).pipe(
+            map(response =>response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
     getUsers() : Observable<any>{
         let url = environment.apiUrl+"/"+ApiResources.Users;
         const err = new Error('Server error.');
         return this.httpClient.get(url, { withCredentials: true}).pipe(
             map(response =>response as Page<any>),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    getNoPaginatedUsers() : Observable<any>{
+        let url = environment.apiUrl+"/"+ApiResources.Users;
+        var data = {}
+        data = {
+            "pageNumber" : -1
+        }
+        const err = new Error('Server error.');
+        return this.httpClient.get(url, { params:data, withCredentials: true}).pipe(
+            map(response =>response as Array<UserProfile>),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    modifyUser(email? : string, password? : string, name? : string, bio? : string) : Observable<any>{
+        var data = {
+            "email": email,
+            "newPassword": password,
+            "name" : name,
+            "newBio" : bio,
+        }
+        let url = environment.apiUrl+"/"+ApiResources.User;
+        const err = new Error('Server error.');
+        return this.httpClient.put(url, data, {withCredentials: true}).pipe(
+            map(response =>response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    modifyUserImage(id : number, blob : Blob) : Observable<any>{
+
+        let url = environment.apiUrl+"/"+ApiResources.Users+"/"+id+"/image";
+        const err = new Error('Server error.');
+
+        const formData = new FormData();
+
+        // Pass the image file name as the third parameter if necessary.
+        formData.append('imageFile', blob, "profile.png");
+
+        return this.httpClient.post(url, formData, {withCredentials: true}).pipe(
+            map(response =>response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+
+    getOrders(page? : number){
+        var tpage = page;
+        if(tpage == null) tpage = 0;
+        var data = {
+            "pageNumber" : tpage
+        }
+        let url = environment.apiUrl+"/"+ApiResources.Orders;
+        const err = new Error('Server error.');
+        return this.httpClient.get(url, { withCredentials: true, params:data}).pipe(
+            map(response =>response as Page<CartPackage>),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    getOrder(id : number){
+        let url = environment.apiUrl+"/"+ApiResources.Order+"/"+id;
+        const err = new Error('Server error.');
+        return this.httpClient.get(url, { withCredentials: true }).pipe(
+            map(response =>response as CartPackage),
             catchError(error => throwError(() => err))
         );
     }

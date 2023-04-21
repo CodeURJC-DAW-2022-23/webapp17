@@ -1,18 +1,18 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div id="navbar" class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="/">Gustosa</a>
+        <a class="navbar-brand" [routerLink]="['/']">Gustosa</a>
         <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" [collapse]="isCollapsed">
             <ul id="navbar-nav" class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="/admin">Información</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" [routerLink]="['/']">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/dashboard">Información</a></li>
                 <li class="nav-item dropdown" dropdown>
                     <div class="nav-link dropdown-toggle" dropdownToggle id="navbarDropdown" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pide</div>
                     <ul *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/menu">Menu</a></li>
+                        <li><a class="dropdown-item" [routerLink]="['/menu']">Menu</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="/products">Carta</a></li>
+                        <li><a class="dropdown-item" [routerLink]="['/products']">Carta</a></li>
                         <li><a class="dropdown-item" href="/book">Reservar</a></li>
                     </ul>
                 </li>
@@ -33,7 +33,7 @@
                 <a class="btn btn-outline-dark" type="submit" href="/cart">
                             <i class="bi-cart-fill me-1"></i>
                             Carrito
-                        <span *ngIf="profile as resuser; else nocart" class="col badge bg-dark text-white ms-1 rounded-pill" id="cart_length">{{resuser["cart_length"]}}</span>
+                        <span *ngIf="profile as resuser; else nocart" class="col badge bg-dark text-white ms-1 rounded-pill" id="cart_length">{{resuser["cartLength"]}}</span>
                         <ng-template #nocart>
                             <span class="col badge bg-dark text-white ms-1 rounded-pill" id="cart_length">0</span>
                         </ng-template>

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { UserService } from '../service/user.service';
+import { UserService } from '../../service/user.service';
 import { Observable, catchError, concat, map, of, retry } from 'rxjs';
 import { Router } from '@angular/router';
-import { SessionService } from '../service/session.service';
+import { SessionService } from '../../service/session.service';
 
 @Component({
   selector: 'logout',

@@ -1,0 +1,31 @@
+<section class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+    <div class="card p-4">
+        <div class="row p-2 display-5"><div class="col-auto">Registro</div></div>
+        <div class="row">
+            <form name="f" (ngSubmit)="sumbitRegisterForm()">
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <input type="email" id="form2Example1" name="email" class="form-control" [(ngModel)]="email"/>
+                  <label class="form-label" for="form2Example1">Correo electrónico</label>
+                </div>
+              
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                  <input type="password" id="form2Example2" name="password" class="form-control" [(ngModel)]="password"/>
+                  <label class="form-label" for="form2Example2">Contraseña</label>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <input type="text" id="form2Example3" name="username" class="form-control" [(ngModel)]="name"/>
+                  <label class="form-label" for="form2Example3">Nombre</label>
+                </div>
+              
+                <!-- Submit button -->
+                <input name="submit" type="submit" value="Enviar" class="btn btn-primary"/>
+            </form>
+            <div class="text-center">
+              <p>¿Ya tiene cuenta? <a href="/login">Iniciar sesión</a></p>
+            </div>
+        </div>
+    </div>
+</section>

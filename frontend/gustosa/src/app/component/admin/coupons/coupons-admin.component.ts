@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { ModalComponent } from './modal.component';
+import { EditModalComponent } from './edit-modal.component';
+import { CreateModalComponent } from './create-modal.component';
 import { Observable } from 'rxjs';
 import { Coupon } from 'src/app/model/coupon.model';
 import { Page } from 'src/app/model/pageable.model';
@@ -8,10 +9,10 @@ import { CouponService } from 'src/app/service/coupon.service';
 
 @Component({
   selector: 'admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  templateUrl: './coupons-admin.component.html',
+  styleUrls: ['./../general-admin-style.css']
 })
-export class AdminComponent {
+export class CouponsAdminComponent {
 
     bsModalRef: BsModalRef | undefined;
     coupons: Observable<Page<Coupon>>;
@@ -19,12 +20,18 @@ export class AdminComponent {
     constructor (private modalService: BsModalService, private couponService: CouponService){
       this.coupons = this.couponService.getCoupons(0);
     }
-    openModal() {
-      this.bsModalRef = this.modalService.show(ModalComponent);
+    onEdit(coupon: Coupon) {
+      this.modalService.show(EditModalComponent, {initialState : { coupon: coupon }})
     }
 
     onDelete(couponId: string) {
-      this.couponService.deleteCoupon(couponId);
+      this.couponService.deleteCoupon(couponId).subscribe(() => {
+        this.coupons = this.couponService.getCoupons(0)
+      });
+    }
+
+    onCreate(){
+      this.bsModalRef = this.modalService.show(CreateModalComponent);
     }
   
 }

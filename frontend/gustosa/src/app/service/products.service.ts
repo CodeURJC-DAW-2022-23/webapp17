@@ -20,6 +20,15 @@ export class ProductsService {
         );
     }
 
+    getMenu() : Observable<any>{
+        let url = environment.apiUrl+"/"+ApiResources.Menu
+        const err = new Error('Server error.');
+        return this.httpClient.get(url, { withCredentials: true }).pipe(
+            map(response =>response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
     getIndividualProduct(id:number) : Observable<any>{
         let url = environment.apiUrl+"/"+ApiResources.Products+'/'+id;
         const err = new Error('Server error.');;
