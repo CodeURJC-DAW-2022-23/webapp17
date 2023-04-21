@@ -15,7 +15,7 @@ const routes: Routes = [
   {path: "logout", component: LogoutComponent},
   {path: "products", component: ProductsComponent},
   {path: "cart", component: CartComponent},
-  {path: "description", component: DescriptionComponent},
+  {path: "description/:id", component: DescriptionComponent},
   {path: "", component: HomeComponent},
   {path: "admin", component: AdminComponent},
   {path: "checkout", component: CheckoutComponent},
