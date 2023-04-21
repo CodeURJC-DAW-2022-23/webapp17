@@ -1,0 +1,114 @@
+<div *ngIf="description | async as individualProduct" class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+
+<div class="row justify-content-center">
+    <div class="col row m-5 justify-content-center">
+        <div class="col-sm-6 col-md-4 col-lg-3 row row-col-1 border rounded shadow-sm">
+            <h1 class="display-5 m-2 fw-normal">
+                {{individualProduct.product.title}}
+                <hr class="dropdown-divider"/>
+            </h1>
+            
+            <p class=" fw-normal m-2 mb-5">{{individualProduct.product.description}}</p>
+        </div>
+        <div class="col-6 ms-4" style="height: 50vh; width:70vh;">
+            <carousel id="ofertas" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner carousel-ofertas border rounded shadow-sm">
+                    <slide *ngFor="let elem of individualProduct.product.images; let i = index" class="carousel-item" 
+                    [class.active]="i == 0" id="oferta{{elem.positionInProduct}}">
+                            <img class="d-block" src="api/products/{{id}}/images/{{elem.positionInProduct}}" 
+                            style="height: 50vh; width:70vh; object-fit: cover;" alt="..."/>
+                    </slide>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#ofertas" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#ofertas" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </carousel>
+        </div>
+    </div>
+</div>
+
+<h4>
+    Precio: {{individualProduct.product.price}} &euro;
+</h4>
+<br>
+<button [id]="'add'+individualProduct.product.id" class="btn btn-outline-dark mt-auto" id="add_but" [popover]="'Producto añadido'"
+triggers="" (click)="addToCart($event, individualProduct.product.id)" [@bgChange]="bgState">Añadir al carrito</button>
+<br><br>
+<section class="py-5">
+
+    <div class="card container mt-5 col-md-8 col-lg-10 border">
+        <div id="listComments" class="row m-2 gx-4 gx-lg-5 row-cols-1 row-cols-md-1 row-cols-xl-1 justify-content-center mt-5">
+            
+            <div *ngFor="let elem of individualProduct.productComments.content" class="col mb-5">
+                <div class="card reviews h-100 shadow rounded-pill">
+                    <div class="row">
+                        <div class="col row border-end">
+                            <div class="col user mt-2">
+                                <img class="rounded-circle shadow-sm me-3 mt-2" src="api/users/{{individualProduct.userProfile_id}}/image" alt="avatar" width="32"
+                                height="32"/>
+                                {{elem.userEmail}}
+                            </div>
+                            <div class="time">{{elem.createdAt| date:'dd/MM/yyyy'}}</div>
+                        </div>
+                        <div class="col col-8 p-3">
+                            <div class="description">{{elem.description}}</div>
+                            <div class="rating">{{elem.rating}}/10 <span class="star">&#9733;</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div id="containerMoreResults" class="containerMoreResults mb-5">
+            
+            <button *ngIf="individualProduct.moreComments" id="buttonMoreResults" (click)="moreComments(individualProduct.currentPage + 1,individualProduct.product.id)" class="btn btn-light rounded-pill border-dark">
+                Más resultados
+            </button>
+            <div id="spinner" class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            
+            <div *ngIf="!individualProduct.moreComments">
+                <p>No hay más resultados</p>
+            </div>
+            
+        </div>
+
+            <div class="row border rounded-0" style="background-color: #f0f2f5;">
+                <div class="col-1 m-3">
+                    <img class="rounded-circle shadow" src="api/users/{{individualProduct.userProfile_id}}/image" alt="avatar" width="50px"
+                    height="50px"/>
+                </div>
+                <div class="col-10 m-3">
+                    <textarea class="form-control" id="contentTextArea" rows="3"></textarea>
+                    <div class="row justify-content-end">
+                        <div class="col-4 mt-3 ml-5 row me-5 rounded-pill border">
+                            <div class="col">Estrellas</div>
+                            <select id="selStars" class="col form-select form-select-sm rounded-pill me-1">
+                                <option selected value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <button type="button" class="col-2 btn btn-primary btn-sm mt-3" (click)="addComment(individualProduct.product.id,individualProduct.currentPage)">Comentar</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+</section>
+    
+    <br>
+    <a class="btn btn-outline-dark mt-auto" href="/products">Atrás</a>
+
+</div>

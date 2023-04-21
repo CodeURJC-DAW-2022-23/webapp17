@@ -1,8 +1,8 @@
 import { Component, OnInit} from '@angular/core';
-import { ProductsService } from '../service/products.service';
+import { ProductsService } from '../../service/products.service';
 import { Observable, of, combineLatest } from 'rxjs';
-import { CartService } from '../service/cart.service';
-import { SessionService } from '../service/session.service';
+import { CartService } from '../../service/cart.service';
+import { SessionService } from '../../service/session.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
@@ -36,14 +36,14 @@ export class ProductsComponent implements OnInit{
     }
 
     ngOnInit() {
-      window.onload = () => {
-        //console.log("Hola")
-        setTimeout(() => {
-          // Código que se ejecutará después de medio segundo
-          const spinner = document.getElementById('spinner') as HTMLElement;
-          spinner.hidden = true;
-        }, 100);
-      };
+      window.addEventListener('load', () => {
+        const spinner = document.getElementById('spinner') as HTMLElement;
+        if (spinner) {
+          setTimeout(() => {
+            spinner.hidden = true;
+          }, 100);
+        }
+      });
     }
 
     moreResults(page: number) {
@@ -76,8 +76,9 @@ export class ProductsComponent implements OnInit{
     }
     
     addToCart(event:Event, id : number){
-      this.cartService.addToCart(id).subscribe(() => {
+      this.cartService.addToCart(id).subscribe((data) => {
         this.sessionService.updateProfile();
+        console.log(data)
         //Si da error irse a login para no hacer changeBgColor
       });
       this.changeBgColor();

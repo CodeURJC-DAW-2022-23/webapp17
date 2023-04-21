@@ -8,12 +8,13 @@ import { FormsModule } from '@angular/forms';
 import { BsDropdownDirective, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './component/app.component';
 import { HeaderComponent } from './component/header.component';
 import { HomeComponent } from './component/home.component';
-import { ProductsComponent } from './component/products.component';
+import { ProductsComponent } from './component/productsInfo/products.component';
 import { LoginComponent } from './component/auth/login.component';
 import { LogoutComponent } from './component/auth/logout.component';
 
@@ -21,11 +22,11 @@ import { CouponsAdminComponent } from './component/admin/coupons/coupons-admin.c
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { EditModalComponent } from './component/admin/coupons/edit-modal.component';
 import { SidebarComponent } from './component/admin/sidebar.component';
-import { CartComponent } from './component/cart.component';
+import { CartComponent } from './component/cart/cart.component';
 import { AdminDashboardComponent } from './component/admin/dashboard/admin.component';
 import { CreateModalComponent } from './component/admin/coupons/create-modal.component';
-import { CheckoutComponent } from './component/checkout.component';
-import { DescriptionComponent } from './component/description.component';
+import { CheckoutComponent } from './component/cart/checkout.component';
+import { DescriptionComponent } from './component/productsInfo/description.component';
 import { RegisterComponent } from './component/auth/register.component';
 import { ProfileComponent } from './component/user/profile.component';
 import { AngularCropperjsModule } from 'angular-cropperjs';
@@ -46,6 +47,7 @@ import { BookingFormComponent } from './component/book/bookingform.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CarouselModule.forRoot(),
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),

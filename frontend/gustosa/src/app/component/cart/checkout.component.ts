@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { CartService } from '../service/cart.service';
+import { CartService } from '../../service/cart.service';
 import { Observable, catchError, map, of } from 'rxjs';
-import { SessionService } from '../service/session.service';
+import { SessionService } from '../../service/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'checkout',
@@ -13,7 +14,7 @@ export class CheckoutComponent {
 
   checkout: Observable<any>;
     
-  constructor(private cartService : CartService, private sessionService : SessionService){
+  constructor(private router:Router, private cartService : CartService, private sessionService : SessionService){
       this.checkout = cartService.getCart();
       this.checkout.subscribe((data) => {
       });
@@ -33,8 +34,8 @@ export class CheckoutComponent {
 
   confirmOrder(){
     this.cartService.doCheckout().subscribe(() => {
-        //Mandar a la página user
-      });;
+      this.router.navigate(['/user']); // la ruta debe ser la que apunte a la página de inicio en tu aplicación
+    });;
   }
 
 }

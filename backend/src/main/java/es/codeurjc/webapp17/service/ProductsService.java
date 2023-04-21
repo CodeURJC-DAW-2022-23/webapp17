@@ -217,18 +217,19 @@ public class ProductsService {
             Product product = getProducts().get((int) id - 1);
             List<Comment> listComments = product.getComments();
             int totalPages = commentsService.getTotalPagesComments(listComments);
-            boolean moreProducts = true;
+            boolean moreProducts;
             //Page<Product> test = productsService.getProducts(page, pageSize);
             map.put("totalPages", totalPages);
             map.put("currentPage", page);
             map.put("product", product);
             //model.addAttribute("product", productsService.getProductsRepo().findById(id));
             if (page<=totalPages-1){
-                map.put("productComments", commentsService.getComments(product, page, pageSize));
+                moreProducts = true;
             } else {
-                moreProducts=false;
-                map.put("productComments", null);
+                moreProducts = false;
+                //map.put("productComments", null);
             }
+            map.put("productComments", commentsService.getComments(product, page, pageSize));
             map.put("moreComments", moreProducts);
             if(request.getUserPrincipal() != null)
             map.put("userProfile_id", usersService.getUser(request.getUserPrincipal().getName()).getID());
