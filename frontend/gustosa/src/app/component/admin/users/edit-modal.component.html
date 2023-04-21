@@ -1,0 +1,80 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Editar usuario</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+        <div class="py-1">
+          <form class="form" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label>Identificador</label>
+                      <input class="form-control" id="id" type="text" value="{{user?.id}}" readonly>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label>Nombre</label>
+                      <input class="form-control" id="name"  type="text" value="{{user?.name}}">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label>Correo electrónico</label>
+                      <input class="form-control" id="email" type="text" value="{{user?.email}}">
+                    </div>
+                  </div>
+                  </div>
+                <div class="row">
+                  <div class="col mb-3">
+                    <div class="form-group">
+                      <label>Descripción</label>
+                      <textarea class="form-control" value="{{user?.bio}}" id="bio" rows="5"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 mb-3">
+                <div class="mb-2"><b>Cambiar contraseña</b></div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label>Nueva contraseña</label>
+                      <input class="form-control" id="password" type="password" name="password" placeholder="·········">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label>Confirmar contraseña</label>
+                      <input class="form-control" id="password2" type="password" placeholder="·········">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                <div class="mb-2"><b>Imagen de perfil</b></div>
+                <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+                    <img id="changeImage" src="" height="100" width="100" />
+                </div>
+                <input class="form-control" type="file" accept="image/*" onchange="openImage(event)" onClick="openImage(event)">
+            
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hide()">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </div>
+          </form>
+</div>
+</div>

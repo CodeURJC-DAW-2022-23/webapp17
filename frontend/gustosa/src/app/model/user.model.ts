@@ -7,5 +7,6 @@ export interface UserProfile{
     email: string,
     role: string[],
     cartLength: string,
-    bookings: Booking[]
+    bookings: Booking[],
+    lastModified: Date
 }

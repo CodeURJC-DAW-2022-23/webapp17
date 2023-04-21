@@ -13,10 +13,6 @@ export class EditProductModalComponent {
   bsModalRef: BsModalRef | undefined;
   product: Product | undefined
   id = ""
-  price: number | undefined
-  name: string | undefined
-  tags: string | undefined
-  description: string | undefined
   form = {}
 
   constructor(private modalRef: BsModalRef, private productService: ProductsService) {

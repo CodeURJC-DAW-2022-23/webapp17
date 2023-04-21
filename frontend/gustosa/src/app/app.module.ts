@@ -38,6 +38,9 @@ import { CommentsAdminComponent } from './component/admin/comments/comments-admi
 import { ProductsAdminComponent } from './component/admin/products/products-admin.component';
 import { CreateProductModalComponent } from './component/admin/products/create-modal.component';
 import { EditProductModalComponent } from './component/admin/products/edit-modal.component';
+import { UsersAdminComponent } from './component/admin/users/users-admin.component';
+import { CreateUserModalComponent } from './component/admin/users/create-modal.component';
+import { EditUserModalComponent } from './component/admin/users/edit-modal.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,8 @@ import { EditProductModalComponent } from './component/admin/products/edit-modal
     LogoutComponent, CartComponent, AdminDashboardComponent, CheckoutComponent, DescriptionComponent,
     SidebarComponent, LoginComponent, LogoutComponent,
     RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent, BookingFormComponent,
-    CommentsAdminComponent, ProductsAdminComponent, CreateProductModalComponent, EditProductModalComponent
+    CommentsAdminComponent, ProductsAdminComponent, CreateProductModalComponent, EditProductModalComponent, 
+    UsersAdminComponent, CreateUserModalComponent, EditUserModalComponent
   ],
   imports: [
     BrowserModule,

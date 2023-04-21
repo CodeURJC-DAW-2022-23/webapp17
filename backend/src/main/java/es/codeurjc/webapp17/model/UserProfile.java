@@ -3,6 +3,7 @@ package es.codeurjc.webapp17.model;
 import java.time.Instant;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -268,6 +269,11 @@ public class UserProfile {
 
     public List<Booking> getBookings() {
         return bookings;
+    }
+
+    public Date getDate() {
+        Date date = new Date(lastModified.getTime());
+        return date;
     }
 }
 

@@ -85,11 +85,16 @@ export class UserService {
         );
     }
 
-    getUsers() : Observable<any>{
+    getUsers(page: number) : Observable<any>{
         let url = environment.apiUrl+"/"+ApiResources.Users;
         const err = new Error('Server error.');
-        return this.httpClient.get(url, { withCredentials: true}).pipe(
-            map(response =>response as Page<any>),
+        var data = {};
+        if(page != null)
+            data = {
+                "pageNumber": page
+            }
+        return this.httpClient.get(url, { params: data, withCredentials: true}).pipe(
+            map(response =>response as Page<UserProfile>),
             catchError(error => throwError(() => err))
         );
     }
@@ -107,14 +112,19 @@ export class UserService {
         );
     }
 
-    modifyUser(email? : string, password? : string, name? : string, bio? : string) : Observable<any>{
+    modifyUser(email? : string, password? : string, name? : string, bio? : string, id? : string) : Observable<any>{
         var data = {
             "email": email,
             "newPassword": password,
             "name" : name,
             "newBio" : bio,
         }
-        let url = environment.apiUrl+"/"+ApiResources.User;
+        let url
+        if(id){
+            url = environment.apiUrl+"/"+ApiResources.User+"/";
+        }else{
+            url = environment.apiUrl+"/"+ApiResources.User;
+        }
         const err = new Error('Server error.');
         return this.httpClient.put(url, data, {withCredentials: true}).pipe(
             map(response =>response),
@@ -161,4 +171,17 @@ export class UserService {
             catchError(error => throwError(() => err))
         );
     }
+
+    deleteUser(id:string){
+        let url = environment.apiUrl+"/"+ApiResources.User+"/"+id;
+        const err = new Error('Server error.');
+        return this.httpClient.delete(url, {withCredentials: true});
+    }
+
+    createUser(data:{}){
+        let url = environment.apiUrl+"/"+ApiResources.User;
+        const err = new Error('Server error.');
+        return this.httpClient.post(url, data, {withCredentials: true});
+    }
+
 }

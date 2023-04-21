@@ -15,11 +15,6 @@ export class EditCouponModalComponent {
 
   bsModalRef: BsModalRef | undefined;
   coupon: Coupon | undefined
-  code : string | undefined
-  discount: number | undefined
-  uses: number | undefined
-  oldUser: string | undefined
-  newUser: string | undefined
   id = ""
   usersList : Observable<Array<UserProfile>>
   form = {}
@@ -39,7 +34,6 @@ export class EditCouponModalComponent {
       "newUserEmail": (document.getElementById('newUser') as HTMLInputElement).value,
       "uses" : (document.getElementById('uses') as HTMLInputElement).value,
     }
-    console.log(this.form);
     this.id = (document.getElementById('id') as HTMLInputElement).value;
     this.couponsService.modifyCoupon(this.id, this.form).subscribe(() => {
       this.modalRef.hide();

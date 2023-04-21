@@ -16,6 +16,7 @@ import { MenuComponent } from './component/menu/menu.component';
 import { BookingFormComponent } from './component/book/bookingform.component';
 import { CommentsAdminComponent } from './component/admin/comments/comments-admin.component';
 import { ProductsAdminComponent } from './component/admin/products/products-admin.component';
+import { UsersAdminComponent } from './component/admin/users/users-admin.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
   {path: "book", component: BookingFormComponent},
   {path: "admin/comments", component: CommentsAdminComponent},
   {path: "admin/products", component: ProductsAdminComponent},
+  {path: "admin/users", component: UsersAdminComponent},
 
 ];
 
