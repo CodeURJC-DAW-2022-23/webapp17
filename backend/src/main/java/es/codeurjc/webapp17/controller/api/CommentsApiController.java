@@ -1,10 +1,8 @@
 package es.codeurjc.webapp17.controller.api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -26,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(Tools.API_HEADER + "/comments/")
+@RequestMapping(Tools.API_HEADER + "/comments")
 public class CommentsApiController {
 
     @Autowired
@@ -55,20 +53,9 @@ public class CommentsApiController {
 	@GetMapping("")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public Object showComments(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
-		HashMap<String, Object> map = new HashMap<>();
-        int pageSize = 4;
-        List<Comment> commentsList = commentsService.getCommentsRepo().findAll();
-        List<Comment> commentsShown = new ArrayList<>();
-        Comment comment;
-        for(int i=0; i<pageSize; i++){ 
-            if(((page) * pageSize)+i<commentsList.size()){
-                comment = commentsList.get(((page) * pageSize)+i);
-                commentsShown.add(comment);
-            }
-        }
-        map.put("comments", commentsShown);
-        if(!map.isEmpty()){
-            return map;
+        Page<Comment> commentsPage = commentsService.getCommentsRepo().findAll(PageRequest.of(page, 8));
+        if(!commentsPage.isEmpty()){
+            return commentsPage;
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }   
@@ -94,7 +81,7 @@ public class CommentsApiController {
                 content = @Content
 			),        
 	})
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/comment/{id}")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public ResponseEntity<Object> deleteComment(@PathVariable(name = "id") String id){
         if(commentsService.removeComment(Long.parseLong(id))){

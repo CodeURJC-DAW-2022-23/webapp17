@@ -18,5 +18,7 @@ export enum ApiResources {
     Order = "users/orders",
     Menu = "menu/",
     NewComment = "products/comment",
-    Booking = "bookings/"
+    Booking = "bookings/",
+    Comments = "comments",
+    Comment = "comments/comment",
 }

@@ -34,6 +34,7 @@ import { LoaderComponent } from './component/common/loader.component';
 import { OrderComponent } from './component/order/order.component';
 import { MenuComponent } from './component/menu/menu.component';
 import { BookingFormComponent } from './component/book/bookingform.component';
+import { CommentsAdminComponent } from './component/admin/comments/comments-admin.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { BookingFormComponent } from './component/book/bookingform.component';
     CouponsAdminComponent, CreateModalComponent, EditModalComponent, SidebarComponent, LoginComponent,
     LogoutComponent, CartComponent, AdminDashboardComponent, CheckoutComponent, DescriptionComponent,
     SidebarComponent, LoginComponent, LogoutComponent,
-    RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent, BookingFormComponent
+    RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent, BookingFormComponent,
+    CommentsAdminComponent
   ],
   imports: [
     BrowserModule,

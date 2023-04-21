@@ -1,6 +1,8 @@
 package es.codeurjc.webapp17.model;
 
 import java.sql.Timestamp;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
@@ -72,8 +74,9 @@ public class Comment {
         return description;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
+    public Date getDate() {
+        Date date = new Date(createdAt.getTime());
+        return date;
     }
 
     public void setProduct(Product product) {

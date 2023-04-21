@@ -8,9 +8,9 @@ export interface CommentPackage {
 
 export interface Comment{
     id: number;
-    userProfile: UserProfile;
-    product: Product;
+    productName: string;
     rating: number;
     description: string;
-    createdAt: Timestamp<any>;
+    userEmail: string;
+    date: Date
 }

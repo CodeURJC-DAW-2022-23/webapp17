@@ -14,6 +14,7 @@ import { ProfileComponent } from './component/user/profile.component';
 import { OrderComponent } from './component/order/order.component';
 import { MenuComponent } from './component/menu/menu.component';
 import { BookingFormComponent } from './component/book/bookingform.component';
+import { CommentsAdminComponent } from './component/admin/comments/comments-admin.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
   {path: "order/:id", component: OrderComponent},
   {path: "menu", component: MenuComponent},
   {path: "book", component: BookingFormComponent},
+  {path: "admin/comments", component: CommentsAdminComponent},
 
 ];
 
