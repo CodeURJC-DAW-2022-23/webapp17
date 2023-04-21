@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { EditModalComponent } from './edit-modal.component';
-import { CreateModalComponent } from './create-modal.component';
 import { Observable } from 'rxjs';
 import { Coupon } from 'src/app/model/coupon.model';
 import { Page } from 'src/app/model/pageable.model';
 import { CouponService } from 'src/app/service/coupon.service';
+import { CreateCouponModalComponent } from './create-modal.component';
+import { EditCouponModalComponent } from './edit-modal.component';
 
 @Component({
   selector: 'admin',
@@ -23,7 +23,7 @@ export class CouponsAdminComponent {
     }
 
     onEdit(coupon: Coupon) {
-      this.bsModalRef = this.modalService.show(EditModalComponent, {initialState : { coupon: coupon }})
+      this.bsModalRef = this.modalService.show(EditCouponModalComponent, {initialState : { coupon: coupon }})
       this.bsModalRef.onHide?.subscribe(() => {
         this.coupons = this.couponService.getCoupons((this.currentPage - 1))
       });
@@ -36,7 +36,7 @@ export class CouponsAdminComponent {
     }
 
     onCreate(){
-      this.bsModalRef = this.modalService.show(CreateModalComponent);
+      this.bsModalRef = this.modalService.show(CreateCouponModalComponent);
       this.bsModalRef.onHide?.subscribe(() => {
         this.coupons = this.couponService.getCoupons((this.currentPage - 1))
       });

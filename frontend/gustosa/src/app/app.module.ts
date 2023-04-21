@@ -20,11 +20,11 @@ import { LogoutComponent } from './component/auth/logout.component';
 
 import { CouponsAdminComponent } from './component/admin/coupons/coupons-admin.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { EditModalComponent } from './component/admin/coupons/edit-modal.component';
+import { EditCouponModalComponent } from './component/admin/coupons/edit-modal.component';
 import { SidebarComponent } from './component/admin/sidebar.component';
 import { CartComponent } from './component/cart/cart.component';
 import { AdminDashboardComponent } from './component/admin/dashboard/admin.component';
-import { CreateModalComponent } from './component/admin/coupons/create-modal.component';
+import { CreateCouponModalComponent } from './component/admin/coupons/create-modal.component';
 import { CheckoutComponent } from './component/cart/checkout.component';
 import { DescriptionComponent } from './component/productsInfo/description.component';
 import { RegisterComponent } from './component/auth/register.component';
@@ -35,15 +35,18 @@ import { OrderComponent } from './component/order/order.component';
 import { MenuComponent } from './component/menu/menu.component';
 import { BookingFormComponent } from './component/book/bookingform.component';
 import { CommentsAdminComponent } from './component/admin/comments/comments-admin.component';
+import { ProductsAdminComponent } from './component/admin/products/products-admin.component';
+import { CreateProductModalComponent } from './component/admin/products/create-modal.component';
+import { EditProductModalComponent } from './component/admin/products/edit-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent, HeaderComponent, HomeComponent, ProductsComponent, 
-    CouponsAdminComponent, CreateModalComponent, EditModalComponent, SidebarComponent, LoginComponent,
+    CouponsAdminComponent, CreateCouponModalComponent, EditCouponModalComponent, SidebarComponent, LoginComponent,
     LogoutComponent, CartComponent, AdminDashboardComponent, CheckoutComponent, DescriptionComponent,
     SidebarComponent, LoginComponent, LogoutComponent,
     RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent, BookingFormComponent,
-    CommentsAdminComponent
+    CommentsAdminComponent, ProductsAdminComponent, CreateProductModalComponent, EditProductModalComponent
   ],
   imports: [
     BrowserModule,

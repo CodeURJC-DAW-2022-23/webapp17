@@ -18,6 +18,7 @@ export interface Product{
     numberOfImages: number;
     cartItems: CartItem[];
     images: ProductImage[];
+    tags: string;
 }
 
 export interface IndividualProduct {

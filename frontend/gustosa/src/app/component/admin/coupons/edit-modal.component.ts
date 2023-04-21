@@ -11,7 +11,7 @@ import { UserService } from 'src/app/service/user.service';
   templateUrl: './edit-modal.component.html',
   styleUrls: ['./modal.component.css'],
 })
-export class EditModalComponent {
+export class EditCouponModalComponent {
 
   bsModalRef: BsModalRef | undefined;
   coupon: Coupon | undefined

@@ -136,7 +136,7 @@ public class ProductsApiController {
         return map;
     }
 
-	@PutMapping("/{id}")
+	@PutMapping("/product/{id}")
 	@Operation(summary = "Modify the fields of a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -169,7 +169,7 @@ public class ProductsApiController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/product/{id}")
 	@Operation(summary = "Remove a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -197,7 +197,7 @@ public class ProductsApiController {
 		}
     }
 
-    @PostMapping("")
+    @PostMapping("/product")
 	@Operation(summary = "Create a new product")
 	@ApiResponses(value = { 
 			@ApiResponse(

@@ -48,4 +48,22 @@ export class ProductsService {
         );
     }
 
+    deleteProduct(id:string){
+        let url = environment.apiUrl+"/"+ApiResources.Product+"/"+id;
+        const err = new Error('Server error.');
+        return this.httpClient.delete(url, {withCredentials: true});
+    }
+
+    createProduct(data:{}){
+        let url = environment.apiUrl+"/"+ApiResources.Product;
+        const err = new Error('Server error.');
+        return this.httpClient.post(url, data, {withCredentials: true});
+    }
+
+    modifyProduct(id:string, data:{}){
+        let url = environment.apiUrl+"/"+ApiResources.Product+"/"+id;
+        const err = new Error('Server error.');
+        return this.httpClient.put(url, data, {withCredentials: true});
+    }
+
 }

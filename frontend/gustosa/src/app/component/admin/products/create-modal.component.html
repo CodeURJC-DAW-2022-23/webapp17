@@ -1,0 +1,52 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title">Creación de producto</h5>
+    <button type="button" class="close" (click)="hide()" data-dismiss="modal">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="py-1">
+      <form class="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>Nombre</label>
+                  <input class="form-control" [(ngModel)]="name" name="name" type="text" placeholder="Calabresa">
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label>Precio</label>
+                  <input class="form-control" [(ngModel)]="price" placeholder="13" type="text" name="price">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>Etiquetas (Separadas por coma)</label>
+                  <input class="form-control" [(ngModel)]="tags" placeholder="Más vendido, Entrante, Producto nuevo" type="text" name="tags">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mb-3">
+                <div class="form-group">
+                  <label>Descripción</label>
+                  <textarea class="form-control" [(ngModel)]="description" name="description" placeholder="Salchicha ahumada acompañado con patatas fritas" rows="5"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hide()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
