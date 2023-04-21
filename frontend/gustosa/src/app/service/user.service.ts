@@ -6,6 +6,7 @@ import { environment } from '../environment';
 import { ApiResources } from '../apiresources';
 import { Page } from '../model/pageable.model';
 import { UserProfile } from '../model/user.model';
+import { CartPackage } from '../model/cart.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -121,6 +122,22 @@ export class UserService {
         );
     }
 
+    modifyUserImage(id : number, blob : Blob) : Observable<any>{
+
+        let url = environment.apiUrl+"/"+ApiResources.Users+"/"+id+"/image";
+        const err = new Error('Server error.');
+
+        const formData = new FormData();
+
+        // Pass the image file name as the third parameter if necessary.
+        formData.append('imageFile', blob, "profile.png");
+
+        return this.httpClient.post(url, formData, {withCredentials: true}).pipe(
+            map(response =>response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
 
     getOrders(page? : number){
         var tpage = page;
@@ -131,7 +148,16 @@ export class UserService {
         let url = environment.apiUrl+"/"+ApiResources.Orders;
         const err = new Error('Server error.');
         return this.httpClient.get(url, { withCredentials: true, params:data}).pipe(
-            map(response =>response as Page<any>),
+            map(response =>response as Page<CartPackage>),
+            catchError(error => throwError(() => err))
+        );
+    }
+
+    getOrder(id : number){
+        let url = environment.apiUrl+"/"+ApiResources.Order+"/"+id;
+        const err = new Error('Server error.');
+        return this.httpClient.get(url, { withCredentials: true }).pipe(
+            map(response =>response as CartPackage),
             catchError(error => throwError(() => err))
         );
     }

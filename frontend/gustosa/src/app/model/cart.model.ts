@@ -12,6 +12,8 @@ export interface CartPackage {
     coupon: Coupon;
     couponList: Coupon[];
     user: UserProfile;
+    id: number,
+    status: number
 }
 
 export interface CartItem{

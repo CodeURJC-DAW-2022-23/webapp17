@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from "@angular/core";
+import { Page } from "src/app/model/pageable.model";
 
 @Component({
     selector: 'loader',
@@ -16,6 +17,8 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from "@angular
     @Output()
     load = new EventEmitter<LoaderComponent>();
 
+    pageNumber : number = 0;
+
     constructor(){
 
     }
@@ -28,9 +31,12 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from "@angular
         this.load.emit(this);
     }
 
-    setLoaded(){
-        if(this.more != null)
+    setLoaded(page? : Page<any>){
+        if(this.more != null){
             this.more.nativeElement.hidden = false;
+            if(page != null && page.last) this.more.nativeElement.hidden = true;
+        }
+            
         if(this.spinner != null)
             this.spinner.nativeElement.hidden = true;
     }

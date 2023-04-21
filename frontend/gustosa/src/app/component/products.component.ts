@@ -41,8 +41,8 @@ export class ProductsComponent implements OnInit{
         setTimeout(() => {
           // Código que se ejecutará después de medio segundo
           const spinner = document.getElementById('spinner') as HTMLElement;
-          spinner.style.display = 'none';
-        }, 2000);
+          spinner.hidden = true;
+        }, 100);
       };
     }
 
@@ -51,7 +51,7 @@ export class ProductsComponent implements OnInit{
       const spinner = document.getElementById('spinner') as HTMLElement;
       const buttonMoreResults = document.getElementById('buttonMoreResults') as HTMLElement;
       buttonMoreResults.style.display = 'none';
-      spinner.style.display = 'block';
+      spinner.hidden = false;
 
       //Combinar productos
       const newProducts = this.productsService.getProducts(page);
@@ -64,7 +64,7 @@ export class ProductsComponent implements OnInit{
         this.products = of(updatedData);
 
         //Esconder spinner
-        spinner.style.display = 'none';
+        spinner.hidden = true;
         buttonMoreResults.style.display = 'block';
 
       });

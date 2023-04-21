@@ -300,12 +300,45 @@ public class UserApiController {
 				) 		
 	})
 	@GetMapping("/orders")
-    @NeedsSecurity(role=Tools.Role.ADMIN)
+    @NeedsSecurity(role=Tools.Role.USER)
     public @ResponseBody Object getUserOrders(@RequestParam(defaultValue = "0") int pageNumber, HttpServletRequest request) {
 		if(permissionsService.isUserLoggedIn(request, usersService)){
 			UserProfile u = usersService.getUser(request.getUserPrincipal().getName());
-			Page<Cart> page = cartsService.getUserOrders(u, pageNumber, 4);
+			Page<Cart> page = cartsService.getUserOrders(u, pageNumber, 2);
 			return page;
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	}
+
+
+	@Operation(summary = "Get users order")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Ok", 
+					content = {@Content(
+							mediaType = "application/json"
+							)}
+					),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Page not found", 
+					content = @Content
+					),
+			@ApiResponse(
+				responseCode = "403", 
+				description = "No permission", 
+				content = @Content
+				) 		
+	})
+	@GetMapping("/orders/{id}")
+    @NeedsSecurity(role=Tools.Role.USER)
+    public @ResponseBody Object getUserOrder(@PathVariable long id, HttpServletRequest request) {
+		if(permissionsService.isUserLoggedIn(request, usersService)){
+			UserProfile u = usersService.getUser(request.getUserPrincipal().getName());
+			Cart c = u.getOrders().stream().filter(n -> n.getId() == id).findFirst().get();
+			c.totalPrice();
+			return c;
 		}
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	}

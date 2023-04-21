@@ -14,5 +14,7 @@ export enum ApiResources {
     Unredeem="carts/couponFree",
     AddToCart="products/cart",
     Checkout="carts/finalCart",
-    Orders = "users/orders"
+    Orders = "users/orders",
+    Order = "users/orders",
+    Menu = "menu/"
 }

@@ -30,6 +30,8 @@ import { RegisterComponent } from './component/auth/register.component';
 import { ProfileComponent } from './component/user/profile.component';
 import { AngularCropperjsModule } from 'angular-cropperjs';
 import { LoaderComponent } from './component/common/loader.component';
+import { OrderComponent } from './component/order/order.component';
+import { MenuComponent } from './component/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,7 @@ import { LoaderComponent } from './component/common/loader.component';
     CouponsAdminComponent, CreateModalComponent, EditModalComponent, SidebarComponent, LoginComponent,
     LogoutComponent, CartComponent, AdminDashboardComponent, CheckoutComponent, DescriptionComponent,
     SidebarComponent, LoginComponent, LogoutComponent,
-    RegisterComponent, ProfileComponent, LoaderComponent
+    RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent
   ],
   imports: [
     BrowserModule,

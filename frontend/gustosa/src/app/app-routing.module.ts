@@ -11,6 +11,8 @@ import { CouponsAdminComponent } from './component/admin/coupons/coupons-admin.c
 import { CheckoutComponent } from './component/checkout.component';
 import { RegisterComponent } from './component/auth/register.component';
 import { ProfileComponent } from './component/user/profile.component';
+import { OrderComponent } from './component/order/order.component';
+import { MenuComponent } from './component/menu/menu.component';
 
 
 const routes: Routes = [
@@ -25,6 +27,8 @@ const routes: Routes = [
   {path: "admin/dashboard", component: AdminDashboardComponent},
   {path: "admin/coupons", component: CouponsAdminComponent},
   {path: "checkout", component: CheckoutComponent},
+  {path: "order/:id", component: OrderComponent},
+  {path: "menu", component: MenuComponent},
 
 ];
 
