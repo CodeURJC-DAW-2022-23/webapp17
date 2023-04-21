@@ -15,13 +15,13 @@
                     <div class="col">
                       <div class="form-group">
                           <label>Identificador de cupón</label>
-                          <input class="form-control" value="{{coupon?.id}}" type="text" readonly>
+                          <input class="form-control" value="{{coupon?.id}}" type="text" readonly id="id">
                       </div>
                     </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Usuario actual</label>
-                          <input class="form-control" value="{{coupon?.userEmail}}" readonly>
+                          <input class="form-control" value="{{coupon?.userEmail}}" readonly id="oldUser">
                         </div>
                     </div>
                   </div>
@@ -29,13 +29,13 @@
                     <div class="col">
                       <div class="form-group">
                         <label>Código</label>
-                        <input class="form-control" value="{{coupon?.code}}">
+                        <input class="form-control" value="{{coupon?.code}}" id="code">
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-group">
                         <label>Descuento</label>
-                        <input class="form-control" id="coupon-discount-input" value="{{coupon?.discount}}" type="text" name="discount">
+                        <input class="form-control" value="{{coupon?.discount}}" type="text" id="discount">
                       </div>
                     </div>
                   </div>
@@ -43,7 +43,7 @@
                     <div class="col">
                       <div class="form-group">
                         <label>Usuario nuevo</label>
-                        <select class="form-control" id="coupon-user-input-creation" name="user" *ngIf="usersList | async as users">
+                        <select class="form-control" id="newUser" *ngIf="usersList | async as users">
                           <option *ngFor="let user of users" value="{{user.email}}">{{user.email}} </option>
                         </select>
                       </div>
@@ -51,7 +51,7 @@
                     <div class="col">
                       <div class="form-group">
                         <label>Usos permitidos</label>
-                        <input class="form-control" value="{{coupon?.usesRemaining}}" type="text" name="uses">
+                        <input class="form-control" value="{{coupon?.usesRemaining}}" type="text" id="uses">
                       </div>
                     </div>
                   </div>

@@ -15,7 +15,7 @@ export class CreateModalComponent {
 
   bsModalRef: BsModalRef | undefined;
   coupon: Coupon | undefined
-  code : string | undefined
+  code: string | undefined;
   discount: string | undefined
   uses: bigint | undefined
   user: string |undefined
@@ -34,9 +34,11 @@ export class CreateModalComponent {
     this.form = {
       "code" : this.code,
       "discount" : this.discount,
+      "user": (document.getElementById('user') as HTMLInputElement).value,
       "uses" : this.uses,
-      "user": this.user,
     }
-    this.couponsService.createCoupon(this.form).subscribe()
+    this.couponsService.createCoupon(this.form).subscribe(() => {
+      this.modalRef.hide();
+    })
   }
 }

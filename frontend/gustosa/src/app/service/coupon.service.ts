@@ -34,7 +34,13 @@ export class CouponService {
     createCoupon(data:{}){
         let url = environment.apiUrl+"/"+ApiResources.Coupon;
         const err = new Error('Server error.');
-        return this.httpClient.post(url, {params : data, withCredentials: true});
+        return this.httpClient.post(url, data, {withCredentials: true});
+    }
+
+    modifyCoupon(id:string, data:{}){
+        let url = environment.apiUrl+"/"+ApiResources.Coupon+"/"+id;
+        const err = new Error('Server error.');
+        return this.httpClient.put(url, data, {withCredentials: true});
     }
 
 }

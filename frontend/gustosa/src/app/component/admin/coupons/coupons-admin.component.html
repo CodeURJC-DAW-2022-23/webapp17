@@ -3,7 +3,7 @@
 <div>
 <div class = "rest">
 <div class="row">
-  <div class="col-lg-9">
+  <div class="col-lg-9" *ngIf="coupons | async as couponPage">
     <div class="e-panel card">
       <div class="card-body">
         <div class="card-title">
@@ -21,7 +21,7 @@
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody *ngIf="coupons | async as couponPage">
+              <tbody>
                 <tr *ngFor="let coupon of couponPage.content">
                   <td class="text-nowrap align-middle">{{coupon.code}}</td>
                   <td class="text-nowrap align-left">{{coupon.discount}}%</td>
@@ -39,9 +39,16 @@
           </div>
         </div>
         <div class="d-flex justify-content-center">
+          <a id="page-number">Página {{currentPage}} de {{couponPage.totalPages}}</a>
+        </div>
+        <div class="d-flex justify-content-center">
           <ul class="pagination mt-3 mb-0">
-            <li class="page-item"><a class="page-link"><<</a></li>
-            <li class="page-item"><a class="page-link">>></a></li>
+            <li class="page-item" *ngIf="currentPage !== 1">
+              <a class="page-link" (click)="onLeftArrow()"><<</a>
+            </li>
+            <li class="page-item" *ngIf="currentPage !== couponPage.totalPages">
+              <a class="page-link" (click)="onRightArrow(couponPage.totalPages)">>></a>
+            </li>
           </ul>
         </div>
       </div>

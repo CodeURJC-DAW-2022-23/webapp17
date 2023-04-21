@@ -28,7 +28,7 @@
               <div class="col">
                 <div class="form-group">
                   <label>Cuenta asociada (email)</label>
-                  <select class="form-control" *ngIf="usersList | async as users">
+                  <select class="form-control" *ngIf="usersList | async as users" id="user">
                     <option *ngFor="let user of users" value="{{user.email}}">{{user.email}} </option>
                   </select>
                 </div>
