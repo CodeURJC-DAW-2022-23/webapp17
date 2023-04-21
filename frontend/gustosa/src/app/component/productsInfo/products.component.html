@@ -90,7 +90,7 @@
         <button *ngIf="productsPackage.moreProducts" id="buttonMoreResults" class="btn btn-secondary"  (click)="moreResults(productsPackage.currentPage + 1)">
             Más resultados
         </button>
-        <div id="spinner" class="spinner-border text-primary" role="status">
+        <div id="spinner" class="spinner-border text-primary" role="status" hidden>
             <span class="visually-hidden">Loading...</span>
         </div>
         

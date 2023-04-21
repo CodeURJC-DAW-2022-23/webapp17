@@ -8,9 +8,9 @@ public class BookingRequests {
         }
     }
     public static class CreateBookingRequest{
-        private int numPeople;
+        private long numPeople;
         private String date, hour, tlf;
-        public int getNumPeople() {
+        public long getNumPeople() {
             return numPeople;
         }
         public String getDate() {
