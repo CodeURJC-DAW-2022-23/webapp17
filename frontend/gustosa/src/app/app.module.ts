@@ -41,6 +41,7 @@ import { EditProductModalComponent } from './component/admin/products/edit-modal
 import { UsersAdminComponent } from './component/admin/users/users-admin.component';
 import { CreateUserModalComponent } from './component/admin/users/create-modal.component';
 import { EditUserModalComponent } from './component/admin/users/edit-modal.component';
+import { BookingsAdminComponent } from './component/admin/bookings/bookings-admin.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { EditUserModalComponent } from './component/admin/users/edit-modal.compo
     SidebarComponent, LoginComponent, LogoutComponent,
     RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent, BookingFormComponent,
     CommentsAdminComponent, ProductsAdminComponent, CreateProductModalComponent, EditProductModalComponent, 
-    UsersAdminComponent, CreateUserModalComponent, EditUserModalComponent
+    UsersAdminComponent, CreateUserModalComponent, EditUserModalComponent, BookingsAdminComponent
   ],
   imports: [
     BrowserModule,

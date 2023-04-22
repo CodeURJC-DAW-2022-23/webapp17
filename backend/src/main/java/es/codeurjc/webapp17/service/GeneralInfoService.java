@@ -1,6 +1,7 @@
 package es.codeurjc.webapp17.service;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,13 +32,19 @@ public class GeneralInfoService {
         postRepo.saveAndFlush(menu);
     }
 
-    public void bookingApplyState(long id, int action){
-        if(action==1){
-            bookingsRepo.deleteById(id);
+    public void bookingApplyState(long id){
+        Booking c = bookingsRepo.findById(id).get();
+        c.setConfirmation(true);
+        bookingsRepo.saveAndFlush(c);
+    }
+
+    public Boolean deleteBooking(long id){
+        Optional<Booking> booking = getBookingsRepo().findById(id);
+        if(!booking.isEmpty()){
+            getBookingsRepo().delete(booking.get());
+            return true;
         }else{
-            Booking c = bookingsRepo.findById(id).get();
-            c.setConfirmation(true);
-            bookingsRepo.saveAndFlush(c);
+            return false;
         }
     }
 
