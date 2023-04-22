@@ -81,4 +81,12 @@ public class Booking {
         this.confirmation = confirmation;
     }
 
+    public long getId(){
+        return id;
+    }
+
+    public String getUserEmail(){
+        return userProfile.getEmail();
+    }
+
 }
