@@ -236,10 +236,10 @@ public class UserApiController {
 	})
 	@DeleteMapping("/user")
     @NeedsSecurity(role = Tools.Role.USER)
-    public ResponseEntity<Object> changeDescriptionPost(HttpServletRequest request, @RequestBody(required = false) UserInfoRequest email) throws ServletException{
+    public ResponseEntity<Object> deleteUser(@RequestParam(required = false) String email, HttpServletRequest request) throws ServletException{
         if(permissionsService.isUserLoggedIn(request, usersService)){
-			if(permissionsService.canEditUsers(request, usersService) && email.getEmail() != null){
-				if(usersService.removeUser(email.getEmail()))
+			if(permissionsService.canEditUsers(request, usersService) && email != null){
+				if(usersService.removeUser(email))
 					return ResponseEntity.ok().build();
 				else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
