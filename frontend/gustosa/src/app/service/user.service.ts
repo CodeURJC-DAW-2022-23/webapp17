@@ -172,10 +172,14 @@ export class UserService {
         );
     }
 
-    deleteUser(id:string){
-        let url = environment.apiUrl+"/"+ApiResources.User+"/"+id;
+    deleteUser(email:string){
+        let url = environment.apiUrl+"/"+ApiResources.User;
         const err = new Error('Server error.');
-        return this.httpClient.delete(url, {withCredentials: true});
+        var data
+         = {
+            email: email
+        }
+        return this.httpClient.delete(url, {params: data, withCredentials: true});
     }
 
     createUser(data:{}){

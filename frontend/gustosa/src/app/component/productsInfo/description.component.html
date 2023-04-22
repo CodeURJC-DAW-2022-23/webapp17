@@ -47,7 +47,7 @@ triggers="" (click)="addToCart($event, individualProduct.product.id)" [@bgChange
                     <div class="row">
                         <div class="col row border-end">
                             <div class="col user mt-2">
-                                <img class="rounded-circle shadow-sm me-3 mt-2" src="api/users/{{individualProduct.userProfile_id}}/image" alt="avatar" width="32"
+                                <img class="rounded-circle shadow-sm me-3 mt-2" src="api/users/{{elem.userId}}/image" alt="avatar" width="32"
                                 height="32"/>
                                 {{elem.userEmail}}
                             </div>
@@ -67,7 +67,7 @@ triggers="" (click)="addToCart($event, individualProduct.product.id)" [@bgChange
             <button *ngIf="individualProduct.moreComments" id="buttonMoreResults" (click)="moreComments(individualProduct.currentPage + 1,individualProduct.product.id)" class="btn btn-light rounded-pill border-dark">
                 Más resultados
             </button>
-            <div id="spinner" class="spinner-border text-primary" role="status">
+            <div id="spinner" class="spinner-border text-primary" role="status" hidden>
                 <span class="visually-hidden">Loading...</span>
             </div>
             
@@ -77,9 +77,9 @@ triggers="" (click)="addToCart($event, individualProduct.product.id)" [@bgChange
             
         </div>
 
-            <div class="row border rounded-0" style="background-color: #f0f2f5;">
+            <div class="row border rounded-0" style="background-color: #f0f2f5;" *ngIf="user as prof">
                 <div class="col-1 m-3">
-                    <img class="rounded-circle shadow" src="api/users/{{individualProduct.userProfile_id}}/image" alt="avatar" width="50px"
+                    <img class="rounded-circle shadow" src="api/users/{{prof.id}}/image" alt="avatar" width="50px"
                     height="50px"/>
                 </div>
                 <div class="col-10 m-3">

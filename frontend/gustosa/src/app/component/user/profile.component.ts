@@ -33,7 +33,7 @@ export class ProfileComponent {
         userService.isUserLoggedIn().subscribe((val)=>{
             if(!val){
                 sessionService.updateProfile();
-                router.navigateByUrl("");
+                router.navigateByUrl("login");
             }
         });
 

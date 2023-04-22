@@ -8,6 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProductsComponent } from './products.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { UserProfile } from 'src/app/model/user.model';
 
 @Component({
   selector: 'description',
@@ -34,6 +35,7 @@ export class DescriptionComponent implements OnInit{
   bgState: string = 'start';
   id: number;
   description: Observable<any>;
+  user?: UserProfile;
     
   constructor(private productsService: ProductsService, private cartService: CartService, private sessionService: SessionService, private route: ActivatedRoute) {
     this.id = +this.route.snapshot.paramMap.get('id')!; // Asignación segura de tipo
@@ -42,6 +44,10 @@ export class DescriptionComponent implements OnInit{
     this.description.subscribe((data) => {
       //console.log(data);
     });
+    sessionService.sessionProfile.subscribe((u)=>{
+      this.user = u;
+    });
+    sessionService.updateProfile();
   }
 
   addToCart(event:Event, id : number){

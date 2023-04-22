@@ -4,6 +4,8 @@ import { Observable, of, combineLatest } from 'rxjs';
 import { CartService } from '../../service/cart.service';
 import { SessionService } from '../../service/session.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'products',
@@ -31,7 +33,7 @@ export class ProductsComponent implements OnInit{
     products: Observable<any>;
     
     constructor(private productsService: ProductsService, private cartService : CartService, 
-      private sessionService : SessionService){
+      private sessionService : SessionService, private userService : UserService, private router : Router){
         this.products = productsService.getProducts(0);
     }
 
@@ -78,8 +80,13 @@ export class ProductsComponent implements OnInit{
     addToCart(event:Event, id : number){
       this.cartService.addToCart(id).subscribe((data) => {
         this.sessionService.updateProfile();
-        console.log(data)
         //Si da error irse a login para no hacer changeBgColor
+        this.userService.isUserLoggedIn().subscribe((val)=>{
+          if(!val){
+              this.sessionService.updateProfile();
+              this.router.navigateByUrl("login");
+          }
+        });
       });
       this.changeBgColor();
     }

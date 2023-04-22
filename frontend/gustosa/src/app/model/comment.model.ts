@@ -13,4 +13,5 @@ export interface Comment{
     description: string;
     userEmail: string;
     date: Date
+    userId: number
 }

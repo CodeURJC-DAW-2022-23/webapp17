@@ -3,6 +3,8 @@ import { CartService } from '../../service/cart.service';
 import { Observable, catchError, map, of } from 'rxjs';
 import { SessionService } from '../../service/session.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'cart',
@@ -14,7 +16,15 @@ export class CartComponent {
 
   cart: Observable<any>;
     
-  constructor(private cartService : CartService, private sessionService : SessionService){
+  constructor(private cartService : CartService, 
+    private sessionService : SessionService, private userService : UserService,
+    private router : Router){
+      userService.isUserLoggedIn().subscribe((val)=>{
+        if(!val){
+            sessionService.updateProfile();
+            router.navigateByUrl("login");
+        }
+      }); 
       this.cart = cartService.getCart();
       this.cart.subscribe((data) => {
         //console.log(data.cartItems);

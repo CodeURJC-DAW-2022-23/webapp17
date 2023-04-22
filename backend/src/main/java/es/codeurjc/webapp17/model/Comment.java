@@ -2,7 +2,10 @@ package es.codeurjc.webapp17.model;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
@@ -52,6 +55,13 @@ public class Comment {
         this.createdAt = createdAt;
         this.userProfile = user;
         this.product = product;
+    }
+
+    @JsonAnyGetter
+    public Map<String,Object> otherFields() {
+        Map<String,Object> extra = new HashMap<String,Object>();
+        extra.put("userId", this.getUserProfile().getID());
+        return extra;
     }
 
     public long getId() {
