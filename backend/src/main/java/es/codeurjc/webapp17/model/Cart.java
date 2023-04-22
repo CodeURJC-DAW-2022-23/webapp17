@@ -2,6 +2,7 @@ package es.codeurjc.webapp17.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
@@ -170,4 +171,14 @@ public class Cart {
     public boolean isPreparing(){
         return status == STATUS_ORDERED;
     }
+
+    public String getUserEmail(){
+        return createdBy.getEmail();
+    }
+
+    public Date getDate(){
+        Date date = new Date(createdAt.getTime());
+        return date;
+    }
+
 }

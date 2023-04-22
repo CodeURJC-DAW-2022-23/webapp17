@@ -1,6 +1,5 @@
 package es.codeurjc.webapp17.controller.api;
 
-import java.util.HashMap;
 import es.codeurjc.webapp17.model.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,13 +23,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 
 @RestController
-@RequestMapping(Tools.API_HEADER + "/orders/")
+@RequestMapping(Tools.API_HEADER + "/orders")
 public class OrdersApiController {
 
         @Autowired
         CartsService cartsService;
 
-    @GetMapping("/orders")
+    @GetMapping("")
     @Operation(summary = "View orders")
     @ApiResponses(value = { 
         @ApiResponse(
@@ -50,21 +50,13 @@ public class OrdersApiController {
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public Object viewOrdersPaginated(HttpServletRequest request, @RequestParam(defaultValue = "0") int page){
-        HashMap<String, Object> map = new HashMap<>();
         int pageSize = 8;
-        Page<Cart> carts = cartsService.getCartsRepo().findByStatusNot(Cart.STATUS_NEW, PageRequest.of(page, pageSize));             
-        if(!carts.isEmpty()){
-            map.put("orders", carts);
-        }
-        if(!map.isEmpty()){
-            return map;
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        Page<Cart> orderPage = cartsService.getCartsRepo().findByStatusNot(Cart.STATUS_NEW, PageRequest.of(page, pageSize));             
+        return orderPage;
     };
 
 
-    @PutMapping("/orderStatus")
+    @PutMapping("/order/{id}")
     @Operation(summary = "Change the status of an order")
 	@ApiResponses(value = { 
         @ApiResponse(
@@ -84,7 +76,7 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> changeState(@RequestParam(name = "id") Long id) {
+    public ResponseEntity<Object> changeState(@PathVariable(name = "id") Long id) {
         if(cartsService.changeOrderState(id)){
             return ResponseEntity.ok().build();
         }else{
@@ -93,7 +85,7 @@ public class OrdersApiController {
           
 };
 
-@DeleteMapping("/order")
+@DeleteMapping("/order/{id}")
     @Operation(summary = "Delete an order")
 	@ApiResponses(value = { 
         @ApiResponse(
@@ -113,7 +105,7 @@ public class OrdersApiController {
             )
     })
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> deleteOrder(@RequestParam(name = "id") Long id) {
+    public ResponseEntity<Object> deleteOrder(@PathVariable(name = "id") Long id) {
         if(cartsService.deleteOrder(id)){
             return ResponseEntity.ok().build();
         }else{

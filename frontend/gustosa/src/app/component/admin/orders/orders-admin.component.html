@@ -3,7 +3,7 @@
 <div>
 <div class = "rest">
 <div class="row">
-  <div class="" *ngIf="bookings | async as bookingPage">
+  <div class="" *ngIf="orders | async as ordersPage">
     <div class="e-panel card">
       <div class="card-body">
         <div class="card-title">
@@ -14,31 +14,27 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th class="max-width">Número</th>
+                  <th class="max-width">Identificador</th>
                   <th class="max-width">Usuario</th>
-                  <th>Número de personas</th>
-                  <th>Teléfono</th>
-                  <th class="sortable">Fecha</th>
-                  <th>Confirmada</th>
+                  <th>Fecha</th>
+                  <th>Estado del pedido</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>               
-                <tr *ngFor="let booking of bookingPage.content">
-                  <td class="text-nowrap align-middle">{{booking.id}}</td>
-                  <td class="text-nowrap align-middle">{{booking.userEmail}}</td>
-                  <td class="text-nowrap align-middle">{{booking.people}}</td>
-                  <td class="text-nowrap align-middle"><span>{{booking.number}}</span></td>
-                  <td class="text-nowrap align-middle"><span>{{booking.bookTime}}</span></td>
+                <tr *ngFor="let order of ordersPage.content">
+                  <td class="text-nowrap align-middle">{{order.id}} <a href="/order/{{order.id}}">Detalle</a></td>
+                  <td class="text-nowrap align-middle">{{order.userEmail}}</td>
+                  <td class="text-nowrap align-middle">{{order.date | date:'dd/MM/yyyy HH:mm'}}</td>
                   <td class="text-nowrap align-middle">
-                    <span *ngIf="!booking.confirmation" class="badge bg-primary">Sin confirmar</span>
-                    <span *ngIf="booking.confirmation" class="badge bg-success">Confirmada</span>
+                    <span *ngIf="order.status === 1" class="badge bg-primary">En preparación</span>
+                    <span *ngIf="order.status === 2" class="badge bg-success">Pedido cerrado</span>
                   </td>
                   
                   <td class="text-center align-middle">
                     <div class="btn-group align-top">
-                        <button class="btn btn-sm btn-outline-secondary badge" type="button" (click)="onModifyStatus(booking.id)"><i class="fa fa-check"></i></button>
-                        <button class="btn btn-sm btn-outline-secondary badge" type="button" (click)="onDelete(booking.id)"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary badge" type="button" (click)="onModifyStatus(order.id)"><i class="fa fa-check"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary badge" type="button" (click)="onDelete(order.id)"><i class="fa fa-trash"></i></button>
                     </div>
                   </td>
                 </tr>
@@ -47,15 +43,15 @@
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <a id="page-number">Página {{currentPage}} de {{bookingPage.totalPages}}</a>
+          <a id="page-number">Página {{currentPage}} de {{ordersPage.totalPages}}</a>
         </div>
         <div class="d-flex justify-content-center">
           <ul class="pagination mt-3 mb-0">
             <li class="page-item" *ngIf="currentPage !== 1">
               <a class="page-link" (click)="onLeftArrow()"><<</a>
             </li>
-            <li class="page-item" *ngIf="currentPage !== bookingPage.totalPages">
-              <a class="page-link" (click)="onRightArrow(bookingPage.totalPages)">>></a>
+            <li class="page-item" *ngIf="currentPage !== ordersPage.totalPages">
+              <a class="page-link" (click)="onRightArrow(ordersPage.totalPages)">>></a>
             </li>
           </ul>
         </div>

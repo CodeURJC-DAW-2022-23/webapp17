@@ -42,6 +42,7 @@ import { UsersAdminComponent } from './component/admin/users/users-admin.compone
 import { CreateUserModalComponent } from './component/admin/users/create-modal.component';
 import { EditUserModalComponent } from './component/admin/users/edit-modal.component';
 import { BookingsAdminComponent } from './component/admin/bookings/bookings-admin.component';
+import { OrdersAdminComponent } from './component/admin/orders/orders-admin.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { BookingsAdminComponent } from './component/admin/bookings/bookings-admi
     SidebarComponent, LoginComponent, LogoutComponent,
     RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent, BookingFormComponent,
     CommentsAdminComponent, ProductsAdminComponent, CreateProductModalComponent, EditProductModalComponent, 
-    UsersAdminComponent, CreateUserModalComponent, EditUserModalComponent, BookingsAdminComponent
+    UsersAdminComponent, CreateUserModalComponent, EditUserModalComponent, BookingsAdminComponent, OrdersAdminComponent
   ],
   imports: [
     BrowserModule,
