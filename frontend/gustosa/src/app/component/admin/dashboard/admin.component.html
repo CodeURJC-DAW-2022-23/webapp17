@@ -1,3 +1,74 @@
-<div class="rest">PRINCIPAL ADMIN
-</div>
-<div class="sidebar"><sidebar></sidebar>
+<div class="rest">
+    <section>
+      <div class="container" *ngIf="statistics | async as stats">
+        <h1 class="mt-4">Panel de control</h1>
+        <div class="row">
+          <div class="col-8">
+            <!-- Chart -->
+            <div class="card m-2">
+              <div class="card-header">
+                <i class="fas fa-chart-area"></i>
+                Grafico de ventas
+              </div>
+              <div class="card-body">
+                <div class="overflow-scroll">
+                  <div id="scrollerSales">
+                    <canvas id="productsChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div> No hay al menos 5 ventas de productos distintos </div>
+          </div>
+          <div class="col-3">
+            <div class="card m-2">
+              <div class="card-header">
+                Datos de usuarios
+              </div>
+              <div class="card-body">
+                <div>
+                  <h6 class="card-title">Usuarios registrados</h6>
+                  <h4 class="card-title">{{stats.users}}</h4>
+                </div>
+                <div>
+                  <h6 class="card-title">Reseñas publicadas</h6>
+                  <h4 class="card-title">{{stats.totalComments}}</h4>
+                </div>
+                <div>
+                  <h6 class="card-title">Pedidos completados</h6>
+                  <h4 class="card-title">{{stats.finishedOrders}}</h4>
+                </div>
+                <div>
+                  <h6 class="card-title">Pedidos en proceso</h6>
+                  <h4 class="card-title">{{stats.processOrders}}</h4>
+                </div>
+              </div>
+            </div>
+            <div class="card m-2">
+              <div class="card-header">
+                Datos de productos
+              </div>
+              <div class="card-body">
+                <div>
+                  <h6 class="card-title">Productos en carta</h6>
+                  <h4 class="card-title">{{stats.products}}</h4>
+                </div>
+                <div>
+                  <h6 class="card-title">Valoración media</h6>
+                  <h4 class="card-title">{{stats.ratingAVG}}</h4>
+                </div>
+                <div>
+                  <h6 class="card-title">Carritos llenos</h6>
+                  <h4 class="card-title">{{stats.cartOrders}}</h4>
+                </div>
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="sidebar">
+    <sidebar></sidebar>
+  </div>
+  

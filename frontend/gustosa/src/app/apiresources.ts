@@ -24,5 +24,6 @@ export enum ApiResources {
     Comments = "comments",
     Comment = "comments/comment",
     OrdersAdmin = "orders",
-    OrderAdmin = "orders/order"
+    OrderAdmin = "orders/order",
+    Statistics = "statistics"
 }
