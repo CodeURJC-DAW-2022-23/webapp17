@@ -8,7 +8,7 @@ export enum ApiResources {
     Coupon = "coupons/coupon",
     Products = "products",
     Product = "products/product",
-    Cart = "carts",
+    Cart = "carts/cart",
     MoreQuantity = "carts/moreQuantity",
     LessQuantity = "carts/lessQuantity",
     Redeem = "carts/coupon",

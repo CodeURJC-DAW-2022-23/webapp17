@@ -43,6 +43,7 @@ import { CreateUserModalComponent } from './component/admin/users/create-modal.c
 import { EditUserModalComponent } from './component/admin/users/edit-modal.component';
 import { BookingsAdminComponent } from './component/admin/bookings/bookings-admin.component';
 import { OrdersAdminComponent } from './component/admin/orders/orders-admin.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { OrdersAdminComponent } from './component/admin/orders/orders-admin.comp
     PopoverModule.forRoot(),
     HttpClientModule,
     AngularCropperjsModule,
-    FormsModule
+    FormsModule,
+    NgChartsModule
   ],
   providers: [BsDropdownDirective],
   bootstrap: [AppComponent]

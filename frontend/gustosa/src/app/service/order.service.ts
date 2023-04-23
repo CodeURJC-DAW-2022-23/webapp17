@@ -5,6 +5,7 @@ import { environment } from "../environment";
 import { ApiResources } from "../apiresources";
 import { Booking } from "../model/booking.model";
 import { Page } from "../model/pageable.model";
+import { CartPackage } from "../model/cart.model";
 
 
 @Injectable({ providedIn: 'root' })
@@ -21,19 +22,19 @@ export class OrderService {
                 "page": page
             }
         return this.httpClient.get(url, { params:data, withCredentials: true}).pipe(
-            map(response => response as Page<Booking>),
+            map(response => response as Page<CartPackage>),
             catchError(error => throwError(() => err))
         );
     }
 
     deleteOrder(id:string){
-        let url = environment.apiUrl+"/"+ApiResources.OrderAdmin+"/"+id;
+        let url = environment.apiUrl+"/"+ApiResources.OrdersAdmin+"/"+id;
         const err = new Error('Server error.');
         return this.httpClient.delete(url, {withCredentials: true});
     }
 
     orderDone(id:string){
-        let url = environment.apiUrl+"/"+ApiResources.OrderAdmin+"/"+id;
+        let url = environment.apiUrl+"/"+ApiResources.OrdersAdmin+"/"+id;
         const err = new Error('Server error.');
         return this.httpClient.put(url, {withCredentials: true});
     }

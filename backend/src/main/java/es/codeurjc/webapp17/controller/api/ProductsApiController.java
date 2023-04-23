@@ -311,4 +311,5 @@ public class ProductsApiController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
     }
+
 }

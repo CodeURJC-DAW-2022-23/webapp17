@@ -88,6 +88,10 @@ public class CartsService {
         sendOrderMail(order);
     }
 
+    public void confirmOrder(long id){
+        confirmOrder(carts.findById(id).get(0));
+    }
+
 
     public void sendOrderMail(Cart order){
         try {

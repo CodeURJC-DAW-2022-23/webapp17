@@ -56,7 +56,7 @@ public class OrdersApiController {
     };
 
 
-    @PutMapping("/order/{id}")
+    @PutMapping("/{id}")
     @Operation(summary = "Change the status of an order")
 	@ApiResponses(value = { 
         @ApiResponse(
@@ -85,7 +85,7 @@ public class OrdersApiController {
           
 };
 
-@DeleteMapping("/order/{id}")
+@DeleteMapping("/{id}")
     @Operation(summary = "Delete an order")
 	@ApiResponses(value = { 
         @ApiResponse(
