@@ -13,7 +13,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './component/app.component';
 import { HeaderComponent } from './component/header.component';
-import { HomeComponent } from './component/home.component';
+import { HomeComponent } from './component/home/home.component';
 import { ProductsComponent } from './component/productsInfo/products.component';
 import { LoginComponent } from './component/auth/login.component';
 import { LogoutComponent } from './component/auth/logout.component';
