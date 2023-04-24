@@ -6,6 +6,7 @@ import { Page } from 'src/app/model/pageable.model';
 import { CouponService } from 'src/app/service/coupon.service';
 import { CreateCouponModalComponent } from './create-modal.component';
 import { EditCouponModalComponent } from './edit-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'admin',
@@ -17,9 +18,17 @@ export class CouponsAdminComponent {
     bsModalRef: BsModalRef | undefined;
     coupons: Observable<Page<Coupon>>;
     currentPage = 1;
+    queryParam : string;
   
-    constructor (private modalService: BsModalService, private couponService: CouponService){
-      this.coupons = this.couponService.getCoupons(0);
+    constructor (private modalService: BsModalService, private couponService: CouponService,
+      private router: Router){
+      this.queryParam = router.url.slice(20);
+      if (this.queryParam.length != 0) {
+        if (Number.parseInt(this.queryParam) > 0){
+          this.currentPage = Number.parseInt(this.queryParam);
+        }
+      }
+      this.coupons = this.couponService.getCoupons(this.currentPage - 1);
     }
 
     onEdit(coupon: Coupon) {
@@ -45,6 +54,7 @@ export class CouponsAdminComponent {
     onRightArrow(totalPages : number){
       if(this.currentPage < totalPages){
         this.currentPage ++
+        this.router.navigate(['/admin/coupons'], { queryParams: { page : this.currentPage } });
       }
       this.coupons = this.couponService.getCoupons((this.currentPage - 1))
     }
@@ -52,6 +62,7 @@ export class CouponsAdminComponent {
     onLeftArrow(){
       if (this.currentPage > 1){
         this.currentPage --
+        this.router.navigate(['/admin/coupons'], { queryParams: { page : this.currentPage } });
       }
       this.coupons = this.couponService.getCoupons(this.currentPage - 1)
     }

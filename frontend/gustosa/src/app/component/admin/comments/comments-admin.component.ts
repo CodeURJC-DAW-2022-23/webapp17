@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Comment } from 'src/app/model/comment.model';
 import { Page } from 'src/app/model/pageable.model';
@@ -14,9 +15,16 @@ export class CommentsAdminComponent {
 
     comments: Observable<Page<Comment>>;
     currentPage = 1;
+    queryParam : string;
   
-    constructor (private commentService: CommentService){
-      this.comments = this.commentService.getComments(0);
+    constructor (private commentService: CommentService, private router: Router){
+      this.queryParam = router.url.slice(21);
+      if (this.queryParam.length != 0) {
+        if (Number.parseInt(this.queryParam) > 0){
+          this.currentPage = Number.parseInt(this.queryParam);
+        }
+      }
+      this.comments = this.commentService.getComments(this.currentPage - 1);
     }
 
     onDelete(couponId: number) {
@@ -28,6 +36,7 @@ export class CommentsAdminComponent {
     onRightArrow(totalPages : number){
       if(this.currentPage < totalPages){
         this.currentPage ++
+        this.router.navigate(['/admin/comments'], { queryParams: { page : this.currentPage } });
       }
       this.comments = this.commentService.getComments((this.currentPage - 1))
     }
@@ -35,6 +44,7 @@ export class CommentsAdminComponent {
     onLeftArrow(){
       if (this.currentPage > 1){
         this.currentPage --
+        this.router.navigate(['/admin/comments'], { queryParams: { page : this.currentPage } });
       }
       this.comments = this.commentService.getComments(this.currentPage - 1)
     }

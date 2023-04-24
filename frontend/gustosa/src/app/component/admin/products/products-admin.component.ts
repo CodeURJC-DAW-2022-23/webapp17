@@ -5,6 +5,7 @@ import { CreateProductModalComponent } from './create-modal.component';
 import { Observable } from 'rxjs';
 import { ProductsService } from 'src/app/service/products.service';
 import { Product, ProductsPackage } from 'src/app/model/product.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'admin',
@@ -16,9 +17,16 @@ export class ProductsAdminComponent {
     bsModalRef: BsModalRef | undefined;
     products: Observable<ProductsPackage>;
     currentPage = 1;
+    queryParam : string;
   
-    constructor (private modalService: BsModalService, private productService: ProductsService){
-      this.products = this.productService.getProducts(0);
+    constructor (private modalService: BsModalService, private productService: ProductsService, private router : Router){
+      this.queryParam = router.url.slice(21);
+      if (this.queryParam.length != 0) {
+        if (Number.parseInt(this.queryParam) > 0){
+          this.currentPage = Number.parseInt(this.queryParam);
+        }
+      }
+      this.products = this.productService.getProducts(this.currentPage - 1);
     }
 
     onEdit(product: Product) {
@@ -44,6 +52,7 @@ export class ProductsAdminComponent {
     onRightArrow(totalPages : number){
       if(this.currentPage < totalPages){
         this.currentPage ++
+        this.router.navigate(['/admin/products'], { queryParams: { page : this.currentPage } });
       }
       this.products = this.productService.getProducts((this.currentPage - 1))
     }
@@ -51,6 +60,7 @@ export class ProductsAdminComponent {
     onLeftArrow(){
       if (this.currentPage > 1){
         this.currentPage --
+        this.router.navigate(['/admin/products'], { queryParams: { page : this.currentPage } });
       }
       this.products = this.productService.getProducts(this.currentPage - 1)
     }

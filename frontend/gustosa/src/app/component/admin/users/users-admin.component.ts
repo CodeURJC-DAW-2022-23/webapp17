@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { UserProfile } from 'src/app/model/user.model';
 import { Page } from 'src/app/model/pageable.model';
 import { UserService } from 'src/app/service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'admin',
@@ -17,9 +18,16 @@ export class UsersAdminComponent {
     bsModalRef: BsModalRef | undefined;
     users: Observable<Page<UserProfile>>;
     currentPage = 1;
-  
-    constructor (private modalService: BsModalService, private userService: UserService){
-      this.users = this.userService.getUsers(0);
+    queryParam : string;
+
+    constructor (private modalService: BsModalService, private userService: UserService, private router: Router){
+      this.queryParam = router.url.slice(18);
+      if (this.queryParam.length != 0) {
+        if (Number.parseInt(this.queryParam) > 0){
+          this.currentPage = Number.parseInt(router.url.slice(18));
+        }
+      }
+      this.users = this.userService.getUsers(this.currentPage - 1);
     }
 
     onEdit(user: UserProfile) {
@@ -45,6 +53,7 @@ export class UsersAdminComponent {
     onRightArrow(totalPages : number){
       if(this.currentPage < totalPages){
         this.currentPage ++
+        this.router.navigate(['/admin/users'], { queryParams: { page : this.currentPage } });
       }
       this.users = this.userService.getUsers((this.currentPage - 1))
     }
@@ -52,6 +61,7 @@ export class UsersAdminComponent {
     onLeftArrow(){
       if (this.currentPage > 1){
         this.currentPage --
+        this.router.navigate(['/admin/users'], { queryParams: { page : this.currentPage } });
       }
       this.users = this.userService.getUsers(this.currentPage - 1)
     }

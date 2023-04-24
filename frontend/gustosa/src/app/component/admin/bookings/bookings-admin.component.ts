@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Booking } from 'src/app/model/booking.model';
 import { Page } from 'src/app/model/pageable.model';
@@ -14,9 +15,16 @@ export class BookingsAdminComponent {
 
     bookings: Observable<Page<Booking>>;
     currentPage = 1;
+    queryParam : string;
   
-    constructor (private boookingService: BookingService){
-      this.bookings = this.boookingService.getBookings(0);
+    constructor (private boookingService: BookingService, private router: Router){
+      this.queryParam = router.url.slice(21);
+      if (this.queryParam.length != 0) {
+        if (Number.parseInt(this.queryParam) > 0){
+          this.currentPage = Number.parseInt(this.queryParam);
+        }
+      }
+      this.bookings = this.boookingService.getBookings(this.currentPage - 1);
     }
 
     onDelete(bookingId: string) {
@@ -34,6 +42,7 @@ export class BookingsAdminComponent {
     onRightArrow(totalPages : number){
       if(this.currentPage < totalPages){
         this.currentPage ++
+        this.router.navigate(['/admin/bookings'], { queryParams: { page : this.currentPage } });
       }
       this.bookings = this.boookingService.getBookings((this.currentPage - 1))
     }
@@ -41,6 +50,7 @@ export class BookingsAdminComponent {
     onLeftArrow(){
       if (this.currentPage > 1){
         this.currentPage --
+        this.router.navigate(['/admin/bookings'], { queryParams: { page : this.currentPage } });
       }
       this.bookings = this.boookingService.getBookings(this.currentPage - 1)
     }
