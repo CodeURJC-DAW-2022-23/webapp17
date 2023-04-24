@@ -450,20 +450,21 @@ To see the API documentation there are two options:
 #### Jesús González Gironda:
 
 📗 Job participation:
--
--
--
+- Implemented template and functionality of Home Page (component, service and model)
+- Implemented template and functionality of Information Page (component, service and model)
+- Implemented footer template
+- Implemented animations
       
 📃 Top commits:  
-- [Commit 1]()
-- [Commit 2]()
-- [Commit 3]()
-- [Commit 4]()
-- [Commit 5]()
+- [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/7e2b8d9c8b88fd7fd9cd3b159e310a5db56f9448)
+- [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/b6c457fe0f9f9d61303bc6ea4ddd6ef08f14ee1d)
+- [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/a8b352b56b85124a953be08925b27bd4257ca171)
+- [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/356e46e151eb0f17e307522a2deac55ff3c48fcb)
+- [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/ca03f56f6e2eb0126d6ba61d837a70c6bb36594e)
       
 📂 Top files:  
-- [File 1]()
-- [File 2]()
-- [File 3]()
-- [File 4]()
-- [File 5]()
+- [File 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/component/home/home.component.ts)
+- [File 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/component/footer.component.ts)
+- [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/component/info/info.component.ts)
+- [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/component/info/info.component.html)
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/component/home/home.component.html)
