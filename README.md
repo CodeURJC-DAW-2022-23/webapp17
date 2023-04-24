@@ -81,6 +81,10 @@ To see the API documentation there are two options:
 
 ## #️⃣ Features
 
+### Video demonstration
+
+[VIDEO](https://youtu.be/ofAT3sMlRaQ)
+
 ### Entities
 - Bookings
 - Carts
