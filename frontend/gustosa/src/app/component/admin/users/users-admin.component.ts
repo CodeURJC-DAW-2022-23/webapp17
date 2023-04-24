@@ -29,8 +29,8 @@ export class UsersAdminComponent {
       });
     }
 
-    onDelete(userId: number) {
-      this.userService.deleteUser(userId.toString()).subscribe(() => {
+    onDelete(userEmail: string) {
+      this.userService.deleteUser(userEmail).subscribe(() => {
         this.users = this.userService.getUsers((this.currentPage - 1))
       });
     }

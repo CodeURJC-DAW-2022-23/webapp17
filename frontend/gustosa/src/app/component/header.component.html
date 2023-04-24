@@ -16,7 +16,9 @@
                         <li><a class="dropdown-item" [routerLink]="['/book']">Reservar</a></li>
                     </ul>
                 </li>
-                <li id="admin"></li>
+                <li  *ngIf="profile as resuser">
+                    <a *ngIf="resuser.role.includes('ADMIN')" class="btn" id="admin_button" [routerLink]="['/admin/dashboard']"><i class="bi-gear-wide-connected me-1"></i>Admin</a>
+                </li>
             </ul>
             <div class="d-flex pe-3">
                 <div *ngIf="profile as resuser; else login">

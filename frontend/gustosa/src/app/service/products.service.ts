@@ -29,6 +29,18 @@ export class ProductsService {
         );
     }
 
+    postMenu(menu : string) : Observable<any>{
+        let url = environment.apiUrl+"/"+ApiResources.Menu
+        const err = new Error('Server error.');
+        var data = {
+            content : menu
+        }
+        return this.httpClient.put(url, data, { withCredentials: true }).pipe(
+            map(response =>response),
+            catchError(error => throwError(() => err))
+        );
+    }
+
     getIndividualProduct(id:number, page:number) : Observable<any>{
         let url = environment.apiUrl+"/"+ApiResources.Products+'/'+id+'?page=' + page;
         const err = new Error('Server error.');
@@ -64,6 +76,22 @@ export class ProductsService {
         let url = environment.apiUrl+"/"+ApiResources.Product+"/"+id;
         const err = new Error('Server error.');
         return this.httpClient.put(url, data, {withCredentials: true});
+    }
+
+    modifyProductImage(id : number, blob : Blob) : Observable<any>{
+
+        let url = environment.apiUrl+"/"+ApiResources.Products+"/"+id+"/image/";
+        const err = new Error('Server error.');
+
+        const formData = new FormData();
+
+        // Pass the image file name as the third parameter if necessary.
+        formData.append('imageFile', blob, "prod.png");
+
+        return this.httpClient.post(url, formData, {withCredentials: true}).pipe(
+            map(response =>response),
+            catchError(error => throwError(() => err))
+        );
     }
 
 }

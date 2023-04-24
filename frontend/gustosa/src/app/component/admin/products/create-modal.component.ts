@@ -36,4 +36,6 @@ export class CreateProductModalComponent {
       this.modalRef.hide();
     })
   }
+
+  
 }

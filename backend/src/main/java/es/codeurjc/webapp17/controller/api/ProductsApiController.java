@@ -275,7 +275,9 @@ public class ProductsApiController {
 		}
     }
 
-    @PostMapping("/image")
+    @PostMapping(value = "{id}/image/", consumes = {
+		"multipart/form-data"
+	})
 	@Operation(summary = "Add an image to a product")
 	@ApiResponses(value = { 
 			@ApiResponse(
@@ -300,7 +302,7 @@ public class ProductsApiController {
         			)
 	})
     @NeedsSecurity(role=Tools.Role.ADMIN)
-    public ResponseEntity<Object> uploadImage(@RequestParam(name="id") long id, @RequestParam MultipartFile imageFile, HttpServletRequest request){
+    public ResponseEntity<Object> uploadImage(@PathVariable(name="id") long id, @RequestParam MultipartFile imageFile, HttpServletRequest request){
         try{
 			if(productsService.addImage(id, imageFile)){
 				return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(Tools.API_HEADER+"/products/image")).build();

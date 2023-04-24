@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="rest col">
+        <section>
+            <div class="row card ms-5 me-4">
+                <div class="display-5 m-5">
+                    Menu
+                </div>
+                <div class="container px-4 px-lg-5 m-5">
+                    <div class="container px-4 px-lg-5 mt-5 mb-4" *ngIf="content | async as menu">
+                        <div id="showText" [innerHtml]="menu['content']"></div>
+                    </div>
+                    <button type="button" class="btn btn-primary" (click)="openModal(changemenu)">Cambiar Menu</button>
+                </div>
+            </div>
+        </section>
+        
+        <ng-template class="modal-dialog" #changemenu>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cambiar el Menu</h5>
+                    <button type="button" (click)="modalRef?.hide()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="descriptionInput">Introduce menu</label>
+                        <textarea type="text" id="editor" name="newDescription" class="form-control" #inmenu></textarea>
+                        <div id="errorDescription"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="modalRef?.hide()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="sendMenu(inmenu.value)">Guardar cambios</button>
+                </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+    <div class="col sidebar"><sidebar></sidebar></div>
+</div>

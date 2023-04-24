@@ -54,10 +54,8 @@
                 <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
                     <img id="changeImage" src="images/Calabresa.jpg" height="100" width="100" />
                 </div>
-                <input class="form-control" type="file" accept="image/*" onchange="openImage(event)" onClick="openImage(event)">
-                <input type="checkbox" id="upIma" name="scales" checked>
-                <label for="upIma">Confirmar subir</label>
-                <button class="col-2 btn btn-danger" onClick="javascript:removeImage()">Borrar imagenes</button>
+                <input class="form-control" type="file" accept="image/*" #inter>
+                <button type='button' (click)="openImage(inter, product?.id)">Confirmar subir</button>
               </div>
               
             </div>

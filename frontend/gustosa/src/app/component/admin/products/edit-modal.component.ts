@@ -34,4 +34,17 @@ export class EditProductModalComponent {
       this.modalRef.hide();
     })
   }
+  openImage(input : HTMLInputElement, id? : number){
+    
+    var reader = new FileReader();
+    reader.onload = (res)=>{
+      
+      if(res.target != null && res.target.result != null){
+        if(id != null) this.productService.modifyProductImage(id,input.files![0]).subscribe();
+      }
+    };
+    reader.readAsDataURL(input.files![0]);
+  }
+
+  
 }

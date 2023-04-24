@@ -101,7 +101,7 @@ public class UserProfile {
     @JsonAnyGetter
     public Map<String,Object> otherFields() {
         Map<String,Object> extra = new HashMap<String,Object>();
-        extra.put("cartLength", this.getCart().getCartItems().size());
+        extra.put("cartLength", this.getCart().totalSize());
         return extra;
     }
 

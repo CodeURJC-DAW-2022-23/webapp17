@@ -51,7 +51,7 @@ export class BookingService {
     }
 
     confirmBooking(id:string){
-        let url = environment.apiUrl+"/"+ApiResources.Booking+"/"+id;
+        let url = environment.apiUrl+"/"+"bookings/booking"+"/"+id;
         const err = new Error('Server error.');
         return this.httpClient.put(url, {withCredentials: true});
     }

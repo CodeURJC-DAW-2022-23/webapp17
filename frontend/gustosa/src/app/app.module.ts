@@ -44,6 +44,8 @@ import { EditUserModalComponent } from './component/admin/users/edit-modal.compo
 import { BookingsAdminComponent } from './component/admin/bookings/bookings-admin.component';
 import { OrdersAdminComponent } from './component/admin/orders/orders-admin.component';
 import { NgChartsModule } from 'ng2-charts';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { AdminMenuComponent } from './component/admin/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,7 @@ import { NgChartsModule } from 'ng2-charts';
     SidebarComponent, LoginComponent, LogoutComponent,
     RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent, BookingFormComponent,
     CommentsAdminComponent, ProductsAdminComponent, CreateProductModalComponent, EditProductModalComponent, 
-    UsersAdminComponent, CreateUserModalComponent, EditUserModalComponent, BookingsAdminComponent, OrdersAdminComponent
+    UsersAdminComponent, CreateUserModalComponent, EditUserModalComponent, BookingsAdminComponent, OrdersAdminComponent, AdminMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +69,8 @@ import { NgChartsModule } from 'ng2-charts';
     HttpClientModule,
     AngularCropperjsModule,
     FormsModule,
-    NgChartsModule
+    NgChartsModule,
+    EditorModule
   ],
   providers: [BsDropdownDirective],
   bootstrap: [AppComponent]
