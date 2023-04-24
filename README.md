@@ -81,9 +81,7 @@ To see the API documentation there are two options:
 
 ## #️⃣ Features
 
-### Video demonstration
-
-[VIDEO](https://youtu.be/ofAT3sMlRaQ)
+### [![Video demonstration](https://user-images.githubusercontent.com/68378676/234138441-64f6d23d-6e13-4ef1-b3c2-c42b8ab2e1db.png)](https://youtu.be/ofAT3sMlRaQ)
 
 ### Entities
 - Bookings
