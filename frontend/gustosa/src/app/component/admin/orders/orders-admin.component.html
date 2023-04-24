@@ -23,7 +23,7 @@
               </thead>
               <tbody>               
                 <tr *ngFor="let order of ordersPage.content">
-                  <td class="text-nowrap align-middle">{{order.id}} <a href="/order/{{order.id}}">Detalle</a></td>
+                  <td class="text-nowrap align-middle">{{order.id}} <a [routerLink]="['/order', order.id]">Detalle</a></td>
                   <td class="text-nowrap align-middle">{{order.userEmail}}</td>
                   <td class="text-nowrap align-middle">{{order.date | date:'dd/MM/yyyy HH:mm'}}</td>
                   <td class="text-nowrap align-middle">
