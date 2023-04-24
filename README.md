@@ -421,27 +421,31 @@ To see the API documentation there are two options:
 #### Alejandro López Adrados:
 
 📗 Job participation:
-- 
-- 
-- 
-- 
-- 
-- 
-- 
+- Implemented template and functionality of Admin Coupons Menu (component, service and model)
+- Implemented template and functionality of Admin Comments Menu (component, service and model)
+- Implemented template and functionality of Admin Product Menu (component, service and model)
+- Implemented template and partial functionality of Admin Orders Menu (component, service and model)
+- Implemented template and partial functionality of Admin Users Menu (component, service and model)
+- Implemented template and partial functionality of Admin Bookings Menu (component, service and model)
+- Implemented template and partial functionality of Admin statistics (without charts)
+- Fixed some errors in API controllers
+- Implemented the sidebar of Admin Menu
+- Tested the whole application and some errors
+- Added documentation of the application
 
 📃 Top commits:  
-- [Commit 1]() Coupons API Controller implemented
-- [Commit 2]() Comments API Controller implemented
-- [Commit 3]() Admin part of Products API Controller implemented
-- [Commit 4]() Fixes in Orders API Controller
-- [Commit 5]() Added upload/delete images in Products API Controller
+- [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/94ff2b28fec18133b6136d2d2f11abadc86d9830) Products Admin Menu implemented
+- [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/7ba35e9325de0e1241b21d7b6b401402b7ac7bcb) Comments Admin Menu implemented
+- [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/1bcf36a84d20ab2fa1e123d229c408a9914972c5) Partial implementation of Users Admin Menu
+- [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/ff91bef78456aaabcd5eec6059b783bd76a3bfd1) Finished the implementation of Coupons Admin Menu
+- [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/1d65d79a58bd51a9809b244dcbb8896a323199af) Implementation of Admin Dashboard without charts (only statistics)
       
 📂 Top files:  
-- [File 1]() CouponsApiController.java
-- [File 2]() ProductsApiController.java
-- [File 3]() CommentsApiController.java
-- [File 4]() ProductsService.java
-- [File 5]() OrdersApiController.java
+- [File 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/tree/main/frontend/gustosa/src/app/component/admin/coupons) coupons-admin.component (Main page and modals ts and html)
+- [File 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/tree/main/frontend/gustosa/src/app/component/admin/products) products-admin.component (Main page and modals ts and html)
+- [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/tree/main/frontend/gustosa/src/app/component/admin/comments) comments-admin.component ts and html
+- [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/tree/main/frontend/gustosa/src/app/component/admin/users) users-admin.component (Main page and modals ts and html)
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/tree/main/frontend/gustosa/src/app/component/admin) sidebar.component ts and html
 
 #### Jesús González Gironda:
 
