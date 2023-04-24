@@ -369,3 +369,97 @@ To see the API documentation there are two options:
 - [File 5]()
 
 
+#### FASE 4️⃣:
+
+#### Jorge Vega Arias:
+
+📗 Job participation:  
+- 
+- 
+- 
+- 
+      
+📃 Top commits:  
+- [Commit 1]()
+- [Commit 2]()  
+- [Commit 3]() 
+- [Commit 4]()
+- [Commit 5]()
+      
+📂 Top files:  
+- [File 1]()
+- [File 2]()
+- [File 3]()
+- [File 4]()
+- [File 5]()
+
+
+#### Guillermo Grande Santi:
+  
+📗 Job participation:  
+- Order products template with its corresponding service and components.
+- Cart and Checkout template with its corresponding services and components.
+- Description of an individual template with its corresponding services and components, including comments per product.
+- Final testing and preparation of the video and delivery.
+- Updated Class Diagram and Job participation.
+      
+📃 Top commits:  
+- [Commit 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/f3f90a856829b6b1a1c4c9bb50ef45c24cf8a198) Pagination of products with ts and api calls.
+- [Commit 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/4fe0a986572937a41065131673258c9b93a3b9b6) Cart Page Initialized and Order Page Completed
+- [Commit 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/34821b3ec6f42ad8bf4c494c35cc1bff8dd9f7c4) Cart fully functional
+- [Commit 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/f406484748ca6bf00913d694c2c0fd80c2c6a257) Checkout form fully functional
+- [Commit 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/374462103f3e894243e13d64b961946179077e78) Description page with comments paginated completed
+      
+📂 Top files:  
+- [File 1](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/service/products.service.ts) products.service.ts
+- [File 2](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/service/cart.service.ts) cart.service.ts
+- [File 3](https://github.com/CodeURJC-DAW-2022-23/webapp17/tree/main/frontend/gustosa/src/app/model) product.model.ts & cart.model.ts
+- [File 4](https://github.com/CodeURJC-DAW-2022-23/webapp17/tree/main/frontend/gustosa/src/app/component/cart) cart.component.ts & cart.component.html & checkout.componente.ts & checkout.component.html
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/tree/main/frontend/gustosa/src/app/component/productsInfo) products.component.ts & products.component.html & description.componente.ts & description.component.html
+  
+   
+#### Alejandro López Adrados:
+
+📗 Job participation:
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+
+📃 Top commits:  
+- [Commit 1]() Coupons API Controller implemented
+- [Commit 2]() Comments API Controller implemented
+- [Commit 3]() Admin part of Products API Controller implemented
+- [Commit 4]() Fixes in Orders API Controller
+- [Commit 5]() Added upload/delete images in Products API Controller
+      
+📂 Top files:  
+- [File 1]() CouponsApiController.java
+- [File 2]() ProductsApiController.java
+- [File 3]() CommentsApiController.java
+- [File 4]() ProductsService.java
+- [File 5]() OrdersApiController.java
+
+#### Jesús González Gironda:
+
+📗 Job participation:
+-
+-
+-
+      
+📃 Top commits:  
+- [Commit 1]()
+- [Commit 2]()
+- [Commit 3]()
+- [Commit 4]()
+- [Commit 5]()
+      
+📂 Top files:  
+- [File 1]()
+- [File 2]()
+- [File 3]()
+- [File 4]()
+- [File 5]()
