@@ -46,6 +46,7 @@ import { OrdersAdminComponent } from './component/admin/orders/orders-admin.comp
 import { NgChartsModule } from 'ng2-charts';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { AdminMenuComponent } from './component/admin/menu/menu.component';
+import { FooterComponent } from './component/footer.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { AdminMenuComponent } from './component/admin/menu/menu.component';
     SidebarComponent, LoginComponent, LogoutComponent,
     RegisterComponent, ProfileComponent, LoaderComponent, OrderComponent, MenuComponent, BookingFormComponent,
     CommentsAdminComponent, ProductsAdminComponent, CreateProductModalComponent, EditProductModalComponent, 
-    UsersAdminComponent, CreateUserModalComponent, EditUserModalComponent, BookingsAdminComponent, OrdersAdminComponent, AdminMenuComponent
+    UsersAdminComponent, CreateUserModalComponent, EditUserModalComponent, BookingsAdminComponent, OrdersAdminComponent, AdminMenuComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
