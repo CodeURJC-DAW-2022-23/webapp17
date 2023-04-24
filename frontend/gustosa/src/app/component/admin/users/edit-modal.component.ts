@@ -17,6 +17,7 @@ export class EditUserModalComponent {
   email: string | undefined
   bio: string | undefined
   password: string | undefined
+  passwordsMatch = true;
 
   constructor(private modalRef: BsModalRef, private userService: UserService) {
   }
@@ -26,10 +27,15 @@ export class EditUserModalComponent {
   }
 
   onSubmit(){
+    if ((document.getElementById("password1") as HTMLInputElement).value !==
+    (document.getElementById("password2") as HTMLInputElement).value) {
+      this.passwordsMatch = false;
+      return;
+    }
     this.name = (document.getElementById('name') as HTMLInputElement).value,
     this.email = (document.getElementById('email') as HTMLInputElement).value,
     this.bio = (document.getElementById('bio') as HTMLInputElement).value,
-    this.password = (document.getElementById('password') as HTMLInputElement).value,
+    this.password = (document.getElementById('password1') as HTMLInputElement).value,
     this.id = (document.getElementById('id') as HTMLInputElement).value;
     this.userService.modifyUser(this.email, this.password, this.name, this.bio).subscribe(() => {
       this.modalRef.hide();

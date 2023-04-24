@@ -51,11 +51,8 @@
             <div class="row">
               <div class="col-12 col-sm-5 offset-sm-1 mb-3">
                 <div class="mb-2"><b>Subir imagen de producto</b></div>
-                <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
-                    <img id="changeImage" src="images/Calabresa.jpg" height="100" width="100" />
-                </div>
                 <input class="form-control" type="file" accept="image/*" #inter>
-                <button type='button' (click)="openImage(inter, product?.id)">Confirmar subir</button>
+                <button type="button" (click)="openImage(inter, product?.id)">Confirmar subir</button>
               </div>
               
             </div>
