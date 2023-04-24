@@ -8,6 +8,6 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5" *ngIf="content | async as menu">
     <div id="showText" [innerHtml]="menu['content']"></div>
-    <a type="button" class="btn btn-primary" href="/book">Reserva tu mesa</a>
+    <a type="button" class="btn btn-primary" [routerLink]="['/book']">Reserva tu mesa</a>
     </div>
 </section>

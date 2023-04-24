@@ -78,18 +78,18 @@ export class ProductsComponent implements OnInit{
     }
     
     addToCart(event:Event, id : number){
-      this.cartService.addToCart(id).subscribe((data) => {
-        this.sessionService.updateProfile();
-        //Si da error irse a login para no hacer changeBgColor
-        this.userService.isUserLoggedIn().subscribe((val)=>{
-          if(!val){
-              this.sessionService.updateProfile();
-              this.router.navigateByUrl("login");
-          }
-        });
+      this.cartService.addToCart(id).subscribe({
+        next: ()=>{
+          this.sessionService.updateProfile();
+        },
+        error:()=>{
+          this.sessionService.updateProfile();
+                this.router.navigateByUrl("login");
+        }
       });
       this.changeBgColor();
     }
+  
 
     changeBgColor() {
       this.bgState = 'end';
@@ -97,5 +97,7 @@ export class ProductsComponent implements OnInit{
         this.bgState = 'start';
       }, 250);
     }
+
+    
 
 }

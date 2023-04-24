@@ -15,7 +15,7 @@
                 <div class="carousel-inner carousel-ofertas border rounded shadow-sm">
                     <slide *ngFor="let elem of individualProduct.product.images; let i = index" class="carousel-item" 
                     [class.active]="i == 0" id="oferta{{elem.positionInProduct}}">
-                            <img class="d-block" src="api/products/{{id}}/images/{{elem.positionInProduct}}" 
+                            <img class="d-block" src="/api/products/{{id}}/images/{{elem.positionInProduct}}" 
                             style="height: 50vh; width:70vh; object-fit: cover;" alt="..."/>
                     </slide>
                 </div>
@@ -47,7 +47,7 @@ triggers="" (click)="addToCart($event, individualProduct.product.id)" [@bgChange
                     <div class="row">
                         <div class="col row border-end">
                             <div class="col user mt-2">
-                                <img class="rounded-circle shadow-sm me-3 mt-2" src="api/users/{{elem.userId}}/image" alt="avatar" width="32"
+                                <img class="rounded-circle shadow-sm me-3 mt-2" src="/api/users/{{elem.userId}}/image" alt="avatar" width="32"
                                 height="32"/>
                                 {{elem.userEmail}}
                             </div>
@@ -79,7 +79,7 @@ triggers="" (click)="addToCart($event, individualProduct.product.id)" [@bgChange
 
             <div class="row border rounded-0" style="background-color: #f0f2f5;" *ngIf="user as prof">
                 <div class="col-1 m-3">
-                    <img class="rounded-circle shadow" src="api/users/{{prof.id}}/image" alt="avatar" width="50px"
+                    <img class="rounded-circle shadow" src="/api/users/{{prof.id}}/image" alt="avatar" width="50px"
                     height="50px"/>
                 </div>
                 <div class="col-10 m-3">
@@ -109,6 +109,6 @@ triggers="" (click)="addToCart($event, individualProduct.product.id)" [@bgChange
 </section>
     
     <br>
-    <a class="btn btn-outline-dark mt-auto" href="/products">Atrás</a>
+    <a class="btn btn-outline-dark mt-auto" [routerLink]="['/products']">Atrás</a>
 
 </div>

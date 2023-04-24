@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../service/products.service';
 import { Observable, catchError, combineLatest, map, of } from 'rxjs';
 import { SessionService } from '../../service/session.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from 'src/app/service/cart.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,7 +37,8 @@ export class DescriptionComponent implements OnInit{
   description: Observable<any>;
   user?: UserProfile;
     
-  constructor(private productsService: ProductsService, private cartService: CartService, private sessionService: SessionService, private route: ActivatedRoute) {
+  constructor(private productsService: ProductsService, private cartService: CartService, private sessionService: SessionService, 
+    private route: ActivatedRoute, private router : Router) {
     this.id = +this.route.snapshot.paramMap.get('id')!; // Asignación segura de tipo
     //console.log(this.id);
     this.description = productsService.getIndividualProduct(this.id,0);
@@ -51,9 +52,14 @@ export class DescriptionComponent implements OnInit{
   }
 
   addToCart(event:Event, id : number){
-    this.cartService.addToCart(id).subscribe(() => {
-      this.sessionService.updateProfile();
-      //Si da error irse a login para no hacer changeBgColor
+    this.cartService.addToCart(id).subscribe({
+      next: ()=>{
+        this.sessionService.updateProfile();
+      },
+      error:()=>{
+        this.sessionService.updateProfile();
+              this.router.navigateByUrl("login");
+      }
     });
     this.changeBgColor();
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../service/user.service';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, retry } from 'rxjs';
 import { SessionService } from '../../service/session.service';
 import { Router } from '@angular/router';
 
@@ -31,5 +31,12 @@ export class LoginComponent {
         this.sessionService.updateProfile();
         this.router.navigateByUrl("");
       });
+  }
+
+  glog(){
+    this.userService.getUser().pipe(retry()).subscribe(()=>{
+      this.sessionService.updateProfile();
+      this.router.navigateByUrl("/user");
+    });
   }
 }
