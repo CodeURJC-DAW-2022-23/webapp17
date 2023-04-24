@@ -21,6 +21,7 @@ import { BookingsAdminComponent } from './component/admin/bookings/bookings-admi
 import { OrdersAdminComponent } from './component/admin/orders/orders-admin.component';
 import { AdminMenuComponent } from './component/admin/menu/menu.component';
 import { InfoComponent } from './component/info/info.component';
+import { ErrorComponent } from './component/error.component';
 
 
 const routes: Routes = [
@@ -44,7 +45,8 @@ const routes: Routes = [
   {path: "admin/bookings", component: BookingsAdminComponent},
   {path: "admin/orders", component: OrdersAdminComponent},
   {path: "admin/menu", component: AdminMenuComponent},
-  {path:"info", component: InfoComponent}
+  {path:"info", component: InfoComponent},
+  {path:"**", component: ErrorComponent}
 
 ];
 
