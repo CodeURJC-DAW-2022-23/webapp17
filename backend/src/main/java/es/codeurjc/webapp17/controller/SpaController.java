@@ -11,6 +11,11 @@ public class SpaController {
         return "forward:/new/index.html";
     }
 
+    @RequestMapping(value = "/new/admin/{path:[^\\.]*}")
+    public String redirectadmin() {
+        return "forward:/new/index.html";
+    }
+
     @RequestMapping(value = "/new/")
     public String redirectBase() {
         return "forward:/new/index.html";

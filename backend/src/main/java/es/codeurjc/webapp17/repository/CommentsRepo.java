@@ -14,9 +14,9 @@ public interface CommentsRepo extends JpaRepository<Comment, Long>{
     List<Comment> findByProduct(Product product);
     Page<Comment> findByProduct(Product product, Pageable page);
 
-    @Query(value="SELECT AVG(RATING) AS rating_avg FROM COMMENT;", nativeQuery = true)
+    @Query(value="select avg(rating) as rating_avg from comment", nativeQuery = true)
     float getAvgRating();
 
-    @Query(value="SELECT COUNT(*) AS total_comments FROM COMMENT;", nativeQuery = true)
+    @Query(value="select count(*) as total_comments from comment", nativeQuery = true)
     int getTotalComments();
 }

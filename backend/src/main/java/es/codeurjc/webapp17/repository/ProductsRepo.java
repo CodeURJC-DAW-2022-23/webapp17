@@ -19,6 +19,6 @@ public interface ProductsRepo extends JpaRepository<Product, Long>{
     +Cart.STATUS_NEW+" group by product_id order by sum(quantity) desc", nativeQuery = true)
     List<Long[]> getSales();
 
-    @Query(value="SELECT COUNT(*) AS total_products FROM PRODUCT;", nativeQuery = true)
+    @Query(value="select count(*) as total_products from product", nativeQuery = true)
     int getTotalProducts();
 }

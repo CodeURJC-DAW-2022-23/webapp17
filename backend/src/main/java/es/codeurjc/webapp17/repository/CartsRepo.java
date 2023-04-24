@@ -15,13 +15,13 @@ public interface CartsRepo extends JpaRepository<Cart, Long>{
     Page<Cart> findByCreatedByAndStatus(UserProfile profile, int status, Pageable pageable);
     Page<Cart> findByCreatedByAndStatusNot(UserProfile profile, int status, Pageable pageable);
 
-    @Query(value="select count(*) as numeropedidos from cart where status = 2;", nativeQuery = true)
+    @Query(value="select count(*) as numeropedidos from cart where status = 2", nativeQuery = true)
     int getFinishedOrders();
 
-    @Query(value="select count(*) as numeropedidos from cart where status = 1;", nativeQuery = true)
+    @Query(value="select count(*) as numeropedidos from cart where status = 1", nativeQuery = true)
     int getInProcessOrders();
 
-    @Query(value="select count(*) as numeropedidos from cart where status = 0;", nativeQuery = true)
+    @Query(value="select count(*) as numeropedidos from cart where status = 0", nativeQuery = true)
     int getFullCarts();
 
     

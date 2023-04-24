@@ -192,7 +192,9 @@ public class ProductsService {
                 //map.put("product", null);
             }
             map.put("moreProducts", moreProducts);
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return map;
     }
 

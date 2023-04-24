@@ -22,7 +22,7 @@ export class BookingService {
             hour: hour,
             tlf: tlf
         }
-        let url = environment.apiUrl+"/"+ApiResources.Booking+"/";
+        let url = environment.apiUrl+"/"+"bookings/booking";
         const err = new Error('Server error.');
         return this.httpClient.post(url, data, {withCredentials: true}).pipe(
             map(response =>response),
