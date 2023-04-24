@@ -4,6 +4,6 @@ import { Observable, catchError, map, of } from 'rxjs';
 @Component({
   selector: 'home',
   templateUrl: 'home.component.html',
-  styleUrls: []
+  styleUrls: ['home.component.css']
 })
 export class HomeComponent {}

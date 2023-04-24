@@ -145,9 +145,15 @@ To see the API documentation there are two options:
 
 
 ### ⌛ Class and Templates UML Diagram
+
+#### FASE 2 Y 3:
 ![uml1](https://user-images.githubusercontent.com/68378676/227949724-cc067a7a-d746-42e8-bea0-29c643b1a7fe.png)!
 
 ![uml2](https://user-images.githubusercontent.com/68378676/227949860-72e146bd-6f7a-4505-be1e-5e10b618db1e.png)!
+
+#### FASE 4:
+![uml3](https://user-images.githubusercontent.com/68378676/234035994-64260775-aca7-45fa-a77c-e0f703f14a36.png)!
+
 
 
 
