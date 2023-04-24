@@ -7,7 +7,7 @@
   </div>
   <div class="modal-body">
         <div class="py-1">
-          <form class="form" (ngSubmit)="onSubmit()">
+          <form class="form" (ngSubmit)="onSubmit()" #myForm="ngForm">
             <div class="row">
               <div class="col">
                 <div class="row">
@@ -49,7 +49,7 @@
                   <div class="col">
                     <div class="form-group">
                       <label>Nueva contraseña</label>
-                      <input class="form-control" id="password" type="password" name="password" placeholder="·········">
+                      <input class="form-control" type="password" name="password1" id="password1" placeholder="·········">
                     </div>
                   </div>
                 </div>
@@ -57,16 +57,18 @@
                   <div class="col">
                     <div class="form-group">
                       <label>Confirmar contraseña</label>
-                      <input class="form-control" id="password2" type="password" placeholder="·········">
+                      <input class="form-control" id="password2" type="password" placeholder="·········"
+                        [ngClass]="{'is-invalid': !passwordsMatch}" name="password2" [(ngModel)]="myForm.value.password2"
+                        #password2="ngModel" required>
+                      <div *ngIf="!passwordsMatch" class="invalid-feedback">
+                        Las contraseñas no coinciden
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-12 col-sm-5 offset-sm-1 mb-3">
                 <div class="mb-2"><b>Imagen de perfil</b></div>
-                <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
-                    <img id="changeImage" src="" height="100" width="100" />
-                </div>
                 <input class="form-control" type="file" accept="image/*" onchange="openImage(event)" onClick="openImage(event)">
             
               </div>
