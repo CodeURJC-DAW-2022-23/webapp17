@@ -374,7 +374,7 @@ To see the API documentation there are two options:
 #### Jorge Vega Arias:
 
 📗 Job participation:  
-- 
+- Started Angular project
 - 
 - 
 - 

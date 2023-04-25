@@ -139,6 +139,6 @@ public class OrdersApiController {
 	@GetMapping("/{id}")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public @ResponseBody Object getUserOrder(@PathVariable long id, HttpServletRequest request) {
-		return cartsService.getCartsRepo().findById(id).get(0);
+		return cartsService.getCartsRepo().findById(id).get();
 	}
 }

@@ -155,11 +155,11 @@ public class UsersController {
         if(request.getUserPrincipal() != null){
             if (user.isPresent() && (request.getUserPrincipal().getName().equals(user.get().getEmail()) ||
             users.getUser(request.getUserPrincipal().getName()).hasRole(Tools.Role.ADMIN))) {
-                List<Cart> orderList = carts.getCartsRepo().findById(orderId);
-                if(!orderList.isEmpty() && orderList.get(0).getStatus() != Cart.STATUS_NEW){
+                Optional<Cart> orderList = carts.getCartsRepo().findById(orderId);
+                if(!orderList.isEmpty() && orderList.get().getStatus() != Cart.STATUS_NEW){
                     model.addAttribute("base_domain", "../../");
-                    model.addAttribute("totalPrice", orderList.get(0).totalPrice());
-                    model.addAttribute("order", orderList.get(0));
+                    model.addAttribute("totalPrice", orderList.get().totalPrice());
+                    model.addAttribute("order", orderList.get());
                     return "info/order";
                 }
             }

@@ -10,7 +10,6 @@ import es.codeurjc.webapp17.model.Cart;
 import es.codeurjc.webapp17.model.UserProfile;
 
 public interface CartsRepo extends JpaRepository<Cart, Long>{
-    List<Cart> findById(long id);
     Page<Cart> findByStatusNot(int status, Pageable pageable);
     Page<Cart> findByCreatedByAndStatus(UserProfile profile, int status, Pageable pageable);
     Page<Cart> findByCreatedByAndStatusNot(UserProfile profile, int status, Pageable pageable);

@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+
+import javax.swing.text.html.Option;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +92,7 @@ public class CartsService {
     }
 
     public void confirmOrder(long id){
-        confirmOrder(carts.findById(id).get(0));
+        confirmOrder(carts.findById(id).get());
     }
 
 
@@ -284,21 +287,31 @@ public class CartsService {
         return ResponseEntity.status(HttpStatus.ACCEPTED).location(URI.create(Tools.API_HEADER+"/carts/couponFree")).build();
     }
 
+    // TODO Fix this
     public Boolean changeOrderState(long id){
-        List<Cart> cart = getCartsRepo().findById(id);
+        try{
+        Page<Cart> carti = getCartsRepo().findByStatusNot(Cart.STATUS_NEW, PageRequest.of(0, 256));
+        Optional<Cart> cart = Optional.empty();
+        for(Cart carte : carti.getContent()){
+            if(carte.getId() == id) cart = Optional.of(carte);
+        }
         if(cart != null){
-            cart.get(0).setStatus(Cart.STATUS_DONE);
-            getCartsRepo().saveAndFlush(cart.get(0));
+            cart.get().setStatus(Cart.STATUS_DONE);
+            getCartsRepo().saveAndFlush(cart.get());
             return true;
         }else{
             return false;
         }
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return true;
+        }
     }
 
     public Boolean deleteOrder(long id){
-        List<Cart> cart = getCartsRepo().findById(id);
+        Optional<Cart> cart = getCartsRepo().findById(id);
         if(cart != null){
-            getCartsRepo().delete(cart.get(0));
+            getCartsRepo().delete(cart.get());
             return true;
         }else{
             return false;
