@@ -56,9 +56,9 @@ public class CouponsService {
                 coupon.get(0).setUsesRemaining(usesRemaining);
                 coupon.get(0).setCode(code);
                 coupon.get(0).setDiscount(discount);
-                if(!user.equals(newUser)){
+                /*if(!user.equals(newUser)){
                     usersService.getUsersRepo().save(user.get());
-                }
+                }*/
                 usersService.getUsersRepo().save(newUser.get(0));
                 return 0;
             }else{

@@ -55,7 +55,19 @@ public class AdminClientsController {
                                        @RequestParam("email") String email,
                                        @RequestParam(value = "bio", required = false) String bio,
                                        @RequestParam(value = "password", required = false) String password) {
-        usersService.modifyUser(Long.parseLong(id), name, email, bio, password);
+        if(email != null){	
+            if(name != null){
+				if(!usersService.changeName(email, name))
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			if(bio != null){
+				if(!usersService.changeDescription(email, bio))
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			if(password != null){
+				usersService.changePassword(email, password);
+			}
+        }
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/adminUsers")).build();
     }
 
