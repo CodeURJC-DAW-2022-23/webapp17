@@ -53,6 +53,19 @@ Then, open in your browser
 ```
 https://localhost:8443/
 ```
+
+### Run frontend for testing
+Node js is needed for running the app as it uses Angular. For running the frontend just install:
+```
+git clone https://github.com/CodeURJC-DAW-2022-23/webapp17.git
+cd frontend/gustosa
+npm install
+```
+And then run:
+```
+npx ng serve --proxy-config src/proxy.conf.json
+```
+
 ### Run backend with h2 for testing (Non dockerized app)
 Keep in mind project uses public api keys for google mail and google api. Change them to your own on application.properties file.
 
@@ -74,6 +87,19 @@ Then, open in your browser
 ```
 https://localhost:8443/
 ```
+
+## Deployment instructions
+1. If the docker image has to be updated first recreate the image using(assuming docker and git is already installed):
+```
+git clone https://github.com/CodeURJC-DAW-2022-23/webapp17.git
+cd webapp17/docker
+sh create_image.sh
+```
+2. Once the image is created deploy it by running(if the image was already created skip 1 and cd to webapp17/docker in the repo):
+```
+docker compose up
+```
+
 ## 💻 API documentation
 To see the API documentation there are two options:
 - [api-docs.yaml](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/api-docs/api-docs.yaml): To visualize the content in a file
@@ -377,24 +403,24 @@ To see the API documentation there are two options:
 #### Jorge Vega Arias:
 
 📗 Job participation:  
-- Started Angular project
-- 
-- 
-- 
+- Started Angular project and made starting examples for methodology
+- Updated Dockerfile
+- Made the app serve on URJC infastructure
+- Made Login/Logout, Products, User Profile and general module and fix ups in angular
       
 📃 Top commits:  
-- [Commit 1]()
-- [Commit 2]()  
-- [Commit 3]() 
-- [Commit 4]()
-- [Commit 5]()
+- [Commit 1 - Started angular project](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/9d299eb5adfe5eeb73a5d9c2356700d4ad1c56a1)
+- [Commit 2 - Added HttpClient](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/4d96dd9528a2c73a82690561f86d0e631c7da5f3)  
+- [Commit 3 - Login Logout](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/ea44a40220ecd45e47792f698d7c4ed13edd05c5) 
+- [Commit 4 - Menu Products](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/6d9963e15e6f710ce439e88bdd8358a4fbda9191)
+- [Commit 5 - User profile](https://github.com/CodeURJC-DAW-2022-23/webapp17/commit/176e03f3a7a33748949517a37fe0a5b8d8b9f2da)
       
 📂 Top files:  
-- [File 1]()
-- [File 2]()
-- [File 3]()
-- [File 4]()
-- [File 5]()
+- [File 1 - Dockerfile](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/docker/Dockerfile)
+- [File 2 - User Component](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/component/user/profile.component.ts)
+- [File 3 - User Service](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/service/user.service.ts)
+- [File 4 - Login](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/component/auth/login.component.ts)
+- [File 5](https://github.com/CodeURJC-DAW-2022-23/webapp17/blob/main/frontend/gustosa/src/app/component/book/bookingform.component.ts)
 
 
 #### Guillermo Grande Santi:
