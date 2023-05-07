@@ -38,7 +38,7 @@ public class AdminController {
     @GetMapping("/admin")
     @NeedsSecurity(role=Tools.Role.ADMIN)
     public String adminMenu(Model model) {
-
+    /*
         List<Long[]> productsQuery = adminService.getProductsRepo().getSales();
 
         List<Product> topProducts = productsQuery.stream().map(e -> adminService.getProductsRepo().findById(e[0]).get()).toList();
@@ -59,6 +59,8 @@ public class AdminController {
         model.addAttribute("cartOrders", cartsService.getCartsRepo().getFullCarts());
 
         return "/admin/dashboard";
+        */
+        return "/admin/orders";
     }
 
 }

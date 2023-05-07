@@ -15,6 +15,10 @@ public class SpaController {
     public String redirectDescription() {
         return "forward:/new/index.html";
     }
+    @RequestMapping(value = "/new/order/{path:[^\\.]*}")
+    public String redirectOrder() {
+        return "forward:/new/index.html";
+    }
     @RequestMapping(value = "/assets/{file}")
     public String redirectAssets(@PathVariable String file) {
         return "forward:/new/assets/"+file;
